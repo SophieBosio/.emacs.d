@@ -142,66 +142,67 @@ We also want to make sure packages are automatically installed and updated. The 
 
 #+BEGIN_SRC emacs-lisp
   (let* ((package--builtins nil)
-	 (packages
-	  '(all-the-icons        ; Icon pack for pretty displays
-	    auctex               ; Integrated environment for *TeX*
-	    auto-compile         ; automatically compile Emacs Lisp libraries
-	    chatgpt-shell        ; Interaction mode for ChatGPT
-	    cider                ; Clojure Interactive Development Environment
-	    clj-refactor         ; Commands for refactoring Clojure code
-	    company              ; Modular text completion framework
-	    counsel              ; Various completion functions using Ivy
-	    counsel-projectile   ; Ivy integration for Projectile
-	    dashboard            ; A startup screen extracted from Spacemacs
-	    define-word          ; display the definition of word at point
-	    diff-hl              ; Highlight uncommitted changes using VC
-	    direnv               ; direnv integration
-	    doom-themes          ; An opinionated pack of modern color-themes
-	    doom-modeline        ; Mode line used in Doom Emacs
-	    editorconfig         ; EditorConfig Emacs Plugin
+     (packages
+      '(all-the-icons        ; Icon pack for pretty displays
+        auctex               ; Integrated environment for *TeX*
+        auto-compile         ; automatically compile Emacs Lisp libraries
+        chatgpt-shell        ; Interaction mode for ChatGPT
+        cider                ; Clojure Interactive Development Environment
+        clj-refactor         ; Commands for refactoring Clojure code
+        company              ; Modular text completion framework
+        counsel              ; Various completion functions using Ivy
+        counsel-projectile   ; Ivy integration for Projectile
+        dashboard            ; A startup screen extracted from Spacemacs
+        define-word          ; display the definition of word at point
+        diff-hl              ; Highlight uncommitted changes using VC
+        direnv               ; direnv integration
+        doom-themes          ; An opinionated pack of modern color-themes
+        doom-modeline        ; Mode line used in Doom Emacs
+        editorconfig         ; EditorConfig Emacs Plugin
         evil-nerd-commenter  ; Language-specific commenting
-	    golden-ratio         ; Automatic resizing windows to golden ratio
-	    haskell-mode         ; A Haskell editing mode
-	    helpful              ; Easy-to-read docs that work with Counsel
-	    ivy                  ; Incremental Vertical completYon
-	    ivy-posframe         ; Using posframe to show Ivy
-	    ivy-fuz              ; Fuzzy searching with Ivy and fuz
-	    ivy-prescient        ; Sort and filter Ivy candidates
-	    ivy-rich             ; Friendly display transformer for Ivy
-	    jedi                 ; Python auto-completion for Emacs
-	    js2-mode             ; Improved JavaScript editing mode
-	    ligature             ; Font ligatures for Emacs
-	    lua-mode             ; Major-mode for editing Lua scripts
-	    magit                ; Control Git from Emacs
-	    markdown-mode        ; Emacs Major mode for Markdown-formatted files
-	    maude-mode           ; Emacs mode for the programming language Maude
-	    multiple-cursors     ; Multiple cursors for Emacs
-	    nano-modeline        ; N Λ N O modeline
-	    nano-theme           ; N Λ N O theme
-	    ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
-	    olivetti             ; Minor mode for a nice writing environment
-	    org                  ; Outline-based notes management and organizer
-	    org-bullets          ; Show bullets in org-mode as UTF-8 characters
-	    org-msg              ; Org mode to send and reply to email in HTML
-	    ox-gfm               ; Export Github Flavored Markdown from Org
-	    paredit              ; minor mode for editing parentheses
-	    pdf-tools            ; Emacs support library for PDF files
-	    projectile           ; Manage and navigate projects in Emacs easily
-	    proof-general        ; A generic Emacs interface for proof assistants
-	    racket-mode          ; Major mode for Racket language
-	    rainbow-delimiters   ; Coloured bracket pairs
-	    slime                ; Superior Lisp Interaction Mode for Emacs
-	    smex                 ; M-x interface with Ido-style fuzzy matching
-	    svg-tag-mode         ; Display beautified SVG tags
-	    try                  ; Try out Emacs packages
-	    visual-fill-column   ; Center text
-	    vterm                ; A terminal via libvterm
-	    which-key)))         ; Display available keybindings in popup
+        golden-ratio         ; Automatic resizing windows to golden ratio
+        haskell-mode         ; A Haskell editing mode
+        helpful              ; Easy-to-read docs that work with Counsel
+        ivy                  ; Incremental Vertical completYon
+        ivy-posframe         ; Using posframe to show Ivy
+        ivy-fuz              ; Fuzzy searching with Ivy and fuz
+        ivy-prescient        ; Sort and filter Ivy candidates
+        ivy-rich             ; Friendly display transformer for Ivy
+        jedi                 ; Python auto-completion for Emacs
+        js2-mode             ; Improved JavaScript editing mode
+        ligature             ; Font ligatures for Emacs
+        lua-mode             ; Major-mode for editing Lua scripts
+        magit                ; Control Git from Emacs
+        markdown-mode        ; Emacs Major mode for Markdown-formatted files
+        maude-mode           ; Emacs mode for the programming language Maude
+        multiple-cursors     ; Multiple cursors for Emacs
+        nano-modeline        ; N Λ N O modeline
+        nano-theme           ; N Λ N O theme
+        ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
+        olivetti             ; Minor mode for a nice writing environment
+        org                  ; Outline-based notes management and organizer
+        org-bullets          ; Show bullets in org-mode as UTF-8 characters
+        org-msg              ; Org mode to send and reply to email in HTML
+        ox-gfm               ; Export Github Flavored Markdown from Org
+        paredit              ; minor mode for editing parentheses
+        pdf-tools            ; Emacs support library for PDF files
+        projectile           ; Manage and navigate projects in Emacs easily
+        proof-general        ; A generic Emacs interface for proof assistants
+        racket-mode          ; Major mode for Racket language
+        rainbow-delimiters   ; Coloured bracket pairs
+        slime                ; Superior Lisp Interaction Mode for Emacs
+        smex                 ; M-x interface with Ido-style fuzzy matching
+        svg-tag-mode         ; Display beautified SVG tags
+        treemacs             ; Interactive file tree
+        try                  ; Try out Emacs packages
+        visual-fill-column   ; Center text
+        vterm                ; A terminal via libvterm
+        which-key)))         ; Display available keybindings in popup
     (let ((packages (seq-remove 'package-installed-p packages)))
       (when packages
-	;; Install uninstalled packages
-	(package-refresh-contents)
-	(mapc 'package-install packages))))
+    ;; Install uninstalled packages
+    (package-refresh-contents)
+    (mapc 'package-install packages))))
 #+END_SRC
 
 I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-extensions".
@@ -351,9 +352,9 @@ I prefer having my files save automatically. Any changes I don't want, I just do
 (auto-save-buffers-enhanced t)
 #+END_SRC
 
-But it's really annoying if this file - the =init.org=-file - keeps compiling
-when I write to it, so I'll disable automatic saving for this file in
-particular.
+But since saving this file - the =init.org=-file - triggers recompilation of
+=init.el=, it's really annoying if this file is autosaved when I write to it.
+Therefore, I'll disable automatic saving for this file in particular.
 
 #+BEGIN_SRC emacs-lisp
 (setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
@@ -762,7 +763,14 @@ Actually, a TODO is to change this to Rougier's =svg-lib=, which has more featur
 ;; Citation:      [cite:@Knuth:1984]
 #+END_SRC
 
-** TODO Treemacs
+** Treemacs
+
+I like being able to view my project as a tree - even better if that tree is
+interactive! I'll bind =C-c C-t= to =treemacs=.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c C-t") 'treemacs)
+#+END_SRC
 
 
 * Org & Roam
