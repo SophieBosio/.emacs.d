@@ -17,7 +17,10 @@ I'm at the very beginning of learning Emacs, so if you have any suggestions or i
 ** Meta
 As mentioned, I use =org-babel-tangle= and this document, written in Org mode.
 
-The code below extracts the elisp configuration code and creates/overwrites the =~/.emacs.d/init.el= configuration file when the =.org=-file is saved. Therefore, changes are only done in the =.org=-file, where writing longer comments about how things work and why things are added is easier, and then the resulting =init.el=-file remains clean and without excessive comments.
+The code below extracts the elisp configuration code and creates/overwrites the
+=~/.emacs.d/init.el= configuration file when the =.org=-file is saved.
+Therefore, changes are only done in the =.org=-file, where writing longer
+comments about how things work and why things are added is easier, and then the resulting =init.el=-file remains clean and without excessive comments.
 
 This is what the =init.el= file should look like, prompting it to tangle the =init.org= file and replace itself with that code.
 
@@ -156,7 +159,7 @@ We also want to make sure packages are automatically installed and updated. The 
 	    doom-themes          ; An opinionated pack of modern color-themes
 	    doom-modeline        ; Mode line used in Doom Emacs
 	    editorconfig         ; EditorConfig Emacs Plugin
-            evil-nerd-commenter  ; Language-specific commenting
+        evil-nerd-commenter  ; Language-specific commenting
 	    golden-ratio         ; Automatic resizing windows to golden ratio
 	    haskell-mode         ; A Haskell editing mode
 	    helpful              ; Easy-to-read docs that work with Counsel
@@ -217,7 +220,9 @@ And load custom settings from =custom.el= if it exists.
 
 ** Sane Defaults
 
-I have some defaults that I like to have in my config. Please modify to your tastes!
+I have some defaults that I like to have in my config. Please note that this is
+behaviour that /I/ consider sane, and want in my configuration. You should
+definitely modify these to your tastes!
 
 I want to reduce the number of UI elements that I don't use, so I'll remove those and inhibit some default behaviours. I'll also make the scrolling a little smoother.
 
@@ -236,9 +241,6 @@ I want to reduce the number of UI elements that I don't use, so I'll remove thos
       sentence-end-double-space    nil       ;; No double spaces
       recentf-max-saved-items 1000           ;; Show more recent files
       save-interprogram-paste-before-kill t  ;; Save copies between programs
-      mouse-wheel-follow-mouse    't         ;; Scroll window under mouse
-      scroll-step                  1         ;; Keyboard scroll one line
-      mouse-wheel-scroll-amount   '(1 ((shift) . 1)) ;; Scroll one line at a time
 )
 
 (set-fringe-mode 10)  ;; Fringe of 10
@@ -325,6 +327,17 @@ Don't kill, just delete."
 (global-set-key [C-backspace] 'custom/backward-kill-word)
 #+END_SRC
 
+And finally, I want scrolling to be a *lot* slower.
+
+#+BEGIN_SRC emacs-lisp
+;; Smoother scrolling
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed            nil) ;; don't accelerate scrolling
+(setq mouse-wheel-follow-mouse                  't) ;; scroll window under mouse
+(setq scroll-step                                1) ;; keyboard scroll one line at a time
+(setq use-dialog-box                           nil) ;; Disable dialog
+#+END_SRC
+
 I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'll set these to 'y' and 'n'.
 
 #+BEGIN_SRC emacs-lisp
@@ -336,6 +349,14 @@ I prefer having my files save automatically. Any changes I don't want, I just do
 #+BEGIN_SRC emacs-lisp
 (require 'auto-save-buffers-enhanced)
 (auto-save-buffers-enhanced t)
+#+END_SRC
+
+But it's really annoying if this file - the =init.org=-file - keeps compiling
+when I write to it, so I'll disable automatic saving for this file in
+particular.
+
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-buffers-enhanced-exclude-regexps '("init.org" "\\.ignore$"))
 #+END_SRC
 
 To avoid clutter, let's put all the auto-saved files into one and the same directory.
@@ -757,8 +778,7 @@ Next, I always want to center the text and enable linebreaks in Org. In general,
 #+begin_src emacs-lisp
 ;; Enable text centering and line breaks for Org Mode
 (defun my/org-mode-visual-style ()
-  (visual-fill-column-mode t)
-  (visual-fill-line-mode t))
+  (olivetti-mode 1))
 
 (add-hook 'org-mode-hook 'my/org-mode-visual-style)
 #+end_src
