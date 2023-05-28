@@ -1,1 +1,1 @@
-("~/Dropbox/obsidian-uio/")
+("~/.emacs.d/" "~/Dropbox/obsidian-uio/")
