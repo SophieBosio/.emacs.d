@@ -1,2 +1,0 @@
-;;; Generated package description from swiper.el  -*- no-byte-compile: t -*-
-(define-package "swiper" "20230326.1911" "Isearch with an overview.  Oh, man!" '((emacs "24.5") (ivy "0.13.4")) :commit "e3164aae1e98ab7e3721e983463b6500c30e043f" :authors '(("Oleh Krehel" . "ohwoeowho@gmail.com")) :maintainer '("Oleh Krehel" . "ohwoeowho@gmail.com") :keywords '("matching") :url "https://github.com/abo-abo/swiper")

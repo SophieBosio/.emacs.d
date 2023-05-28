@@ -1,2 +1,0 @@
-;;; Generated package description from topspace.el  -*- no-byte-compile: t -*-
-(define-package "topspace" "20220824.134" "Recenter line 1 with scrollable upper margin/padding" '((emacs "25.1")) :commit "33c2a6f0a11d1d88cdb2065c5a897e33507f4c86" :authors '(("Trevor Edwin Pogue" . "trevor.pogue@gmail.com")) :maintainers '(("Trevor Edwin Pogue" . "trevor.pogue@gmail.com")) :maintainer '("Trevor Edwin Pogue" . "trevor.pogue@gmail.com") :keywords '("convenience" "scrolling" "center" "cursor" "margin" "padding") :url "https://github.com/trevorpogue/topspace")

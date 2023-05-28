@@ -1,2 +1,0 @@
-;;; Generated package description from ob-chatgpt-shell.el  -*- no-byte-compile: t -*-
-(define-package "ob-chatgpt-shell" "20230524.2106" "Org babel functions for ChatGPT evaluation" '((emacs "27.1") (chatgpt-shell "0.39.1")) :commit "9d05dbce300f0b1452ff8c22f5491ecaddbaf8bb" :authors '(("Alvaro Ramirez")) :maintainers '(("Alvaro Ramirez")) :maintainer '("Alvaro Ramirez") :url "https://github.com/xenodium/chatgpt-shell")
