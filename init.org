@@ -307,7 +307,8 @@ Another thing that bothered me, was how the =backward-kill-word= command (C-dele
 
 #+BEGIN_SRC emacs-lisp
 (defun custom/backward-kill-word ()
-  "Remove all whitespace if the character behind the cursor is whitespace, otherwise remove a word."
+  "Remove all whitespace if the character behind the cursor is whitespace,
+   otherwise remove a word."
   (interactive)
   (if (looking-back "[ \n]")
       ;; delete horizontal space behind us and then check to see if we
