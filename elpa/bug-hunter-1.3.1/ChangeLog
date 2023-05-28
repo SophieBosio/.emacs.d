@@ -1,0 +1,392 @@
+2020-11-28  Stefan Monnier  <monnier@iro.umontreal.ca>
+
+	* bug-hunter-test.el: Fix up copyright
+
+2020-11-27  Paul Eggert	 <eggert@cs.ucla.edu>
+
+	Fix some quoting problems in doc strings
+
+	Most of these are minor issues involving, e.g., quoting `like this' 
+	instead of 'like this'.	 A few involve escaping ` and ' with a preceding
+	\= when the characters should not be turned into curved single quotes.
+
+2016-06-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Version 1.3.1
+
+2016-04-30  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix #17 - Minibuffer completion pre 25
+
+2016-04-19  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	[Fix #16] Improve the error message when emacs -Q fails
+
+2016-04-01  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	[Fix #15] Don't offer interactive bisection in the terminal
+
+2016-02-09  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Bug-hunter version 1.1
+
+2016-02-09  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Explain invalid-modifier errors
+
+2016-02-09  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Indentation
+
+2016-01-03  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Version bump
+
+2016-01-03  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix #14 - Explain what to do if you encounter another issue
+
+2015-12-01  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Update Github username
+
+2015-11-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	[Fix #12] Mention bisecting and debugging in the Readme
+
+	Hopefully that will make it easier to find with search engines.
+
+2015-11-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Indentation
+
+2015-10-14  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Update url
+
+2015-08-16  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Better messages
+
+2015-08-16  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix frame -> instance
+
+2015-08-16  Ivan Malison  <imalison@uber.com>
+
+	Add missing word in user prompt.
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Screencast
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Version 0.5
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Better documentation and interactivity
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix test
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Use -q when running interactively too.
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Add test
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Inhibit readonly
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Implement interactive assertion throughout
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	bug-hunter--run-and-test accepts an 'interactive assertion
+
+2015-06-15  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Style fixes
+
+2015-04-26  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Update comments
+
+2015-04-26  Artur Malabarba  <Malabarba@users.noreply.github.com>
+
+	Merge pull request #8 from hariharanr5/master
+
+	minor typo fixes
+
+2015-04-26  Artur Malabarba  <Malabarba@users.noreply.github.com>
+
+	Merge pull request #4 from mgalgs/patch-1
+
+	Note about init file idempotence
+
+2015-04-26  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Don't assume Emacs 24.4. Fix #5
+
+2015-04-26  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Extended readme
+
+2015-04-26  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix travis badge
+
+2015-04-14  Hariharan R	 <hariharanrangasamy@gmail.com>
+
+	minor typo fixes
+
+2015-03-30  Mitchel Humpherys  <mitch.special@gmail.com>
+
+	Note about init file idempotence
+
+2015-03-26  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Simpler test
+
+2015-03-26  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Improve bisection logic to avoid unnecessary step.
+
+2015-03-25  Artur Malabarba  <Malabarba@users.noreply.github.com>
+
+	Merge pull request #2 from lunaryorn/patch-1
+
+	Don't quote file name argument to `call-process`
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Update email and GH username.
+
+2015-03-25  Sebastian Wiesner  <swiesner@lunaryorn.com>
+
+	Don't quote file name argument to `call-process`
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	readme
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Provide
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix tests
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	More verbose messages.
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Better Readme
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	checkdoc
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Invert argument order in report-error
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Call-process instead of shell-command.
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Whitespace
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Report what we can when the user aborts.
+
+2015-03-25  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	DOC
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Improve interactive assertion prompt
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Use pretty-printing on values
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Report which expression caused an error.
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Move around variables
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Letbind server-name to avoid conflicts
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Ignore cask
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Ignore a dummy file
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Provide full information on where the bug occurs.
+
+2015-03-24  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	More testing
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix test
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	More tests
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Recognize errors at reader level.
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Merge branch 'master' of github.com:Bruce-Connor/elisp-bug-hunter
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Require cl in test
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Update README.md
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Add a test
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix test
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Readme
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Actually do a bisection
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Run after-init-hooks
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Don't use shell-command
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Readme
+
+2015-03-23  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Readme
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Readme link
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Add autoloads
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Progress reports
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Copyright and deps
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Readme
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix tests
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Req seq
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix travis
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Add commentary
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Add version
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix cask
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix readme
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Test from 24.1
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Fix commands
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Add travis
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	define tests
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Indent and return value
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Write readme
+
+2015-03-22  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Add bug-hunter.el
+
+2015-03-21  Artur Malabarba  <bruce.connor.am@gmail.com>
+
+	Initial commit
+

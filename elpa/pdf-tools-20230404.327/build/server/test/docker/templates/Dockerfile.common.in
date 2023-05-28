@@ -1,0 +1,4 @@
+COPY . /pdf-tools
+WORKDIR /pdf-tools
+RUN make -s distclean || true
+CMD ["sh", "./server/test/docker/lib/run-tests"]

@@ -1,0 +1,14 @@
+*.m4
+*.in
+*.ac
+*.spec
+autogen.sh
+install-sh
+lpath.el
+mkinstalldirs
+prv-install.el
+README.GIT
+tests
+build-aux
+admin
+.dir-locals.el

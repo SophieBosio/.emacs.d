@@ -1,0 +1,4 @@
+# -*- dockerfile -*-
+FROM fedora:36
+# Need to install make, tzdata here to avoid stupid prompts when running package install via autobuild
+RUN dnf update -y && dnf install -y make tzdata
