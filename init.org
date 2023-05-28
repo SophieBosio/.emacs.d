@@ -356,7 +356,7 @@ when I write to it, so I'll disable automatic saving for this file in
 particular.
 
 #+BEGIN_SRC emacs-lisp
-(setq auto-save-buffers-enhanced-exclude-regexps '("init.org" "\\.ignore$"))
+(setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
 #+END_SRC
 
 To avoid clutter, let's put all the auto-saved files into one and the same directory.
