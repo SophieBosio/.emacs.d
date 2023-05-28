@@ -1,11 +1,4 @@
-.cache/
-.extension/
-auto-save-list/
-autosaves/
-elpa/
-eshell/
-transient/
-
-custom.el
-init.elc
-recentf
+/*
+!/init.el
+!/init.org
+!/README.org
