@@ -819,11 +819,7 @@ Actually, a TODO is to change this to Rougier's =svg-lib=, which has more featur
 ** Treemacs
 
 I like being able to view my project as a tree - even better if that tree is
-interactive! I'll bind =C-c C-t= to =treemacs=.
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c C-t") 'treemacs)
-#+END_SRC
+interactive! I'll bind =C-c C-t= to =treemacs= in the "Keybindings" section.
 
 
 * Org & Roam
