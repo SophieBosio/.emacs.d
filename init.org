@@ -559,23 +559,47 @@ display properly.
 ;                        (bookmarks . 5)))
 #+END_SRC
 
-Instead, I have downloaded =welcome-dashboard= from its [[https://github.com/konrad1977/welcome-dashboard/tree/main][repo]] and added it to my
-=local-extensions=.
+I don't yet know why, but the image /does/ display properly in this code,
+lifted [[https://xenodium.com/emacs-a-welcoming-experiment/][this post]] on Álvaro Ramirez' blog. Please note that I have added
+Olivetti to it, to center the text and image at startup, and that you may need
+to point the image path somewhere other than ="~/.emacs.d/emacs.png"=. 
 
 #+BEGIN_SRC emacs-lisp
-;;(load (concat local-extensions "welcome-dashboard.el"))
-(require 'welcome-dashboard)
-(setq welcome-dashboard-latitude         59.914902
-      welcome-dashboard-longitude        10.734894
-      welcome-dashboard-use-nerd-icons   nil
-      welcome-dashboard-path-max-length  75
-      welcome-dashboard-use-fahrenheit   nil  ;; Use Celsius
-      welcome-dashboard-min-left-padding 10
-      welcome-dashboard-image-file       "~/.emacs.d/emacs.png"
-      welcome-dashboard-image-width      200
-      welcome-dashboard-image-height     169
-      welcome-dashboard-title            "Welcome Sophie!")
-(welcome-dashboard-create-welcome-hook)
+(defun ar/show-welcome-buffer ()
+  "Show *Welcome* buffer."
+  (with-current-buffer (get-buffer-create "*welcome*")
+    (olivetti-mode 1)
+    (setq truncate-lines t)
+    (let* ((buffer-read-only)
+           (image-path "~/.emacs.d/emacs.png")
+           (image (create-image image-path))
+           (size (image-size image))
+           (height (cdr size))
+           (width (car size))
+           (top-margin (floor (/ (- (window-height) height) 2)))
+           (left-margin (floor (/ (- (window-width) width) 2)))
+           (prompt-title "Welcome to Emacs!"))
+      (erase-buffer)
+      (setq mode-line-format nil)
+      (goto-char (point-min))
+      (insert (make-string top-margin ?\n ))
+      (insert (make-string left-margin ?\ ))
+      (insert-image image)
+      (insert "\n\n\n")
+      (insert (make-string (floor (/ (- (window-width) (string-width prompt-title)) 2)) ?\ ))
+      (insert prompt-title))
+    (setq cursor-type nil)
+    (read-only-mode +1)
+    (switch-to-buffer (current-buffer))
+    (local-set-key (kbd "q") 'kill-this-buffer)))
+
+(setq initial-scratch-message nil)
+(setq inhibit-startup-screen t)
+
+(when (< (length command-line-args) 2)
+  (add-hook 'emacs-startup-hook (lambda ()
+                                  (when (display-graphic-p)
+                                    (ar/show-welcome-buffer)))))
 #+END_SRC
 
 ** Olivetti
