@@ -84,6 +84,7 @@ To avoid doing this each time a change is made we can add a function to the =aft
    #+END_SRC
 
 
+
 * Interaction, Look & Feel
 
 ** Start-Up
@@ -134,12 +135,14 @@ To manage downloaded packages, Emacs comes with =package.el= installed. First, w
       '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
         ("MELPA"        . "https://melpa.org/packages/")
         ("ORG"          . "https://orgmode.org/elpa/")
-        ("MELPA Stable" . "https://stable.melpa.org/packages/"))
+        ("MELPA Stable" . "https://stable.melpa.org/packages/")
+        ("nongnu"       . "https://elpa.nongnu.org/nongnu/"))
       package-archive-priorities
-      '(("GNU ELPA"     . 10)
-        ("MELPA"        . 5)
-        ("ORG"          . 3)
-        ("MELPA Stable" . 0)))
+      '(("GNU ELPA"     . 20)
+        ("MELPA"        . 15)
+        ("ORG"          . 10)
+        ("MELPA Stable" . 5)
+        ("nongnu"       . 0)))
 
 (package-initialize)
 #+END_SRC
@@ -533,6 +536,16 @@ For it to display properly, we also need the =nerd-icons= icon pack.
 #+END_SRC
 
 TODO Display time, battery percentage, and customise icons
+
+** TODO Eat
+
+=eat= (Emulate A Terminal) is a terminal emulator from the Non-GNU archive, so
+make sure you have that in your package archives!
+
+#+BEGIN_SRC emacs-lisp
+;; For `eat-eshell-visual-command-mode'.
+(add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+#+END_SRC
 
 ** Dashboard
 
