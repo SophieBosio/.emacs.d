@@ -116,6 +116,12 @@ Set Emacs user directory explicitly:
 (setq default-directory "~/")
 #+END_SRC
 
+Set UFT-8 as preferred coding system.
+
+#+BEGIN_SRC emacs-lisp
+(set-language-environment "UTF-8")
+#+END_SRC
+
 ** Packages
 
 To manage downloaded packages, Emacs comes with =package.el= installed. First, we'll need to initalise that, and then I'll set elpa, melpa, and melpa stable as package sources. These are very common and well-maintained mirrors.
@@ -260,6 +266,72 @@ Some variables are buffer-local, so to change them globally, we need to use =set
 )
 #+END_SRC
 
+I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'll set these to 'y' and 'n'.
+
+#+BEGIN_SRC emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+To avoid clutter, let's put all the auto-saved files into one and the same directory.
+
+#+BEGIN_SRC emacs-lisp
+(defvar emacs-autosave-directory
+  (concat user-emacs-directory "autosaves/")
+  "This variable dictates where to put auto saves. It is set to a
+  directory called autosaves located wherever your .emacs.d/ is
+  located.")
+
+;; Sets all files to be backed up and auto saved in a single directory.
+(setq backup-directory-alist
+      `((".*" . ,emacs-autosave-directory))
+      auto-save-file-name-transforms
+      `((".*" ,emacs-autosave-directory t)))
+#+END_SRC
+
+And finally, I want scrolling to be a *lot* slower.
+
+#+BEGIN_SRC emacs-lisp
+;; Smoother scrolling
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed            nil) ;; don't accelerate scrolling
+(setq mouse-wheel-follow-mouse                  't) ;; scroll window under mouse
+(setq scroll-step                                1) ;; keyboard scroll one line at a time
+(setq use-dialog-box                           nil) ;; Disable dialog
+#+END_SRC
+
+** Personal Defaults
+
+Some of these, I can't argue are "sane" in general - but they're what I want.
+
+I want a small border around the whole frame, because I think it looks nicer.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'default-frame-alist '(internal-border-width . 22))
+#+END_SRC
+
+And when I open Emacs, I want it to open maximised and fullscreen by default.
+
+#+BEGIN_SRC emacs-lisp
+(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist     '(fullscreen . maximized))
+(add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
+#+END_SRC
+
+I prefer having my files save automatically. Any changes I don't want, I just don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all buffers, not just the ones I have open.
+
+#+BEGIN_SRC emacs-lisp
+(require 'auto-save-buffers-enhanced)
+(auto-save-buffers-enhanced t)
+#+END_SRC
+
+But since saving this file - the =init.org=-file - triggers recompilation of
+=init.el=, it's really annoying if this file is autosaved when I write to it.
+Therefore, I'll disable automatic saving for this file in particular.
+
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
+#+END_SRC
+
 One of the things that drove me the most insane when I first downloaded Emacs, was the way it deals with indentation. Specifically, how electric indent would indent regions when I entered a newline, and how adding/deleting tabs worked unexpectedly.
 
 #+BEGIN_SRC emacs-lisp
@@ -327,74 +399,6 @@ Don't kill, just delete."
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 (global-set-key [C-backspace] 'custom/backward-kill-word)
-#+END_SRC
-
-And finally, I want scrolling to be a *lot* slower.
-
-#+BEGIN_SRC emacs-lisp
-;; Smoother scrolling
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed            nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse                  't) ;; scroll window under mouse
-(setq scroll-step                                1) ;; keyboard scroll one line at a time
-(setq use-dialog-box                           nil) ;; Disable dialog
-#+END_SRC
-
-I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'll set these to 'y' and 'n'.
-
-#+BEGIN_SRC emacs-lisp
-(fset 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
-
-I prefer having my files save automatically. Any changes I don't want, I just don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all buffers, not just the ones I have open.
-
-#+BEGIN_SRC emacs-lisp
-(require 'auto-save-buffers-enhanced)
-(auto-save-buffers-enhanced t)
-#+END_SRC
-
-But since saving this file - the =init.org=-file - triggers recompilation of
-=init.el=, it's really annoying if this file is autosaved when I write to it.
-Therefore, I'll disable automatic saving for this file in particular.
-
-#+BEGIN_SRC emacs-lisp
-(setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
-#+END_SRC
-
-To avoid clutter, let's put all the auto-saved files into one and the same directory.
-
-#+BEGIN_SRC emacs-lisp
-(defvar emacs-autosave-directory
-  (concat user-emacs-directory "autosaves/")
-  "This variable dictates where to put auto saves. It is set to a
-  directory called autosaves located wherever your .emacs.d/ is
-  located.")
-
-;; Sets all files to be backed up and auto saved in a single directory.
-(setq backup-directory-alist
-      `((".*" . ,emacs-autosave-directory))
-      auto-save-file-name-transforms
-      `((".*" ,emacs-autosave-directory t)))
-#+END_SRC
-
-Set UFT-8 as preferred coding system.
-
-#+BEGIN_SRC emacs-lisp
-(set-language-environment "UTF-8")
-#+END_SRC
-
-I want a small border around the whole frame, because I think it looks nicer.
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'default-frame-alist '(internal-border-width . 22))
-#+END_SRC
-
-And when I open Emacs, I want it to open maximised and fullscreen by default.
-
-#+BEGIN_SRC emacs-lisp
-(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist     '(fullscreen . maximized))
-(add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
 
 And finally, I want to use =ripgrep= as =grep=.
