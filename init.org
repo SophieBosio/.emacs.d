@@ -150,6 +150,7 @@ We also want to make sure packages are automatically installed and updated. The 
   (let* ((package--builtins nil)
      (packages
       '(all-the-icons        ; Icon pack for pretty displays
+        async                ; Async library
         auctex               ; Integrated environment for *TeX*
         auto-compile         ; automatically compile Emacs Lisp libraries
         chatgpt-shell        ; Interaction mode for ChatGPT
@@ -176,6 +177,7 @@ We also want to make sure packages are automatically installed and updated. The 
         ivy-rich             ; Friendly display transformer for Ivy
         jedi                 ; Python auto-completion for Emacs
         js2-mode             ; Improved JavaScript editing mode
+        json                 ; JSON file format
         ligature             ; Font ligatures for Emacs
         lua-mode             ; Major-mode for editing Lua scripts
         magit                ; Control Git from Emacs
@@ -215,7 +217,10 @@ We also want to make sure packages are automatically installed and updated. The 
 I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-extensions".
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/local-extentions/")
+(defvar local-extensions "~/.emacs.d/local-extensions/")
+(add-to-list 'load-path  local-extensions)
+(let ((default-directory local-extensions))
+  (normal-top-level-add-subdirs-to-load-path))
 #+END_SRC
 
 And load custom settings from =custom.el= if it exists.
@@ -537,18 +542,39 @@ much on startup - usually I just =C-x b= my way to where I need to go.
 
 The =dashboard= extension gives you a welcoming and pretty landing buffer.
 
+However, I had some issues with the below code, because the image would not
+display properly.
+
 #+BEGIN_SRC emacs-lisp
-(require 'dashboard)
-(setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
-(setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
-(dashboard-setup-startup-hook)
-(setq dashboard-startup-banner    2
-      dashboard-center-content    t
-      dashboard-set-footer        nil
-      dashboard-page-separator    "\n\n\n"
-      dashboard-items '((projects . 15)
-                        (recents  . 15)
-                        (bookmarks . 5)))
+;(require 'dashboard)
+;(setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
+;(setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
+;(dashboard-setup-startup-hook)
+;(setq dashboard-startup-banner    'logo
+;      dashboard-center-content    t
+;      dashboard-set-footer        nil
+;      dashboard-page-separator    "\n\n\n"
+;      dashboard-items '((projects . 15)
+;                        (recents  . 15)
+;                        (bookmarks . 5)))
+#+END_SRC
+
+Instead, I have downloaded =welcome-dashboard= from its [[https://github.com/konrad1977/welcome-dashboard/tree/main][repo]] and added it to my
+=local-extensions=.
+
+#+BEGIN_SRC emacs-lisp
+(load (concat local-extensions "welcome-dashboard.el"))
+(setq welcome-dashboard-latitude         59.914902
+      welcome-dashboard-longitude        10.734894
+      welcome-dashboard-use-nerd-icons   nil
+      welcome-dashboard-path-max-length  75
+      welcome-dashboard-use-fahrenheit   nil  ;; Use Celsius
+      welcome-dashboard-min-left-padding 10
+      welcome-dashboard-image-file       "~/.emacs.d/emacs.png"
+      welcome-dashboard-image-width      200
+      welcome-dashboard-image-height     169
+      welcome-dashboard-title            "Welcome Sophie!")
+(welcome-dashboard-create-welcome-hook)
 #+END_SRC
 
 ** Olivetti
@@ -684,6 +710,7 @@ I'll also set some global keybindings that have not already been overwritten.
 
 ** TODO Magit
 
+** TODO Projectile
 ** SVG Tags
 
 Actually, a TODO is to change this to Rougier's =svg-lib=, which has more features!
@@ -853,13 +880,11 @@ the minor mode on startup and mode change.
 
 ** Olivetti
 
-
 #+BEGIN_SRC emacs-lisp
 (define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
 #+END_SRC
 
 ** Treemacs
-
 
 #+BEGIN_SRC emacs-lisp
 (define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
