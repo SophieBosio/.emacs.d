@@ -588,8 +588,6 @@ With the the font and font size I use, setting the =fill-column= variable to 14,
 #+BEGIN_SRC emacs-lisp
 (require 'olivetti)
 (setq-default olivetti-body-width (+ fill-column 14))
-(olivetti-mode 1)
-(global-set-key (kbd "C-c C-o") 'olivetti-mode)
 #+END_SRC
 
 ** PDF Tools
@@ -866,10 +864,36 @@ management system. It's all in plain-text and uses Org-mode.
 
 * Keybindings
 
+Since major modes can overwrite my custom keybindings, I have done as Lars in
+his config and as suggested in this Stack Overflow post, and created a custom
+keymap. Then I have a minor mode that just activates the keymap, and I activate
+the minor mode on startup and mode change.
+
 ** Defining the Keymap
+
+#+BEGIN_SRC emacs-lisp
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom bindings.")
+#+END_SRC
 
 ** Olivetti
 
+
+#+BEGIN_SRC emacs-lisp
+(define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
+#+END_SRC
+
 ** Treemacs
 
+
+#+BEGIN_SRC emacs-lisp
+(define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
+#+END_SRC
+
 ** Creating & Activating Minor Mode
+
+#+BEGIN_SRC emacs-lisp
+(define-minor-mode custom-bindings-mode
+  "A mode that activates custom-bindings."
+  t nil custom-bindings-map)
+#+END_SRC
