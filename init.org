@@ -563,7 +563,8 @@ Instead, I have downloaded =welcome-dashboard= from its [[https://github.com/kon
 =local-extensions=.
 
 #+BEGIN_SRC emacs-lisp
-(load (concat local-extensions "welcome-dashboard.el"))
+;;(load (concat local-extensions "welcome-dashboard.el"))
+(require 'welcome-dashboard)
 (setq welcome-dashboard-latitude         59.914902
       welcome-dashboard-longitude        10.734894
       welcome-dashboard-use-nerd-icons   nil
