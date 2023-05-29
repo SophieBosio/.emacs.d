@@ -528,6 +528,56 @@ For it to display properly, we also need the =nerd-icons= icon pack.
 
 TODO Display time, battery percentage, and customise icons
 
+** Welcome Screen
+
+It's perfectly fine to just land in the scratch buffer. I think it's practical
+and aesthetically unproblematic. But I don't really use the scratch buffer that
+much on startup - usually I just =C-x b= my way to where I need to go,
+including my recents and bookmarks.
+
+I recently saw [[https://xenodium.com/emacs-a-welcoming-experiment/][this code]] on Álvaro Ramirez' blog and thought it looked nice.
+It's in my config for now, and then we'll see if it sticks.
+
+Please note that you'll need to save the image you want and save it as
+=~/.emacs.d/emacs.png=. In the original blog post, [[https://github.com/TanbinIslam43/mydotfiles/blob/main/.doom.d/emacs.png][this]] is the image used.
+
+Note also that I have added a line activating =olivetti-mode=, near the top.
+
+#+BEGIN_SRC emacs-lisp
+(defun ar/show-welcome-buffer ()
+  "Show *Welcome* buffer."
+  (with-current-buffer (get-buffer-create "*Welcome!*")
+    (setq truncate-lines t)
+    (olivetti-mode 1)
+    (let* ((buffer-read-only)
+           (image-path "~/.emacs.d/emacs.png")
+           (image (create-image image-path))
+           (size (image-size image))
+           (height (cdr size))
+           (width (car size))
+           (top-margin (floor (/ (- (window-height) height) 2)))
+           (left-margin (floor (/ (- (window-width) width) 2)))
+           (prompt-title "Welcome to Emacs!"))
+      (erase-buffer)
+      (setq mode-line-format nil)
+      (goto-char (point-min))
+      (insert (make-string top-margin ?\n ))
+      (insert (make-string left-margin ?\ ))
+      (insert-image image)
+      (insert "\n\n\n")
+      (insert (make-string (floor (/ (- (window-width) (string-width prompt-title)) 2)) ?\ ))
+      (insert prompt-title))
+    (setq cursor-type nil)
+    (read-only-mode +1)
+    (switch-to-buffer (current-buffer))
+    (local-set-key (kbd "q") 'kill-this-buffer)))
+
+(when (< (length command-line-args) 2)
+  (add-hook 'emacs-startup-hook (lambda ()
+                                  (when (display-graphic-p)
+                                    (ar/show-welcome-buffer)))))
+#+END_SRC
+
 ** Olivetti
 
 =Olivetti= is a minor mode for centering text.
@@ -805,6 +855,21 @@ And finally, I'll use the =org-bullets= package to prettify the document headers
 
 ** TODO Roam
 
+[[https://www.orgroam.com/][Roam]] is a smart note-taking system in the style of a personal knowledge
+management system. It's all in plain-text and uses Org-mode.
 
 
 * Programming Modes
+
+** Haskell
+
+
+* Keybindings
+
+** Defining the Keymap
+
+** Olivetti
+
+** Treemacs
+
+** Creating & Activating Minor Mode
