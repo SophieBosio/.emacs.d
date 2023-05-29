@@ -184,6 +184,7 @@ We also want to make sure packages are automatically installed and updated. The 
         multiple-cursors     ; Multiple cursors for Emacs
         nano-modeline        ; N Λ N O modeline
         nano-theme           ; N Λ N O theme
+        nerd-icons           ; Nerdy icons for every occasion
         ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
         olivetti             ; Minor mode for a nice writing environment
         org                  ; Outline-based notes management and organizer
@@ -528,54 +529,26 @@ For it to display properly, we also need the =nerd-icons= icon pack.
 
 TODO Display time, battery percentage, and customise icons
 
-** Welcome Screen
+** Dashboard
 
 It's perfectly fine to just land in the scratch buffer. I think it's practical
 and aesthetically unproblematic. But I don't really use the scratch buffer that
-much on startup - usually I just =C-x b= my way to where I need to go,
-including my recents and bookmarks.
+much on startup - usually I just =C-x b= my way to where I need to go.
 
-I recently saw [[https://xenodium.com/emacs-a-welcoming-experiment/][this code]] on Álvaro Ramirez' blog and thought it looked nice.
-It's in my config for now, and then we'll see if it sticks.
-
-Please note that you'll need to save the image you want and save it as
-=~/.emacs.d/emacs.png=. In the original blog post, [[https://github.com/TanbinIslam43/mydotfiles/blob/main/.doom.d/emacs.png][this]] is the image used.
-
-Note also that I have added a line activating =olivetti-mode=, near the top.
+The =dashboard= extension gives you a welcoming and pretty landing buffer.
 
 #+BEGIN_SRC emacs-lisp
-(defun ar/show-welcome-buffer ()
-  "Show *Welcome* buffer."
-  (with-current-buffer (get-buffer-create "*Welcome!*")
-    (setq truncate-lines t)
-    (olivetti-mode 1)
-    (let* ((buffer-read-only)
-           (image-path "~/.emacs.d/emacs.png")
-           (image (create-image image-path))
-           (size (image-size image))
-           (height (cdr size))
-           (width (car size))
-           (top-margin (floor (/ (- (window-height) height) 2)))
-           (left-margin (floor (/ (- (window-width) width) 2)))
-           (prompt-title "Welcome to Emacs!"))
-      (erase-buffer)
-      (setq mode-line-format nil)
-      (goto-char (point-min))
-      (insert (make-string top-margin ?\n ))
-      (insert (make-string left-margin ?\ ))
-      (insert-image image)
-      (insert "\n\n\n")
-      (insert (make-string (floor (/ (- (window-width) (string-width prompt-title)) 2)) ?\ ))
-      (insert prompt-title))
-    (setq cursor-type nil)
-    (read-only-mode +1)
-    (switch-to-buffer (current-buffer))
-    (local-set-key (kbd "q") 'kill-this-buffer)))
-
-(when (< (length command-line-args) 2)
-  (add-hook 'emacs-startup-hook (lambda ()
-                                  (when (display-graphic-p)
-                                    (ar/show-welcome-buffer)))))
+(require 'dashboard)
+(setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
+(setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
+(dashboard-setup-startup-hook)
+(setq dashboard-startup-banner    2
+      dashboard-center-content    t
+      dashboard-set-footer        nil
+      dashboard-page-separator    "\n\n\n"
+      dashboard-items '((projects . 15)
+                        (recents  . 15)
+                        (bookmarks . 5)))
 #+END_SRC
 
 ** Olivetti
