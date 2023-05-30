@@ -89,25 +89,17 @@ To avoid doing this each time a change is made we can add a function to the =aft
 
 ** Start-Up
 
-I want to make some tweaks to improve startup performance. First, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards. At startup, I also want to know how long Emacs took to boot and how many garbage collections were made.
+I want to make some tweaks to improve startup performance. First, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards.
 
 #+BEGIN_SRC emacs-lisp
 ;; The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
-;; Profile Emacs startup
+;; Set and reset threshold
 (let ((old-gc-treshold gc-cons-threshold))
   (setq gc-cons-threshold most-positive-fixnum)
   (add-hook 'after-init-hook
             (lambda () (setq gc-cons-threshold old-gc-treshold))))
-
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "*** Emacs loaded in %s with %d garbage collections."
-                     (format "%.2f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
 #+END_SRC
 
 Set Emacs user directory explicitly:
@@ -553,7 +545,8 @@ It's perfectly fine to just land in the scratch buffer. I think it's practical
 and aesthetically unproblematic. But I don't really use the scratch buffer that
 much on startup - usually I just =C-x b= my way to where I need to go.
 
-The =dashboard= extension gives you a welcoming and pretty landing buffer.
+The =dashboard= extension gives you a welcoming and pretty landing buffer. I
+point it to my own image, but the ='logo= banner is also really nice.
 
 #+BEGIN_SRC emacs-lisp
 (require 'dashboard)
@@ -566,7 +559,7 @@ The =dashboard= extension gives you a welcoming and pretty landing buffer.
       dashboard-page-separator    "\n\n\n"
       dashboard-items '((projects . 15)
                         (recents  . 15)
-                        (bookmarks . 5)))
+                        (agenda   . 5)))
 #+END_SRC
 
 ** Olivetti
