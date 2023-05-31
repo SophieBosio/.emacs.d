@@ -7,14 +7,22 @@
 
 This is my attempt at keeping my Emacs configuration organised and readable.
 
-I've tried to follow the way [[https://github.com/larstvei/][Lars Tveito]] has organised [[https://github.com/larstvei/dot-emacs/blob/master/init.org][his Emacs configuration]], including using Org mode and =org-babel-tangle= to both document and structure the configuration file.
+It's what's known as a "literate" configuration, meaning I write all my
+initialisation code in this document as code blocks and then use
+=org-babel-tangle= to extract those code blocks into a separate file. That new,
+generated file becomes my =init.el=. This way, I can document my code and
+explain my choices to my future self - and to anyone else who might be
+interested in looking at it.
+
+I've tried to follow the way [[https://github.com/larstvei/][Lars Tveito]] has organised [[https://github.com/larstvei/dot-emacs/blob/master/init.org][his Emacs configuration]],
+and a lot of this code is lifted from his config.
 
 I'm at the very beginning of learning Emacs, so if you have any suggestions or improvements, I would be very happy to hear about them!
 
 
 * Pre-Configuration
 
-** Meta
+** =init.el= Code
 As mentioned, I use =org-babel-tangle= and this document, written in Org mode.
 
 The code below extracts the elisp configuration code and creates/overwrites the
