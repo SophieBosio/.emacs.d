@@ -169,6 +169,7 @@ We also want to make sure packages are automatically installed and updated. The 
         doom-themes          ; An opinionated pack of modern color-themes
         doom-modeline        ; Mode line used in Doom Emacs
         editorconfig         ; EditorConfig Emacs Plugin
+        emojify              ; Display and insert emojis
         evil-nerd-commenter  ; Language-specific commenting
         golden-ratio         ; Automatic resizing windows to golden ratio
         haskell-mode         ; A Haskell editing mode
@@ -497,6 +498,16 @@ I want my font to look big enough on my laptop screen, and I also want font liga
                                        ("psi" . ?ψ)))
 #+END_SRC
 
+I also want to be able to display emojis.
+
+#+BEGIN_SRC emacs-lisp
+(require 'emojify)
+(add-hook 'after-init-hook #'global-emojify-mode)
+(when (member "Segoe UI Emoji" (font-family-list))
+  (set-fontset-font
+    t 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend))
+#+END_SRC
+
 ** Themes
 
 I really like the doom-themes, so I'll get those. I also want to be able to cycle through themes easily, so I'll use =cycle-themes.el= to do that with their standard keybinding, =C-c C-t=
@@ -561,12 +572,13 @@ point it to my own image, but the ='logo= banner is also really nice.
 (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
 (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
 (dashboard-setup-startup-hook)
-(setq dashboard-startup-banner    "~/.emacs.d/emacs.png"
+(setq dashboard-startup-banner    "~/.emacs.d/images/gnu-colour.png"
+      dashboard-banner-logo-title "Welcome home! 🌱"
       dashboard-center-content    t
       dashboard-set-footer        nil
       dashboard-page-separator    "\n\n\n"
-      dashboard-items '((projects . 15)
-                        (recents  . 15)
+      dashboard-items '((projects . 5)
+                        (recents  . 10)
                         (agenda   . 5)))
 #+END_SRC
 
