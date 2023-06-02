@@ -729,7 +729,14 @@ interactive! I'll bind =C-c C-t= to =treemacs= in the "Keybindings" section.
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
 
-I still have a lot to learn about these modes, but I've done my best to prettify the way =.org=-files are displayed in my config.
+*Please note* that I've set keybindings for Org and Roam in the "Keybindings" section!
+
+Let's first make sure we're using Org.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org)
+(setq org-log-done t)
+#+END_SRC
 
 Next, I always want to center the text and enable linebreaks in Org. In general, I want to activate it manually, so I'll make a hook specifically for Org mode.
 
@@ -741,12 +748,40 @@ Next, I always want to center the text and enable linebreaks in Org. In general,
 (add-hook 'org-mode-hook 'my/org-mode-visual-style)
 #+end_src
 
-And finally, I'll use the =org-bullets= package to prettify the document headers and lists by turning the normal header stars into Unicode bullets.
+I'll use the =org-bullets= package to prettify the document headers and lists by turning the normal header stars into Unicode bullets.
 
 #+begin_src emacs-lisp
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
+
+*** Get Things Done
+
+I'm trying out the Get Things Done method by David Allen, using Nicolas
+Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's
+[[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
+
+The first step is to set the relevant directories.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/Dropbox/org/")
+(setq org-agenda-files (list "inbox.org"))
+#+END_SRC
+
+Then to set up the relevant capture templates, with accompanying keybindings.
+
+#+BEGIN_SRC emacs-lisp
+(define-key global-map (kbd "C-c c") 'org-capture)
+
+(setq org-capture-templates
+       `(("i" "Inbox" entry  (file "inbox.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))))
+(defun org-capture-inbox ()
+     (interactive)
+     (call-interactively 'org-store-link)
+     (org-capture nil "i"))
+#+END_SRC
 
 ** TODO Roam
 
@@ -789,6 +824,14 @@ the minor mode on startup and mode change.
 
 #+BEGIN_SRC emacs-lisp
 (define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
+#+END_SRC
+
+** Org
+
+#+BEGIN_SRC emacs-lisp
+(define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
+(define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
+(define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
 #+END_SRC
 
 ** Creating & Activating Minor Mode
