@@ -725,7 +725,7 @@ interactive! I'll bind =C-c C-t= to =treemacs= in the "Keybindings" section.
 
 * Org & Roam
 
-**  Org
+** Org
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
 
@@ -771,8 +771,6 @@ The first step is to set the relevant directories.
 Then to set up the relevant capture templates, with accompanying keybindings.
 
 #+BEGIN_SRC emacs-lisp
-(define-key global-map (kbd "C-c c") 'org-capture)
-
 (setq org-capture-templates
        `(("i" "Inbox" entry  (file "inbox.org")
         ,(concat "* TODO %?\n"
@@ -828,9 +826,21 @@ the minor mode on startup and mode change.
 
 ** Org
 
+For basic agenda and TODO-related keybindings, I'll use =C-c= followed by a
+single, lower-case letter.
+
 #+BEGIN_SRC emacs-lisp
 (define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
 (define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
+(define-key custom-bindings-map (kbd "C-c c") 'org-capture)
+(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
+#+END_SRC
+
+I have some custom =.org=-files that I use to organise different parts of my
+life (see "Org & Roam" section). I'll add keybindings to capture different
+types of notes, each corresponding to a an =.org=-file type.
+
+#+BEGIN_SRC emacs-lisp
 (define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
 #+END_SRC
 
