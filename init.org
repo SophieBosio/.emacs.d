@@ -125,6 +125,8 @@ Set UFT-8 as preferred coding system.
 
 ** Packages
 
+*** TODO Consider using use-package, elpaca or straight
+
 To manage downloaded packages, Emacs comes with =package.el= installed. First, we'll need to initalise that, and then I'll set elpa, melpa, and melpa stable as package sources. These are very common and well-maintained mirrors.
 
 #+BEGIN_SRC emacs-lisp
@@ -171,6 +173,7 @@ We also want to make sure packages are automatically installed and updated. The 
         editorconfig         ; EditorConfig Emacs Plugin
         emojify              ; Display and insert emojis
         evil-nerd-commenter  ; Language-specific commenting
+        focus                ; Dim surrounding font colour to focus on region
         golden-ratio         ; Automatic resizing windows to golden ratio
         haskell-mode         ; A Haskell editing mode
         helpful              ; Easy-to-read docs that work with Counsel
@@ -527,7 +530,7 @@ I really like the doom-themes, so I'll get those. I also want to be able to cycl
 (add-hook 'cycle-themes-after-cycle-hook
           #'(lambda ()
               (dolist (frame (frame-list))
-                (set-face-attribute 'fringe frame 
+                (set-face-attribute 'fringe frame
                    :background (face-background 'default)))))
 #+END_SRC
 
@@ -548,7 +551,7 @@ For it to display properly, we also need the =nerd-icons= icon pack.
 
 TODO Display time, battery percentage, and customise icons
 
-** TODO Eat
+** TODO Eat / vterm
 
 =eat= (Emulate A Terminal) is a terminal emulator from the Non-GNU archive, so
 make sure you have that in your package archives!
@@ -610,6 +613,9 @@ However, it takes a long time to load, so we'll wait to load it until we try to 
 #+END_SRC	  
 
 ** Ivy
+
+*** TODO Consider trying out Vertico + Consult + Orderless + Embark + Marginalia +
+Corfu instead of Ivy.
 
 Ivy is a package for "Incremental Vertical completYon", giving you fuzzy completion suggestions in the minibuffer.
 
@@ -698,6 +704,8 @@ I'll also set some global keybindings that have not already been overwritten.
 #+END_SRC
 
 ** Text Auto-Completion
+
+*** TODO Consider trying =cape=
 
 =company-mode= is an auto-completion framework meant to "COMPlete ANYthing". I want pretty aggressive completion suggestions.
 
