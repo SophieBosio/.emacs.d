@@ -200,6 +200,7 @@ We also want to make sure packages are automatically installed and updated. The 
         org-bullets          ; Show bullets in org-mode as UTF-8 characters
         org-msg              ; Org mode to send and reply to email in HTML
         ox-gfm               ; Export Github Flavored Markdown from Org
+        ox-hugo              ; Export to Blackfriday markdown, for Hugo sites
         paredit              ; minor mode for editing parentheses
         pdf-tools            ; Emacs support library for PDF files
         projectile           ; Manage and navigate projects in Emacs easily
@@ -472,8 +473,12 @@ I want my font to look big enough on my laptop screen, and I also want font liga
 (defvar efs/default-variable-font-size 102)   ;; Define default variable-pitch font size
 
 ;; Set font face
-(set-face-attribute 'default nil :font "JetBrainsMono NFM" :height efs/default-font-size)
-(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono NFM" :height efs/default-font-size)
+;;(set-face-attribute 'default nil :font "JetBrainsMono NFM" :height efs/default-font-size)
+;;(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono NFM" :height efs/default-font-size)
+;;(set-face-attribute 'variable-pitch nil :font "Segoe UI" :height efs/default-variable-font-size)
+
+(set-face-attribute 'default nil :font "Roboto Mono" :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil :font "Roboto Mono" :height efs/default-font-size)
 (set-face-attribute 'variable-pitch nil :font "Segoe UI" :height efs/default-variable-font-size)
 
 ;; Font ligatures
@@ -732,7 +737,7 @@ I like being able to view my project as a tree - even better if that tree is
 interactive! I'll bind =C-c C-t= to =treemacs= in the "Keybindings" section.
 
 
-* Org & Roam
+* Org, Roam & Hugo
 
 ** Org
 
@@ -794,6 +799,18 @@ Then to set up the relevant capture templates, with accompanying keybindings.
 
 [[https://www.orgroam.com/][Roam]] is a smart note-taking system in the style of a personal knowledge
 management system. It's all in plain-text and uses Org-mode.
+
+** Hugo
+
+[[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
+Blackfriday. The package =ox-hugo= can export Org files to this format, and
+also generate appropriate front-matter. I use it to write my blog in Org and
+easily put it online.
+
+#+BEGIN_SRC emacs-lisp
+(with-eval-after-load 'ox
+  (require 'ox-hugo))
+#+END_SRC
 
 
 * Programming Modes
