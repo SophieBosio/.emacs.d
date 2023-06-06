@@ -542,6 +542,7 @@ For it to display properly, we also need the =nerd-icons= icon pack.
 
 #+BEGIN_SRC emacs-lisp
 (require 'nerd-icons)
+(require 'nano-modeline)
 (nano-modeline-mode 1)
 (setq nano-modeline-space-top      +0.60  ;; Space above the text
       nano-modeline-space-bottom   -0.60  ;; Space below the text
