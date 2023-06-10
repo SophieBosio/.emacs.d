@@ -466,7 +466,14 @@ And I do want line numbers, but only in programming modes.
 
 ** Font
 
-I want my font to look big enough on my laptop screen, and I also want font ligatures and prettified greek letters
+I want my font to look big enough on my laptop screen, and I also want font
+ligatures and prettified greek letters.
+
+I have downloaded a modified version of Roboto Mono that was generated with a
+tool for adding ligatures to non-ligature monospaced fonts. For some reason, my
+old ligature configuration for JetBrainsMono works relatively well for this
+purpose as well, so for the time being I have decided not to mess with it.
+
 
 #+BEGIN_SRC emacs-lisp
 (defvar efs/default-font-size          102)   ;; Define default font size
