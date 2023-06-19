@@ -286,6 +286,12 @@ I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
+Make sure we have the =all-the-icons= pack in order to display icons properly.
+
+#+begin_src emacs-lisp
+(require 'nerd-icons)
+#+end_src
+
 To avoid clutter, let's put all the auto-saved files into one and the same directory.
 
 #+BEGIN_SRC emacs-lisp
@@ -550,16 +556,13 @@ I really like the doom-themes, so I'll get those. I also want to be able to cycl
 
 I really like Nicolas Rougiers [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has some neat built-in features, like the option to put the modeline in the header bar instead of at the bottom of the screen.
 
-For it to display properly, we also need the =nerd-icons= icon pack.
-
 #+begin_src emacs-lisp
-(require 'nerd-icons)
 (require 'nano-modeline)
 (nano-modeline-mode 1)
-(setq nano-modeline-space-top      +0.60  ;; Space above the text
-      nano-modeline-space-bottom   -0.60  ;; Space below the text
-      nano-modeline-prefix         'icon  ;; I want icons, not RW/RO signifiers
-      nano-modeline-prefix-padding t)     ;; Padding between prefix and text
+(setq nano-modeline-space-top      +0.60    ;; Space above the text
+      nano-modeline-space-bottom   -0.60    ;; Space below the text
+      nano-modeline-prefix         'status  ;; I want icons, not RW/RO signifiers
+      nano-modeline-prefix-padding t)       ;; Padding between prefix and text
 #+end_src
 
 ** TODO Eat / vterm
