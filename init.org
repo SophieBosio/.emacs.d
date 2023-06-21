@@ -158,12 +158,14 @@ We also want to make sure packages are automatically installed and updated. The 
         async                ; Async library
         auctex               ; Integrated environment for *TeX*
         auto-compile         ; automatically compile Emacs Lisp libraries
+        auto-save-buffers-enhanced
         chatgpt-shell        ; Interaction mode for ChatGPT
         cider                ; Clojure Interactive Development Environment
         clj-refactor         ; Commands for refactoring Clojure code
         company              ; Modular text completion framework
         counsel              ; Various completion functions using Ivy
         counsel-projectile   ; Ivy integration for Projectile
+        cycle-themes         ; Cycle through list of themes
         dashboard            ; A startup screen extracted from Spacemacs
         define-word          ; display the definition of word at point
         diff-hl              ; Highlight uncommitted changes using VC
@@ -470,46 +472,17 @@ And I do want line numbers, but only in programming modes.
    'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 #+END_SRC
 
-** Font
+** Fonts
 
-I want my font to look big enough on my laptop screen, and I also want font
-ligatures and prettified greek letters.
-
-I have downloaded a modified version of Roboto Mono that was generated with a
-tool for adding ligatures to non-ligature monospaced fonts. For some reason, my
-old ligature configuration for JetBrainsMono works relatively well for this
-purpose as well, so for the time being I have decided not to mess with it.
-
+I want my font to look big enough on my laptop screen, and I also want font prettified greek letters.
 
 #+BEGIN_SRC emacs-lisp
-(defvar efs/default-font-size          102)   ;; Define default font size
-(defvar efs/default-variable-font-size 102)   ;; Define default variable-pitch font size
-
-;; Set font face
-;;(set-face-attribute 'default nil :font "JetBrainsMono NFM" :height efs/default-font-size)
-;;(set-face-attribute 'fixed-pitch nil :font "JetBrainsMono NFM" :height efs/default-font-size)
-;;(set-face-attribute 'variable-pitch nil :font "Segoe UI" :height efs/default-variable-font-size)
+(defvar efs/default-font-size          115)   ;; Define default font size
+(defvar efs/default-variable-font-size 115)   ;; Define default variable-pitch font size
 
 (set-face-attribute 'default nil :font "Roboto Mono" :height efs/default-font-size)
 (set-face-attribute 'fixed-pitch nil :font "Roboto Mono" :height efs/default-font-size)
-(set-face-attribute 'variable-pitch nil :font "Segoe UI" :height efs/default-variable-font-size)
-
-;; Font ligatures
-(defvar ligatures-JetBrainsMono
-  '("--" "---" "==" "===" "!=" "!==" "=!=" "=:=" "=/=" "<=" ">=" "&&" "&&&" "&=" "++" "+++"
-   "***" ";;" "!!" "??" "?:" "?." "?=" "<:" ":<" ":>" ">:" "<>" "<<<" ">>>" "<<" ">>" "||" "-|"
-   "_|_" "|-" "||-" "|=" "||=" "##" "###" "####" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:"
-   "#!" "#=" "^=" "<$>" "<$" "$>" "<+>" "<+ +>" "<*>" "<* *>" "</" "</>" "/>" "<!--"
-   "<#--" "-->" "->" "->>" "<<-" "<-" "<=<" "=<<" "<<=" "<==" "<=>" "<==>" "==>" "=>"
-   "=>>" ">=>" ">>=" ">>-" ">-" ">--" "-<" "-<<" ">->" "<-<" "<-|" "<=|" "|=>" "|->" "<-"
-   "<~~" "<~" "<~>" "~~" "~~>" "~>" "~-" "-~" "~@" "[||]" "|]" "[|" "|}" "{|" "[<" ">]"
-   "|>" "<|" "||>" "<||" "|||>" "|||>" "<|>" "..." ".." ".=" ".-" "..<" ".?" "::" ":::"
-   ":=" "::=" ":?" ":?>" "//" "///" "/*" "*/" "/=" "//=" "/==" "@_" "__"))
-(use-package ligature
-  :load-path "~/.emacs.d/elpa/ligature-20220808.1225/ligature.el"
-  :config
-  (ligature-set-ligatures 'prog-mode ligatures-JetBrainsMono)
-  (global-ligature-mode t))
+(set-face-attribute 'variable-pitch nil :font "FreeSans" :height efs/default-variable-font-size)
 
 ;; Prettify greek letters
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
@@ -524,9 +497,9 @@ I also want to be able to display emojis.
 #+BEGIN_SRC emacs-lisp
 (require 'emojify)
 (add-hook 'after-init-hook #'global-emojify-mode)
-(when (member "Segoe UI Emoji" (font-family-list))
+(when (member "Apple Color Emoji" (font-family-list))
   (set-fontset-font
-    t 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend))
+    t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
 #+END_SRC
 
 ** Themes
@@ -537,12 +510,12 @@ I really like the doom-themes, so I'll get those. I also want to be able to cycl
 ;; Set theme
 (load-theme 'doom-nord)
 
+(require 'cycle-themes)
+(cycle-themes-mode)
+
 ;; Cycle through themes
 (setq cycle-themes-theme-list
       '(doom-nord doom-miramare doom-flatwhite doom-nord-light doom-nord-aurora doom-opera))
-
-(require 'cycle-themes)
-(cycle-themes-mode)
 
 ;; Change colour of fringes to match
 (add-hook 'cycle-themes-after-cycle-hook
@@ -589,14 +562,15 @@ point it to my own image, but the ='logo= banner is also really nice.
 (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
 (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
 (dashboard-setup-startup-hook)
-(setq dashboard-startup-banner    "~/.emacs.d/images/gnu-colour.png"
-      dashboard-banner-logo-title "Welcome home! 🌱"
-      dashboard-center-content    t
-      dashboard-set-footer        nil
-      dashboard-page-separator    "\n\n\n"
-      dashboard-items '((projects . 5)
-                        (recents  . 10)
-                        (agenda   . 5)))
+(setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
+      dashboard-image-banner-max-width 200
+      dashboard-banner-logo-title      "Welcome back!"
+      dashboard-center-content         t
+      dashboard-set-footer             nil
+      dashboard-page-separator         "\n\n\n"
+      dashboard-items '((projects     . 5)
+                        (recents      . 10)
+                        (agenda       . 5)))
 #+END_SRC
 
 ** Olivetti
