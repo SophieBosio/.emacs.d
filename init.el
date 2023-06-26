@@ -144,7 +144,6 @@ tangled, and the tangled file is compiled."
 
 (setq-default tab-width 4                       ;; Smaller tabs
               fill-column 79                    ;; Maximum line width
-              indent-tabs-mode nil              ;; Use spaces instead of tabs
               split-width-threshold 160         ;; Split vertically by default
               split-height-threshold nil        ;; Split vertically by default
               frame-resize-pixelwise t          ;; Fine-grained frame resize
@@ -185,44 +184,16 @@ tangled, and the tangled file is compiled."
 
 (setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
 
-;; Create a variable for our preferred tab width
-(setq custom-tab-width 2)
+(defun infer-indentation-style ()
+  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
+  ;; neither, we use the current indent-tabs-mode
+  (let ((space-count (how-many "^  " (point-min) (point-max)))
+        (tab-count (how-many "^\t" (point-min) (point-max))))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
-;; Two callable functions for enabling/disabling tabs in Emacs
-(defun disable-tabs () (setq indent-tabs-mode nil))
-(defun enable-tabs  ()
-  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
-  (setq indent-tabs-mode t)
-  (setq tab-width custom-tab-width))
-
-;; Hooks to Enable Tabs
-(add-hook 'prog-mode-hook 'enable-tabs)
-;; Hooks to Disable Tabs
-(add-hook 'lisp-mode-hook 'disable-tabs)
-(add-hook 'emacs-lisp-mode-hook 'disable-tabs)
-
-;; Language-Specific Tweaks
-(setq-default python-indent-offset custom-tab-width) ;; Python
-(setq-default js-indent-level custom-tab-width)      ;; Javascript
-
-;; Making electric-indent behave sanely
-;; (setq-default electric-indent-inhibit t)
-
-;; Inhibit electric indent mode when changing to new major mode
-(add-hook 'after-change-major-mode-hook (lambda() (electric-indent-mode -1)))
-
-;; Make the backspace properly erase the tab instead of
-;; removing 1 space at a time.
-(setq backward-delete-char-untabify-method 'hungry)
-
-;;Visualize tabs as a pipe character - "|"
-;; This will also show trailing characters as they are useful to spot.
-(setq whitespace-style '(face tabs tab-mark trailing))
-(custom-set-faces
- '(whitespace-tab ((t (:foreground "#636363")))))
-(setq whitespace-display-mappings
-  '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
-(global-whitespace-mode) ; Enable whitespace mode everywhere
+(setq indent-tabs-mode nil)
+(infer-indentation-style)
 
 (defun custom/backward-kill-word ()
   "Remove all whitespace if the character behind the cursor is whitespace,
@@ -277,19 +248,41 @@ Don't kill, just delete."
 (add-hook
    'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
-(defvar efs/default-font-size          115)   ;; Define default font size
-(defvar efs/default-variable-font-size 115)   ;; Define default variable-pitch font size
+(defvar efs/default-font-size          110)   ;; Define default font size
+(defvar efs/default-variable-font-size 110)   ;; Define default variable-pitch font size
 
-(set-face-attribute 'default nil :font "Roboto Mono" :height efs/default-font-size)
-(set-face-attribute 'fixed-pitch nil :font "Roboto Mono" :height efs/default-font-size)
+(set-face-attribute 'default nil :font "Roboto Mono Book" :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil :font "Roboto Mono Book" :height efs/default-font-size)
 (set-face-attribute 'variable-pitch nil :font "FreeSans" :height efs/default-variable-font-size)
 
 ;; Prettify greek letters
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
-                                       ("delta" . ?Δ)
-                                       ("gamma" . ?Γ)
-                                       ("phi" . ?φ)
-                                       ("psi" . ?ψ)))
+                                       ("delta"  . ?Δ)
+                                       ("gamma"  . ?Γ)
+                                       ("phi"    . ?φ)
+                                       ("psi"    . ?ψ)))
+
+(require 'ligature)
+
+(defvar ligatures '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                    ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                    "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                    "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                    "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                    "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                    "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                    "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                    ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                    "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                    "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                    "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                    "\\\\" "://"))
+
+;; Enable all Cascadia Code ligatures in programming modes
+(ligature-set-ligatures 'prog-mode ligatures)
+;; Enables ligature checks globally in all buffers. You can also do it
+;; per mode with `ligature-mode'.
+(global-ligature-mode t)
 
 (require 'emojify)
 (add-hook 'after-init-hook #'global-emojify-mode)

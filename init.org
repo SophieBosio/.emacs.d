@@ -274,7 +274,6 @@ Some variables are buffer-local, so to change them globally, we need to use =set
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width 4                       ;; Smaller tabs
               fill-column 79                    ;; Maximum line width
-              indent-tabs-mode nil              ;; Use spaces instead of tabs
               split-width-threshold 160         ;; Split vertically by default
               split-height-threshold nil        ;; Split vertically by default
               frame-resize-pixelwise t          ;; Fine-grained frame resize
@@ -325,6 +324,8 @@ And finally, I want scrolling to be a *lot* slower.
 
 Some of these, I can't argue are "sane" in general - but they're what I want.
 
+*** Appearance
+
 I want a small border around the whole frame, because I think it looks nicer.
 
 #+BEGIN_SRC emacs-lisp
@@ -338,6 +339,8 @@ And when I open Emacs, I want it to open maximised and fullscreen by default.
 (add-to-list 'default-frame-alist     '(fullscreen . maximized))
 (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
+
+*** Auto-Saving
 
 I prefer having my files save automatically. Any changes I don't want, I just don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all buffers, not just the ones I have open.
 
@@ -354,9 +357,29 @@ Therefore, I'll disable automatic saving for this file in particular.
 (setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
 #+END_SRC
 
-One of the things that drove me the most insane when I first downloaded Emacs, was the way it deals with indentation. Specifically, how electric indent would indent regions when I entered a newline, and how adding/deleting tabs worked unexpectedly.
+*** Tabs/Indentation
 
-#+BEGIN_SRC emacs-lisp
+One of the things that drove me the most insane when I first downloaded Emacs,
+was the way it deals with indentation.
+
+I want to use spaces instead of tabs. But if I'm working on a project that does
+use tabs, I don't want to mess with other people's code, so I've used this
+[[https://www.emacswiki.org/emacs/NoTabs][snippet]] from the Emacs Wiki to infer indentation style.
+
+#+begin_src emacs-lisp
+(defun infer-indentation-style ()
+  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
+  ;; neither, we use the current indent-tabs-mode
+  (let ((space-count (how-many "^  " (point-min) (point-max)))
+        (tab-count (how-many "^\t" (point-min) (point-max))))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+
+(setq indent-tabs-mode nil)
+(infer-indentation-style)
+#+end_src
+
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Create a variable for our preferred tab width
 (setq custom-tab-width 2)
 
@@ -397,6 +420,8 @@ One of the things that drove me the most insane when I first downloaded Emacs, w
 (global-whitespace-mode) ; Enable whitespace mode everywhere
 #+END_SRC
 
+*** Deleting vs Killing
+
 Another thing that bothered me, was how the =backward-kill-word= command (C-delete/backspace) would delete not only trailing backspaces, but everything behind it until it had deleted a word. Additionally, this was automatically added to the kill ring. With this code, it behaves more like normal Ctrl-Backspace.
 
 #+BEGIN_SRC emacs-lisp
@@ -422,6 +447,8 @@ Don't kill, just delete."
   (delete-region (point) (progn (backward-word arg) (point))))
 (global-set-key [C-backspace] 'custom/backward-kill-word)
 #+END_SRC
+
+*** Utilities
 
 And finally, I want to use =ripgrep= as =grep=.
 
@@ -474,23 +501,52 @@ And I do want line numbers, but only in programming modes.
 
 ** Fonts
 
-I want my font to look big enough on my laptop screen, and I also want font prettified greek letters.
+I want my font to look big enough on my laptop screen, and I also want font
+prettified greek letters.
 
 #+BEGIN_SRC emacs-lisp
-(defvar efs/default-font-size          115)   ;; Define default font size
-(defvar efs/default-variable-font-size 115)   ;; Define default variable-pitch font size
+(defvar efs/default-font-size          110)   ;; Define default font size
+(defvar efs/default-variable-font-size 110)   ;; Define default variable-pitch font size
 
-(set-face-attribute 'default nil :font "Roboto Mono" :height efs/default-font-size)
-(set-face-attribute 'fixed-pitch nil :font "Roboto Mono" :height efs/default-font-size)
+(set-face-attribute 'default nil :font "Roboto Mono Book" :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil :font "Roboto Mono Book" :height efs/default-font-size)
 (set-face-attribute 'variable-pitch nil :font "FreeSans" :height efs/default-variable-font-size)
 
 ;; Prettify greek letters
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
-                                       ("delta" . ?Δ)
-                                       ("gamma" . ?Γ)
-                                       ("phi" . ?φ)
-                                       ("psi" . ?ψ)))
+                                       ("delta"  . ?Δ)
+                                       ("gamma"  . ?Γ)
+                                       ("phi"    . ?φ)
+                                       ("psi"    . ?ψ)))
 #+END_SRC
+
+The package =ligature.el= provides support for displaying the ligatures of
+fonts that already have ligatures. Mine does, and seems to work just fine out
+of the box with the ligatures defined on the package's page,
+
+#+begin_src emacs-lisp
+(require 'ligature)
+
+(defvar ligatures '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                    ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                    "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                    "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                    "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                    "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                    "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                    "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                    ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                    "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                    "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                    "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                    "\\\\" "://"))
+
+;; Enable all Cascadia Code ligatures in programming modes
+(ligature-set-ligatures 'prog-mode ligatures)
+;; Enables ligature checks globally in all buffers. You can also do it
+;; per mode with `ligature-mode'.
+(global-ligature-mode t)
+#+end_src
 
 I also want to be able to display emojis.
 
