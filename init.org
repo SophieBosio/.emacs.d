@@ -594,16 +594,6 @@ I really like Nicolas Rougiers [[https://github.com/rougier/nano-modeline][Nano 
       nano-modeline-prefix-padding t)       ;; Padding between prefix and text
 #+end_src
 
-** TODO Eat / vterm
-
-=eat= (Emulate A Terminal) is a terminal emulator from the Non-GNU archive, so
-make sure you have that in your package archives!
-
-#+BEGIN_SRC emacs-lisp
-;; For `eat-eshell-visual-command-mode'.
-;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-#+END_SRC
-
 ** Dashboard
 
 It's perfectly fine to just land in the scratch buffer. I think it's practical

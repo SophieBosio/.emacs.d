@@ -314,9 +314,6 @@ Don't kill, just delete."
       nano-modeline-prefix         'status  ;; I want icons, not RW/RO signifiers
       nano-modeline-prefix-padding t)       ;; Padding between prefix and text
 
-;; For `eat-eshell-visual-command-mode'.
-;; (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-
 (require 'dashboard)
 (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
 (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
