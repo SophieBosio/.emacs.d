@@ -125,8 +125,6 @@ Set UFT-8 as preferred coding system.
 
 ** Packages
 
-*** TODO Consider using use-package, elpaca or straight
-
 To manage downloaded packages, Emacs comes with =package.el= installed. First, we'll need to initalise that, and then I'll set elpa, melpa, and melpa stable as package sources. These are very common and well-maintained mirrors.
 
 #+BEGIN_SRC emacs-lisp
@@ -153,75 +151,77 @@ We also want to make sure packages are automatically installed and updated. The 
 
 #+BEGIN_SRC emacs-lisp
   (let* ((package--builtins nil)
-     (packages
-      '(all-the-icons        ; Icon pack for pretty displays
-        async                ; Async library
-        auctex               ; Integrated environment for *TeX*
-        auto-compile         ; automatically compile Emacs Lisp libraries
-        auto-save-buffers-enhanced
-        chatgpt-shell        ; Interaction mode for ChatGPT
-        cider                ; Clojure Interactive Development Environment
-        clj-refactor         ; Commands for refactoring Clojure code
-        company              ; Modular text completion framework
-        counsel              ; Various completion functions using Ivy
-        counsel-projectile   ; Ivy integration for Projectile
-        cycle-themes         ; Cycle through list of themes
-        dashboard            ; A startup screen extracted from Spacemacs
-        define-word          ; display the definition of word at point
-        diff-hl              ; Highlight uncommitted changes using VC
-        direnv               ; direnv integration
-        doom-themes          ; An opinionated pack of modern color-themes
-        doom-modeline        ; Mode line used in Doom Emacs
-        editorconfig         ; EditorConfig Emacs Plugin
-        emojify              ; Display and insert emojis
-        evil-nerd-commenter  ; Language-specific commenting
-        focus                ; Dim surrounding font colour to focus on region
-        golden-ratio         ; Automatic resizing windows to golden ratio
-        haskell-mode         ; A Haskell editing mode
-        helpful              ; Easy-to-read docs that work with Counsel
-        ivy                  ; Incremental Vertical completYon
-        ivy-posframe         ; Using posframe to show Ivy
-        ivy-fuz              ; Fuzzy searching with Ivy and fuz
-        ivy-prescient        ; Sort and filter Ivy candidates
-        ivy-rich             ; Friendly display transformer for Ivy
-        jedi                 ; Python auto-completion for Emacs
-        js2-mode             ; Improved JavaScript editing mode
-        json                 ; JSON file format
-        ligature             ; Font ligatures for Emacs
-        lua-mode             ; Major-mode for editing Lua scripts
-        magit                ; Control Git from Emacs
-        markdown-mode        ; Emacs Major mode for Markdown-formatted files
-        maude-mode           ; Emacs mode for the programming language Maude
-        multiple-cursors     ; Multiple cursors for Emacs
-        nano-modeline        ; N Λ N O modeline
-        nano-theme           ; N Λ N O theme
-        nerd-icons           ; Nerdy icons for every occasion
-        ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
-        olivetti             ; Minor mode for a nice writing environment
-        org                  ; Outline-based notes management and organizer
-        org-bullets          ; Show bullets in org-mode as UTF-8 characters
-        org-msg              ; Org mode to send and reply to email in HTML
-        ox-gfm               ; Export Github Flavored Markdown from Org
-        ox-hugo              ; Export to Blackfriday markdown, for Hugo sites
-        paredit              ; minor mode for editing parentheses
-        pdf-tools            ; Emacs support library for PDF files
-        projectile           ; Manage and navigate projects in Emacs easily
-        proof-general        ; A generic Emacs interface for proof assistants
-        racket-mode          ; Major mode for Racket language
-        rainbow-delimiters   ; Coloured bracket pairs
-        slime                ; Superior Lisp Interaction Mode for Emacs
-        smex                 ; M-x interface with Ido-style fuzzy matching
-        svg-tag-mode         ; Display beautified SVG tags
-        treemacs             ; Interactive file tree
-        try                  ; Try out Emacs packages
-        visual-fill-column   ; Center text
-        vterm                ; A terminal via libvterm
-        which-key)))         ; Display available keybindings in popup
-    (let ((packages (seq-remove 'package-installed-p packages)))
-      (when packages
-    ;; Install uninstalled packages
-    (package-refresh-contents)
-    (mapc 'package-install packages))))
+	 (packages
+	  '(all-the-icons        ; Icon pack for pretty displays
+		async                ; Async library
+		auctex               ; Integrated environment for *TeX*
+		auto-compile         ; Automatically compile Emacs Lisp libraries
+		auto-save-buffers-enhanced ; Auto-save buffers on change
+		chatgpt-shell        ; Interaction mode for ChatGPT
+		cider                ; Clojure Interactive Development Environment
+		clj-refactor         ; Commands for refactoring Clojure code
+		company              ; Modular text completion framework
+		counsel              ; Various completion functions using Ivy
+		consult              ; Completion, navigation and search with Vertico
+		counsel-projectile   ; Ivy integration for Projectile
+		cycle-themes         ; Cycle through list of themes
+		dashboard            ; A startup screen extracted from Spacemacs
+		define-word          ; display the definition of word at point
+		diff-hl              ; Highlight uncommitted changes using VC
+		direnv               ; direnv integration
+		doom-themes          ; An opinionated pack of modern color-themes
+		doom-modeline        ; Mode line used in Doom Emacs
+		editorconfig         ; EditorConfig Emacs Plugin
+		emojify              ; Display and insert emojis
+		evil-nerd-commenter  ; Language-specific commenting
+		focus                ; Dim surrounding font colour to focus on region
+		golden-ratio         ; Automatic resizing windows to golden ratio
+		haskell-mode         ; A Haskell editing mode
+		helpful              ; Easy-to-read docs that work with Counsel
+		ivy                  ; Incremental Vertical completYon
+		ivy-posframe         ; Using posframe to show Ivy
+		ivy-fuz              ; Fuzzy searching with Ivy and fuz
+		ivy-prescient        ; Sort and filter Ivy candidates
+		ivy-rich             ; Friendly display transformer for Ivy
+		jedi                 ; Python auto-completion for Emacs
+		js2-mode             ; Improved JavaScript editing mode
+		json                 ; JSON file format
+		ligature             ; Font ligatures for Emacs
+		lua-mode             ; Major-mode for editing Lua scripts
+		magit                ; Control Git from Emacs
+		markdown-mode        ; Emacs Major mode for Markdown-formatted files
+		multiple-cursors     ; Multiple cursors for Emacs
+		nano-modeline        ; N Λ N O modeline
+		nano-theme           ; N Λ N O theme
+		nerd-icons           ; Nerdy icons for every occasion
+		ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
+		olivetti             ; Minor mode for a nice writing environment
+		org                  ; Outline-based notes management and organizer
+		org-bullets          ; Show bullets in org-mode as UTF-8 characters
+		org-msg              ; Org mode to send and reply to email in HTML
+		ox-gfm               ; Export Github Flavored Markdown from Org
+		ox-hugo              ; Export to Blackfriday markdown, for Hugo sites
+		paredit              ; minor mode for editing parentheses
+		pdf-tools            ; Emacs support library for PDF files
+		projectile           ; Manage and navigate projects in Emacs easily
+		proof-general        ; A generic Emacs interface for proof assistants
+		racket-mode          ; Major mode for Racket language
+		rainbow-delimiters   ; Coloured bracket pairs
+		slime                ; Superior Lisp Interaction Mode for Emacs
+		smex                 ; M-x interface with Ido-style fuzzy matching
+		svg-tag-mode         ; Display beautified SVG tags
+		treemacs             ; Interactive file tree
+		try                  ; Try out Emacs packages
+		vertico              ; VERTical Interactive COmpletion
+		vertico-posframe     ; Separate frame for Vertico minibuffer
+		visual-fill-column   ; Center text
+		vterm                ; A terminal via libvterm
+		which-key)))         ; Display available keybindings in popup
+	(let ((packages (seq-remove 'package-installed-p packages)))
+	  (when packages
+	;; Install uninstalled packages
+	(package-refresh-contents)
+	(mapc 'package-install packages))))
 #+END_SRC
 
 I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-extensions".
@@ -379,6 +379,18 @@ use tabs, I don't want to mess with other people's code, so I've used this
 (infer-indentation-style)
 #+end_src
 
+I want to disable electric indent mode when switching to a new major mode.
+
+#+begin_src emacs-lisp
+(add-hook 'after-change-major-mode-hook (lambda() (electric-indent-mode -1)))
+#+end_src
+
+Make backspace remove the whole tab instead of just deleting one space.
+
+#+begin_src emacs-lisp
+(setq backward-delete-char-untabify-method 'hungry)
+#+end_src
+
 #+BEGIN_SRC emacs-lisp :tangle no
 ;; Create a variable for our preferred tab width
 (setq custom-tab-width 2)
@@ -505,8 +517,8 @@ I want my font to look big enough on my laptop screen, and I also want font
 prettified greek letters.
 
 #+BEGIN_SRC emacs-lisp
-(defvar efs/default-font-size          110)   ;; Define default font size
-(defvar efs/default-variable-font-size 110)   ;; Define default variable-pitch font size
+(defvar efs/default-font-size          108)   ;; Define default font size
+(defvar efs/default-variable-font-size 108)   ;; Define default variable-pitch font size
 
 (set-face-attribute 'default nil :font "Roboto Mono Book" :height efs/default-font-size)
 (set-face-attribute 'fixed-pitch nil :font "Roboto Mono Book" :height efs/default-font-size)
@@ -609,7 +621,7 @@ point it to my own image, but the ='logo= banner is also really nice.
 (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
 (dashboard-setup-startup-hook)
 (setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
-      dashboard-image-banner-max-width 200
+      dashboard-image-banner-max-width 100
       dashboard-banner-logo-title      "Welcome back!"
       dashboard-center-content         t
       dashboard-set-footer             nil
@@ -646,14 +658,58 @@ However, it takes a long time to load, so we'll wait to load it until we try to 
           (lambda () (setq header-line-format nil)))
 #+END_SRC	  
 
-** Ivy
+** Completion
 
-*** TODO Consider trying out Vertico + Consult + Orderless + Embark + Marginalia +
-Corfu instead of Ivy.
+For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite of compatible extensions, including:
+
+- [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
+- [[https://github.com/minad/consult][Consult]]
+- [[https://github.com/minad/marginalia][Marginalia]]
+- Corfu
+
+Let's start by configuring Vertico.
+
+#+begin_src emacs-lisp
+(vertico-mode 1)
+(setq vertico-count 25                       ; Show more candidates
+    ; Hide unavailable commands
+    read-extended-command-predicate 'command-completion-default-include-p
+    read-file-name-completion-ignore-case t  ; Ignore case of file names
+    read-buffer-completion-ignore-case t     ; Ignore case in buffer completion
+    completion-ignore-case t                 ; Ignore case in completion
+)
+#+end_src
+
+Next, I want Vertico to appear in a small child frame, instead of as a
+traditional minibuffer.
+
+#+begin_src emacs-lisp
+(require 'vertico-posframe)
+(vertico-posframe-mode 1)
+(setq vertico-posframe-width 100)
+#+end_src
+
+Consult provides a /ton/ of search, navigation, and completion functionality. I
+would definitely recommend looking at the documentation to learn more about all
+that it can do. I haven't explored it enough to add it permanently yet, but
+will in the future.
+
+Marginalia gives me annotations in the minibuffer.
+
+#+begin_src emacs-lisp
+(require 'marginalia)
+(marginalia-mode 1)
+#+end_src
+
+*** Old Ivy Setup
+
+*Note* that this configuration is not set to tangle - i.e., it's not part of my
+current config. I've left it here for easy access while tweaking my Vertico &
+Friends config.
 
 Ivy is a package for "Incremental Vertical completYon", giving you fuzzy completion suggestions in the minibuffer.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (setq ivy-wrap t                         ;; Scrolling up brings me to last cand.
       ivy-height 25                      ;; Make Ivy taller
       ivy-use-virtual-buffers t          ;; C-x b displays recents and bookmarks
@@ -665,7 +721,7 @@ Ivy is a package for "Incremental Vertical completYon", giving you fuzzy complet
 
 Since it's so widely used, Ivy also integrates nicely with a host of other packages and extensions. Two really nice ones are Counsel, which replaces Emacs commands with Ivy-specific ones, and Swiper, which uses Ivy to display search results.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (require 'counsel)
 (setq enable-recursive-minibuffers t
       search-default-mode #'char-fold-to-regexp)
@@ -690,7 +746,7 @@ Since it's so widely used, Ivy also integrates nicely with a host of other packa
 
 I also want to display the minibuffer as a separate child frame with =ivy-posframe=, fuzzy search with =ivy-fuz=, sorting and filtering of candidates with =ivy-prescient=, and =ivy-rich= is a display transformer making Ivy easier on the eyes. I have commented out =ivy-rich=, because it interacts poorly with =ivy-posframe= at the size that I like to keep the minibuffer.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Posframe, to display minibuffer as a child frame
 (require 'ivy-posframe)
 (setq ivy-posframe-display-functions-alist '(

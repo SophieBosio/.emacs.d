@@ -46,71 +46,73 @@ tangled, and the tangled file is compiled."
 
 (let* ((package--builtins nil)
    (packages
-    '(all-the-icons        ; Icon pack for pretty displays
-      async                ; Async library
-      auctex               ; Integrated environment for *TeX*
-      auto-compile         ; automatically compile Emacs Lisp libraries
-      auto-save-buffers-enhanced
-      chatgpt-shell        ; Interaction mode for ChatGPT
-      cider                ; Clojure Interactive Development Environment
-      clj-refactor         ; Commands for refactoring Clojure code
-      company              ; Modular text completion framework
-      counsel              ; Various completion functions using Ivy
-      counsel-projectile   ; Ivy integration for Projectile
-      cycle-themes         ; Cycle through list of themes
-      dashboard            ; A startup screen extracted from Spacemacs
-      define-word          ; display the definition of word at point
-      diff-hl              ; Highlight uncommitted changes using VC
-      direnv               ; direnv integration
-      doom-themes          ; An opinionated pack of modern color-themes
-      doom-modeline        ; Mode line used in Doom Emacs
-      editorconfig         ; EditorConfig Emacs Plugin
-      emojify              ; Display and insert emojis
-      evil-nerd-commenter  ; Language-specific commenting
-      focus                ; Dim surrounding font colour to focus on region
-      golden-ratio         ; Automatic resizing windows to golden ratio
-      haskell-mode         ; A Haskell editing mode
-      helpful              ; Easy-to-read docs that work with Counsel
-      ivy                  ; Incremental Vertical completYon
-      ivy-posframe         ; Using posframe to show Ivy
-      ivy-fuz              ; Fuzzy searching with Ivy and fuz
-      ivy-prescient        ; Sort and filter Ivy candidates
-      ivy-rich             ; Friendly display transformer for Ivy
-      jedi                 ; Python auto-completion for Emacs
-      js2-mode             ; Improved JavaScript editing mode
-      json                 ; JSON file format
-      ligature             ; Font ligatures for Emacs
-      lua-mode             ; Major-mode for editing Lua scripts
-      magit                ; Control Git from Emacs
-      markdown-mode        ; Emacs Major mode for Markdown-formatted files
-      maude-mode           ; Emacs mode for the programming language Maude
-      multiple-cursors     ; Multiple cursors for Emacs
-      nano-modeline        ; N Λ N O modeline
-      nano-theme           ; N Λ N O theme
-      nerd-icons           ; Nerdy icons for every occasion
-      ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
-      olivetti             ; Minor mode for a nice writing environment
-      org                  ; Outline-based notes management and organizer
-      org-bullets          ; Show bullets in org-mode as UTF-8 characters
-      org-msg              ; Org mode to send and reply to email in HTML
-      ox-gfm               ; Export Github Flavored Markdown from Org
-      ox-hugo              ; Export to Blackfriday markdown, for Hugo sites
-      paredit              ; minor mode for editing parentheses
-      pdf-tools            ; Emacs support library for PDF files
-      projectile           ; Manage and navigate projects in Emacs easily
-      proof-general        ; A generic Emacs interface for proof assistants
-      racket-mode          ; Major mode for Racket language
-      rainbow-delimiters   ; Coloured bracket pairs
-      slime                ; Superior Lisp Interaction Mode for Emacs
-      smex                 ; M-x interface with Ido-style fuzzy matching
-      svg-tag-mode         ; Display beautified SVG tags
-      treemacs             ; Interactive file tree
-      try                  ; Try out Emacs packages
-      visual-fill-column   ; Center text
-      vterm                ; A terminal via libvterm
-      which-key)))         ; Display available keybindings in popup
+	'(all-the-icons        ; Icon pack for pretty displays
+	  async                ; Async library
+	  auctex               ; Integrated environment for *TeX*
+	  auto-compile         ; Automatically compile Emacs Lisp libraries
+	  auto-save-buffers-enhanced ; Auto-save buffers on change
+	  chatgpt-shell        ; Interaction mode for ChatGPT
+	  cider                ; Clojure Interactive Development Environment
+	  clj-refactor         ; Commands for refactoring Clojure code
+	  company              ; Modular text completion framework
+	  counsel              ; Various completion functions using Ivy
+	  consult              ; Completion, navigation and search with Vertico
+	  counsel-projectile   ; Ivy integration for Projectile
+	  cycle-themes         ; Cycle through list of themes
+	  dashboard            ; A startup screen extracted from Spacemacs
+	  define-word          ; display the definition of word at point
+	  diff-hl              ; Highlight uncommitted changes using VC
+	  direnv               ; direnv integration
+	  doom-themes          ; An opinionated pack of modern color-themes
+	  doom-modeline        ; Mode line used in Doom Emacs
+	  editorconfig         ; EditorConfig Emacs Plugin
+	  emojify              ; Display and insert emojis
+	  evil-nerd-commenter  ; Language-specific commenting
+	  focus                ; Dim surrounding font colour to focus on region
+	  golden-ratio         ; Automatic resizing windows to golden ratio
+	  haskell-mode         ; A Haskell editing mode
+	  helpful              ; Easy-to-read docs that work with Counsel
+	  ivy                  ; Incremental Vertical completYon
+	  ivy-posframe         ; Using posframe to show Ivy
+	  ivy-fuz              ; Fuzzy searching with Ivy and fuz
+	  ivy-prescient        ; Sort and filter Ivy candidates
+	  ivy-rich             ; Friendly display transformer for Ivy
+	  jedi                 ; Python auto-completion for Emacs
+	  js2-mode             ; Improved JavaScript editing mode
+	  json                 ; JSON file format
+	  ligature             ; Font ligatures for Emacs
+	  lua-mode             ; Major-mode for editing Lua scripts
+	  magit                ; Control Git from Emacs
+	  markdown-mode        ; Emacs Major mode for Markdown-formatted files
+	  multiple-cursors     ; Multiple cursors for Emacs
+	  nano-modeline        ; N Λ N O modeline
+	  nano-theme           ; N Λ N O theme
+	  nerd-icons           ; Nerdy icons for every occasion
+	  ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
+	  olivetti             ; Minor mode for a nice writing environment
+	  org                  ; Outline-based notes management and organizer
+	  org-bullets          ; Show bullets in org-mode as UTF-8 characters
+	  org-msg              ; Org mode to send and reply to email in HTML
+	  ox-gfm               ; Export Github Flavored Markdown from Org
+	  ox-hugo              ; Export to Blackfriday markdown, for Hugo sites
+	  paredit              ; minor mode for editing parentheses
+	  pdf-tools            ; Emacs support library for PDF files
+	  projectile           ; Manage and navigate projects in Emacs easily
+	  proof-general        ; A generic Emacs interface for proof assistants
+	  racket-mode          ; Major mode for Racket language
+	  rainbow-delimiters   ; Coloured bracket pairs
+	  slime                ; Superior Lisp Interaction Mode for Emacs
+	  smex                 ; M-x interface with Ido-style fuzzy matching
+	  svg-tag-mode         ; Display beautified SVG tags
+	  treemacs             ; Interactive file tree
+	  try                  ; Try out Emacs packages
+	  vertico              ; VERTical Interactive COmpletion
+	  vertico-posframe     ; Separate frame for Vertico minibuffer
+	  visual-fill-column   ; Center text
+	  vterm                ; A terminal via libvterm
+	  which-key)))         ; Display available keybindings in popup
   (let ((packages (seq-remove 'package-installed-p packages)))
-    (when packages
+	(when packages
   ;; Install uninstalled packages
   (package-refresh-contents)
   (mapc 'package-install packages))))
@@ -195,6 +197,10 @@ tangled, and the tangled file is compiled."
 (setq indent-tabs-mode nil)
 (infer-indentation-style)
 
+(add-hook 'after-change-major-mode-hook (lambda() (electric-indent-mode -1)))
+
+(setq backward-delete-char-untabify-method 'hungry)
+
 (defun custom/backward-kill-word ()
   "Remove all whitespace if the character behind the cursor is whitespace,
    otherwise remove a word."
@@ -248,8 +254,8 @@ Don't kill, just delete."
 (add-hook
    'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
-(defvar efs/default-font-size          110)   ;; Define default font size
-(defvar efs/default-variable-font-size 110)   ;; Define default variable-pitch font size
+(defvar efs/default-font-size          108)   ;; Define default font size
+(defvar efs/default-variable-font-size 108)   ;; Define default variable-pitch font size
 
 (set-face-attribute 'default nil :font "Roboto Mono Book" :height efs/default-font-size)
 (set-face-attribute 'fixed-pitch nil :font "Roboto Mono Book" :height efs/default-font-size)
@@ -319,7 +325,7 @@ Don't kill, just delete."
 (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
 (dashboard-setup-startup-hook)
 (setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
-      dashboard-image-banner-max-width 200
+      dashboard-image-banner-max-width 100
       dashboard-banner-logo-title      "Welcome back!"
       dashboard-center-content         t
       dashboard-set-footer             nil
@@ -336,62 +342,21 @@ Don't kill, just delete."
 (add-hook 'pdf-view-mode-hook
           (lambda () (setq header-line-format nil)))
 
-(setq ivy-wrap t                         ;; Scrolling up brings me to last cand.
-      ivy-height 25                      ;; Make Ivy taller
-      ivy-use-virtual-buffers t          ;; C-x b displays recents and bookmarks
-      ivy-on-del-error-function 'ignore  ;; Let me hold in backspace
-      ivy-virtual-abbreviate 'abbreviate ;; Disambiguate same file diff dirs
+(vertico-mode 1)
+(setq vertico-count 25                       ; Show more candidates
+    ; Hide unavailable commands
+    read-extended-command-predicate 'command-completion-default-include-p
+    read-file-name-completion-ignore-case t  ; Ignore case of file names
+    read-buffer-completion-ignore-case t     ; Ignore case in buffer completion
+    completion-ignore-case t                 ; Ignore case in completion
 )
-(ivy-mode 1)
 
-(require 'counsel)
-(setq enable-recursive-minibuffers t
-      search-default-mode #'char-fold-to-regexp)
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+(require 'vertico-posframe)
+(vertico-posframe-mode 1)
+(setq vertico-posframe-width 100)
 
-;; Posframe, to display minibuffer as a child frame
-(require 'ivy-posframe)
-(setq ivy-posframe-display-functions-alist '(
-        (t . ivy-posframe-display)                 ;; Display the posframe
-        (t . ivy-posframe-display-at-frame-center) ;; Display at frame center
-    )
-    ivy-posframe-width 85                          ;; Narrow box
-    ivy-posframe-border-width 0                    ;; No surrounding border
-)
-(ivy-posframe-mode 1)
-
-;; Fuzzy search
-(setq ivy-sort-matches-functions-alist '((t . ivy-fuz-sort-fn)))
-(setq ivy-re-builders-alist '((t . ivy-fuz-regex-fuzzy)))
-(with-eval-after-load 'ivy
-  (require 'ivy-fuz)
-  (add-to-list 'ivy-highlight-functions-alist '(ivy-fuz-regex-fuzzy . ivy-fuz-highlight-fn)))
-
-;; Sorting and filtering candidates
-(with-eval-after-load 'counsel
-    (require' ivy-prescient)
-    (setq ivy-prescient-enable-filtering nil)
-    (ivy-prescient-mode 1))
-
-;; Display transformer for Ivy
-;;(with-eval-after-load 'ivy
-;;    (ivy-rich-mode 1))
+(require 'marginalia)
+(marginalia-mode 1)
 
 (setq counsel-describe-function-function #'helpful-callable  ;; C-h f
       counsel-describe-variable-function #'helpful-variable) ;; C-h v
