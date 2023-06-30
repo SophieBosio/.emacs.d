@@ -12,7 +12,6 @@ tangled, and the tangled file is compiled."
 
 (add-hook 'after-save-hook 'tangle-init)
 
-;; The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
 ;; Set and reset threshold
@@ -58,7 +57,6 @@ tangled, and the tangled file is compiled."
 	  counsel              ; Various completion functions using Ivy
 	  consult              ; Completion, navigation and search with Vertico
 	  counsel-projectile   ; Ivy integration for Projectile
-	  cycle-themes         ; Cycle through list of themes
 	  dashboard            ; A startup screen extracted from Spacemacs
 	  define-word          ; display the definition of word at point
 	  diff-hl              ; Highlight uncommitted changes using VC
@@ -125,6 +123,8 @@ tangled, and the tangled file is compiled."
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+(require 'cl)
 
 (setq inhibit-startup-message      t         ;; No startup message
       initial-scratch-message      nil       ;; Empty scratch buffer
@@ -257,9 +257,14 @@ Don't kill, just delete."
 (defvar efs/default-font-size          108)   ;; Define default font size
 (defvar efs/default-variable-font-size 108)   ;; Define default variable-pitch font size
 
-(set-face-attribute 'default nil :font "Roboto Mono Book" :height efs/default-font-size)
-(set-face-attribute 'fixed-pitch nil :font "Roboto Mono Book" :height efs/default-font-size)
-(set-face-attribute 'variable-pitch nil :font "FreeSans" :height efs/default-variable-font-size)
+(set-face-attribute 'default nil :font "Roboto Mono Book"
+                                 :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil
+                                 :font "Roboto Mono Book"
+                                 :height efs/default-font-size)
+(set-face-attribute 'variable-pitch nil
+                                    :font "FreeSans"
+                                    :height efs/default-variable-font-size)
 
 ;; Prettify greek letters
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
@@ -284,10 +289,7 @@ Don't kill, just delete."
                     "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                     "\\\\" "://"))
 
-;; Enable all Cascadia Code ligatures in programming modes
 (ligature-set-ligatures 'prog-mode ligatures)
-;; Enables ligature checks globally in all buffers. You can also do it
-;; per mode with `ligature-mode'.
 (global-ligature-mode t)
 
 (require 'emojify)
@@ -297,21 +299,21 @@ Don't kill, just delete."
     t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
 
 ;; Set theme
+(require' doom-themes)
 (load-theme 'doom-nord)
 
-(require 'cycle-themes)
-(cycle-themes-mode)
+(defvar favourite-themes '(doom-nord doom-nord-light doom-flatwhite))
 
-;; Cycle through themes
-(setq cycle-themes-theme-list
-      '(doom-nord doom-miramare doom-flatwhite doom-nord-light doom-nord-aurora doom-opera))
-
-;; Change colour of fringes to match
-(add-hook 'cycle-themes-after-cycle-hook
-          #'(lambda ()
-              (dolist (frame (frame-list))
-                (set-face-attribute 'fringe frame
-                   :background (face-background 'default)))))
+(setq theme-index 0)
+(defun cycle-themes ()
+    (interactive)
+    (let* ((theme-list favourite-themes)
+        (next-index (mod (+ theme-index 1) (length theme-list)))
+        (current-theme (nth theme-index theme-list))
+        (next-theme (nth next-index theme-list)))
+        (setq theme-index next-index) ;; set next index
+        (disable-theme current-theme) 
+        (load-theme next-theme)))
 
 (require 'nano-modeline)
 (nano-modeline-mode 1)
@@ -407,9 +409,11 @@ Don't kill, just delete."
 (defvar custom-bindings-map (make-keymap)
   "A keymap for custom bindings.")
 
+(define-key custom-bindings-map (kbd "C-c C-t") 'cycle-themes)
+
 (define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
 
-(define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
+;; (define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
 
 (define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
 (define-key custom-bindings-map (kbd "C-c a") 'org-agenda)

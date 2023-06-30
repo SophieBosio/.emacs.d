@@ -100,7 +100,6 @@ To avoid doing this each time a change is made we can add a function to the =aft
 I want to make some tweaks to improve startup performance. First, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards.
 
 #+BEGIN_SRC emacs-lisp
-;; The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
 ;; Set and reset threshold
@@ -164,7 +163,6 @@ We also want to make sure packages are automatically installed and updated. The 
 		counsel              ; Various completion functions using Ivy
 		consult              ; Completion, navigation and search with Vertico
 		counsel-projectile   ; Ivy integration for Projectile
-		cycle-themes         ; Cycle through list of themes
 		dashboard            ; A startup screen extracted from Spacemacs
 		define-word          ; display the definition of word at point
 		diff-hl              ; Highlight uncommitted changes using VC
@@ -246,6 +244,12 @@ And load custom settings from =custom.el= if it exists.
 I have some defaults that I like to have in my config. Please note that this is
 behaviour that /I/ consider sane, and want in my configuration. You should
 definitely modify these to your tastes!
+
+Always load Common Lisp explictly, as some packages depend on it.
+
+#+begin_src emacs-lisp
+(require 'cl)
+#+end_src
 
 I want to reduce the number of UI elements that I don't use, so I'll remove those and inhibit some default behaviours. I'll also make the scrolling a little smoother.
 
@@ -516,13 +520,22 @@ And I do want line numbers, but only in programming modes.
 I want my font to look big enough on my laptop screen, and I also want font
 prettified greek letters.
 
+I'm using a ligaturised version of Roboto Mono. It's a result of the
+=a-better-ligaturizer= project and the ligaturised font can be found in the
+[[https://github.com/lemeb/a-better-ligaturizer][repo]]. The "Roboto Mono Book" is the variety with the ligatures, so let's use that.
+
 #+BEGIN_SRC emacs-lisp
 (defvar efs/default-font-size          108)   ;; Define default font size
 (defvar efs/default-variable-font-size 108)   ;; Define default variable-pitch font size
 
-(set-face-attribute 'default nil :font "Roboto Mono Book" :height efs/default-font-size)
-(set-face-attribute 'fixed-pitch nil :font "Roboto Mono Book" :height efs/default-font-size)
-(set-face-attribute 'variable-pitch nil :font "FreeSans" :height efs/default-variable-font-size)
+(set-face-attribute 'default nil :font "Roboto Mono Book"
+                                 :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil
+                                 :font "Roboto Mono Book"
+                                 :height efs/default-font-size)
+(set-face-attribute 'variable-pitch nil
+                                    :font "FreeSans"
+                                    :height efs/default-variable-font-size)
 
 ;; Prettify greek letters
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
@@ -553,10 +566,7 @@ of the box with the ligatures defined on the package's page,
                     "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                     "\\\\" "://"))
 
-;; Enable all Cascadia Code ligatures in programming modes
 (ligature-set-ligatures 'prog-mode ligatures)
-;; Enables ligature checks globally in all buffers. You can also do it
-;; per mode with `ligature-mode'.
 (global-ligature-mode t)
 #+end_src
 
@@ -572,26 +582,32 @@ I also want to be able to display emojis.
 
 ** Themes
 
-I really like the doom-themes, so I'll get those. I also want to be able to cycle through themes easily, so I'll use =cycle-themes.el= to do that with their standard keybinding, =C-c C-t=
+I really like the doom-themes, so I'll get those. My favourite for everyday use is the =doom-nord= theme.
 
 #+BEGIN_SRC emacs-lisp
 ;; Set theme
+(require' doom-themes)
 (load-theme 'doom-nord)
-
-(require 'cycle-themes)
-(cycle-themes-mode)
-
-;; Cycle through themes
-(setq cycle-themes-theme-list
-      '(doom-nord doom-miramare doom-flatwhite doom-nord-light doom-nord-aurora doom-opera))
-
-;; Change colour of fringes to match
-(add-hook 'cycle-themes-after-cycle-hook
-          #'(lambda ()
-              (dolist (frame (frame-list))
-                (set-face-attribute 'fringe frame
-                   :background (face-background 'default)))))
 #+END_SRC
+
+To cycle themes, I have borrowed a snippet from user mtekman's comment on [[https://github.com/toroidal-code/cycle-themes.el/issues/5][this
+GitHub issue]], with slight modifications. In the "Keybindings" section, I bind
+the function to =C-c C-t= for easy access.
+
+#+begin_src emacs-lisp
+(defvar favourite-themes '(doom-nord doom-nord-light doom-flatwhite))
+
+(setq theme-index 0)
+(defun cycle-themes ()
+    (interactive)
+    (let* ((theme-list favourite-themes)
+        (next-index (mod (+ theme-index 1) (length theme-list)))
+        (current-theme (nth theme-index theme-list))
+        (next-theme (nth next-index theme-list)))
+        (setq theme-index next-index) ;; set next index
+        (disable-theme current-theme) 
+        (load-theme next-theme)))
+#+end_src
 
 ** Mode Line
 
@@ -922,6 +938,12 @@ the minor mode on startup and mode change.
   "A keymap for custom bindings.")
 #+END_SRC
 
+** Cycle Themes
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-c C-t") 'cycle-themes)
+#+end_src
+
 ** Olivetti
 
 #+BEGIN_SRC emacs-lisp
@@ -931,7 +953,7 @@ the minor mode on startup and mode change.
 ** Treemacs
 
 #+BEGIN_SRC emacs-lisp
-(define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
+;; (define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
 #+END_SRC
 
 ** Org
