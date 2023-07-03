@@ -448,6 +448,9 @@ Don't kill, just delete."
 (global-set-key (kbd "C-c C-d") #'helpful-at-point)          ;; C-c C-d
 (global-set-key (kbd "C-h F")   #'helpful-function)          ;; C-h F
 
+(use-package magit
+  :bind (:map custom-bindings-map ("C-c m" . magit-status)))
+
 (use-package projectile
   :bind (:map custom-bindings-map ("C-c p" . projectile-command-map)))
 

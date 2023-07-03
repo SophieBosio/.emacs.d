@@ -661,7 +661,7 @@ I really like Nicolas Rougiers [[https://github.com/rougier/nano-modeline][Nano 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
 before killing an instance of the terminal, so I'll set it to just kill it.
 
-I also really like some of Lars' vterm functions, so I'll use those as well.
+I also really Lars' [[https://github.com/larstvei/dot-emacs#vterm][vterm functins]], so I'll use those as well.
 They're super handy!
 
 #+begin_src emacs-lisp
@@ -866,7 +866,14 @@ I'll also set some global keybindings that have not already been overwritten.
 
 ** TODO Spelling
 
-** TODO Magit
+** Magit
+
+Magit is a Git client specifically for Emacs, and it's super powerful.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :bind (:map custom-bindings-map ("C-c m" . magit-status)))
+#+end_src
 
 ** Projectile
 
