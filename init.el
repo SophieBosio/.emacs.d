@@ -86,6 +86,7 @@ tangled, and the tangled file is compiled."
 	  nano-modeline        ; N Λ N O modeline
 	  nano-theme           ; N Λ N O theme
 	  nerd-icons           ; Nerdy icons for every occasion
+      obsidian             ; Obsidian note taking integration
 	  ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
 	  olivetti             ; Minor mode for a nice writing environment
 	  org                  ; Outline-based notes management and organizer
@@ -101,6 +102,7 @@ tangled, and the tangled file is compiled."
 	  rainbow-delimiters   ; Coloured bracket pairs
 	  slime                ; Superior Lisp Interaction Mode for Emacs
 	  smex                 ; M-x interface with Ido-style fuzzy matching
+      spacemacs-theme      ; Light and dark theme from Spacemacs
 	  svg-tag-mode         ; Display beautified SVG tags
 	  treemacs             ; Interactive file tree
 	  try                  ; Try out Emacs packages
@@ -257,13 +259,13 @@ Don't kill, just delete."
 (defvar efs/default-font-size          108)   ;; Define default font size
 (defvar efs/default-variable-font-size 108)   ;; Define default variable-pitch font size
 
-(set-face-attribute 'default nil :font "Roboto Mono Book"
-                                 :height efs/default-font-size)
+;;(set-face-attribute 'default nil :font "Roboto Mono Book"
+;;                                 :height efs/default-font-size)
 (set-face-attribute 'fixed-pitch nil
                                  :font "Roboto Mono Book"
                                  :height efs/default-font-size)
 (set-face-attribute 'variable-pitch nil
-                                    :font "FreeSans"
+                                    :font "Inter"
                                     :height efs/default-variable-font-size)
 
 ;; Prettify greek letters
@@ -378,6 +380,8 @@ Don't kill, just delete."
 (require 'org)
 (setq org-log-done t)
 
+(setq org-hide-emphasis-markers t)
+
 ;; Enable text centering and line breaks for Org Mode
 (defun my/org-mode-visual-style ()
   (olivetti-mode 1))
@@ -401,6 +405,33 @@ Don't kill, just delete."
 
 (with-eval-after-load 'ox
   (require 'ox-hugo))
+
+(require 'obsidian)
+(obsidian-specify-path "~/Dropbox/obsidian-personal")
+;; If you want a different directory of `obsidian-capture':
+(setq obsidian-inbox-directory "Inbox")
+
+(add-hook
+ 'obsidian-mode-hook
+ (lambda ()
+   ;; Replace standard command with Obsidian.el's in obsidian vault:
+   (local-set-key (kbd "C-c C-o") 'obsidian-follow-link-at-point)
+
+
+   ;; Use either `obsidian-insert-wikilink' or `obsidian-insert-link':
+   (local-set-key (kbd "C-c C-l") 'obsidian-insert-wikilink)
+
+   ;; Following backlinks
+   (local-set-key (kbd "C-c C-b") 'obsidian-backlink-jump)
+   
+   ;; Jump to another Obsidian note
+   (local-set-key (kbd "C-c C-j") 'obsidian-jump)
+
+   ;; Capture Obsidian note
+   (local-set-key (kbd "C-c C-a") 'obsidian-capture)
+))
+
+(global-obsidian-mode t)
 
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)

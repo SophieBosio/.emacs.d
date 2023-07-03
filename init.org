@@ -192,6 +192,7 @@ We also want to make sure packages are automatically installed and updated. The 
 		nano-modeline        ; N Λ N O modeline
 		nano-theme           ; N Λ N O theme
 		nerd-icons           ; Nerdy icons for every occasion
+        obsidian             ; Obsidian note taking integration
 		ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
 		olivetti             ; Minor mode for a nice writing environment
 		org                  ; Outline-based notes management and organizer
@@ -207,6 +208,7 @@ We also want to make sure packages are automatically installed and updated. The 
 		rainbow-delimiters   ; Coloured bracket pairs
 		slime                ; Superior Lisp Interaction Mode for Emacs
 		smex                 ; M-x interface with Ido-style fuzzy matching
+        spacemacs-theme      ; Light and dark theme from Spacemacs
 		svg-tag-mode         ; Display beautified SVG tags
 		treemacs             ; Interactive file tree
 		try                  ; Try out Emacs packages
@@ -517,6 +519,8 @@ And I do want line numbers, but only in programming modes.
 
 ** Fonts
 
+Note that Org-specific font faces are set in the "Org, Roam & Obsidian" section.
+
 I want my font to look big enough on my laptop screen, and I also want font
 prettified greek letters.
 
@@ -528,13 +532,13 @@ I'm using a ligaturised version of Roboto Mono. It's a result of the
 (defvar efs/default-font-size          108)   ;; Define default font size
 (defvar efs/default-variable-font-size 108)   ;; Define default variable-pitch font size
 
-(set-face-attribute 'default nil :font "Roboto Mono Book"
-                                 :height efs/default-font-size)
+;;(set-face-attribute 'default nil :font "Roboto Mono Book"
+;;                                 :height efs/default-font-size)
 (set-face-attribute 'fixed-pitch nil
                                  :font "Roboto Mono Book"
                                  :height efs/default-font-size)
 (set-face-attribute 'variable-pitch nil
-                                    :font "FreeSans"
+                                    :font "Inter"
                                     :height efs/default-variable-font-size)
 
 ;; Prettify greek letters
@@ -837,13 +841,13 @@ I like being able to view my project as a tree - even better if that tree is
 interactive! I'll bind =C-c C-t= to =treemacs= in the "Keybindings" section.
 
 
-* Org, Roam & Hugo
+* Org, Roam, & Obsidian
 
 ** Org
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
 
-*Please note* that I've set keybindings for Org and Roam in the "Keybindings" section!
+*Note* that I've set keybindings for Org and Roam in the "Keybindings" section.
 
 Let's first make sure we're using Org.
 
@@ -851,6 +855,12 @@ Let's first make sure we're using Org.
 (require 'org)
 (setq org-log-done t)
 #+END_SRC
+
+Hide emphasis markers (forward slash for italics, asterixes for bold, etc.).
+
+#+begin_src emacs-lisp
+(setq org-hide-emphasis-markers t)
+#+end_src
 
 Next, I always want to center the text and enable linebreaks in Org. In general, I want to activate it manually, so I'll make a hook specifically for Org mode.
 
@@ -868,6 +878,11 @@ I'll use the =org-bullets= package to prettify the document headers and lists by
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
+
+Now, let's set some Org-specific fonts. I really like Roboto Mono for
+monospaced text, and for variable pitch text I use Inter.
+
+TODO
 
 *** Get Things Done
 
@@ -895,12 +910,7 @@ Then to set up the relevant capture templates, with accompanying keybindings.
      (org-capture nil "i"))
 #+END_SRC
 
-** TODO Roam
-
-[[https://www.orgroam.com/][Roam]] is a smart note-taking system in the style of a personal knowledge
-management system. It's all in plain-text and uses Org-mode.
-
-** Hugo
+*** Hugo
 
 [[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
 Blackfriday. The package =ox-hugo= can export Org files to this format, and
@@ -911,6 +921,50 @@ easily put it online.
 (with-eval-after-load 'ox
   (require 'ox-hugo))
 #+END_SRC
+
+** TODO Roam
+
+[[https://www.orgroam.com/][Roam]] is a smart note-taking system in the style of a personal knowledge
+management system. It's all in plain-text and uses Org-mode.
+
+** Obsidian
+
+[[https://obsidian.md/][Obsidian]] is a smart note-taking app with similar capabilities to those of Org
+Roam. I've used Obsidian for a long time, but increasingly want to do my work
+in Emacs. So why not just use Roam? Well, Obsidian has a lot of very nice
+graphical features and a large, helpful community dedicated to personal
+knowledge management. Therefore, I still prefer it over Roam, but I would like
+to be able to access and edit my Obsidian notes via Emacs. Enter the
+=obsidian.el= package.
+
+#+begin_src emacs-lisp
+(require 'obsidian)
+(obsidian-specify-path "~/Dropbox/obsidian-personal")
+;; If you want a different directory of `obsidian-capture':
+(setq obsidian-inbox-directory "Inbox")
+
+(add-hook
+ 'obsidian-mode-hook
+ (lambda ()
+   ;; Replace standard command with Obsidian.el's in obsidian vault:
+   (local-set-key (kbd "C-c C-o") 'obsidian-follow-link-at-point)
+
+
+   ;; Use either `obsidian-insert-wikilink' or `obsidian-insert-link':
+   (local-set-key (kbd "C-c C-l") 'obsidian-insert-wikilink)
+
+   ;; Following backlinks
+   (local-set-key (kbd "C-c C-b") 'obsidian-backlink-jump)
+   
+   ;; Jump to another Obsidian note
+   (local-set-key (kbd "C-c C-j") 'obsidian-jump)
+
+   ;; Capture Obsidian note
+   (local-set-key (kbd "C-c C-a") 'obsidian-capture)
+))
+
+(global-obsidian-mode t)
+#+end_src
 
 
 * Programming Modes
