@@ -471,6 +471,20 @@ And finally, I want to use =ripgrep= as =grep=.
       grep-use-null-device nil)
 #+END_SRC
 
+** Custom Keybindings
+
+I keep a custom keybinding map that I add to per package, and then activate at
+the end of the configuration. This keeps my custom bindings from being
+overwritten by extensions' own bindings.
+
+The first step is to create the custom keybinding map. We'll activate it in the
+very last section, "Activating Custom Keybindings".
+
+#+begin_src emacs-lisp
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom keybindings.")
+#+end_src
+
 ** Built-In Minor Modes
 
 There are some default modes I want to disable.
@@ -804,7 +818,14 @@ I'll also set some global keybindings that have not already been overwritten.
 
 ** TODO Magit
 
-** TODO Projectile
+** Projectile
+
+Projectile provides a convenient project interaction interface.
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :bind (:map custom-bindings-map ("C-c p" . projectile-command-map)))
+#+end_src
 
 ** Treemacs
 
@@ -994,12 +1015,18 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 #+END_SRC
 
 
-* Keybindings
+* Activating Custom Keybindings
 
-Since major modes can overwrite my custom keybindings, I have done as Lars in
-his config and as suggested in this Stack Overflow post, and created a custom
-keymap. Then I have a minor mode that just activates the keymap, and I activate
-the minor mode on startup and mode change.
+Throughout the configuration, I've added bindings to my custom-bindings-map.
+The last thing we need to to before we can call it a day, is to define a minor
+mode for it and activate that mode. The below code does just that.
+
+#+begin_src emacs-lisp
+(define-minor-mode custom-bindings-mode
+  "A mode that activates custom keybindings."
+  :init-value t
+  :keymap custom-bindings-map)
+#+end_src
 
 ** Defining the Keymap
 

@@ -228,6 +228,9 @@ Don't kill, just delete."
 (setq grep-command "rg -nS --no-heading "
       grep-use-null-device nil)
 
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom keybindings.")
+
 (dolist (mode
     '(tool-bar-mode        ;; Remove toolbar
       scroll-bar-mode      ;; Remove scollbars
@@ -391,6 +394,9 @@ Don't kill, just delete."
 (global-set-key (kbd "C-c C-d") #'helpful-at-point)          ;; C-c C-d
 (global-set-key (kbd "C-h F")   #'helpful-function)          ;; C-h F
 
+(use-package projectile
+  :bind (:map custom-bindings-map ("C-c p" . projectile-command-map)))
+
 (require 'org)
 
 (setq org-adapt-indentation t
@@ -486,6 +492,11 @@ Don't kill, just delete."
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+
+(define-minor-mode custom-bindings-mode
+  "A mode that activates custom keybindings."
+  :init-value t
+  :keymap custom-bindings-map)
 
 (defvar custom-bindings-map (make-keymap)
   "A keymap for custom bindings.")
