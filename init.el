@@ -359,10 +359,7 @@ Don't kill, just delete."
   (setq vertico-posframe-width 100
         vertico-posframe-height vertico-count))
 
-(use-package consult
-  :bind (:map custom-bindings-map
-              ("C-x b" . consult-buffer)
-              ("C-c r" . consult-ripgrep)))
+(use-package consult)
 
 (use-package marginalia
   :init 
@@ -481,6 +478,10 @@ Don't kill, just delete."
 
 (defvar custom-bindings-map (make-keymap)
   "A keymap for custom bindings.")
+
+(define-key custom-bindings-map (kbd "C-s")     'consult-ripgrep)
+(define-key custom-bindings-map (kbd "C-x b")   'consult-buffer)
+(define-key custom-bindings-map (kbd "C-c C-g") 'consult-goto-line)
 
 (define-key custom-bindings-map (kbd "C-c C-t") 'cycle-themes)
 

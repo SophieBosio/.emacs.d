@@ -723,10 +723,7 @@ would definitely recommend looking at the documentation to learn more about all
 that it can do.
 
 #+begin_src emacs-lisp
-(use-package consult
-  :bind (:map custom-bindings-map
-              ("C-x b" . consult-buffer)
-              ("C-c r" . consult-ripgrep)))
+(use-package consult)
 #+end_src
 
 Marginalia gives me annotations in the minibuffer.
@@ -1052,6 +1049,14 @@ the minor mode on startup and mode change.
 (defvar custom-bindings-map (make-keymap)
   "A keymap for custom bindings.")
 #+END_SRC
+
+** Completion & Navigation 
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-s")     'consult-ripgrep)
+(define-key custom-bindings-map (kbd "C-x b")   'consult-buffer)
+(define-key custom-bindings-map (kbd "C-c C-g") 'consult-goto-line)
+#+end_src
 
 ** Cycle Themes
 
