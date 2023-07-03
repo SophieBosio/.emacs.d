@@ -329,6 +329,50 @@ Don't kill, just delete."
       nano-modeline-prefix         'status  ;; I want icons, not RW/RO signifiers
       nano-modeline-prefix-padding t)       ;; Padding between prefix and text
 
+(use-package vterm
+  :ensure t
+  :defer  t
+  :preface
+  (let ((last-vterm ""))
+    (defun toggle-vterm ()
+      (interactive)
+      (cond ((string-match-p "^\\vterm<[1-9][0-9]*>$" (buffer-name))
+             (goto-non-vterm-buffer))
+            ((get-buffer last-vterm) (switch-to-buffer last-vterm))
+            (t (vterm (setq last-vterm "vterm<1>")))))
+
+    (defun goto-non-vterm-buffer ()
+      (let* ((r "^\\vterm<[1-9][0-9]*>$")
+             (vterm-buffer-p (lambda (b) (string-match-p r (buffer-name b))))
+             (non-vterms (cl-remove-if vterm-buffer-p (buffer-list))))
+        (when non-vterms
+          (switch-to-buffer (car non-vterms)))))
+
+	(defun switch-vterm (n)
+      (let ((buffer-name (format "vterm<%d>" n)))
+        (setq last-vterm buffer-name)
+        (cond ((get-buffer buffer-name)
+               (switch-to-buffer buffer-name))
+              (t (vterm buffer-name)
+                 (rename-buffer buffer-name))))))
+
+  :bind (:map custom-bindings-map
+              ("C-z" . toggle-vterm)
+              ("M-1" . (lambda () (interactive) (switch-vterm 1)))
+              ("M-2" . (lambda () (interactive) (switch-vterm 2)))
+              ("M-3" . (lambda () (interactive) (switch-vterm 3)))
+              ("M-4" . (lambda () (interactive) (switch-vterm 4)))
+              ("M-5" . (lambda () (interactive) (switch-vterm 5)))
+              ("M-6" . (lambda () (interactive) (switch-vterm 6)))
+              ("M-7" . (lambda () (interactive) (switch-vterm 7)))
+              ("M-8" . (lambda () (interactive) (switch-vterm 8)))
+              ("M-9" . (lambda () (interactive) (switch-vterm 9))))
+
+  :config
+  ;; Don't query about killing vterm buffers, just kill it
+  (defadvice vterm (after kill-with-no-query nil activate)
+    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
+
 (require 'dashboard)
 (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
 (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
