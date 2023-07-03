@@ -128,8 +128,6 @@ tangled, and the tangled file is compiled."
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(require 'cl)
-
 (setq inhibit-startup-message      t         ;; No startup message
       initial-scratch-message      nil       ;; Empty scratch buffer
       ring-bell-function          'ignore    ;; No bell
@@ -304,16 +302,19 @@ Don't kill, just delete."
 
 (defvar favourite-themes '(doom-nord doom-nord-light doom-flatwhite))
 
-(setq theme-index 0)
 (defun cycle-themes ()
-    (interactive)
-    (let* ((theme-list favourite-themes)
-        (next-index (mod (+ theme-index 1) (length theme-list)))
-        (current-theme (nth theme-index theme-list))
-        (next-theme (nth next-index theme-list)))
-        (setq theme-index next-index) ;; set next index
-        (disable-theme current-theme) 
-        (load-theme next-theme)))
+  "Returns a function that lets you cycle your themes."
+  (let ((themes favourite-themes))
+    (lambda ()
+      (interactive)
+      ;; Rotates the thme cycle and changes the current theme.
+      (let ((rotated (nconc (cdr themes) (list (car themes)))))
+        (load-theme (car (setq themes rotated)) t))
+      (message (concat "Switched to " (symbol-name (car themes)))))))
+
+(defadvice load-theme
+    (before disable-before-load (theme &optional no-confirm no-enable) activate)
+  (mapc 'disable-theme custom-enabled-themes))
 
 (require 'nano-modeline)
 (nano-modeline-mode 1)
@@ -483,7 +484,7 @@ Don't kill, just delete."
 (define-key custom-bindings-map (kbd "C-x b")   'consult-buffer)
 (define-key custom-bindings-map (kbd "C-c C-g") 'consult-goto-line)
 
-(define-key custom-bindings-map (kbd "C-c C-t") 'cycle-themes)
+(define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes))
 
 (define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
 
