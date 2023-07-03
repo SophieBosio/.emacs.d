@@ -526,7 +526,7 @@ For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a
 
 I use the =mixed-pitch= package to cleverly figure out when to use the
 variable-pitch font as default, but fixed-pitch where it makes sense. I use the
-simple FreeSans family.
+simple Liberation Sans family.
 
 #+begin_src emacs-lisp
 (use-package mixed-pitch
@@ -678,7 +678,7 @@ point it to my own image, but the ='logo= banner is also really nice.
                         (agenda       . 5)))
 #+END_SRC
 
-** Olivetti
+** Centering with Olivetti
 
 =Olivetti= is a minor mode for centering text.
 For convenience, I'll bind it to =C-c C-o= to activate it on the fly.
@@ -707,12 +707,13 @@ However, it takes a long time to load, so we'll wait to load it until we try to 
 
 ** Completion
 
-For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite of compatible extensions, including:
+For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other extensions that play well together:
 
 - [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
 - [[https://github.com/minad/consult][Consult]]
 - [[https://github.com/minad/marginalia][Marginalia]]
-- Corfu
+- [[https://github.com/minad/corfu][Corfu]]
+- [[https://github.com/oantolin/orderless][Orderless]]
 
 Let's start by configuring Vertico.
 
@@ -755,82 +756,34 @@ Marginalia gives me annotations in the minibuffer.
   (marginalia-mode 1))
 #+end_src
 
-*** Old Ivy Setup
+Corfu gives me text completion at point.
 
-*Note* that this configuration is not set to tangle - i.e., it's not part of my
-current config. I've left it here for easy access while tweaking my Vertico &
-Friends config.
+#+begin_src emacs-lisp
+(use-package corfu
+  :init
+  (global-corfu-mode 1)
+  (corfu-popupinfo-mode 1)
+  :config
+  (setq corfu-cycle t
+        corfu-auto t
+        corfu-auto-delay 0
+        corfu-auto-prefix 2
+        corfu-popupinfo-delay 0.5))
+#+end_src
 
-Ivy is a package for "Incremental Vertical completYon", giving you fuzzy completion suggestions in the minibuffer.
+And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple regexes, in any
+order. Let's use it together with Corfu.
 
-#+BEGIN_SRC emacs-lisp :tangle no
-(setq ivy-wrap t                         ;; Scrolling up brings me to last cand.
-      ivy-height 25                      ;; Make Ivy taller
-      ivy-use-virtual-buffers t          ;; C-x b displays recents and bookmarks
-      ivy-on-del-error-function 'ignore  ;; Let me hold in backspace
-      ivy-virtual-abbreviate 'abbreviate ;; Disambiguate same file diff dirs
-)
-(ivy-mode 1)
-#+END_SRC
+#+begin_src emacs-lisp
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic partial-completion)
+        completion-category-overrides '((file (styles basic partial-completion)))
+        orderless-component-separator "[ |]"))
+#+end_src
 
-Since it's so widely used, Ivy also integrates nicely with a host of other packages and extensions. Two really nice ones are Counsel, which replaces Emacs commands with Ivy-specific ones, and Swiper, which uses Ivy to display search results.
-
-#+BEGIN_SRC emacs-lisp :tangle no
-(require 'counsel)
-(setq enable-recursive-minibuffers t
-      search-default-mode #'char-fold-to-regexp)
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-#+END_SRc
-
-I also want to display the minibuffer as a separate child frame with =ivy-posframe=, fuzzy search with =ivy-fuz=, sorting and filtering of candidates with =ivy-prescient=, and =ivy-rich= is a display transformer making Ivy easier on the eyes. I have commented out =ivy-rich=, because it interacts poorly with =ivy-posframe= at the size that I like to keep the minibuffer.
-
-#+BEGIN_SRC emacs-lisp :tangle no
-;; Posframe, to display minibuffer as a child frame
-(require 'ivy-posframe)
-(setq ivy-posframe-display-functions-alist '(
-        (t . ivy-posframe-display)                 ;; Display the posframe
-        (t . ivy-posframe-display-at-frame-center) ;; Display at frame center
-    )
-    ivy-posframe-width 85                          ;; Narrow box
-    ivy-posframe-border-width 0                    ;; No surrounding border
-)
-(ivy-posframe-mode 1)
-
-;; Fuzzy search
-(setq ivy-sort-matches-functions-alist '((t . ivy-fuz-sort-fn)))
-(setq ivy-re-builders-alist '((t . ivy-fuz-regex-fuzzy)))
-(with-eval-after-load 'ivy
-  (require 'ivy-fuz)
-  (add-to-list 'ivy-highlight-functions-alist '(ivy-fuz-regex-fuzzy . ivy-fuz-highlight-fn)))
-
-;; Sorting and filtering candidates
-(with-eval-after-load 'counsel
-    (require' ivy-prescient)
-    (setq ivy-prescient-enable-filtering nil)
-    (ivy-prescient-mode 1))
-
-;; Display transformer for Ivy
-;;(with-eval-after-load 'ivy
-;;    (ivy-rich-mode 1))
-#+END_SRC
-
-** Helpful
+** Better Help Buffer with Helpful
 
 Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
 
@@ -841,26 +794,10 @@ I'll also set some global keybindings that have not already been overwritten.
 #+BEGIN_SRC emacs-lisp
 (setq counsel-describe-function-function #'helpful-callable  ;; C-h f
       counsel-describe-variable-function #'helpful-variable) ;; C-h v
-(global-set-key (kbd "C-h x") #'helpful-command)             ;; C-h x
-(global-set-key (kbd "C-h k") #'helpful-key)                 ;; C-h k
+(global-set-key (kbd "C-h x")   #'helpful-command)           ;; C-h x
+(global-set-key (kbd "C-h k")   #'helpful-key)               ;; C-h k
 (global-set-key (kbd "C-c C-d") #'helpful-at-point)          ;; C-c C-d
-(global-set-key (kbd "C-h F") #'helpful-function)            ;; C-h F
-#+END_SRC
-
-** Text Auto-Completion
-
-*** TODO Consider trying =cape=
-
-=company-mode= is an auto-completion framework meant to "COMPlete ANYthing". I want pretty aggressive completion suggestions.
-
-#+BEGIN_SRC emacs-lisp
-(setq company-idle-delay 0
-      company-echo-delay 0
-      company-dabbrev-downcase nil
-      company-minimum-prefix-length 2
-      company-selection-wrap-around t
-      company-transformers '(company-sort-by-occurrence
-                             company-sort-by-backend-importance))
+(global-set-key (kbd "C-h F")   #'helpful-function)          ;; C-h F
 #+END_SRC
 
 ** TODO Spelling

@@ -366,20 +366,30 @@ Don't kill, just delete."
   :init 
   (marginalia-mode 1))
 
+(use-package corfu
+  :init
+  (global-corfu-mode 1)
+  (corfu-popupinfo-mode 1)
+  :config
+  (setq corfu-cycle t
+        corfu-auto t
+        corfu-auto-delay 0
+        corfu-auto-prefix 2
+        corfu-popupinfo-delay 0.5))
+
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic partial-completion)
+        completion-category-overrides '((file (styles basic partial-completion)))
+        orderless-component-separator "[ |]"))
+
 (setq counsel-describe-function-function #'helpful-callable  ;; C-h f
       counsel-describe-variable-function #'helpful-variable) ;; C-h v
-(global-set-key (kbd "C-h x") #'helpful-command)             ;; C-h x
-(global-set-key (kbd "C-h k") #'helpful-key)                 ;; C-h k
+(global-set-key (kbd "C-h x")   #'helpful-command)           ;; C-h x
+(global-set-key (kbd "C-h k")   #'helpful-key)               ;; C-h k
 (global-set-key (kbd "C-c C-d") #'helpful-at-point)          ;; C-c C-d
-(global-set-key (kbd "C-h F") #'helpful-function)            ;; C-h F
-
-(setq company-idle-delay 0
-      company-echo-delay 0
-      company-dabbrev-downcase nil
-      company-minimum-prefix-length 2
-      company-selection-wrap-around t
-      company-transformers '(company-sort-by-occurrence
-                             company-sort-by-backend-importance))
+(global-set-key (kbd "C-h F")   #'helpful-function)          ;; C-h F
 
 (require 'org)
 
