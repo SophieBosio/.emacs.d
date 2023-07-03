@@ -147,7 +147,7 @@ tangled, and the tangled file is compiled."
 (set-fringe-mode 10)  ;; Fringe of 10
 
 (setq-default tab-width 4                       ;; Smaller tabs
-              fill-column 79                    ;; Maximum line width
+              fill-column 80                    ;; Maximum line width
               split-width-threshold 160         ;; Split vertically by default
               split-height-threshold nil        ;; Split vertically by default
               frame-resize-pixelwise t          ;; Fine-grained frame resize
@@ -156,6 +156,7 @@ tangled, and the tangled file is compiled."
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(require 'all-the-icons)
 (require 'nerd-icons)
 
 (defvar emacs-autosave-directory
@@ -224,6 +225,10 @@ Don't kill, just delete."
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 (global-set-key [C-backspace] 'custom/backward-kill-word)
+
+(use-package evil-nerd-commenter
+  :ensure t
+  :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
 
 (setq grep-command "rg -nS --no-heading "
       grep-use-null-device nil)
@@ -549,8 +554,7 @@ Don't kill, just delete."
 (use-package haskell-mode
   :defer t
   :hook ((haskell-mode . interactive-haskell-mode)
-         (haskell-mode . turn-on-haskell-doc-mode)
-         (haskell-mode . turn-on-haskell-indent)))
+         (haskell-mode . haskell-doc-mode)))
 
 (use-package emacs
   :config

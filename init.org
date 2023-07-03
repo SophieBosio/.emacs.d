@@ -280,7 +280,7 @@ Some variables are buffer-local, so to change them globally, we need to use =set
 
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width 4                       ;; Smaller tabs
-              fill-column 79                    ;; Maximum line width
+              fill-column 80                    ;; Maximum line width
               split-width-threshold 160         ;; Split vertically by default
               split-height-threshold nil        ;; Split vertically by default
               frame-resize-pixelwise t          ;; Fine-grained frame resize
@@ -294,9 +294,10 @@ I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
-Make sure we have the =all-the-icons= pack in order to display icons properly.
+Make sure we have the =all-the-icons=  and =nerd-icons= packs in order to display icons properly.
 
 #+begin_src emacs-lisp
+(require 'all-the-icons)
 (require 'nerd-icons)
 #+end_src
 
@@ -398,6 +399,8 @@ Make backspace remove the whole tab instead of just deleting one space.
 (setq backward-delete-char-untabify-method 'hungry)
 #+end_src
 
+Old configuration from a blog post. Note that I'm no longer using this:
+
 #+BEGIN_SRC emacs-lisp :tangle no
 ;; Create a variable for our preferred tab width
 (setq custom-tab-width 2)
@@ -466,6 +469,17 @@ Don't kill, just delete."
   (delete-region (point) (progn (backward-word arg) (point))))
 (global-set-key [C-backspace] 'custom/backward-kill-word)
 #+END_SRC
+
+*** Language-Specific Commenting
+
+I use =C-,= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
+detects most programming languages and applies appropriate comment style.
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :ensure t
+  :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
+#+end_src
 
 *** Utilities
 
@@ -1069,8 +1083,7 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 (use-package haskell-mode
   :defer t
   :hook ((haskell-mode . interactive-haskell-mode)
-         (haskell-mode . turn-on-haskell-doc-mode)
-         (haskell-mode . turn-on-haskell-indent)))
+         (haskell-mode . haskell-doc-mode)))
 #+END_SRC
 
 
