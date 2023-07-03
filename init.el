@@ -62,7 +62,6 @@ tangled, and the tangled file is compiled."
 	  diff-hl              ; Highlight uncommitted changes using VC
 	  direnv               ; direnv integration
 	  doom-themes          ; An opinionated pack of modern color-themes
-	  doom-modeline        ; Mode line used in Doom Emacs
 	  editorconfig         ; EditorConfig Emacs Plugin
 	  emojify              ; Display and insert emojis
 	  evil-nerd-commenter  ; Language-specific commenting
@@ -82,6 +81,7 @@ tangled, and the tangled file is compiled."
 	  lua-mode             ; Major-mode for editing Lua scripts
 	  magit                ; Control Git from Emacs
 	  markdown-mode        ; Emacs Major mode for Markdown-formatted files
+      mixed-pitch          ; Intelligently decide what pitch font to use
 	  multiple-cursors     ; Multiple cursors for Emacs
 	  nano-modeline        ; N Λ N O modeline
 	  nano-theme           ; N Λ N O theme
@@ -91,7 +91,9 @@ tangled, and the tangled file is compiled."
 	  olivetti             ; Minor mode for a nice writing environment
 	  org                  ; Outline-based notes management and organizer
 	  org-bullets          ; Show bullets in org-mode as UTF-8 characters
+      org-modern           ; Prettify Org mode files
 	  org-msg              ; Org mode to send and reply to email in HTML
+	  org-superstar        ; Prettier Org mode bullets
 	  ox-gfm               ; Export Github Flavored Markdown from Org
 	  ox-hugo              ; Export to Blackfriday markdown, for Hugo sites
 	  paredit              ; minor mode for editing parentheses
@@ -256,19 +258,15 @@ Don't kill, just delete."
 (add-hook
    'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
-(defvar efs/default-font-size          108)   ;; Define default font size
-(defvar efs/default-variable-font-size 108)   ;; Define default variable-pitch font size
+(use-package mixed-pitch
+  :hook
+  (text-mode . mixed-pitch-mode)
+  :config
+  (setq mixed-pitch-set-heigth t)
+  (set-face-attribute 'default nil        :font   "Roboto Mono-10.5")
+  (set-face-attribute 'fixed-pitch nil    :family "Roboto Mono" :height 1.0)
+  (set-face-attribute 'variable-pitch nil :family "Liberation Sans" :height 1.3))
 
-;;(set-face-attribute 'default nil :font "Roboto Mono Book"
-;;                                 :height efs/default-font-size)
-(set-face-attribute 'fixed-pitch nil
-                                 :font "Roboto Mono Book"
-                                 :height efs/default-font-size)
-(set-face-attribute 'variable-pitch nil
-                                    :font "Inter"
-                                    :height efs/default-variable-font-size)
-
-;; Prettify greek letters
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
                                        ("delta"  . ?Δ)
                                        ("gamma"  . ?Γ)
@@ -355,12 +353,20 @@ Don't kill, just delete."
     completion-ignore-case t                 ; Ignore case in completion
 )
 
-(require 'vertico-posframe)
-(vertico-posframe-mode 1)
-(setq vertico-posframe-width 100)
+(use-package vertico-posframe
+  :config
+  (vertico-posframe-mode 1)
+  (setq vertico-posframe-width 100
+        vertico-posframe-height vertico-count))
 
-(require 'marginalia)
-(marginalia-mode 1)
+(use-package consult
+  :bind (:map custom-bindings-map
+              ("C-x b" . consult-buffer)
+              ("C-c r" . consult-ripgrep)))
+
+(use-package marginalia
+  :init 
+  (marginalia-mode 1))
 
 (setq counsel-describe-function-function #'helpful-callable  ;; C-h f
       counsel-describe-variable-function #'helpful-variable) ;; C-h v
@@ -378,9 +384,15 @@ Don't kill, just delete."
                              company-sort-by-backend-importance))
 
 (require 'org)
-(setq org-log-done t)
 
-(setq org-hide-emphasis-markers t)
+(setq org-adapt-indentation t
+      org-hide-leading-stars t
+      org-hide-emphasis-markers t
+      org-pretty-entities t
+      org-src-fontify-natively t
+      org-edit-src-content-indentation 0)
+
+(setq org-log-done t)
 
 ;; Enable text centering and line breaks for Org Mode
 (defun my/org-mode-visual-style ()
@@ -388,8 +400,38 @@ Don't kill, just delete."
 
 (add-hook 'org-mode-hook 'my/org-mode-visual-style)
 
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(use-package org-superstar
+    :config
+    (setq org-superstar-special-todo-items t)
+    (add-hook 'org-mode-hook (lambda ()
+                               (org-superstar-mode 1))))
+
+(plist-put org-format-latex-options :scale 2)
+
+(setq
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…"
+
+ ;; Agenda styling
+ org-agenda-tags-column 0
+ org-agenda-block-separator ?─
+ org-agenda-time-grid
+ '((daily today require-timed)
+   (800 1000 1200 1400 1600 1800 2000)
+   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+ org-agenda-current-time-string
+ "⭠ now ─────────────────────────────────────────────────")
+
+(global-org-modern-mode)
 
 (setq org-directory "~/Dropbox/org/")
 (setq org-agenda-files (list "inbox.org"))
