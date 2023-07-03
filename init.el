@@ -25,8 +25,9 @@ tangled, and the tangled file is compiled."
 
 (set-language-environment "UTF-8")
 
-;; First, we need package!
 (require 'package)
+(require 'use-package)
+(setq use-package-always-ensure t)
 
 (setq package-archives
       '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
@@ -131,7 +132,6 @@ tangled, and the tangled file is compiled."
 (setq inhibit-startup-message      t         ;; No startup message
       initial-scratch-message      nil       ;; Empty scratch buffer
       ring-bell-function          'ignore    ;; No bell
-      display-time-24hr-format     t         ;; Use 24h clock
       display-time-default-load-average nil  ;; Don't show me load time
       default-directory            "~/"      ;; Set default directory
       scroll-margin                0         ;; Space between top/bottom
@@ -299,9 +299,12 @@ Don't kill, just delete."
   (set-fontset-font
     t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
 
-;; Set theme
-(require' doom-themes)
-(load-theme 'doom-nord)
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-nord t))
 
 (defvar favourite-themes '(doom-nord doom-nord-light doom-flatwhite))
 
@@ -340,8 +343,11 @@ Don't kill, just delete."
                         (recents      . 10)
                         (agenda       . 5)))
 
-(require 'olivetti)
-(setq-default olivetti-body-width (+ fill-column 14))
+(use-package olivetti
+  :defer t
+  :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
+  :config
+  (setq-default olivetti-body-width (+ fill-column 14)))
 
 (pdf-loader-install)
 
@@ -363,7 +369,11 @@ Don't kill, just delete."
   (setq vertico-posframe-width 100
         vertico-posframe-height vertico-count))
 
-(use-package consult)
+(use-package consult
+  :bind (:map custom-bindings-map
+              ("C-x b"   . consult-buffer)
+              ("C-s"     . consult-ripgrep)
+			  ("C-c C-g" . consult-goto-line)))
 
 (use-package marginalia
   :init 
@@ -493,19 +503,14 @@ Don't kill, just delete."
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
+(use-package emacs
+  :config
+  (define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes)))
+
 (define-minor-mode custom-bindings-mode
   "A mode that activates custom keybindings."
   :init-value t
   :keymap custom-bindings-map)
-
-(defvar custom-bindings-map (make-keymap)
-  "A keymap for custom bindings.")
-
-(define-key custom-bindings-map (kbd "C-s")     'consult-ripgrep)
-(define-key custom-bindings-map (kbd "C-x b")   'consult-buffer)
-(define-key custom-bindings-map (kbd "C-c C-g") 'consult-goto-line)
-
-(define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes))
 
 (define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
 
@@ -517,7 +522,3 @@ Don't kill, just delete."
 (define-key custom-bindings-map (kbd "C-c t") 'org-todo)
 
 (define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
-
-(define-minor-mode custom-bindings-mode
-  "A mode that activates custom-bindings."
-  t nil custom-bindings-map)

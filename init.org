@@ -124,12 +124,18 @@ Set UFT-8 as preferred coding system.
 
 ** Packages
 
-To manage downloaded packages, Emacs comes with =package.el= installed. First, we'll need to initalise that, and then I'll set elpa, melpa, and melpa stable as package sources. These are very common and well-maintained mirrors.
+To manage downloaded packages, Emacs comes with =package.el= installed. In
+addition, I want to use =use-package=, so let's make sure we have those loaded.
+
+#+begin_src emacs-lisp
+(require 'package)
+(require 'use-package)
+(setq use-package-always-ensure t)
+#+end_src
+
+Next, I'll set up my package sources. These are very common and well-maintained mirrors.
 
 #+BEGIN_SRC emacs-lisp
-;; First, we need package!
-(require 'package)
-
 (setq package-archives
       '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
         ("MELPA"        . "https://melpa.org/packages/")
@@ -255,7 +261,6 @@ I want to reduce the number of UI elements that I don't use, so I'll remove thos
 (setq inhibit-startup-message      t         ;; No startup message
       initial-scratch-message      nil       ;; Empty scratch buffer
       ring-bell-function          'ignore    ;; No bell
-      display-time-24hr-format     t         ;; Use 24h clock
       display-time-default-load-average nil  ;; Don't show me load time
       default-directory            "~/"      ;; Set default directory
       scroll-margin                0         ;; Space between top/bottom
@@ -478,7 +483,7 @@ the end of the configuration. This keeps my custom bindings from being
 overwritten by extensions' own bindings.
 
 The first step is to create the custom keybinding map. We'll activate it in the
-very last section, "Activating Custom Keybindings".
+very last section, "Custom Keybindings".
 
 #+begin_src emacs-lisp
 (defvar custom-bindings-map (make-keymap)
@@ -603,29 +608,13 @@ I also want to be able to display emojis with the Apple emoji font.
 I really like the doom-themes, so I'll get those. My favourite for everyday use is the =doom-nord= theme.
 
 #+BEGIN_SRC emacs-lisp
-;; Set theme
-(require' doom-themes)
-(load-theme 'doom-nord)
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-nord t))
 #+END_SRC
-
-To cycle themes, I have borrowed a snippet from user mtekman's comment on [[https://github.com/toroidal-code/cycle-themes.el/issues/5][this
-GitHub issue]], with slight modifications. In the "Keybindings" section, I bind
-the function to =C-c C-t= for easy access.
-
-#+begin_src emacs-lisp :tangle no
-(defvar favourite-themes '(doom-nord doom-nord-light doom-flatwhite))
-
-(setq theme-index 0)
-(defun cycle-themes ()
-    (interactive)
-    (let* ((theme-list favourite-themes)
-        (next-index (mod (+ theme-index 1) (length theme-list)))
-        (current-theme (nth theme-index theme-list))
-        (next-theme (nth next-index theme-list)))
-        (setq theme-index next-index) ;; set next index
-        (disable-theme current-theme) 
-        (load-theme next-theme)))
-#+end_src
 
 This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]]. I'll bind
 this function to =C-c C-t= in the "Keybindings" section.
@@ -700,8 +689,11 @@ For convenience, I'll bind it to =C-c C-o= to activate it on the fly.
 With the the font and font size I use, setting the =fill-column= variable to 14, means I can display /exactly/ 80 mono characters before the line is folded.
 
 #+BEGIN_SRC emacs-lisp
-(require 'olivetti)
-(setq-default olivetti-body-width (+ fill-column 14))
+(use-package olivetti
+  :defer t
+  :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
+  :config
+  (setq-default olivetti-body-width (+ fill-column 14)))
 #+END_SRC
 
 ** PDF Tools
@@ -759,7 +751,11 @@ would definitely recommend looking at the documentation to learn more about all
 that it can do.
 
 #+begin_src emacs-lisp
-(use-package consult)
+(use-package consult
+  :bind (:map custom-bindings-map
+              ("C-x b"   . consult-buffer)
+              ("C-s"     . consult-ripgrep)
+			  ("C-c C-g" . consult-goto-line)))
 #+end_src
 
 Marginalia gives me annotations in the minibuffer.
@@ -1015,7 +1011,17 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 #+END_SRC
 
 
-* Activating Custom Keybindings
+* Custom Keybindings
+
+*** Extra Keybindings
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes)))
+#+end_src
+
+*** Activating the Keymap
 
 Throughout the configuration, I've added bindings to my custom-bindings-map.
 The last thing we need to to before we can call it a day, is to define a minor
@@ -1028,26 +1034,6 @@ mode for it and activate that mode. The below code does just that.
   :keymap custom-bindings-map)
 #+end_src
 
-** Defining the Keymap
-
-#+BEGIN_SRC emacs-lisp
-(defvar custom-bindings-map (make-keymap)
-  "A keymap for custom bindings.")
-#+END_SRC
-
-** Completion & Navigation 
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-s")     'consult-ripgrep)
-(define-key custom-bindings-map (kbd "C-x b")   'consult-buffer)
-(define-key custom-bindings-map (kbd "C-c C-g") 'consult-goto-line)
-#+end_src
-
-** Cycle Themes
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes))
-#+end_src
 
 ** Olivetti
 
@@ -1081,10 +1067,3 @@ types of notes, each corresponding to a an =.org=-file type.
 (define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
 #+END_SRC
 
-** Creating & Activating Minor Mode
-
-#+BEGIN_SRC emacs-lisp
-(define-minor-mode custom-bindings-mode
-  "A mode that activates custom-bindings."
-  t nil custom-bindings-map)
-#+END_SRC
