@@ -1,3 +1,4 @@
+
 #+TITLE: Sophie's Emacs Configuration
 #+AUTHOR: Sophie Bosio
 #+PROPERTY: header-args :tangle yes
@@ -249,6 +250,20 @@ And load custom settings from =custom.el= if it exists.
   (load custom-file))
 #+END_SRC
 
+** Custom Keybindings
+
+I keep a custom keybinding map that I add to per package, and then activate at
+the end of the configuration. This keeps my custom bindings from being
+overwritten by extensions' own bindings.
+
+The first step is to create the custom keybinding map. We'll activate it in the
+very last section, "Custom Keybindings".
+
+#+begin_src emacs-lisp
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom keybindings.")
+#+end_src
+
 ** Sane Defaults
 
 I have some defaults that I like to have in my config. Please note that this is
@@ -487,6 +502,16 @@ Speaking of killing text, it's nice to be able to browse the kill ring.
   :ensure t)
 #+end_src
 
+*** Selecting Text with =expand-region=
+
+[[https://github.com/magnars/expand-region.el/tree/master][expand-region]] is one of those packages you didn't realise you needed until you
+found it. Expand the selected region with ="C-+"= or contract it again with ="-"=.
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :bind (:map custom-bindings-map ("C-+" . er/expand-region)))
+#+end_src
+
 *** Language-Specific Commenting
 
 I use =C-,= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
@@ -506,20 +531,6 @@ And finally, I want to use =ripgrep= as =grep=.
 (setq grep-command "rg -nS --no-heading "
       grep-use-null-device nil)
 #+END_SRC
-
-** Custom Keybindings
-
-I keep a custom keybinding map that I add to per package, and then activate at
-the end of the configuration. This keeps my custom bindings from being
-overwritten by extensions' own bindings.
-
-The first step is to create the custom keybinding map. We'll activate it in the
-very last section, "Custom Keybindings".
-
-#+begin_src emacs-lisp
-(defvar custom-bindings-map (make-keymap)
-  "A keymap for custom keybindings.")
-#+end_src
 
 ** Built-In Minor Modes
 
@@ -755,7 +766,7 @@ point it to my own image, but the ='logo= banner is also really nice.
                         (agenda       . 5)))
 #+END_SRC
 
-** Centering with Olivetti
+** Olivetti
 
 =Olivetti= is a minor mode for centering text.
 For convenience, I'll bind it to =C-c C-o= to activate it on the fly.
@@ -867,7 +878,7 @@ order. Let's use it together with Corfu.
         orderless-component-separator "[ |]"))
 #+end_src
 
-** Better Help Buffer with Helpful
+** Helpful
 
 Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
 
@@ -1119,17 +1130,11 @@ mode for it and activate that mode. The below code does just that.
 
 ** Olivetti
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
 #+END_SRC
 
-** Treemacs
-
-#+BEGIN_SRC emacs-lisp
-;; (define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
-#+END_SRC
-
-** Org
+** TODO move Org
 
 For basic agenda and TODO-related keybindings, I'll use =C-c= followed by a
 single, lower-case letter.

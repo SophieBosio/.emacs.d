@@ -129,6 +129,9 @@ tangled, and the tangled file is compiled."
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom keybindings.")
+
 (setq inhibit-startup-message      t         ;; No startup message
       initial-scratch-message      nil       ;; Empty scratch buffer
       ring-bell-function          'ignore    ;; No bell
@@ -234,15 +237,15 @@ Don't kill, just delete."
 (use-package browse-kill-ring
   :ensure t)
 
+(use-package expand-region
+  :bind (:map custom-bindings-map ("C-+" . er/expand-region)))
+
 (use-package evil-nerd-commenter
   :ensure t
   :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
 
 (setq grep-command "rg -nS --no-heading "
       grep-use-null-device nil)
-
-(defvar custom-bindings-map (make-keymap)
-  "A keymap for custom keybindings.")
 
 (dolist (mode
     '(tool-bar-mode        ;; Remove toolbar
@@ -570,10 +573,6 @@ Don't kill, just delete."
   "A mode that activates custom keybindings."
   :init-value t
   :keymap custom-bindings-map)
-
-(define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
-
-;; (define-key custom-bindings-map (kbd "C-c C-t") 'treemacs)
 
 (define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
 (define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
