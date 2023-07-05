@@ -348,6 +348,16 @@ And when I open Emacs, I want it to open maximised and fullscreen by default.
 (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
 
+When coding, I want my delimiters (parentheses, brackets, etc.) to be colourised
+in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d883502155d5b26e791fec15da6aeca][rainbow-delimiters]] does exactly that.
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :ensure t)
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+#+end_src
+
 *** Auto-Saving
 
 I prefer having my files save automatically. Any changes I don't want, I just don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all buffers, not just the ones I have open.

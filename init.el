@@ -184,6 +184,11 @@ tangled, and the tangled file is compiled."
 (add-to-list 'default-frame-alist     '(fullscreen . maximized))
 (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 
+(use-package rainbow-delimiters
+  :ensure t)
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
 (require 'auto-save-buffers-enhanced)
 (auto-save-buffers-enhanced t)
 
