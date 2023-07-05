@@ -530,6 +530,13 @@ Don't kill, just delete."
      (call-interactively 'org-store-link)
      (org-capture nil "i"))
 
+(define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
+(define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
+(define-key custom-bindings-map (kbd "C-c c") 'org-capture)
+(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
+
+(define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
+
 (with-eval-after-load 'ox
   (require 'ox-hugo))
 
@@ -573,10 +580,3 @@ Don't kill, just delete."
   "A mode that activates custom keybindings."
   :init-value t
   :keymap custom-bindings-map)
-
-(define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
-(define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
-(define-key custom-bindings-map (kbd "C-c c") 'org-capture)
-(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
-
-(define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)

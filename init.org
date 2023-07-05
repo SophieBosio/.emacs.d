@@ -1035,6 +1035,26 @@ Then to set up the relevant capture templates, with accompanying keybindings.
      (org-capture nil "i"))
 #+END_SRC
 
+And then I have some keybindings for these functions.
+
+For basic agenda and TODO-related keybindings, I'll use =C-c= followed by a
+single, lower-case letter.
+
+#+BEGIN_SRC emacs-lisp
+(define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
+(define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
+(define-key custom-bindings-map (kbd "C-c c") 'org-capture)
+(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
+#+END_SRC
+
+I have some custom =.org=-files that I use to organise different parts of my
+life (see "Org & Roam" section). I'll add keybindings to capture different
+types of notes, each corresponding to a an =.org=-file type.
+
+#+BEGIN_SRC emacs-lisp
+(define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
+#+END_SRC
+
 *** Hugo
 
 [[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
@@ -1128,29 +1148,5 @@ mode for it and activate that mode. The below code does just that.
 #+end_src
 
 
-** Olivetti
 
-#+BEGIN_SRC emacs-lisp :tangle no
-(define-key custom-bindings-map (kbd "C-c C-o") 'olivetti-mode)
-#+END_SRC
-
-** TODO move Org
-
-For basic agenda and TODO-related keybindings, I'll use =C-c= followed by a
-single, lower-case letter.
-
-#+BEGIN_SRC emacs-lisp
-(define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
-(define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
-(define-key custom-bindings-map (kbd "C-c c") 'org-capture)
-(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
-#+END_SRC
-
-I have some custom =.org=-files that I use to organise different parts of my
-life (see "Org & Roam" section). I'll add keybindings to capture different
-types of notes, each corresponding to a an =.org=-file type.
-
-#+BEGIN_SRC emacs-lisp
-(define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
-#+END_SRC
 
