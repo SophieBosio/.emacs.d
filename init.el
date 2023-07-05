@@ -269,14 +269,12 @@ Don't kill, just delete."
 (add-hook
    'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
-(use-package mixed-pitch
-  :hook
-  (text-mode . mixed-pitch-mode)
-  :config
-  (setq mixed-pitch-set-heigth t)
-  (set-face-attribute 'default nil        :font   "Roboto Mono-10.5")
-  (set-face-attribute 'fixed-pitch nil    :family "Roboto Mono" :height 1.0)
-  (set-face-attribute 'variable-pitch nil :family "Liberation Sans" :height 1.3))
+(when (member "Roboto Mono" (font-family-list))
+  (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
+  (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
+
+(when (member "Liberation" (font-family-list))
+  (set-face-attribute 'variable-pitch nil :family "Liberation Sans"))
 
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
                                        ("delta"  . ?Δ)
