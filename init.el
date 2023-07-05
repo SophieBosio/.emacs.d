@@ -231,6 +231,9 @@ Don't kill, just delete."
   (delete-region (point) (progn (backward-word arg) (point))))
 (global-set-key [C-backspace] 'custom/backward-kill-word)
 
+(use-package browse-kill-ring
+  :ensure t)
+
 (use-package evil-nerd-commenter
   :ensure t
   :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
