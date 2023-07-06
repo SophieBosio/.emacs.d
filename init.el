@@ -265,15 +265,20 @@ Don't kill, just delete."
       global-diff-hl-mode       ;; Highlight uncommitted changes
       global-so-long-mode       ;; Mitigate performance for long lines
       global-visual-line-mode   ;; Break lines instead of truncating them
+	  global-auto-revert-mode   ;; Revert buffers automatically when they change
       counsel-projectile-mode   ;; Manage and navigate projects
-      recentf-mode              ;; Recently opened files
+      recentf-mode              ;; Remember recently opened files
+	  savehist-mode             ;; Remember minibuffer prompt history
+	  save-place-mode           ;; Remember last cursor location in file
       show-paren-mode           ;; Highlight matching parentheses
-      which-key-mode))          ;; Available key-bindings in popup
+	  which-key-mode))          ;; Available key-bindings in popup
     (funcall mode 1))
-(set-fringe-mode 10)            ;; Set fringe width to 10
 
-(add-hook
-   'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
+(set-fringe-mode 10)            ;; Set fringe width to 10
+(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
+(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
 (when (member "Roboto Mono" (font-family-list))
   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
