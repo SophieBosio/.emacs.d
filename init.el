@@ -284,8 +284,8 @@ Don't kill, just delete."
   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
-(when (member "Liberation" (font-family-list))
-  (set-face-attribute 'variable-pitch nil :family "Liberation Sans"))
+(when (member "Inter" (font-family-list))
+  (set-face-attribute 'variable-pitch nil :family "Inter" :height 1.3))
 
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
                                        ("delta"  . ?Δ)
@@ -485,10 +485,10 @@ Don't kill, just delete."
 (setq org-log-done t)
 
 ;; Enable text centering and line breaks for Org Mode
-(defun my/org-mode-visual-style ()
+(defun org-center-style ()
   (olivetti-mode 1))
 
-(add-hook 'org-mode-hook 'my/org-mode-visual-style)
+(add-hook 'org-mode-hook 'org-center-style)
 
 (use-package org-superstar
     :config
@@ -522,6 +522,37 @@ Don't kill, just delete."
  "⭠ now ─────────────────────────────────────────────────")
 
 (global-org-modern-mode)
+
+;; Resize Org headings
+(dolist (face '((org-level-1 . 1.4)
+                (org-level-2 . 1.35)
+                (org-level-3 . 1.3)
+                (org-level-4 . 1.2)
+                (org-level-5 . 1.2)
+                (org-level-6 . 1.2)
+                (org-level-7 . 1.2)
+                (org-level-8 . 1.2)))
+  (set-face-attribute (car face) nil :font "Inter" :weight 'bold :height (cdr face)))
+
+;; Make the document title a bit bigger
+(set-face-attribute 'org-document-title nil :font "Inter" :weight
+'bold :height 1.5)
+
+(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+
+(use-package mixed-pitch
+  :defer t
+  :hook (text-mode . mixed-pitch-mode)
+  :config
+  (when (member "Inter" (font-family-list))
+    (set-face-attribute 'variable-pitch nil :family "Inter")))
 
 (setq org-directory "~/Dropbox/org/")
 (setq org-agenda-files (list "inbox.org"))
