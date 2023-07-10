@@ -284,8 +284,8 @@ Don't kill, just delete."
   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
-(when (member "Inter" (font-family-list))
-  (set-face-attribute 'variable-pitch nil :family "Inter" :height 1.3))
+(when (member "Source Sans 3" (font-family-list))
+  (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.8))
 
 (setq-default prettify-symbols-alist '(("lambda" . ?λ)
                                        ("delta"  . ?Δ)
@@ -490,11 +490,9 @@ Don't kill, just delete."
 
 (add-hook 'org-mode-hook 'org-center-style)
 
-(use-package org-superstar
-    :config
-    (setq org-superstar-special-todo-items t)
-    (add-hook 'org-mode-hook (lambda ()
-                               (org-superstar-mode 1))))
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (plist-put org-format-latex-options :scale 2)
 
@@ -532,11 +530,11 @@ Don't kill, just delete."
                 (org-level-6 . 1.2)
                 (org-level-7 . 1.2)
                 (org-level-8 . 1.2)))
-  (set-face-attribute (car face) nil :font "Inter" :weight 'bold :height (cdr face)))
+  (set-face-attribute (car face) nil :font "Source Sans Pro" :weight 'bold :height (cdr face)))
 
 ;; Make the document title a bit bigger
-(set-face-attribute 'org-document-title nil :font "Inter" :weight
-'bold :height 1.5)
+(set-face-attribute 'org-document-title nil :font "Source Sans Pro" :weight
+'bold :height 1.8)
 
 (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
 (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
@@ -551,8 +549,12 @@ Don't kill, just delete."
   :defer t
   :hook (text-mode . mixed-pitch-mode)
   :config
-  (when (member "Inter" (font-family-list))
-    (set-face-attribute 'variable-pitch nil :family "Inter")))
+  ;;(setq mixed-pitch-set-heigth t)
+  ;;(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.3)
+)
+
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
 
 (setq org-directory "~/Dropbox/org/")
 (setq org-agenda-files (list "inbox.org"))
