@@ -390,7 +390,9 @@ Don't kill, just delete."
   :bind (:map custom-bindings-map ("C-c m" . magit-status)))
 
 (use-package projectile
-  :bind (:map custom-bindings-map ("C-c p" . projectile-command-map)))
+  :bind (:map custom-bindings-map ("C-c p" . projectile-command-map))
+  :config
+  (setq projectile-project-search-path '("~/Dropbox/projects/")))
 
 (use-package chatgpt-shell
   :ensure t
