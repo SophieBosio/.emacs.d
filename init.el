@@ -44,82 +44,6 @@ tangled, and the tangled file is compiled."
 
 (package-initialize)
 
-(let* ((package--builtins nil)
-   (packages
-	'(all-the-icons        ; Icon pack for pretty displays
-	  async                ; Async library
-	  auctex               ; Integrated environment for *TeX*
-	  auto-compile         ; Automatically compile Emacs Lisp libraries
-	  auto-save-buffers-enhanced ; Auto-save buffers on change
-	  chatgpt-shell        ; Interaction mode for ChatGPT
-	  cider                ; Clojure Interactive Development Environment
-	  clj-refactor         ; Commands for refactoring Clojure code
-	  company              ; Modular text completion framework
-	  counsel              ; Various completion functions using Ivy
-	  consult              ; Completion, navigation and search with Vertico
-	  counsel-projectile   ; Ivy integration for Projectile
-	  dashboard            ; A startup screen extracted from Spacemacs
-	  define-word          ; display the definition of word at point
-	  diff-hl              ; Highlight uncommitted changes using VC
-	  direnv               ; direnv integration
-	  doom-themes          ; An opinionated pack of modern color-themes
-	  editorconfig         ; EditorConfig Emacs Plugin
-	  emojify              ; Display and insert emojis
-	  evil-nerd-commenter  ; Language-specific commenting
-	  focus                ; Dim surrounding font colour to focus on region
-	  golden-ratio         ; Automatic resizing windows to golden ratio
-	  haskell-mode         ; A Haskell editing mode
-	  helpful              ; Easy-to-read docs that work with Counsel
-	  ivy                  ; Incremental Vertical completYon
-	  ivy-posframe         ; Using posframe to show Ivy
-	  ivy-fuz              ; Fuzzy searching with Ivy and fuz
-	  ivy-prescient        ; Sort and filter Ivy candidates
-	  ivy-rich             ; Friendly display transformer for Ivy
-	  jedi                 ; Python auto-completion for Emacs
-	  js2-mode             ; Improved JavaScript editing mode
-	  json                 ; JSON file format
-	  ligature             ; Font ligatures for Emacs
-	  lua-mode             ; Major-mode for editing Lua scripts
-	  magit                ; Control Git from Emacs
-	  markdown-mode        ; Emacs Major mode for Markdown-formatted files
-      mixed-pitch          ; Intelligently decide what pitch font to use
-	  multiple-cursors     ; Multiple cursors for Emacs
-	  nano-modeline        ; N Λ N O modeline
-	  nano-theme           ; N Λ N O theme
-	  nerd-icons           ; Nerdy icons for every occasion
-      obsidian             ; Obsidian note taking integration
-	  ob-chatgpt-shell     ; Org babel functions for ChatGPT evaluation
-	  olivetti             ; Minor mode for a nice writing environment
-	  org                  ; Outline-based notes management and organizer
-	  org-bullets          ; Show bullets in org-mode as UTF-8 characters
-      org-modern           ; Prettify Org mode files
-	  org-msg              ; Org mode to send and reply to email in HTML
-	  org-superstar        ; Prettier Org mode bullets
-	  ox-gfm               ; Export Github Flavored Markdown from Org
-	  ox-hugo              ; Export to Blackfriday markdown, for Hugo sites
-	  paredit              ; minor mode for editing parentheses
-	  pdf-tools            ; Emacs support library for PDF files
-	  projectile           ; Manage and navigate projects in Emacs easily
-	  proof-general        ; A generic Emacs interface for proof assistants
-	  racket-mode          ; Major mode for Racket language
-	  rainbow-delimiters   ; Coloured bracket pairs
-	  slime                ; Superior Lisp Interaction Mode for Emacs
-	  smex                 ; M-x interface with Ido-style fuzzy matching
-      spacemacs-theme      ; Light and dark theme from Spacemacs
-	  svg-tag-mode         ; Display beautified SVG tags
-	  treemacs             ; Interactive file tree
-	  try                  ; Try out Emacs packages
-	  vertico              ; VERTical Interactive COmpletion
-	  vertico-posframe     ; Separate frame for Vertico minibuffer
-	  visual-fill-column   ; Center text
-	  vterm                ; A terminal via libvterm
-	  which-key)))         ; Display available keybindings in popup
-  (let ((packages (seq-remove 'package-installed-p packages)))
-	(when packages
-  ;; Install uninstalled packages
-  (package-refresh-contents)
-  (mapc 'package-install packages))))
-
 (defvar local-extensions "~/.emacs.d/local-extensions/")
 (add-to-list 'load-path  local-extensions)
 (let ((default-directory local-extensions))
@@ -472,6 +396,18 @@ Don't kill, just delete."
 
 (use-package projectile
   :bind (:map custom-bindings-map ("C-c p" . projectile-command-map)))
+
+(use-package chatgpt-shell
+  :ensure t
+  :custom
+  ((chatgpt-shell-openai-key
+    (lambda ()
+      (auth-source-pass-get 'secret "openai-key")))))
+
+;; The file ~/.authinfo has this line:
+;; machine api.openai.com password OPENAI_KEY
+(setq chatgpt-shell-openai-key
+      (auth-source-pick-first-password :host "api.openai.com"))
 
 (require 'org)
 
