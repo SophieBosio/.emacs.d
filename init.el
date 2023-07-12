@@ -73,6 +73,13 @@ tangled, and the tangled file is compiled."
 
 (set-fringe-mode 10)  ;; Fringe of 10
 
+(dolist (mode
+    '(tool-bar-mode        ;; Remove toolbar
+      scroll-bar-mode      ;; Remove scollbars
+      menu-bar-mode        ;; Remove menu bar
+      blink-cursor-mode))  ;; Solid cursor, not blinking
+    (funcall mode 0))
+
 (setq-default tab-width 4                       ;; Smaller tabs
               fill-column 80                    ;; Maximum line width
               split-width-threshold 160         ;; Split vertically by default
@@ -82,9 +89,6 @@ tangled, and the tangled file is compiled."
 )
 
 (fset 'yes-or-no-p 'y-or-n-p)
-
-(require 'all-the-icons)
-(require 'nerd-icons)
 
 (defvar emacs-autosave-directory
   (concat user-emacs-directory "autosaves/")
@@ -106,6 +110,7 @@ tangled, and the tangled file is compiled."
 (setq use-dialog-box                           nil) ;; Disable dialog
 
 (add-to-list 'default-frame-alist '(internal-border-width . 22))
+(set-fringe-mode 10)            ;; Set fringe width to 10
 
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist     '(fullscreen . maximized))
@@ -115,6 +120,27 @@ tangled, and the tangled file is compiled."
   :ensure t)
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(dolist (mode
+    '(column-number-mode        ;; Show current column number in mode line
+      delete-selection-mode     ;; Replace selected text when yanking
+      dirtrack-mode             ;; Directory tracking in shell
+      editorconfig-mode         ;; Use the editorconfig plugin
+      global-diff-hl-mode       ;; Highlight uncommitted changes
+      global-so-long-mode       ;; Mitigate performance for long lines
+      global-visual-line-mode   ;; Break lines instead of truncating them
+	  global-auto-revert-mode   ;; Revert buffers automatically when they change
+      recentf-mode              ;; Remember recently opened files
+	  savehist-mode             ;; Remember minibuffer prompt history
+	  save-place-mode           ;; Remember last cursor location in file
+      show-paren-mode           ;; Highlight matching parentheses
+	  which-key-mode))          ;; Available key-bindings in popup
+    (funcall mode 1))
+
+(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
+(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
 (require 'auto-save-buffers-enhanced)
 (auto-save-buffers-enhanced t)
@@ -170,39 +196,6 @@ Don't kill, just delete."
 
 (setq grep-command "rg -nS --no-heading "
       grep-use-null-device nil)
-
-(dolist (mode
-    '(tool-bar-mode        ;; Remove toolbar
-      scroll-bar-mode      ;; Remove scollbars
-      menu-bar-mode        ;; Remove menu bar
-      blink-cursor-mode))  ;; Solid cursor, not blinking
-    (funcall mode 0))
-
-(dolist (mode
-    '(column-number-mode        ;; Show current column number in mode line
-      delete-selection-mode     ;; Replace selected text when yanking
-      dirtrack-mode             ;; Directory tracking in shell
-      display-battery-mode      ;; Display battery percentage in mode line
-      display-time-mode         ;; Display time in mode line
-      editorconfig-mode         ;; Use the editorconfig plugin
-      global-company-mode       ;; Auto-completion everywhere
-      global-diff-hl-mode       ;; Highlight uncommitted changes
-      global-so-long-mode       ;; Mitigate performance for long lines
-      global-visual-line-mode   ;; Break lines instead of truncating them
-	  global-auto-revert-mode   ;; Revert buffers automatically when they change
-      counsel-projectile-mode   ;; Manage and navigate projects
-      recentf-mode              ;; Remember recently opened files
-	  savehist-mode             ;; Remember minibuffer prompt history
-	  save-place-mode           ;; Remember last cursor location in file
-      show-paren-mode           ;; Highlight matching parentheses
-	  which-key-mode))          ;; Available key-bindings in popup
-    (funcall mode 1))
-
-(set-fringe-mode 10)            ;; Set fringe width to 10
-(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
-(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
-
-(add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
 (when (member "Roboto Mono" (font-family-list))
   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)

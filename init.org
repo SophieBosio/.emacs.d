@@ -211,6 +211,17 @@ I want to reduce the number of UI elements that I don't use, so I'll remove thos
 (set-fringe-mode 10)  ;; Fringe of 10
 #+END_SRC
 
+There are some default modes I want to disable to clean up the UI further.
+
+#+BEGIN_SRC emacs-lisp
+(dolist (mode
+    '(tool-bar-mode        ;; Remove toolbar
+      scroll-bar-mode      ;; Remove scollbars
+      menu-bar-mode        ;; Remove menu bar
+      blink-cursor-mode))  ;; Solid cursor, not blinking
+    (funcall mode 0))
+#+END_SRc
+
 Some variables are buffer-local, so to change them globally, we need to use =setq-default= instead of the normal =setq=.
 
 #+BEGIN_SRC emacs-lisp
@@ -229,13 +240,6 @@ I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
-Make sure we have the =all-the-icons=  and =nerd-icons= packs in order to display icons properly.
-
-#+begin_src emacs-lisp
-(require 'all-the-icons)
-(require 'nerd-icons)
-#+end_src
-
 To avoid clutter, let's put all the auto-saved files into one and the same directory.
 
 #+BEGIN_SRC emacs-lisp
@@ -252,7 +256,7 @@ To avoid clutter, let's put all the auto-saved files into one and the same direc
       `((".*" ,emacs-autosave-directory t)))
 #+END_SRC
 
-And finally, I want scrolling to be a *lot* slower.
+And finally, I want scrolling to be a *lot* slower than it is by default.
 
 #+BEGIN_SRC emacs-lisp
 ;; Smoother scrolling
@@ -269,10 +273,12 @@ Some of these, I can't argue are "sane" in general - but they're what I want.
 
 *** Appearance
 
-I want a small border around the whole frame, because I think it looks nicer.
+I want a small border around the whole frame, because I think it looks nicer. I
+also want to set the fringe width.
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(internal-border-width . 22))
+(set-fringe-mode 10)            ;; Set fringe width to 10
 #+END_SRC
 
 And when I open Emacs, I want it to open maximised and fullscreen by default.
@@ -292,6 +298,37 @@ in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d88350215
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 #+end_src
+
+*** Built-In Minor Modes
+
+Minor modes I want to activate.
+
+#+BEGIN_SRC emacs-lisp
+(dolist (mode
+    '(column-number-mode        ;; Show current column number in mode line
+      delete-selection-mode     ;; Replace selected text when yanking
+      dirtrack-mode             ;; Directory tracking in shell
+      editorconfig-mode         ;; Use the editorconfig plugin
+      global-diff-hl-mode       ;; Highlight uncommitted changes
+      global-so-long-mode       ;; Mitigate performance for long lines
+      global-visual-line-mode   ;; Break lines instead of truncating them
+	  global-auto-revert-mode   ;; Revert buffers automatically when they change
+      recentf-mode              ;; Remember recently opened files
+	  savehist-mode             ;; Remember minibuffer prompt history
+	  save-place-mode           ;; Remember last cursor location in file
+      show-paren-mode           ;; Highlight matching parentheses
+	  which-key-mode))          ;; Available key-bindings in popup
+    (funcall mode 1))
+
+(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
+(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
+#+END_SRC
+
+And I do want line numbers, but only in programming modes.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
+#+END_SRC
 
 *** Auto-Saving
 
@@ -450,53 +487,6 @@ And finally, I want to use =ripgrep= as =grep=.
 #+BEGIN_SRC emacs-lisp
 (setq grep-command "rg -nS --no-heading "
       grep-use-null-device nil)
-#+END_SRC
-
-** Built-In Minor Modes
-
-There are some default modes I want to disable.
-
-#+BEGIN_SRC emacs-lisp
-(dolist (mode
-    '(tool-bar-mode        ;; Remove toolbar
-      scroll-bar-mode      ;; Remove scollbars
-      menu-bar-mode        ;; Remove menu bar
-      blink-cursor-mode))  ;; Solid cursor, not blinking
-    (funcall mode 0))
-#+END_SRc
-
-And then there are some modes that I want to activate!
-
-#+BEGIN_SRC emacs-lisp
-(dolist (mode
-    '(column-number-mode        ;; Show current column number in mode line
-      delete-selection-mode     ;; Replace selected text when yanking
-      dirtrack-mode             ;; Directory tracking in shell
-      display-battery-mode      ;; Display battery percentage in mode line
-      display-time-mode         ;; Display time in mode line
-      editorconfig-mode         ;; Use the editorconfig plugin
-      global-company-mode       ;; Auto-completion everywhere
-      global-diff-hl-mode       ;; Highlight uncommitted changes
-      global-so-long-mode       ;; Mitigate performance for long lines
-      global-visual-line-mode   ;; Break lines instead of truncating them
-	  global-auto-revert-mode   ;; Revert buffers automatically when they change
-      counsel-projectile-mode   ;; Manage and navigate projects
-      recentf-mode              ;; Remember recently opened files
-	  savehist-mode             ;; Remember minibuffer prompt history
-	  save-place-mode           ;; Remember last cursor location in file
-      show-paren-mode           ;; Highlight matching parentheses
-	  which-key-mode))          ;; Available key-bindings in popup
-    (funcall mode 1))
-
-(set-fringe-mode 10)            ;; Set fringe width to 10
-(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
-(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
-#+END_SRC
-
-And I do want line numbers, but only in programming modes.
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 #+END_SRC
 
 ** Fonts
