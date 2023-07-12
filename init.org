@@ -614,7 +614,6 @@ They're super handy!
 
 #+begin_src emacs-lisp
 (use-package vterm
-  :ensure t
   :defer  t
   :preface
   (let ((last-vterm ""))
@@ -655,7 +654,9 @@ They're super handy!
   :config
   ;; Don't query about killing vterm buffers, just kill it
   (defadvice vterm (after kill-with-no-query nil activate)
-    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
+    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
+  ;; Center the terminal window by default with Olivetti
+  (add-hook 'vterm-mode-hook 'olivetti-mode))
 #+end_src
 
 ** Dashboard
@@ -893,11 +894,7 @@ Log when TODOs are marked as done.
 Next, I always want to center the text and enable linebreaks in Org. In general, I want to activate it manually, so I'll make a hook specifically for Org mode.
 
 #+begin_src emacs-lisp
-;; Enable text centering and line breaks for Org Mode
-(defun org-center-style ()
-  (olivetti-mode 1))
-
-(add-hook 'org-mode-hook 'org-center-style)
+(add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
 I'll use the =org-bullets= package to prettify the document headers and lists by

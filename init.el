@@ -266,7 +266,6 @@ Don't kill, just delete."
       nano-modeline-prefix-padding t)       ;; Padding between prefix and text
 
 (use-package vterm
-  :ensure t
   :defer  t
   :preface
   (let ((last-vterm ""))
@@ -307,7 +306,9 @@ Don't kill, just delete."
   :config
   ;; Don't query about killing vterm buffers, just kill it
   (defadvice vterm (after kill-with-no-query nil activate)
-    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
+    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
+  ;; Center the terminal window by default with Olivetti
+  (add-hook 'vterm-mode-hook 'olivetti-mode))
 
 (require 'dashboard)
 (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
@@ -417,11 +418,7 @@ Don't kill, just delete."
 
 (setq org-log-done t)
 
-;; Enable text centering and line breaks for Org Mode
-(defun org-center-style ()
-  (olivetti-mode 1))
-
-(add-hook 'org-mode-hook 'org-center-style)
+(add-hook 'org-mode-hook 'olivetti-mode)
 
 (use-package org-bullets
   :config
