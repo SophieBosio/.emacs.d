@@ -384,12 +384,14 @@ Don't kill, just delete."
         completion-category-overrides '((file (styles basic partial-completion)))
         orderless-component-separator "[ |]"))
 
-(setq counsel-describe-function-function #'helpful-callable  ;; C-h f
-      counsel-describe-variable-function #'helpful-variable) ;; C-h v
-(global-set-key (kbd "C-h x")   #'helpful-command)           ;; C-h x
-(global-set-key (kbd "C-h k")   #'helpful-key)               ;; C-h k
-(global-set-key (kbd "C-c C-d") #'helpful-at-point)          ;; C-c C-d
-(global-set-key (kbd "C-h F")   #'helpful-function)          ;; C-h F
+(use-package helpful
+  :bind (:map custom-bindings-map
+			  ("C-h f" . #'helpful-callable)
+			  ("C-h v" . #'helpful-variable)
+			  ("C-h k" . #'helpful-key)
+			  ("C-h x" . #'helpful-command)
+			  ("C-h d" . #'helpful-at-point)
+			  ("C-h F" . #'helpful-function)))
 
 (use-package magit
   :bind (:map custom-bindings-map ("C-c m" . magit-status)))

@@ -809,17 +809,15 @@ order. Let's use it together with Corfu.
 
 Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
 
-Since I'm using Ivy and Counsel, I already have overwritten some standard Emacs keybindings. Therefore, I'll remap Counsel's functions for describing a function and a variable to the equivalent Helpful functions.
-
-I'll also set some global keybindings that have not already been overwritten.
-
 #+BEGIN_SRC emacs-lisp
-(setq counsel-describe-function-function #'helpful-callable  ;; C-h f
-      counsel-describe-variable-function #'helpful-variable) ;; C-h v
-(global-set-key (kbd "C-h x")   #'helpful-command)           ;; C-h x
-(global-set-key (kbd "C-h k")   #'helpful-key)               ;; C-h k
-(global-set-key (kbd "C-c C-d") #'helpful-at-point)          ;; C-c C-d
-(global-set-key (kbd "C-h F")   #'helpful-function)          ;; C-h F
+(use-package helpful
+  :bind (:map custom-bindings-map
+			  ("C-h f" . #'helpful-callable)
+			  ("C-h v" . #'helpful-variable)
+			  ("C-h k" . #'helpful-key)
+			  ("C-h x" . #'helpful-command)
+			  ("C-h d" . #'helpful-at-point)
+			  ("C-h F" . #'helpful-function)))
 #+END_SRC
 
 ** TODO Spelling
