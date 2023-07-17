@@ -109,7 +109,7 @@ tangled, and the tangled file is compiled."
 (setq scroll-step                                1) ;; keyboard scroll one line at a time
 (setq use-dialog-box                           nil) ;; Disable dialog
 
-(add-to-list 'default-frame-alist '(internal-border-width . 22))
+(add-to-list 'default-frame-alist '(internal-border-width . 24))
 (set-fringe-mode 10)            ;; Set fringe width to 10
 
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
