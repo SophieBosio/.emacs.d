@@ -330,11 +330,6 @@ Don't kill, just delete."
   :config
   (setq-default olivetti-body-width (+ fill-column 14)))
 
-(pdf-loader-install)
-
-(add-hook 'pdf-view-mode-hook
-          (lambda () (setq header-line-format nil)))
-
 (vertico-mode 1)
 (setq vertico-count 25                       ; Show more candidates
     ; Hide unavailable commands
@@ -394,6 +389,16 @@ Don't kill, just delete."
   :bind (:map custom-bindings-map ("C-c p" . projectile-command-map))
   :config
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
+
+(pdf-loader-install)
+
+(add-hook 'pdf-view-mode-hook
+          (lambda () (setq header-line-format nil)))
+
+(use-package auctex
+  :hook
+  (LaTeX-mode . turn-on-prettify-symbols-mode)
+  (LaTeX-mode . turn-on-flyspell))
 
 (use-package chatgpt-shell
   :ensure t

@@ -699,21 +699,6 @@ With the the font and font size I use, setting the =fill-column= variable to 14,
   (setq-default olivetti-body-width (+ fill-column 14)))
 #+END_SRC
 
-** PDF Tools
-
-This displays PDFs in a much more beautiful way.
-
-#+BEGIN_SRC emacs-lisp
-(pdf-loader-install)
-#+END_SRC
-
-However, it takes a long time to load, so we'll wait to load it until we try to open a PDF. Then it'll take a long time to open the first PDF, but all the others will load quickly, and we don't need to spend any extra start-up time when we don't need to open any PDFs.
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'pdf-view-mode-hook
-          (lambda () (setq header-line-format nil)))
-#+END_SRC	  
-
 ** Completion
 
 For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other extensions that play well together:
@@ -832,6 +817,34 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   :bind (:map custom-bindings-map ("C-c p" . projectile-command-map))
   :config
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
+#+end_src
+
+** PDF Tools
+
+This displays PDFs in a much more beautiful way.
+
+#+BEGIN_SRC emacs-lisp
+(pdf-loader-install)
+#+END_SRC
+
+However, it takes a long time to load, so we'll wait to load it until we try to open a PDF. Then it'll take a long time to open the first PDF, but all the others will load quickly, and we don't need to spend any extra start-up time when we don't need to open any PDFs.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'pdf-view-mode-hook
+          (lambda () (setq header-line-format nil)))
+#+END_SRC	  
+
+** LaTeX
+
+I use AUCTeX to work with LaTeX files from within Emacs and it's a massive help.
+It has a lot of different features, and I'd recommend checking out the
+documentation to see all the stuff you can do with it.
+
+#+begin_src emacs-lisp
+(use-package auctex
+  :hook
+  (LaTeX-mode . turn-on-prettify-symbols-mode)
+  (LaTeX-mode . turn-on-flyspell))
 #+end_src
 
 ** ChatGPT Shell
