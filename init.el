@@ -318,7 +318,7 @@ tangled, and the tangled file is compiled."
   (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
   (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
+  (setq dashboard-startup-banner         "~/.emacs.d/images/lambda-alt.png"
 		dashboard-image-banner-max-width 100
 		dashboard-banner-logo-title      "Welcome back!"
 		dashboard-center-content         t
