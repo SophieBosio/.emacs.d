@@ -187,9 +187,6 @@ tangled, and the tangled file is compiled."
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 
-;; Set keybinding
-;; (global-set-key [C-backspace] 'custom/backward-kill-char-or-word)
-
 (use-package browse-kill-ring
   :ensure t)
 
