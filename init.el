@@ -163,7 +163,7 @@ tangled, and the tangled file is compiled."
 (setq backward-delete-char-untabify-method 'hungry)
 
 ;; Delete a word, a character, or whitespace
-(defun custom/backward-kill-char-or-word ()
+(defun custom/backward-delete ()
   (interactive)
   (cond
    ;; If you see a word, delete all of it
@@ -188,7 +188,7 @@ tangled, and the tangled file is compiled."
   (delete-region (point) (progn (backward-word arg) (point))))
 
 ;; Set keybinding
-(global-set-key [C-backspace] 'custom/backward-kill-char-or-word)
+;; (global-set-key [C-backspace] 'custom/backward-kill-char-or-word)
 
 (use-package browse-kill-ring
   :ensure t)
@@ -553,7 +553,8 @@ tangled, and the tangled file is compiled."
 
 (use-package emacs
   :config
-  (define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes)))
+  (define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes))
+  (define-key custom-bindings-map [C-backspace] 'custom/backward-delete))
 
 (define-minor-mode custom-bindings-mode
   "A mode that activates custom keybindings."
