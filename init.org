@@ -599,7 +599,7 @@ disable the currently enabled themes when switching.
 
 ** Mode Line
 
-I really like Nicolas Rougiers [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has some neat built-in features, like the option to put the modeline in the header bar instead of at the bottom of the screen.
+I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has some neat built-in features, like the option to put the modeline in the header bar instead of at the bottom of the screen.
 
 #+begin_src emacs-lisp
 (require 'nano-modeline)
@@ -675,19 +675,20 @@ The =dashboard= extension gives you a welcoming and pretty landing buffer. I
 point it to my own image, but the ='logo= banner is also really nice.
 
 #+BEGIN_SRC emacs-lisp
-(require 'dashboard)
-(setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
-(setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
-(dashboard-setup-startup-hook)
-(setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
-      dashboard-image-banner-max-width 100
-      dashboard-banner-logo-title      "Welcome back!"
-      dashboard-center-content         t
-      dashboard-set-footer             nil
-      dashboard-page-separator         "\n\n\n"
-      dashboard-items '((projects     . 5)
-                        (recents      . 10)
-                        (agenda       . 5)))
+(use-package dashboard
+  :config
+  (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
+  (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
+		dashboard-image-banner-max-width 100
+		dashboard-banner-logo-title      "Welcome back!"
+		dashboard-center-content         t
+		dashboard-set-footer             nil
+		dashboard-page-separator         "\n\n\n"
+		dashboard-items '((projects     . 5)
+                          (recents      . 10)
+                          (agenda       . 5))))
 #+END_SRC
 
 ** Olivetti
@@ -718,14 +719,16 @@ For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite
 Let's start by configuring Vertico.
 
 #+begin_src emacs-lisp
-(vertico-mode 1)
-(setq vertico-count 25                       ; Show more candidates
-    ; Hide unavailable commands
-    read-extended-command-predicate 'command-completion-default-include-p
-    read-file-name-completion-ignore-case t  ; Ignore case of file names
-    read-buffer-completion-ignore-case t     ; Ignore case in buffer completion
-    completion-ignore-case t                 ; Ignore case in completion
-)
+(use-package vertico
+  :config
+  (vertico-mode 1)
+  (setq vertico-count 25                       ; Show more candidates
+										; Hide unavailable commands
+		read-extended-command-predicate 'command-completion-default-include-p
+		read-file-name-completion-ignore-case t  ; Ignore case of file names
+		read-buffer-completion-ignore-case t     ; Ignore case in buffer completion
+		completion-ignore-case t                 ; Ignore case in completion
+))
 #+end_src
 
 Next, I want Vertico to appear in a small child frame, instead of as a
@@ -942,14 +945,15 @@ Increase the size of LaTeX previews in Org.
 #+end_src
 
 =org-modern= is a package that prettifies a lot of Org elements, such as
-headings, lists, tables, and source code blocks.
+headings, lists, tables, and source code blocks. My setup is lifted straight
+from the usage example in the [[https://github.com/minad/org-modern][GitHub repo]].
 
 #+begin_src emacs-lisp
 (setq
  ;; Edit settings
  org-auto-align-tags nil
  org-tags-column 0
- org-catch-invisible-edits 'show-and-error
+ org-fold-catch-invisible-edits 'show-and-error
  org-special-ctrl-a/e t
  org-insert-heading-respect-content t
 

@@ -313,19 +313,20 @@ tangled, and the tangled file is compiled."
   ;; Center the terminal window by default with Olivetti
   (add-hook 'vterm-mode-hook 'olivetti-mode))
 
-(require 'dashboard)
-(setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
-(setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
-(dashboard-setup-startup-hook)
-(setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
-      dashboard-image-banner-max-width 100
-      dashboard-banner-logo-title      "Welcome back!"
-      dashboard-center-content         t
-      dashboard-set-footer             nil
-      dashboard-page-separator         "\n\n\n"
-      dashboard-items '((projects     . 5)
-                        (recents      . 10)
-                        (agenda       . 5)))
+(use-package dashboard
+  :config
+  (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
+  (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner         "~/.emacs.d/images/lambda.png"
+		dashboard-image-banner-max-width 100
+		dashboard-banner-logo-title      "Welcome back!"
+		dashboard-center-content         t
+		dashboard-set-footer             nil
+		dashboard-page-separator         "\n\n\n"
+		dashboard-items '((projects     . 5)
+                          (recents      . 10)
+                          (agenda       . 5))))
 
 (use-package olivetti
   :defer t
@@ -333,14 +334,16 @@ tangled, and the tangled file is compiled."
   :config
   (setq-default olivetti-body-width (+ fill-column 14)))
 
-(vertico-mode 1)
-(setq vertico-count 25                       ; Show more candidates
-    ; Hide unavailable commands
-    read-extended-command-predicate 'command-completion-default-include-p
-    read-file-name-completion-ignore-case t  ; Ignore case of file names
-    read-buffer-completion-ignore-case t     ; Ignore case in buffer completion
-    completion-ignore-case t                 ; Ignore case in completion
-)
+(use-package vertico
+  :config
+  (vertico-mode 1)
+  (setq vertico-count 25                       ; Show more candidates
+										; Hide unavailable commands
+		read-extended-command-predicate 'command-completion-default-include-p
+		read-file-name-completion-ignore-case t  ; Ignore case of file names
+		read-buffer-completion-ignore-case t     ; Ignore case in buffer completion
+		completion-ignore-case t                 ; Ignore case in completion
+))
 
 (use-package vertico-posframe
   :config
@@ -438,7 +441,7 @@ tangled, and the tangled file is compiled."
  ;; Edit settings
  org-auto-align-tags nil
  org-tags-column 0
- org-catch-invisible-edits 'show-and-error
+ org-fold-catch-invisible-edits 'show-and-error
  org-special-ctrl-a/e t
  org-insert-heading-respect-content t
 
