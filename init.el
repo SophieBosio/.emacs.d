@@ -162,27 +162,33 @@ tangled, and the tangled file is compiled."
 
 (setq backward-delete-char-untabify-method 'hungry)
 
-(defun custom/backward-kill-word ()
-  "Remove all whitespace if the character behind the cursor is whitespace,
-   otherwise remove a word."
+;; Delete a word, a character, or whitespace
+(defun custom/backward-kill-char-or-word ()
   (interactive)
-  (if (looking-back "[ \n]")
-      ;; delete horizontal space behind us and then check to see if we
-      ;; are looking at a newline
-      (progn (delete-horizontal-space 't)
-             (while (looking-back "[ \n]")
-               (backward-delete-char 1)))
-    ;; otherwise, just do the normal kill word.
-    (custom/delete-dont-kill 1)))
+  (cond
+   ;; If you see a word, delete all of it
+   ((looking-back (rx (char word)) 1)
+    (custom/delete-dont-kill 1))
+   ;; If you see a single whitespace and a word, delete both together
+   ((looking-back (rx (seq (char word) (= 1 blank))) 1)
+	(custom/delete-dont-kill 1))
+   ;; If you see several whitespaces, delete them until the next word
+   ((looking-back (rx (char blank)) 1)
+    (delete-horizontal-space t))
+   ;; If you see a single non-word character, delete that
+   (t
+    (backward-delete-char 1))))
 
 ;; Delete a word without adding it to the kill ring
 (defun custom/delete-dont-kill (arg)
   "Delete characters backward until encountering the beginning of a word.
-With argument ARG, do this that many times.
-Don't kill, just delete."
+   With argument ARG, do this that many times.
+   Don't kill, just delete."
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
-(global-set-key [C-backspace] 'custom/backward-kill-word)
+
+;; Set keybinding
+(global-set-key [C-backspace] 'custom/backward-kill-char-or-word)
 
 (use-package browse-kill-ring
   :ensure t)
