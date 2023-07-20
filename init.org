@@ -332,19 +332,19 @@ And I do want line numbers, but only in programming modes.
 
 *** Auto-Saving
 
-I prefer having my files save automatically. Any changes I don't want, I just don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all buffers, not just the ones I have open.
-
-#+BEGIN_SRC emacs-lisp
-(require 'auto-save-buffers-enhanced)
-(auto-save-buffers-enhanced t)
-#+END_SRC
+I prefer having my files save automatically. Any changes I don't want, I just
+don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all
+buffers, not just the ones I have open.
 
 But since saving this file - the =init.org=-file - triggers recompilation of
 =init.el=, it's really annoying if this file is autosaved when I write to it.
 Therefore, I'll disable automatic saving for this file in particular.
 
 #+BEGIN_SRC emacs-lisp
-(setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
+(use-package auto-save-buffers-enhanced
+  :config
+  (auto-save-buffers-enhanced t)
+  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
 #+END_SRC
 
 *** Tabs vs. Indentation
@@ -938,7 +938,7 @@ For this, we need an OpenAI Key. I've stored mine in =~/.authinfo=.
 Let's first make sure we're using Org.
 
 #+BEGIN_SRC emacs-lisp
-(require 'org)
+(use-package org)
 #+END_SRC
 
 *** Prettifying
@@ -1133,13 +1133,13 @@ types of notes, each corresponding to a an =.org=-file type.
 *** Hugo
 
 [[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
-Blackfriday. The package =ox-hugo= can export Org files to this format, and
+Blackfriday. The package [[https://github.com/kaushalmodi/ox-hugo/][ox-hugo]] can export Org files to this format, and
 also generate appropriate front-matter. I use it to write my blog in Org and
 easily put it online.
 
 #+BEGIN_SRC emacs-lisp
-(with-eval-after-load 'ox
-  (require 'ox-hugo))
+(use-package ox-hugo
+  :after ox)
 #+END_SRC
 
 ** Roam
@@ -1161,32 +1161,32 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 =obsidian.el= package.
 
 #+begin_src emacs-lisp
-(require 'obsidian)
-(obsidian-specify-path "~/Dropbox/obsidian-personal")
-;; If you want a different directory of `obsidian-capture':
-(setq obsidian-inbox-directory "Inbox")
+(use-package obsidian
+  :config
+  (obsidian-specify-path "~/Dropbox/obsidian-personal")
+  ;; If you want a different directory of `obsidian-capture':
+  (setq obsidian-inbox-directory "Inbox")
 
-(add-hook
- 'obsidian-mode-hook
- (lambda ()
-   ;; Replace standard command with Obsidian.el's in obsidian vault:
-   (local-set-key (kbd "C-c C-o") 'obsidian-follow-link-at-point)
+  (add-hook
+   'obsidian-mode-hook
+   (lambda ()
+	 ;; Replace standard command with Obsidian.el's in obsidian vault:
+	 (local-set-key (kbd "C-c C-o") 'obsidian-follow-link-at-point)
 
 
-   ;; Use either `obsidian-insert-wikilink' or `obsidian-insert-link':
-   (local-set-key (kbd "C-c C-l") 'obsidian-insert-wikilink)
+	 ;; Use either `obsidian-insert-wikilink' or `obsidian-insert-link':
+	 (local-set-key (kbd "C-c C-l") 'obsidian-insert-wikilink)
 
-   ;; Following backlinks
-   (local-set-key (kbd "C-c C-b") 'obsidian-backlink-jump)
-   
-   ;; Jump to another Obsidian note
-   (local-set-key (kbd "C-c C-j") 'obsidian-jump)
+	 ;; Following backlinks
+	 (local-set-key (kbd "C-c C-b") 'obsidian-backlink-jump)
+	 
+	 ;; Jump to another Obsidian note
+	 (local-set-key (kbd "C-c C-j") 'obsidian-jump)
 
-   ;; Capture Obsidian note
-   (local-set-key (kbd "C-c C-a") 'obsidian-capture)
-))
-
-(global-obsidian-mode t)
+	 ;; Capture Obsidian note
+	 (local-set-key (kbd "C-c C-a") 'obsidian-capture)
+	 ))
+  (global-obsidian-mode t))
 #+end_src
 
 

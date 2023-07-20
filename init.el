@@ -142,10 +142,10 @@ tangled, and the tangled file is compiled."
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 
-(require 'auto-save-buffers-enhanced)
-(auto-save-buffers-enhanced t)
-
-(setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
+(use-package auto-save-buffers-enhanced
+  :config
+  (auto-save-buffers-enhanced t)
+  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
 
 (defun infer-indentation-style ()
   ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
@@ -445,7 +445,7 @@ the languages in ISPELL-LANGUAGES when invoked."
 (setq chatgpt-shell-openai-key
       (auth-source-pick-first-password :host "api.openai.com"))
 
-(require 'org)
+(use-package org)
 
 (setq org-adapt-indentation t
       org-hide-leading-stars t
@@ -543,35 +543,35 @@ the languages in ISPELL-LANGUAGES when invoked."
 
 (define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
 
-(with-eval-after-load 'ox
-  (require 'ox-hugo))
+(use-package ox-hugo
+  :after ox)
 
-(require 'obsidian)
-(obsidian-specify-path "~/Dropbox/obsidian-personal")
-;; If you want a different directory of `obsidian-capture':
-(setq obsidian-inbox-directory "Inbox")
+(use-package obsidian
+  :config
+  (obsidian-specify-path "~/Dropbox/obsidian-personal")
+  ;; If you want a different directory of `obsidian-capture':
+  (setq obsidian-inbox-directory "Inbox")
 
-(add-hook
- 'obsidian-mode-hook
- (lambda ()
-   ;; Replace standard command with Obsidian.el's in obsidian vault:
-   (local-set-key (kbd "C-c C-o") 'obsidian-follow-link-at-point)
+  (add-hook
+   'obsidian-mode-hook
+   (lambda ()
+	 ;; Replace standard command with Obsidian.el's in obsidian vault:
+	 (local-set-key (kbd "C-c C-o") 'obsidian-follow-link-at-point)
 
 
-   ;; Use either `obsidian-insert-wikilink' or `obsidian-insert-link':
-   (local-set-key (kbd "C-c C-l") 'obsidian-insert-wikilink)
+	 ;; Use either `obsidian-insert-wikilink' or `obsidian-insert-link':
+	 (local-set-key (kbd "C-c C-l") 'obsidian-insert-wikilink)
 
-   ;; Following backlinks
-   (local-set-key (kbd "C-c C-b") 'obsidian-backlink-jump)
-   
-   ;; Jump to another Obsidian note
-   (local-set-key (kbd "C-c C-j") 'obsidian-jump)
+	 ;; Following backlinks
+	 (local-set-key (kbd "C-c C-b") 'obsidian-backlink-jump)
+	 
+	 ;; Jump to another Obsidian note
+	 (local-set-key (kbd "C-c C-j") 'obsidian-jump)
 
-   ;; Capture Obsidian note
-   (local-set-key (kbd "C-c C-a") 'obsidian-capture)
-))
-
-(global-obsidian-mode t)
+	 ;; Capture Obsidian note
+	 (local-set-key (kbd "C-c C-a") 'obsidian-capture)
+	 ))
+  (global-obsidian-mode t))
 
 (use-package haskell-mode
   :defer t
