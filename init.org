@@ -682,7 +682,7 @@ point it to my own image, but the ='logo= banner is also really nice.
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner         "~/.emacs.d/images/lambda-alt.png"
 		dashboard-image-banner-max-width 100
-		dashboard-banner-logo-title      "Welcome back!"
+		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
 		dashboard-center-content         t
 		dashboard-set-footer             nil
 		dashboard-page-separator         "\n\n\n"
@@ -805,7 +805,47 @@ Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-frien
 			  ("C-h F" . #'helpful-function)))
 #+END_SRC
 
-** TODO Spelling
+** Spelling
+
+[[https://www.emacswiki.org/emacs/FlySpell][Flyspell]] enables on-the-fly spell checking and highlights misspelled words in
+the way that you'd expect.
+
+I've borrowed [[https://github.com/larstvei/dot-emacs#flyspell][Lars' function]] for cycling through languages from his config. The
+below code ensures changing spelling language in one buffer does not affect the
+spelling languages of other buffers. I mostly write in British English, but
+adapt to American English when collaborating, so I'll add both.
+
+#+begin_src emacs-lisp
+(defun cycle-languages ()
+  "Changes the ispell dictionary to the first element in
+ISPELL-LANGUAGES, and returns an interactive function that cycles
+the languages in ISPELL-LANGUAGES when invoked."
+  (let ((ispell-languages (list "british" "norsk" "american" "italiano" "francais")))
+    (lambda ()
+      (interactive)
+      ;; Rotates the languages cycle and changes the ispell dictionary.
+      (let ((rotated (nconc (cdr ispell-languages) (list (car ispell-languages)))))
+        (ispell-change-dictionary (car (setq ispell-languages rotated)))))))
+#+end_src
+
+I'll enable =flyspell-mode= for all text modes and use =flyspell-prog-mode= for
+spell checking comments and strings in all programming modes. =C-c l= is bound to
+a function returned from =cycle-languages=, giving a language switcher for every
+buffer where flyspell is enabled.
+
+#+begin_src emacs-lisp
+(use-package flyspell
+  :defer t
+  :if (executable-find "aspell")
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode)
+         (flyspell-mode . (lambda ()
+                            (local-set-key
+                             (kbd "C-c l")
+                             (cycle-languages)))))
+  :config
+  (ispell-change-dictionary "british" t))
+#+end_src
 
 ** Magit
 

@@ -320,7 +320,7 @@ tangled, and the tangled file is compiled."
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner         "~/.emacs.d/images/lambda-alt.png"
 		dashboard-image-banner-max-width 100
-		dashboard-banner-logo-title      "Welcome back!"
+		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
 		dashboard-center-content         t
 		dashboard-set-footer             nil
 		dashboard-page-separator         "\n\n\n"
@@ -387,6 +387,29 @@ tangled, and the tangled file is compiled."
 			  ("C-h x" . #'helpful-command)
 			  ("C-h d" . #'helpful-at-point)
 			  ("C-h F" . #'helpful-function)))
+
+(defun cycle-languages ()
+  "Changes the ispell dictionary to the first element in
+ISPELL-LANGUAGES, and returns an interactive function that cycles
+the languages in ISPELL-LANGUAGES when invoked."
+  (let ((ispell-languages (list "british" "norsk" "american" "italiano" "francais")))
+    (lambda ()
+      (interactive)
+      ;; Rotates the languages cycle and changes the ispell dictionary.
+      (let ((rotated (nconc (cdr ispell-languages) (list (car ispell-languages)))))
+        (ispell-change-dictionary (car (setq ispell-languages rotated)))))))
+
+(use-package flyspell
+  :defer t
+  :if (executable-find "aspell")
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode)
+         (flyspell-mode . (lambda ()
+                            (local-set-key
+                             (kbd "C-c l")
+                             (cycle-languages)))))
+  :config
+  (ispell-change-dictionary "british" t))
 
 (use-package magit
   :bind (:map custom-bindings-map ("C-c m" . magit-status)))
