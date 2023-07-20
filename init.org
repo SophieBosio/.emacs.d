@@ -347,7 +347,7 @@ Therefore, I'll disable automatic saving for this file in particular.
 (setq auto-save-buffers-enhanced-exclude-regexps '("init.org"))
 #+END_SRC
 
-*** Tabs/Indentation
+*** Tabs vs. Indentation
 
 One of the things that drove me the most insane when I first downloaded Emacs,
 was the way it deals with indentation.
@@ -424,7 +424,7 @@ Old configuration from a blog post. Note that I'm no longer using this:
 (global-whitespace-mode) ; Enable whitespace mode everywhere
 #+END_SRC
 
-*** Deleting With C-backspace
+*** Killing vs. Deleting
 
 Another thing that bothered me, was how the =backward-kill-word= command
 (C-delete/backspace) would delete not only trailing backspaces, but everything
