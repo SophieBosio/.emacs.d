@@ -357,7 +357,8 @@ tangled, and the tangled file is compiled."
 (use-package consult
   :bind (:map custom-bindings-map
               ("C-x b"   . consult-buffer)
-              ("C-s"     . consult-ripgrep)
+			  ("C-s"     . consult-line)
+              ("S-s"     . consult-ripgrep)
 			  ("C-c C-g" . consult-goto-line)))
 
 (use-package marginalia

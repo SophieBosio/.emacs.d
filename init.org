@@ -757,7 +757,8 @@ that it can do.
 (use-package consult
   :bind (:map custom-bindings-map
               ("C-x b"   . consult-buffer)
-              ("C-s"     . consult-ripgrep)
+			  ("C-s"     . consult-line)
+              ("S-s"     . consult-ripgrep)
 			  ("C-c C-g" . consult-goto-line)))
 #+end_src
 
@@ -784,8 +785,8 @@ Corfu gives me text completion at point.
         corfu-popupinfo-delay 0.5))
 #+end_src
 
-And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple regexes, in any
-order. Let's use it together with Corfu.
+And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
+regexes, in any order. Let's use it together with Corfu.
 
 #+begin_src emacs-lisp
 (use-package orderless
