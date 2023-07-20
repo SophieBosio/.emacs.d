@@ -270,6 +270,7 @@ tangled, and the tangled file is compiled."
 
 (use-package vterm
   :defer  t
+
   :preface
   (let ((last-vterm ""))
     (defun toggle-vterm ()
@@ -305,6 +306,8 @@ tangled, and the tangled file is compiled."
               ("M-7" . (lambda () (interactive) (switch-vterm 7)))
               ("M-8" . (lambda () (interactive) (switch-vterm 8)))
               ("M-9" . (lambda () (interactive) (switch-vterm 9))))
+        (:map vterm-mode-map
+			  ("C-<backspace>" . (lambda () (interactive) (vterm-send-key (kbd "C-w")))))
 
   :config
   ;; Don't query about killing vterm buffers, just kill it

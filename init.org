@@ -614,13 +614,17 @@ I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano
 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
 before killing an instance of the terminal, so I'll set it to just kill it.
-
-I also really Lars' [[https://github.com/larstvei/dot-emacs#vterm][vterm functins]], so I'll use those as well.
+I also really Lars' [[https://github.com/larstvei/dot-emacs#vterm][vterm functions]], so I'll use those as well.
 They're super handy!
+
+Lastly, deleting whole words doesn't work well in vterm by
+default, so if anyone has a good tip for how to overwrite my custom bindings map
+in just vterm, please do let me know :~)
 
 #+begin_src emacs-lisp
 (use-package vterm
   :defer  t
+
   :preface
   (let ((last-vterm ""))
     (defun toggle-vterm ()
@@ -656,6 +660,8 @@ They're super handy!
               ("M-7" . (lambda () (interactive) (switch-vterm 7)))
               ("M-8" . (lambda () (interactive) (switch-vterm 8)))
               ("M-9" . (lambda () (interactive) (switch-vterm 9))))
+        (:map vterm-mode-map
+			  ("C-<backspace>" . (lambda () (interactive) (vterm-send-key (kbd "C-w")))))
 
   :config
   ;; Don't query about killing vterm buffers, just kill it
