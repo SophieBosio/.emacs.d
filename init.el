@@ -27,6 +27,7 @@ tangled, and the tangled file is compiled."
 
 (require 'package)
 (require 'use-package)
+(require 'quelpa)
 (setq use-package-always-ensure t)
 
 (setq package-archives

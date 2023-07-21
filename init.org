@@ -122,11 +122,12 @@ Set UFT-8 as preferred coding system.
 ** Packages
 
 To manage downloaded packages, Emacs comes with =package.el= installed. In
-addition, I want to use =use-package=, so let's make sure we have those loaded.
+addition, I want to use =use-package= and the conveniently compatible =quelpa=, so let's make sure we have those loaded.
 
 #+begin_src emacs-lisp
 (require 'package)
 (require 'use-package)
+(require 'quelpa)
 (setq use-package-always-ensure t)
 #+end_src
 
@@ -610,7 +611,7 @@ I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano
       nano-modeline-prefix-padding t)       ;; Padding between prefix and text
 #+end_src
 
-** Terminal
+** Terminal Emulator
 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
 before killing an instance of the terminal, so I'll set it to just kill it.
