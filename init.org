@@ -615,8 +615,9 @@ I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano
 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
 before killing an instance of the terminal, so I'll set it to just kill it.
-I also really Lars' [[https://github.com/larstvei/dot-emacs#vterm][vterm functions]], so I'll use those as well.
-They're super handy!
+I also really Lars' [[https://github.com/larstvei/dot-emacs#vterm][vterm functions]], so I'll use those as well. One is for
+toggling the =vterm= buffer with the other open buffer, and another binds a
+separate =vterm= instance to each =M-n= keystroke.
 
 Lastly, deleting whole words doesn't work well in vterm by
 default, so if anyone has a good tip for how to overwrite my custom bindings map
@@ -670,6 +671,20 @@ in just vterm, please do let me know :~)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
   ;; Center the terminal window by default with Olivetti
   (add-hook 'vterm-mode-hook 'olivetti-mode))
+#+end_src
+
+I've also tried [[https://codeberg.org/akib/emacs-eat][eat]], which we can load easily with =quelpa=. It behaves a bit
+nicer when it comes to text input, so I'm considering switching, but certainly not until
+I've ported the above =vterm= functions to work for =eat=.
+
+#+begin_src emacs-lisp
+(quelpa '(eat :fetcher git
+              :url "https://codeberg.org/akib/emacs-eat"
+              :files ("*.el" ("term" "term/*.el") "*.texi"
+                      "*.ti" ("terminfo/e" "terminfo/e/*")
+                      ("terminfo/65" "terminfo/65/*")
+                      ("integration" "integration/*")
+                      (:exclude ".dir-locals.el" "*-tests.el"))))
 #+end_src
 
 ** Dashboard
