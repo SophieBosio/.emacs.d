@@ -27,7 +27,6 @@ tangled, and the tangled file is compiled."
 
 (require 'package)
 (require 'use-package)
-(require 'quelpa)
 (setq use-package-always-ensure t)
 
 (setq package-archives
@@ -316,14 +315,6 @@ tangled, and the tangled file is compiled."
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
   ;; Center the terminal window by default with Olivetti
   (add-hook 'vterm-mode-hook 'olivetti-mode))
-
-(quelpa '(eat :fetcher git
-              :url "https://codeberg.org/akib/emacs-eat"
-              :files ("*.el" ("term" "term/*.el") "*.texi"
-                      "*.ti" ("terminfo/e" "terminfo/e/*")
-                      ("terminfo/65" "terminfo/65/*")
-                      ("integration" "integration/*")
-                      (:exclude ".dir-locals.el" "*-tests.el"))))
 
 (use-package dashboard
   :config

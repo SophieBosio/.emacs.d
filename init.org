@@ -127,7 +127,6 @@ addition, I want to use =use-package= and the conveniently compatible =quelpa=, 
 #+begin_src emacs-lisp
 (require 'package)
 (require 'use-package)
-(require 'quelpa)
 (setq use-package-always-ensure t)
 #+end_src
 
@@ -671,20 +670,6 @@ in just vterm, please do let me know :~)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
   ;; Center the terminal window by default with Olivetti
   (add-hook 'vterm-mode-hook 'olivetti-mode))
-#+end_src
-
-I've also tried [[https://codeberg.org/akib/emacs-eat][eat]], which we can load easily with =quelpa=. It behaves a bit
-nicer when it comes to text input, so I'm considering switching, but certainly not until
-I've ported the above =vterm= functions to work for =eat=.
-
-#+begin_src emacs-lisp
-(quelpa '(eat :fetcher git
-              :url "https://codeberg.org/akib/emacs-eat"
-              :files ("*.el" ("term" "term/*.el") "*.texi"
-                      "*.ti" ("terminfo/e" "terminfo/e/*")
-                      ("terminfo/65" "terminfo/65/*")
-                      ("integration" "integration/*")
-                      (:exclude ".dir-locals.el" "*-tests.el"))))
 #+end_src
 
 ** Dashboard
