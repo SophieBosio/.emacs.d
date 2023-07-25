@@ -822,7 +822,7 @@ as possible, but it's still available.
 #+begin_src emacs-lisp
 (use-package corfu-candidate-overlay
   :after corfu
-  :bind (:map custom-bindings-map ("<tab>" . 'completion-at-point))
+  :bind (:map corfu-map ("<tab>" . 'completion-at-point))
   :config
   (corfu-candidate-overlay-mode 1))
 #+end_src

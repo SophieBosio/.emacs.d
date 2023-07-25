@@ -397,7 +397,7 @@ tangled, and the tangled file is compiled."
 
 (use-package corfu-candidate-overlay
   :after corfu
-  :bind (:map custom-bindings-map ("<tab>" . 'completion-at-point))
+  :bind (:map corfu-map ("<tab>" . 'completion-at-point))
   :config
   (corfu-candidate-overlay-mode 1))
 
