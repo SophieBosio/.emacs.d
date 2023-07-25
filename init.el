@@ -573,6 +573,10 @@ the languages in ISPELL-LANGUAGES when invoked."
 	 ))
   (global-obsidian-mode t))
 
+(use-package eglot
+  :defer t
+  :hook (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1))))
+
 (use-package haskell-mode
   :defer t
   :hook ((haskell-mode . interactive-haskell-mode)
