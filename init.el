@@ -367,10 +367,10 @@ tangled, and the tangled file is compiled."
 (use-package corfu
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-auto-delay 0)
-  (corfu-auto-prefix 2)
-  (corfu-popupinfo-delay 0.5)
+  ;; (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-delay 0)           ;; No delay
+  (corfu-auto-prefix 2)          ;; Start when this many characters have been typed
+  (corfu-popupinfo-delay 0.5)    ;; Short delay
   ;; (corfu-separator ?\s)          ;; Orderless field separator
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
@@ -394,6 +394,12 @@ tangled, and the tangled file is compiled."
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
   (setq tab-always-indent 'complete))
+
+(use-package corfu-candidate-overlay
+  :after corfu
+  :bind (:map custom-bindings-map ("<tab>" . 'completion-at-point))
+  :config
+  (corfu-candidate-overlay-mode 1))
 
 (use-package cape
   ;; Bind dedicated completion commands

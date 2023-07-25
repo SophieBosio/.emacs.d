@@ -720,10 +720,12 @@ For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite
 - [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
 - [[https://github.com/minad/consult][Consult]]
 - [[https://github.com/minad/marginalia][Marginalia]]
-- [[https://github.com/minad/corfu][Corfu]]
+- [[https://github.com/minad/corfu][corfu]]
+- [[https://code.bsdgeek.org/adam/corfu-candidate-overlay][corfu-candidate-overlay]]
+- [[https://github.com/minad/cape][cape]]
 - [[https://github.com/oantolin/orderless][Orderless]]
 
-Let's start by configuring Vertico.
+Let's start by configuring =Vertico=.
 
 #+begin_src emacs-lisp
 (use-package vertico
@@ -737,7 +739,7 @@ Let's start by configuring Vertico.
 ))
 #+end_src
 
-Next, I want Vertico to appear in a small child frame, instead of as a
+Next, I want =Vertico= to appear in a small child frame, instead of as a
 traditional minibuffer.
 
 #+begin_src emacs-lisp
@@ -762,7 +764,7 @@ that it can do.
 			  ("C-c C-g" . consult-goto-line)))
 #+end_src
 
-Marginalia gives me annotations in the minibuffer.
+=Marginalia= gives me annotations in the minibuffer.
 
 #+begin_src emacs-lisp
 (use-package marginalia
@@ -770,17 +772,16 @@ Marginalia gives me annotations in the minibuffer.
   (marginalia-mode 1))
 #+end_src
 
-Corfu gives me text completion at point. Well, I wish it would give me text
-completion also in Org mode.
+=corfu= gives me text completion at point.
 
 #+begin_src emacs-lisp
 (use-package corfu
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-auto-delay 0)
-  (corfu-auto-prefix 2)
-  (corfu-popupinfo-delay 0.5)
+  ;; (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-delay 0)           ;; No delay
+  (corfu-auto-prefix 2)          ;; Start when this many characters have been typed
+  (corfu-popupinfo-delay 0.5)    ;; Short delay
   ;; (corfu-separator ?\s)          ;; Orderless field separator
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
@@ -804,6 +805,26 @@ completion also in Org mode.
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
   (setq tab-always-indent 'complete))
+#+end_src
+
+=corfu-candidate-overlay= changes out the usual list of completion candidates to a
+single overlaid suggestion. I don't usually
+need to select between several candidates, so normally I don't really want a
+whole list.
+
+If there's only one candidate, I can
+select and complete that word with TAB. If there are several candidates,
+pressing TAB gives me the normal dropdown list.
+
+I prefer this aesthetically, since it keeps the list out of the way for as long
+as possible, but it's still available.
+
+#+begin_src emacs-lisp
+(use-package corfu-candidate-overlay
+  :after corfu
+  :bind (:map custom-bindings-map ("<tab>" . 'completion-at-point))
+  :config
+  (corfu-candidate-overlay-mode 1))
 #+end_src
 
 =corfu= also uses some of [[https://github.com/minad/cape][cape]]'s functionalities, so let's add that, too.
