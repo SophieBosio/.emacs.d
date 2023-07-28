@@ -8,12 +8,16 @@
 
 This is my attempt at keeping my Emacs configuration organised and readable.
 
-It's what's known as a "literate" configuration, meaning I write all my
+I write all my
 initialisation code in this document as code blocks and then use
 =org-babel-tangle= to extract those code blocks into a separate file. That new,
 generated file becomes my =init.el=. This way, I can document my code and
 explain my choices to my future self - and to anyone else who might be
 interested in looking at it.
+
+If you're interested in this, it's called a
+"literate configuration" and there are lots of great blog posts out there with
+inspiration and tips!
 
 I've tried to follow the way [[https://github.com/larstvei/][Lars Tveito]] has organised [[https://github.com/larstvei/dot-emacs/blob/master/init.org][his Emacs configuration]],
 and a lot of this code is lifted from his config.
@@ -277,7 +281,7 @@ I want a small border around the whole frame, because I think it looks nicer. I
 also want to set the fringe width.
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'default-frame-alist '(internal-border-width . 24))
+(add-to-list 'default-frame-alist '(internal-border-width . 22))
 (set-fringe-mode 10)            ;; Set fringe width to 10
 #+END_SRC
 
@@ -1222,6 +1226,37 @@ easily put it online.
 (use-package ox-hugo
   :after ox)
 #+END_SRC
+
+I've had a great time blogging with =ox-hugo=, but it's a little bothersome to
+have to rewrite the front-matter required in the blog post for it to export
+property every time, so below is a little snippet lifted from [[https://ox-hugo.scripter.co/doc/org-capture-setup/][ox-hugo's blog]].
+
+The file =all-posts,org= needs to be present in 'org-directory' and the file's
+heading must be "Blog Posts". It can even be a symlink pointing to the actual location of all-posts.org! If you've named yours differently, change these values.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-capture
+  (defun org-hugo-new-subtree-post-capture-template ()
+    "Returns `org-capture' template string for new Hugo post.
+See `org-capture-templates' for more information."
+    (let* ((title (read-from-minibuffer "Post Title: "))
+           (fname (org-hugo-slug title)))
+      (mapconcat #'identity
+                 `(
+                   ,(concat "* TODO " title)
+                   ":PROPERTIES:"
+                   ,(concat ":EXPORT_FILE_NAME: " fname)
+                   ":END:"
+                   "%?\n")          ;Place the cursor here finally
+                 "\n")))
+
+  (add-to-list 'org-capture-templates
+               '("h"                ;`org-capture' binding + h
+                 "Hugo post"
+                 entry
+                 (file+olp "all-posts.org" "Blog Posts")
+                 (function org-hugo-new-subtree-post-capture-template))))
+#+end_src
 
 ** Babel
 
