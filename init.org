@@ -260,6 +260,15 @@ To avoid clutter, let's put all the auto-saved files into one and the same direc
       `((".*" ,emacs-autosave-directory t)))
 #+END_SRC
 
+I want to use the [[https://github.com/editorconfig/editorconfig-emacs][EditorConfig]] plugin.
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+#+end_src
+
 And finally, I want scrolling to be a *lot* slower than it is by default.
 
 #+BEGIN_SRC emacs-lisp
@@ -312,22 +321,18 @@ Minor modes I want to activate.
     '(column-number-mode        ;; Show current column number in mode line
       delete-selection-mode     ;; Replace selected text when yanking
       dirtrack-mode             ;; Directory tracking in shell
-      editorconfig-mode         ;; Use the editorconfig plugin
-      global-diff-hl-mode       ;; Highlight uncommitted changes
       global-so-long-mode       ;; Mitigate performance for long lines
       global-visual-line-mode   ;; Break lines instead of truncating them
 	  global-auto-revert-mode   ;; Revert buffers automatically when they change
       recentf-mode              ;; Remember recently opened files
 	  savehist-mode             ;; Remember minibuffer prompt history
 	  save-place-mode           ;; Remember last cursor location in file
-      show-paren-mode           ;; Highlight matching parentheses
-	  which-key-mode))          ;; Available key-bindings in popup
+      show-paren-mode))           ;; Highlight matching parentheses
     (funcall mode 1))
 
 (setq history-length 25)        ;; Only save the last 25 minibuffer prompts
 (setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
-
 And I do want line numbers, but only in programming modes.
 
 #+BEGIN_SRC emacs-lisp
@@ -554,11 +559,12 @@ of the box with the ligatures defined on the package's page,
 I also want to be able to display emojis with the Apple emoji font.
 
 #+BEGIN_SRC emacs-lisp
-(require 'emojify)
-(add-hook 'after-init-hook #'global-emojify-mode)
-(when (member "Apple Color Emoji" (font-family-list))
-  (set-fontset-font
-    t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+(use-package emojify
+  :config
+  (add-hook 'after-init-hook #'global-emojify-mode)
+  (when (member "Apple Color Emoji" (font-family-list))
+    (set-fontset-font
+      t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)))
 #+END_SRC
 
 ** Themes
@@ -882,7 +888,7 @@ regexes, in any order. Let's use it together with Corfu.
         orderless-component-separator "[ |]"))
 #+end_src
 
-** Helpful
+** Helpful & Which Key
 
 Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
 
@@ -896,6 +902,15 @@ Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-frien
 			  ("C-h d" . #'helpful-at-point)
 			  ("C-h F" . #'helpful-function)))
 #+END_SRC
+
+[[https://github.com/justbur/emacs-which-key][which-key]] shows you available keybindings in the minibuffer. When you've started
+to enter a command, it will show you where you can go from there.
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :config
+  (which-key-mode))
+#+end_src
 
 ** Spelling
 
@@ -943,9 +958,18 @@ buffer where flyspell is enabled.
 
 Magit is a Git client specifically for Emacs, and it's super powerful.
 
+Let's first make sure we're highlighting uncommitted changes.
+
+#+begin_src emacs-lisp
+(use-package diff-hl)
+#+end_src
+
 #+begin_src emacs-lisp
 (use-package magit
-  :bind (:map custom-bindings-map ("C-c m" . magit-status)))
+  :bind (:map custom-bindings-map ("C-c m" . magit-status))
+  :config
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 #+end_src
 
 ** Projectile
@@ -964,16 +988,23 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
 
 This displays PDFs in a much more beautiful way.
 
-#+BEGIN_SRC emacs-lisp
-(pdf-loader-install)
-#+END_SRC
-
 However, it takes a long time to load, so we'll wait to load it until we try to open a PDF. Then it'll take a long time to open the first PDF, but all the others will load quickly, and we don't need to spend any extra start-up time when we don't need to open any PDFs.
 
-#+BEGIN_SRC emacs-lisp
-(add-hook 'pdf-view-mode-hook
-          (lambda () (setq header-line-format nil)))
-#+END_SRC	  
+#+begin_src emacs-lisp :tangle no
+(use-package pdf-tools
+  :defer t
+  :mode "\\.pdf\\'"
+  :bind (:map pdf-view-mode-map
+              ("c" . (lambda ()
+                       (interactive)
+                       (if header-line-format
+                           (setq header-line-format nil)
+                         (nano-modeline-pdf-mode))))
+              ("j" . pdf-view-next-line-or-next-page)
+              ("k" . pdf-view-previous-line-or-previous-page))
+  :init (pdf-loader-install)
+  :config (add-to-list 'revert-without-query ".pdf"))
+#+end_src
 
 ** LaTeX
 
@@ -1081,30 +1112,31 @@ headings, lists, tables, and source code blocks. My setup is lifted straight
 from the usage example in the [[https://github.com/minad/org-modern][GitHub repo]].
 
 #+begin_src emacs-lisp
-(setq
- ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-fold-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
+(use-package org-modern
+  :config
+  (setq
+   org-auto-align-tags nil
+   org-tags-column 0
+   org-fold-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
 
- ;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
- org-ellipsis "…"
+   ;; Org styling, hide markup etc.
+   org-hide-emphasis-markers t
+   org-pretty-entities t
+   org-ellipsis "…"
 
- ;; Agenda styling
- org-agenda-tags-column 0
- org-agenda-block-separator ?─
- org-agenda-time-grid
- '((daily today require-timed)
-   (800 1000 1200 1400 1600 1800 2000)
-   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
- org-agenda-current-time-string
- "⭠ now ─────────────────────────────────────────────────")
+   ;; Agenda styling
+   org-agenda-tags-column 0
+   org-agenda-block-separator ?─
+   org-agenda-time-grid
+   '((daily today require-timed)
+	 (800 1000 1200 1400 1600 1800 2000)
+	 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+   org-agenda-current-time-string
+   "⭠ now ─────────────────────────────────────────────────")
 
-(global-org-modern-mode)
+  (global-org-modern-mode))
 #+end_src
 
 *** Org Faces
