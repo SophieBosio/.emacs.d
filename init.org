@@ -562,6 +562,7 @@ I also want to be able to display emojis with the Apple emoji font.
 (use-package emojify
   :config
   (add-hook 'after-init-hook #'global-emojify-mode)
+  (add-hook 'prog-mode 'emojify-mode 0)
   (when (member "Apple Color Emoji" (font-family-list))
     (set-fontset-font
       t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)))
