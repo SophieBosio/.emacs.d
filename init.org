@@ -261,7 +261,8 @@ To avoid clutter, let's put all the auto-saved files into one and the same direc
       `((".*" ,emacs-autosave-directory t)))
 #+END_SRC
 
-I want to use the [[https://github.com/editorconfig/editorconfig-emacs][EditorConfig]] plugin.
+I want to use the [[https://github.com/editorconfig/editorconfig-emacs][EditorConfig]] plugin, which helps maintain consistent coding
+styles across editors when collaborating.
 
 #+begin_src emacs-lisp
 (use-package editorconfig
@@ -1380,7 +1381,10 @@ it manually!
 #+begin_src emacs-lisp
 (use-package eglot
   :defer t
-  :hook (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1))))
+  :hook
+  (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
+  (python-mode . eglot-ensure)
+)
 #+end_src
 
 ** Haskell
@@ -1394,13 +1398,43 @@ it manually!
 
 ** Python
 
+Let's first set the language interpreter.
+
 #+begin_src emacs-lisp
 (use-package python
   :interpreter ("python3" . python-mode)
   :config
   (setq python-shell-interpreter "python3.11")
-  (add-hook 'python-mode-hook
+  (add-hook 'python-mode
 			(lambda () (setq forward-sexp-function nil))))
+#+end_src
+
+Note that you also need =pyright= for this! Installation will depend on your
+system. It's available from [[https://pypi.org/project/pyright/][PyPI]]. On Ubuntu, I had the most luck installing via
+snap:
+
+#+begin_src shell :tangle no
+sudo snap install pyright --classic
+#+end_src
+
+Then, I want to hide the modeline for inferior Python processes to save screen
+space. There's a [[https://github.com/hlissner/emacs-hide-mode-line][dedicated package]] for this.
+
+#+begin_src emacs-lisp
+(use-package hide-mode-line
+  :defer t
+  :hook (inferior-python-mode . hide-mode-line-mode))
+#+end_src
+
+[[https://github.com/pythonic-emacs/blacken][Blacken]] is a package that uses the Python =black= package to reformat Python
+buffers. I'll set it to work by default and enforce max line length.
+
+#+begin_src emacs-lisp
+(use-package blacken
+  :defer t
+  :custom
+  (blacken-line-length t)
+  :hook (python-mode-hook . blacken-mode))
 #+end_src
 
 
