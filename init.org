@@ -241,7 +241,8 @@ Some variables are buffer-local, so to change them globally, we need to use =set
 I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'll set these to 'y' and 'n'.
 
 #+BEGIN_SRC emacs-lisp
-(fset 'yes-or-no-p 'y-or-n-p)
+;; (fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 #+END_SRC
 
 To avoid clutter, let's put all the auto-saved files into one and the same directory.
@@ -299,7 +300,7 @@ And when I open Emacs, I want it to open maximised and fullscreen by default.
 #+BEGIN_SRC emacs-lisp
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist     '(fullscreen . maximized))
-(add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
+;; (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
 
 When coding, I want my delimiters (parentheses, brackets, etc.) to be colourised
