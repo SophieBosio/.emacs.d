@@ -558,13 +558,16 @@ of the box with the ligatures defined on the package's page,
 (global-ligature-mode t)
 #+end_src
 
-I also want to be able to display emojis with the Apple emoji font.
+I also want to be able to display emojis with the Apple emoji font. I don't want
+emojis (at least not of the `:)`) variety in my code or in my terminal, though,
+since some of those sequences are used in code as well. Disabling for the
+terminal is done in its own section.
 
 #+BEGIN_SRC emacs-lisp
 (use-package emojify
   :config
   (add-hook 'after-init-hook #'global-emojify-mode)
-  (add-hook 'prog-mode 'emojify-mode 0)
+  (add-hook 'prog-mode-hook 'emojify-mode)
   (when (member "Apple Color Emoji" (font-family-list))
     (set-fontset-font
       t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)))
@@ -682,7 +685,8 @@ in just vterm, please do let me know :~)
   (defadvice vterm (after kill-with-no-query nil activate)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
   ;; Center the terminal window by default with Olivetti
-  (add-hook 'vterm-mode-hook 'olivetti-mode))
+  (add-hook 'vterm-mode-hook 'olivetti-mode)
+  (add-hook 'vterm-mode-hook 'emojify-mode))
 #+end_src
 
 ** Dashboard
@@ -700,8 +704,8 @@ point it to my own image, but the ='logo= banner is also really nice.
   (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
   (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner         "~/.emacs.d/images/lambda-alt.png"
-		dashboard-image-banner-max-width 100
+  (setq dashboard-startup-banner         "~/Documents/dotfiles/images/emacs.png"
+		dashboard-image-banner-max-width 150
 		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
 		dashboard-center-content         t
 		dashboard-set-footer             nil
@@ -964,7 +968,9 @@ Magit is a Git client specifically for Emacs, and it's super powerful.
 Let's first make sure we're highlighting uncommitted changes.
 
 #+begin_src emacs-lisp
-(use-package diff-hl)
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode))
 #+end_src
 
 #+begin_src emacs-lisp
