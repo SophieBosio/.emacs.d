@@ -1410,7 +1410,8 @@ look up functions and packages.
   :hook ((haskell-mode . interactive-haskell-mode)
          (haskell-mode . haskell-doc-mode))
   :config
-  (define-key haskell-mode-map "C-c h" 'haskell-hoogle))
+  (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
+  (setq haskell-hoogle-command "hoogle"))
 #+END_SRC
 
 ** Python
