@@ -615,10 +615,15 @@ disable the currently enabled themes when switching.
 
 ** Mode Line
 
-I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has some neat built-in features, like the option to put the modeline in the header bar instead of at the bottom of the screen.
+I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has
+some neat built-in features, like the option to put the modeline in the header
+bar instead of at the bottom of the screen.
+
+For some reason, the newest versions, after Version 1.0, don't work for me.
+Therefore I have kept an old copy.
 
 #+begin_src emacs-lisp
-(require 'nano-modeline)
+(require 'nano-modeline-old)
 (nano-modeline-mode 1)
 (setq nano-modeline-space-top      +0.60    ;; Space above the text
       nano-modeline-space-bottom   -0.60    ;; Space below the text
@@ -1395,11 +1400,17 @@ it manually!
 
 ** Haskell
 
+For Haskell, I think the regular =haskell-mode= is nice and I'll add some hooks to
+it. I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
+look up functions and packages.
+
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode
   :defer t
   :hook ((haskell-mode . interactive-haskell-mode)
-         (haskell-mode . haskell-doc-mode)))
+         (haskell-mode . haskell-doc-mode))
+  :config
+  (define-key haskell-mode-map "C-c h" 'haskell-hoogle))
 #+END_SRC
 
 ** Python
