@@ -1400,9 +1400,14 @@ it manually!
 
 ** Haskell
 
-For Haskell, I think the regular =haskell-mode= is nice and I'll add some hooks to
-it. I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
-look up functions and packages.
+For Haskell, I think the regular =haskell-mode= is nice. I'll add Haskell
+Interactive Mode, which you can read more about [[https://wiki.haskell.org/Emacs/Inferior_Haskell_processes][here]], as well as =haskell-doc-mode=
+which uses eldoc consistently throughout.
+
+I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
+look up functions and packages. I've set it up according to the GitHub docs, so
+that =C-c h= opens a prompt and querying the database opens a help buffer inside
+Emacs with the results.
 
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode
