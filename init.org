@@ -558,16 +558,12 @@ of the box with the ligatures defined on the package's page,
 (global-ligature-mode t)
 #+end_src
 
-I also want to be able to display emojis with the Apple emoji font. I don't want
-emojis (at least not of the `:)`) variety in my code or in my terminal, though,
-since some of those sequences are used in code as well. Disabling for the
-terminal is done in its own section.
+I also want to be able to display emojis with the Apple emoji font. I usually
+don't use it, though, so I won't activate the global mode.
 
 #+BEGIN_SRC emacs-lisp
 (use-package emojify
   :config
-  (add-hook 'after-init-hook #'global-emojify-mode)
-  (add-hook 'prog-mode-hook 'emojify-mode)
   (when (member "Apple Color Emoji" (font-family-list))
     (set-fontset-font
       t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)))
@@ -1073,14 +1069,26 @@ Let's first make sure we're using Org.
 
 *** Prettifying
 
-Some prettification is in order.
+We'll declutter by hiding leading starts in headings and emphasis markers (e.g.,
+the slashes in  =/.../= ). We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
+insert special characters LaTeX-style by using a leading backslash (e.g., =\alpha= to
+write the greek letter alpha) and display ellipses in a condensed way.
 
 #+begin_src emacs-lisp
 (setq org-adapt-indentation t
       org-hide-leading-stars t
       org-hide-emphasis-markers t
       org-pretty-entities t
-      org-src-fontify-natively t
+	  org-ellipsis "…")
+#+end_src
+
+For source code blocks specifically, I want Org to display the contents using
+the major mode of the relevant language. I also want TAB to behave inside the
+source code block like it normally would when writing code in that language.
+
+#+begin_src emacs-lisp
+(setq org-src-fontify-natively t
+	  org-src-tab-acts-natively t
       org-edit-src-content-indentation 0)
 #+end_src
 
@@ -1099,13 +1107,13 @@ Next, I always want to center the text and enable linebreaks in Org. In general,
 I'll use the =org-bullets= package to prettify the document headers and lists by
 turning the normal header stars into Unicode bullets.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+end_src
 
-=org-superstar= is also a nice option.
+=org-superstar= is also a nice option, although I'm currently using =org-bullets=.
 
 #+begin_src emacs-lisp :tangle no
 (use-package org-superstar
@@ -1135,11 +1143,6 @@ from the usage example in the [[https://github.com/minad/org-modern][GitHub repo
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
 
-   ;; Org styling, hide markup etc.
-   org-hide-emphasis-markers t
-   org-pretty-entities t
-   org-ellipsis "…"
-
    ;; Agenda styling
    org-agenda-tags-column 0
    org-agenda-block-separator ?─
@@ -1154,6 +1157,12 @@ from the usage example in the [[https://github.com/minad/org-modern][GitHub repo
 #+end_src
 
 *** Org Faces
+
+Make sure =variable-pitch-mode= is always active in Org buffers.
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+#+end_src
 
 Set the sizes and fonts for the various headings.
 
@@ -1184,19 +1193,20 @@ Ensure some parts of the Org-document still uses =fixed-pitch= even when
 =variable-pitch-mode= is on.
 
 #+begin_src emacs-lisp
-(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-(set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-(set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
-(set-face-attribute 'org-code nil :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-block nil           :foreground nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil           :inherit 'fixed-pitch)
+(set-face-attribute 'org-formula nil         :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil            :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-verbatim nil        :inherit '(shadow fixed-pitch))
 (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-meta-line nil       :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil        :inherit 'fixed-pitch)
 #+end_src
 
-[[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] is a package that infers when to use =fixed-pitch= and =variable-pitch=.
+[[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] is a package that infers when to use =fixed-pitch= and =variable-pitch=,
+although I'm not currently using it.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package mixed-pitch
   :defer t
   :hook (text-mode . mixed-pitch-mode)
@@ -1204,15 +1214,6 @@ Ensure some parts of the Org-document still uses =fixed-pitch= even when
   ;;(setq mixed-pitch-set-heigth t)
   ;;(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.3)
 )
-#+end_src
-
-Finally, for the source code blocks, display its contents using the major mode
-of the relevant language and have TAB act as it normally would when coding in
-that language.
-
-#+begin_src emacs-lisp
-(setq org-src-fontify-natively t)
-(setq org-src-tab-acts-natively t)
 #+end_src
 
 *** Get Things Done
