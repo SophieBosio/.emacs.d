@@ -288,6 +288,12 @@ Some of these, I can't argue are "sane" in general - but they're what I want.
 
 *** Appearance
 
+I prefer a bar cursor over a block cursor.
+
+#+begin_src emacs-lisp
+(setq-default cursor-type 'bar)
+#+end_src
+
 I want a small border around the whole frame, because I think it looks nicer. I
 also want to set the fringe width.
 
@@ -329,7 +335,7 @@ Minor modes I want to activate.
       recentf-mode              ;; Remember recently opened files
 	  savehist-mode             ;; Remember minibuffer prompt history
 	  save-place-mode           ;; Remember last cursor location in file
-      show-paren-mode))           ;; Highlight matching parentheses
+      show-paren-mode))         ;; Highlight matching parentheses
     (funcall mode 1))
 
 (setq history-length 25)        ;; Only save the last 25 minibuffer prompts
@@ -712,7 +718,7 @@ point it to my own image, but the ='logo= banner is also really nice.
 		dashboard-set-footer             nil
 		dashboard-page-separator         "\n\n\n"
 		dashboard-items '((projects     . 5)
-                          (recents      . 10)
+                          (recents      . 5)
                           (agenda       . 5))))
 #+END_SRC
 
