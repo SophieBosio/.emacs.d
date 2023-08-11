@@ -525,7 +525,7 @@ Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" secti
   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
-(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.2)
+(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.15)
 #+end_src
 
 =prettify-symbols-mode= displays greek letters nicely.
@@ -1144,7 +1144,6 @@ Increase the size of LaTeX previews in Org.
 (plist-put org-format-latex-options :scale 2)
 #+end_src
 
-
 *** Org Faces
 
 Make sure =variable-pitch-mode= is always active in Org buffers.
@@ -1157,14 +1156,14 @@ Set the sizes and fonts for the various headings.
 
 #+begin_src emacs-lisp
 ;; Resize Org headings
-(dolist (face '((org-level-1 . 1.4)
-                (org-level-2 . 1.35)
-                (org-level-3 . 1.3)
-                (org-level-4 . 1.2)
-                (org-level-5 . 1.2)
-                (org-level-6 . 1.2)
-                (org-level-7 . 1.2)
-                (org-level-8 . 1.2)))
+(dolist (face '((org-level-1 . 1.35)
+                (org-level-2 . 1.3)
+                (org-level-3 . 1.2)
+                (org-level-4 . 1.1)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.1)
+                (org-level-7 . 1.1)
+                (org-level-8 . 1.1)))
   (set-face-attribute (car face) nil :font "Source Sans Pro" :weight 'bold :height (cdr face)))
 
 ;; Make the document title a bit bigger
@@ -1182,7 +1181,8 @@ Ensure some parts of the Org-document still uses =fixed-pitch= even when
 =variable-pitch-mode= is on.
 
 #+begin_src emacs-lisp
-(set-face-attribute 'org-block nil           :foreground nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-block nil           :foreground nil :inherit
+'fixed-pitch)
 (set-face-attribute 'org-table nil           :inherit 'fixed-pitch)
 (set-face-attribute 'org-formula nil         :inherit 'fixed-pitch)
 (set-face-attribute 'org-code nil            :inherit '(shadow fixed-pitch))
