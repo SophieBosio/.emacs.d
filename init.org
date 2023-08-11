@@ -1110,34 +1110,11 @@ Next, I always want to center the text and enable linebreaks in Org. In general,
 (add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
-I'll use the =org-bullets= package to prettify the document headers and lists by
-turning the normal header stars into Unicode bullets.
-
-#+begin_src emacs-lisp :tangle no
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-#+end_src
-
-=org-superstar= is also a nice option, although I'm currently using =org-bullets=.
-
-#+begin_src emacs-lisp :tangle no
-(use-package org-superstar
-    :config
-    (setq org-superstar-special-todo-items t)
-    (add-hook 'org-mode-hook (lambda ()
-                               (org-superstar-mode 1))))
-#+end_src
-
-Increase the size of LaTeX previews in Org.
-
-#+begin_src emacs-lisp
-(plist-put org-format-latex-options :scale 2)
-#+end_src
-
-=org-modern= is a package that prettifies a lot of Org elements, such as
-headings, lists, tables, and source code blocks. My setup is lifted straight
-from the usage example in the [[https://github.com/minad/org-modern][GitHub repo]].
+Both the =org-bullets= and the =org-superstar= packages turn your header asterisks
+into pretty UTF-8 bullet characters. I've used both in the past, but since
+switched to =org-modern=, which does that and a bit extra! It prettifies a lot of Org elements, such as
+headings, lists, tables, and source code blocks. My setup is a simplified
+version of the usage example in the [[https://github.com/minad/org-modern][GitHub repo]].
 
 #+begin_src emacs-lisp
 (use-package org-modern
@@ -1161,6 +1138,13 @@ from the usage example in the [[https://github.com/minad/org-modern][GitHub repo
 
   (global-org-modern-mode))
 #+end_src
+
+Increase the size of LaTeX previews in Org.
+
+#+begin_src emacs-lisp
+(plist-put org-format-latex-options :scale 2)
+#+end_src
+
 
 *** Org Faces
 
