@@ -525,7 +525,7 @@ Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" secti
   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
-(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.15)
+(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18)
 #+end_src
 
 =prettify-symbols-mode= displays greek letters nicely.
@@ -1171,38 +1171,25 @@ Set the sizes and fonts for the various headings.
 'bold :height 1.8)
 #+END_src
 
-Configure =org-indent= to inherit from =fixed-pitch= to fix the vertical spacing in code blocks.
-
-#+BEGIN_src emacs-lisp :tangle no
-(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-#+end_src
-
 Ensure some parts of the Org-document still uses =fixed-pitch= even when
 =variable-pitch-mode= is on.
 
 #+begin_src emacs-lisp
-(set-face-attribute 'org-block nil           :foreground nil :inherit
-'fixed-pitch)
-(set-face-attribute 'org-table nil           :inherit 'fixed-pitch)
-(set-face-attribute 'org-formula nil         :inherit 'fixed-pitch)
-(set-face-attribute 'org-code nil            :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-verbatim nil        :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-meta-line nil       :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil        :inherit 'fixed-pitch)
-#+end_src
+;; Make sure org-indent face is available
+(require 'org-indent)
 
-[[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] is a package that infers when to use =fixed-pitch= and =variable-pitch=,
-although I'm not currently using it.
+(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
 
-#+begin_src emacs-lisp :tangle no
-(use-package mixed-pitch
-  :defer t
-  :hook (text-mode . mixed-pitch-mode)
-  :config
-  ;;(setq mixed-pitch-set-heigth t)
-  ;;(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.3)
-)
+;; Ensure that anything that should be fixed-pitch in Org files appears that way
+(set-face-attribute 'org-block nil            :foreground nil :inherit
+'fixed-pitch :height 0.85)
+(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
+(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
+fixed-pitch))
+(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
 #+end_src
 
 *** Get Things Done
