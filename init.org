@@ -784,7 +784,7 @@ that it can do.
   :bind (:map custom-bindings-map
               ("C-x b"   . consult-buffer)
 			  ("C-s"     . consult-line)
-              ("S-s"     . consult-ripgrep)
+              ("M-s"     . consult-ripgrep)
 			  ("C-c C-g" . consult-goto-line)))
 #+end_src
 
