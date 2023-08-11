@@ -485,11 +485,11 @@ Speaking of killing text, it's nice to be able to browse the kill ring.
 *** Selecting Text with =expand-region=
 
 [[https://github.com/magnars/expand-region.el/tree/master][expand-region]] is one of those packages you didn't realise you needed until you
-found it. Expand the selected region with ="C-+"= or contract it again with ="-"=.
+found it. Expand the selected region with =C-<= or contract it again with =-=.
 
 #+begin_src emacs-lisp
 (use-package expand-region
-  :bind (:map custom-bindings-map ("C-+" . er/expand-region)))
+  :bind (:map custom-bindings-map ("C-<" . er/expand-region)))
 #+end_src
 
 *** Language-Specific Commenting
