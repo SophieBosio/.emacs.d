@@ -525,7 +525,8 @@ Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" secti
   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
-(set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18)
+(when (member "Source Sans Pro" (font-family-list))
+  (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18))
 #+end_src
 
 =prettify-symbols-mode= displays greek letters nicely.
@@ -1175,9 +1176,7 @@ Ensure some parts of the Org-document still uses =fixed-pitch= even when
 =variable-pitch-mode= is on.
 
 #+begin_src emacs-lisp
-;; Make sure org-indent face is available
 (require 'org-indent)
-
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
 
 ;; Ensure that anything that should be fixed-pitch in Org files appears that way
