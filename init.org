@@ -755,14 +755,14 @@ point it to my own image, but the ='logo= banner is also really nice.
 
 =Olivetti= is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
-With the the font and font size I use, setting the =fill-column= variable to 14, means I can display /exactly/ 80 mono characters before the line is folded.
+With the the font and font size I use, setting the =fill-column= variable to 4, means I can display /exactly/ 80 mono characters before the line is folded.
 
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
   :defer t
   :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
   :config
-  (setq-default olivetti-body-width (+ fill-column 14)))
+  (setq-default olivetti-body-width (+ fill-column 4)))
 #+END_SRC
 
 ** Completion
