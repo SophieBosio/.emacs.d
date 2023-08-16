@@ -482,6 +482,38 @@ Speaking of killing text, it's nice to be able to browse the kill ring.
   :ensure t)
 #+end_src
 
+*** Killing Buffers
+
+Sometimes, I'm putting some work away and I don't want those files to show up in
+the buffer list. Killing a buffer with =C-x k= or marking several buffers in the
+buffer list to kill them is fine, but can be a bit cumbersome.
+
+I found this function in a [[https://superuser.com/questions/895920/how-can-i-close-all-buffers-in-emacs][Stack Exchange answer]]. It allows me to close the
+current buffer easily by pressing =F5=. If I prefix it, by writing =C-u F5=, then
+all "interesting" buffers are killed, leaving internal Emacs buffers intact.
+This cleans up all the buffers I've opened or used myself.
+
+#+begin_src emacs-lisp
+(defun custom-kill-buffer-fn (&optional arg)
+"When called with a prefix argument -- i.e., C-u -- kill all interesting
+buffers -- i.e., all buffers without a leading space in the buffer-name.
+When called without a prefix argument, kill just the current buffer
+-- i.e., interesting or uninteresting."
+(interactive "P")
+  (cond
+    ((and (consp arg) (equal arg '(4)))
+      (mapc
+        (lambda (x)
+          (let ((name (buffer-name x)))
+            (unless (eq ?\s (aref name 0))
+              (kill-buffer x))))
+        (buffer-list)))
+    (t
+      (kill-buffer (current-buffer)))))
+
+(global-set-key [f5] 'custom-kill-buffer-fn)
+#+end_src
+
 *** Selecting Text with =expand-region=
 
 [[https://github.com/magnars/expand-region.el/tree/master][expand-region]] is one of those packages you didn't realise you needed until you
