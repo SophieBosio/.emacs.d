@@ -722,9 +722,7 @@ in just vterm, please do let me know :~)
   :config
   ;; Don't query about killing vterm buffers, just kill it
   (defadvice vterm (after kill-with-no-query nil activate)
-    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
-  ;; Centre text with Olivetti mode
-  (add-hook 'vterm-mode-hook 'olivetti-mode))
+    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
 #+end_src
 
 ** Dashboard
