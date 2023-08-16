@@ -691,8 +691,7 @@ in just vterm, please do let me know :~)
   ;; Don't query about killing vterm buffers, just kill it
   (defadvice vterm (after kill-with-no-query nil activate)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil))
-  ;; Center the terminal window by default with Olivetti
-  (add-hook 'vterm-mode-hook 'olivetti-mode)
+  ;; Disable emojis in the terminal
   (add-hook 'vterm-mode-hook 'emojify-mode))
 #+end_src
 
@@ -724,8 +723,8 @@ point it to my own image, but the ='logo= banner is also really nice.
 
 ** Olivetti
 
-=Olivetti= is a minor mode for centering text.
-For convenience, I'll bind it to =C-c C-o= to activate it on the fly.
+=Olivetti= is a minor mode for centering text. I have it on by default, but
+for convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
 With the the font and font size I use, setting the =fill-column= variable to 14, means I can display /exactly/ 80 mono characters before the line is folded.
 
@@ -735,6 +734,8 @@ With the the font and font size I use, setting the =fill-column= variable to 14,
   :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
   :config
   (setq-default olivetti-body-width (+ fill-column 14)))
+
+(add-hook 'change-major-mode-after-body-hook 'olivetti-mode)
 #+END_SRC
 
 ** Completion
@@ -1104,11 +1105,9 @@ Log when TODOs are marked as done.
 (setq org-log-done t)
 #+end_src
 
-Next, I always want to center the text and enable linebreaks in Org. In general, I want to activate it manually, so I'll make a hook specifically for Org mode.
-
-#+begin_src emacs-lisp
-(add-hook 'org-mode-hook 'olivetti-mode)
-#+end_src
+Next, I always want to center the text and enable linebreaks in Org. I've added
+a hook to activate =olivetti-mode= in every new major mode and =visual-fill-mode=
+is always on.
 
 Both the =org-bullets= and the =org-superstar= packages turn your header asterisks
 into pretty UTF-8 bullet characters. I've used both in the past, but since
