@@ -347,6 +347,15 @@ And I do want line numbers, but only in programming modes.
 (add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 #+END_SRC
 
+*** Custom Shortcuts
+
+I have some commands I use a lot, and I'm not super great at lifting my pinky
+for commands on the form =C-x y=, so I'll define some shortcuts to use instead.
+
+Switch to the other window  =C-x o= \to  =M-o=.
+
+Select from recent files.
+
 *** Auto-Saving
 
 I prefer having my files save automatically. Any changes I don't want, I just
@@ -489,7 +498,7 @@ the buffer list. Killing a buffer with =C-x k= or marking several buffers in the
 buffer list to kill them is fine, but can be a bit cumbersome.
 
 I found this function in a [[https://superuser.com/questions/895920/how-can-i-close-all-buffers-in-emacs][Stack Exchange answer]]. It allows me to close the
-current buffer easily by pressing =F5=. If I prefix it, by writing =C-u F5=, then
+current buffer easily by pressing =C-k=. If I prefix it, by writing =C-u C-k=, then
 all "interesting" buffers are killed, leaving internal Emacs buffers intact.
 This cleans up all the buffers I've opened or used myself.
 
@@ -511,7 +520,7 @@ When called without a prefix argument, kill just the current buffer
     (t
       (kill-buffer (current-buffer)))))
 
-(global-set-key [f5] 'custom-kill-buffer-fn)
+(define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
 #+end_src
 
 *** Selecting Text with =expand-region=
@@ -1017,7 +1026,7 @@ Let's first make sure we're highlighting uncommitted changes.
 #+end_src
 
 ** Projectile
-
+ 
 [[https://projectile.mx/][Projectile]] provides a convenient project interaction interface. I keep most of
 my projects in a specific folder, so I'll set Projectile to check that path specifically.
 
@@ -1388,6 +1397,33 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 
 
 * Programming
+
+** Highlighting & Navigating TODO's
+
+[[https://github.com/vincekd/comment-tags/tree/master][comment-tags]] highlights and lists comment tags such as 'TODO', 'FIXME', 'BUG',
+etc. What's especially nice about this package, is that you can specify the
+required format of the tag, such as whether or not to require that the tag is at
+the start of a comment, in all-caps, has a postfix
+colon, and so on.
+
+#+begin_src emacs-lisp
+(use-package comment-tags
+  :config
+  (setq comment-tags-keymap-prefix (kbd "C-c t"))
+  (setq comment-tags-keyword-faces
+        `(("TODO"  . ,(list :weight 'bold :foreground "#A3BE8C"))
+          ("FIXME" . ,(list :weight 'bold :foreground "#EBCB8B"))
+          ("BUG"   . ,(list :weight 'bold :foreground "#BF616A"))
+          ("INFO"  . ,(list :weight 'bold :foreground "#B48EAD"))
+          ("DONE"  . ,(list :weight 'bold :foreground "#88C0D0"))))
+  (setq comment-tags-comment-start-only nil
+        comment-tags-require-colon      nil
+        comment-tags-case-sensitive     nil
+        comment-tags-show-faces         t
+        comment-tags-lighter            nil)
+  :hook
+  (prog-mode-hook . comment-tags-mode))
+#+end_src
 
 ** Eglot
 
