@@ -1319,6 +1319,27 @@ See `org-capture-templates' for more information."
                  (function org-hugo-new-subtree-post-capture-template))))
 #+end_src
 
+*** RevealJS
+
+[[https://github.com/yjwen/org-reveal][org-reveal]] is exports your Org documents to [[https://revealjs.com/][RevealJS]] presentations. For nice
+syntax highlighting, let's also add =htmlize.el=.
+
+#+begin_src emacs-lisp
+(use-package ox-reveal
+  :config
+  (setq org-reveal-root "file:///home/sophie/reveal.js"))
+(use-package htmlize)
+#+end_src
+
+#+RESULTS:
+
+In the properties of each Org presentation document, you can set the
+=REVEAL-ROOT= either to the CDN distribution of reveal.js or to your download
+location.
+
+CDN: =#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js=
+Local copy: =#+REVEAL_ROOT: file:///d:/reveal.js=
+
 ** Babel
 
 For working with code blocks in Org mode, I want to make sure code blocks are
