@@ -1534,6 +1534,62 @@ Emacs with the results.
   (setq haskell-hoogle-command "hoogle"))
 #+END_SRC
 
+** OCaml
+
+OCaml requires some setup for =ocp-indent=,
+
+#+begin_src emacs-lisp
+(use-package 'ocp-indent)
+#+end_src
+
+and for =merlin=.
+ 
+#+begin_src emacs-lisp
+(let ((opam-share (ignore-errors (car (process-lines "opam" "var" "share")))))
+      (when (and opam-share (file-directory-p opam-share))
+       ;; Register Merlin
+       (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+       (autoload 'merlin-mode "merlin" nil t nil)
+       ;; Automatically start it in OCaml buffers
+       (add-hook 'tuareg-mode-hook 'merlin-mode t)
+       (add-hook 'caml-mode-hook 'merlin-mode t)
+       ;; Use opam switch to lookup ocamlmerlin binary
+       (setq merlin-command 'opam)))
+#+end_src
+
+Then I want integration with Dune, Merlin, flyspell, and utop for the full IDE-experience.
+
+#+begin_src emacs-lisp
+;; Major mode for OCaml programming
+(use-package tuareg
+  :mode (("\\.ocamlinit\\'" . tuareg-mode)))
+
+;; Major mode for editing Dune project files
+(use-package dune
+  :ensure t)
+
+;; Merlin provides advanced IDE features
+(use-package merlin
+  :config
+  (add-hook 'tuareg-mode-hook #'merlin-mode)
+  (add-hook 'merlin-mode-hook #'company-mode)
+  ;; we're using flycheck instead
+  (setq merlin-error-after-save nil))
+
+(use-package merlin-eldoc
+  :hook ((tuareg-mode) . merlin-eldoc-setup))
+
+;; This uses Merlin internally
+(use-package flycheck-ocaml
+  :config
+  (flycheck-ocaml-setup))
+
+;; utop REPL configuration
+(use-package utop
+  :config
+  (add-hook 'tuareg-mode-hook #'utop-minor-mode))
+#+end_src
+
 ** Python
 
 Let's first set the language interpreter.
