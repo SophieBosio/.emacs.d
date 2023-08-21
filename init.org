@@ -1579,11 +1579,6 @@ Then I want integration with Dune, Merlin, flyspell, and utop for the full IDE-e
 (use-package merlin-eldoc
   :hook ((tuareg-mode) . merlin-eldoc-setup))
 
-;; This uses Merlin internally
-(use-package flycheck-ocaml
-  :config
-  (flycheck-ocaml-setup))
-
 ;; utop REPL configuration
 (use-package utop
   :config
