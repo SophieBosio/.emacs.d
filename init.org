@@ -1126,7 +1126,7 @@ write the greek letter alpha) and display ellipses in a condensed way.
       org-hide-leading-stars t
       org-hide-emphasis-markers t
       org-pretty-entities t
-	  org-ellipsis "…")
+	  org-ellipsis "  ·")
 #+end_src
 
 For source code blocks specifically, I want Org to display the contents using
