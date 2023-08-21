@@ -331,10 +331,10 @@ Minor modes I want to activate.
       dirtrack-mode             ;; Directory tracking in shell
       global-so-long-mode       ;; Mitigate performance for long lines
       global-visual-line-mode   ;; Break lines instead of truncating them
-	  global-auto-revert-mode   ;; Revert buffers automatically when they change
+      global-auto-revert-mode   ;; Revert buffers automatically when they change
       recentf-mode              ;; Remember recently opened files
-	  savehist-mode             ;; Remember minibuffer prompt history
-	  save-place-mode           ;; Remember last cursor location in file
+      savehist-mode             ;; Remember minibuffer prompt history
+      save-place-mode           ;; Remember last cursor location in file
       show-paren-mode))         ;; Highlight matching parentheses
     (funcall mode 1))
 
@@ -354,7 +354,9 @@ for commands on the form =C-x y=, so I'll define some shortcuts to use instead.
 
 Switch to the other window  =C-x o= \to  =M-o=.
 
-Select from recent files.
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "M-o") 'other-window)
+#+end_src
 
 *** Auto-Saving
 
