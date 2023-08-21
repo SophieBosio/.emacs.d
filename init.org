@@ -1243,6 +1243,16 @@ mine to =E= so that we have =A= through =E=, in total five levels.
 (setq org-lowest-priority ?E)
 #+end_src
 
+Then I'll expand the list of default task states.
+
+#+begin_src emacs-lisp
+(setq org-todo-keywords
+      '((sequence
+		 "TODO" "PROJECT" "CHECK" "WAITING" ; Needs further action
+		 "|"
+		 "DONE" "CANCELLED" "POSTPONED")))  ; Needs to action currently
+#+end_src
+
 For whatever reason, I've had an issue with clocking in, where the default
 keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
 
@@ -1406,17 +1416,17 @@ navigating Roam nodes.
 
 #+begin_src emacs-lisp
 (use-package org-roam
-  :ensure t
   :init
   (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory "~/Dropbox/org/roam")
   (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
+  :bind (:map org-mode-map
+		 ("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
+         ("C-c n i" . org-roam-node-insert))
   :config
-  (org-roam-setup)))
+  (org-roam-setup))
 #+end_src
 
 ** Obsidian
