@@ -1282,6 +1282,12 @@ types of notes, each corresponding to a an =.org=-file type.
 (define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
 #+END_SRC
 
+*** TODO Snippets
+
+[[https://github.com/joaotavora/yasnippet][YASnippet]] is a template system for Emacs that allows you to predefine snippets
+you use often and insert them easily. I want snippets for basic Org-files,
+Roam-notes, and other sequences often used.
+
 *** Hugo
 
 [[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
@@ -1399,7 +1405,7 @@ navigating Roam nodes.
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
   :config
-  (org-roam-setup))
+  (org-roam-setup)))
 #+end_src
 
 ** Obsidian
