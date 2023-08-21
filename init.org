@@ -1243,6 +1243,13 @@ mine to =E= so that we have =A= through =E=, in total five levels.
 (setq org-lowest-priority ?E)
 #+end_src
 
+For whatever reason, I've had an issue with clocking in, where the default
+keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
+
+#+begin_src emacs-lisp
+(define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
+#+end_src
+
 I'm trying out the Get Things Done method by David Allen, using Nicolas Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's
 [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
 
