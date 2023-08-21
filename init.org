@@ -537,7 +537,7 @@ found it. Expand the selected region with =C-<= or contract it again with =-=.
 
 *** Language-Specific Commenting
 
-I use =C-,= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
+I use =C-'= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
 detects most programming languages and applies appropriate comment style.
 
 #+begin_src emacs-lisp
@@ -965,7 +965,7 @@ to enter a command, it will show you where you can go from there.
   (which-key-mode))
 #+end_src
 
-** Spelling
+** Flyspell
 
 [[https://www.emacswiki.org/emacs/FlySpell][Flyspell]] enables on-the-fly spell checking and highlights misspelled words in
 the way that you'd expect.
@@ -1018,6 +1018,8 @@ Let's first make sure we're highlighting uncommitted changes.
   :config
   (global-diff-hl-mode))
 #+end_src
+
+Then configure Magit.
 
 #+begin_src emacs-lisp
 (use-package magit
