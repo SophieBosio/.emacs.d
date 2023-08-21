@@ -1419,7 +1419,7 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 
 * Programming
 
-** Highlighting & Navigating TODO's
+** Highlighting TODO's
 
 [[https://github.com/vincekd/comment-tags/tree/master][comment-tags]] highlights and lists comment tags such as 'TODO', 'FIXME', 'BUG',
 etc. What's especially nice about this package, is that you can specify the
