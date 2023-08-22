@@ -2,6 +2,7 @@
 #+TITLE: Sophie's Emacs Configuration
 #+AUTHOR: Sophie Bosio
 #+PROPERTY: header-args :tangle yes
+#+OPTIONS: indent
 #+STARTUP: overview
 
 [[./images/config-screenshot.png]]
@@ -1276,7 +1277,7 @@ The first step is to set the relevant directories.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Dropbox/org/")
-(setq org-agenda-files (list "inbox.org"))
+(setq org-agenda-files (list "inbox.org" "projects.org"))
 #+END_SRC
 
 Then to set up the relevant capture templates, with accompanying keybindings.
