@@ -931,6 +931,25 @@ regexes, in any order. Let's use it together with Corfu.
         orderless-component-separator "[ |]"))
 #+end_src
 
+** Snippets
+
+[[https://github.com/joaotavora/yasnippet][YASnippet]] is a template system for Emacs that allows you to predefine snippets
+you use often and insert them easily. I want snippets for basic Org-files,
+Roam-notes, and other sequences often used.
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :defer 5
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
+  (yas-global-mode 1)) ;; or M-x yas-reload-all if you've started YASnippet already.
+
+;; Silences the warning when running a snippet with backticks (runs a command in the snippet)
+(require 'warnings)
+(add-to-list 'warning-suppress-types '(yasnippet backquote-change)) 
+#+end_src
+
 ** Helpful & Which Key
 
 Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
@@ -1238,9 +1257,9 @@ Then I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO" "PROJECT" "READ" "WAITING"  ; Needs further action
+		 "TODO" "PROJECT" "READ" "WAITING"        ; Needs further action
 		 "|"
-		 "DONE" "CANCELLED" "POSTPONED")))  ; Needs to action currently
+		 "DONE" "CANCELLED" "POSTPONED" "IDEA"))) ; Needs to action currently
 #+end_src
 
 For whatever reason, I've had an issue with clocking in, where the default
@@ -1292,25 +1311,6 @@ types of notes, each corresponding to a an =.org=-file type.
 #+BEGIN_SRC emacs-lisp
 (define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
 #+END_SRC
-
-*** TODO Snippets
-
-[[https://github.com/joaotavora/yasnippet][YASnippet]] is a template system for Emacs that allows you to predefine snippets
-you use often and insert them easily. I want snippets for basic Org-files,
-Roam-notes, and other sequences often used.
-
-#+begin_src emacs-lisp
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :defer 5
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
-  (yas-global-mode 1)) ;; or M-x yas-reload-all if you've started YASnippet already.
-
-;; Silences the warning when running a snippet with backticks (runs a command in the snippet)
-(require 'warnings)
-(add-to-list 'warning-suppress-types '(yasnippet backquote-change)) 
-#+end_src
 
 *** Hugo
 
