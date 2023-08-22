@@ -525,16 +525,6 @@ When called without a prefix argument, kill just the current buffer
 (define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
 #+end_src
 
-*** Selecting Text with =expand-region=
-
-[[https://github.com/magnars/expand-region.el/tree/master][expand-region]] is one of those packages you didn't realise you needed until you
-found it. Expand the selected region with =C-<= or contract it again with =-=.
-
-#+begin_src emacs-lisp
-(use-package expand-region
-  :bind (:map custom-bindings-map ("C-<" . er/expand-region)))
-#+end_src
-
 *** Language-Specific Commenting
 
 I use =C-'= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
@@ -882,7 +872,7 @@ pressing TAB gives me the normal dropdown list.
 I prefer this aesthetically, since it keeps the list out of the way for as long
 as possible, but it's still available.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package corfu-candidate-overlay
   :after corfu
   :bind (:map corfu-map ("<tab>" . 'completion-at-point))
@@ -1309,6 +1299,19 @@ types of notes, each corresponding to a an =.org=-file type.
 you use often and insert them easily. I want snippets for basic Org-files,
 Roam-notes, and other sequences often used.
 
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :defer 5
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
+  (yas-global-mode 1)) ;; or M-x yas-reload-all if you've started YASnippet already.
+
+;; Silences the warning when running a snippet with backticks (runs a command in the snippet)
+(require 'warnings)
+(add-to-list 'warning-suppress-types '(yasnippet backquote-change)) 
+#+end_src
+
 *** Hugo
 
 [[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
@@ -1539,7 +1542,7 @@ Emacs with the results.
 OCaml requires some setup for =ocp-indent=,
 
 #+begin_src emacs-lisp
-(use-package 'ocp-indent)
+(use-package ocp-indent)
 #+end_src
 
 and for =merlin=.
@@ -1557,7 +1560,7 @@ and for =merlin=.
        (setq merlin-command 'opam)))
 #+end_src
 
-Then I want integration with Dune, Merlin, flyspell, and utop for the full IDE-experience.
+Then I want integration with Dune, Merlin, and utop for the full IDE-experience.
 
 #+begin_src emacs-lisp
 ;; Major mode for OCaml programming
