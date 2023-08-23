@@ -1277,12 +1277,12 @@ mine to =E= so that we have =A= through =E=, in total five levels.
 (setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
 
 (setq org-priority-faces
-      '((65 . "")
-        (66 . "Gold1")
-        (67 . "Goldenrod2")
-        (68 . "PaleTurquoise3")
-        (69 . "DarkSlateGray4")
-        (70 . "PaleTurquoise4")))
+      '((65 . "#BF616A")
+        (66 . "#EBCB8B")
+        (67 . "#B48EAD")
+        (68 . "#81A1C1")
+        (69 . "#5E81AC")
+        (70 . "#4C566A")))
 #+end_src
 
 Then I'll expand the list of default task states.
