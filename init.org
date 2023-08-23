@@ -666,65 +666,6 @@ Therefore I have kept an old copy.
       nano-modeline-prefix-padding t)       ;; Padding between prefix and text
 #+end_src
 
-** TODO SVG Tags
-
-Nicolas Rougier's [[https://github.com/rougier/svg-lib][svg-lib]] lets me replace common keywords with nice SVG tags.
-I'll replace my Org TODO states,  which are listed in the Org - Time & Task
-Tracking section.
-
-#+begin_src emacs-lisp
-(use-package svg-lib
-  :config
-  (defvar svg-font-lock-keywords
-	`(("TODO"
-       (0 (list 'face nil 'display (svg-font-lock-todo))))
-      ("\\:\\([0-9a-zA-Z]+\\)\\:"
-       (0 (list 'face nil 'display (svg-font-lock-tag (match-string 1)))))
-      ("DONE"
-       (0 (list 'face nil 'display (svg-font-lock-done))))
-      ("\\[\\([0-9]\\{1,3\\}\\)%\\]"
-       (0 (list 'face nil 'display (svg-font-lock-progress_percent (match-string 1)))))
-      ("\\[\\([0-9]+/[0-9]+\\)\\]"
-       (0 (list 'face nil 'display (svg-font-lock-progress_count (match-string 1)))))))
-
-  (defun svg-font-lock-tag (label)
-	(svg-lib-tag label nil :margin 0))
-
-  (defun svg-font-lock-todo ()
-	(svg-lib-tag "TODO" nil :margin 0
-				 :font-family "Roboto Mono" :font-weight 500
-				 :foreground "#FFFFFF" :background "#673AB7"))
-
-  (defun svg-font-lock-done ()
-	(svg-lib-tag "DONE" nil :margin 0
-				 :font-family "Roboto Mono" :font-weight 400
-				 :foreground "#B0BEC5" :background "white"))
-  
-  (defun svg-font-lock-progress_percent (value)
-	(svg-image (svg-lib-concat
-				(svg-lib-progress-bar (/ (string-to-number value) 100.0)
-									  nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 12)
-				(svg-lib-tag (concat value "%")
-							 nil :stroke 0 :margin 0)) :ascent 'center))
-
-  (defun svg-font-lock-progress_count (value)
-	(let* ((seq (mapcar #'string-to-number (split-string value "/")))
-           (count (float (car seq)))
-           (total (float (cadr seq))))
-	  (svg-image (svg-lib-concat
-				  (svg-lib-progress-bar (/ count total) nil
-										:margin 0 :stroke 2 :radius 3 :padding 2 :width 12)
-				  (svg-lib-tag value nil
-							   :stroke 0 :margin 0)) :ascent 'center)))
-
-  (defun activate-svg-lib ()
-	(push 'display font-lock-extra-managed-props)
-	(font-lock-add-keywords nil svg-font-lock-keywords)
-	(font-lock-flush (point-min) (point-max))))
-
-(add-hook 'org-mode-hook 'activate-svg-lib)
-#+end_src
-
 ** Terminal Emulator
 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
@@ -1221,9 +1162,7 @@ is always on.
 (add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
-Both the =org-bullets= and the =org-superstar= packages turn your header asterisks
-into pretty UTF-8 bullet characters. I've used both in the past, but since
-switched to =org-modern=, which does that and a bit extra! It prettifies a lot of Org elements, such as
+ =org-modern= styles and prettifies a lot of Org elements, such as
 headings, lists, tables, and source code blocks. My setup is a simplified
 version of the usage example in the [[https://github.com/minad/org-modern][GitHub repo]].
 
@@ -1231,11 +1170,17 @@ version of the usage example in the [[https://github.com/minad/org-modern][GitHu
 (use-package org-modern
   :config
   (setq
-   org-auto-align-tags nil
+   org-auto-align-tags t
    org-tags-column 0
    org-fold-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
+
+   ;; Don't style the following
+   org-modern-tag nil
+   org-modern-priority nil
+   org-modern-todo nil
+   org-modern-table nil
 
    ;; Agenda styling
    org-agenda-tags-column 0
@@ -1250,13 +1195,33 @@ version of the usage example in the [[https://github.com/minad/org-modern][GitHu
   (global-org-modern-mode))
 #+end_src
 
+=org-superstar= is similar to =org-modern= but has some other options for styling.
+
+#+begin_src emacs-lisp
+(use-package org-superstar
+  :config
+  (setq org-superstar-leading-bullet " ")
+  (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
+  (setq org-superstar-todo-bullet-alist '(("TODO" . 9744)
+                                          ("INPROG-TODO" . 9744)
+                                          ("WORK" . 9744)
+                                          ("STUDY" . 9744)
+                                          ("SOMEDAY" . 9744)
+                                          ("READ" . 9744)
+                                          ("PROJ" . 9744)
+                                          ("CONTACT" . 9744)
+                                          ("DONE" . 9745)))
+  ;; :hook (org-mode . org-superstar-mode)
+  )
+#+end_src
+
 Increase the size of LaTeX previews in Org.
 
 #+begin_src emacs-lisp
 (plist-put org-format-latex-options :scale 2)
 #+end_src
 
-*** Org Faces
+*** Org Text Faces
 
 Make sure =variable-pitch-mode= is always active in Org buffers.
 
@@ -1308,7 +1273,16 @@ Let's first increase the number of possible priorities for Org tasks. I'll set
 mine to =E= so that we have =A= through =E=, in total five levels.
 
 #+begin_src emacs-lisp
-(setq org-lowest-priority ?E)
+(setq org-lowest-priority ?F)  ;; Gives us priorities A through F
+(setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
+
+(setq org-priority-faces
+      '((65 . "")
+        (66 . "Gold1")
+        (67 . "Goldenrod2")
+        (68 . "PaleTurquoise3")
+        (69 . "DarkSlateGray4")
+        (70 . "PaleTurquoise4")))
 #+end_src
 
 Then I'll expand the list of default task states.
@@ -1318,7 +1292,22 @@ Then I'll expand the list of default task states.
       '((sequence
 		 "TODO" "PROJECT" "READ" "WAITING"        ; Needs further action
 		 "|"
-		 "DONE" "CANCELLED" "POSTPONED" "IDEA"))) ; Needs to action currently
+		 "DONE" "CANCELLED" "POSTPONED" "IDEA"))) ; Needs no action currently
+#+end_src
+
+And change their appearance slightly, to help differentiate between them. I'll
+pick the colours straight from the official [[https://www.nordtheme.com/docs/colors-and-palettes][Nord theme pallette]].
+
+#+begin_src emacs-lisp
+(setq org-todo-keyword-faces
+      '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
+		("PROJECT"   :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
+        ("READ"      :inherit (org-todo region) :foreground "#8FBCBB" :weight bold)
+		("WAITING"   :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
+		("DONE"      :inherit (org-todo region) :foreground "#4C566A" :weight bold)
+		("CANCELLED" :inherit (org-todo region) :foreground "#BF616A" :weight bold)
+		("POSTPONED" :inherit (org-todo region) :foreground "#D08770" :weight bold)
+		("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" :weight bold)))
 #+end_src
 
 For whatever reason, I've had an issue with clocking in, where the default
@@ -1565,33 +1554,6 @@ Sophie Bosio
 
 
 * Programming
-
-** Highlighting TODO's
-
-[[https://github.com/vincekd/comment-tags/tree/master][comment-tags]] highlights and lists comment tags such as 'TODO', 'FIXME', 'BUG',
-etc. What's especially nice about this package, is that you can specify the
-required format of the tag, such as whether or not to require that the tag is at
-the start of a comment, in all-caps, has a postfix
-colon, and so on.
-
-#+begin_src emacs-lisp
-(use-package comment-tags
-  :config
-  (setq comment-tags-keymap-prefix (kbd "C-c t"))
-  (setq comment-tags-keyword-faces
-        `(("TODO"  . ,(list :weight 'bold :foreground "#A3BE8C"))
-          ("FIXME" . ,(list :weight 'bold :foreground "#EBCB8B"))
-          ("BUG"   . ,(list :weight 'bold :foreground "#BF616A"))
-          ("INFO"  . ,(list :weight 'bold :foreground "#B48EAD"))
-          ("DONE"  . ,(list :weight 'bold :foreground "#88C0D0"))))
-  (setq comment-tags-comment-start-only nil
-        comment-tags-require-colon      nil
-        comment-tags-case-sensitive     nil
-        comment-tags-show-faces         t
-        comment-tags-lighter            nil)
-  :hook
-  (prog-mode-hook . comment-tags-mode))
-#+end_src
 
 ** Eglot
 
