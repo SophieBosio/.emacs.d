@@ -1108,6 +1108,15 @@ For this, we need an OpenAI Key. I've stored mine in =~/.authinfo=.
       (auth-source-pick-first-password :host "api.openai.com"))
 #+end_src
 
+** Browser
+
+Open links with Firefox by default.
+
+#+begin_src emacs-lisp
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "brave-browser")
+#+end_src
+
 
 * Org, Roam, & Obsidian
 
