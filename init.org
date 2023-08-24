@@ -1301,7 +1301,7 @@ Then I'll expand the list of default task states.
       '((sequence
 		 "TODO" "PROJECT" "READ" "WAITING"        ; Needs further action
 		 "|"
-		 "DONE" "CANCELLED" "POSTPONED" "IDEA"))) ; Needs no action currently
+		 "IDEA" "CANCELLED" "POSTPONED" "DONE"))) ; Needs no action currently
 #+end_src
 
 And change their appearance slightly, to help differentiate between them. I'll
