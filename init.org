@@ -1172,7 +1172,7 @@ is always on.
 #+end_src
 
  =org-modern= styles and prettifies a lot of Org elements, such as
-headings, lists, tables, and source code blocks. My setup is a simplified
+headings, lists, tables, and source code blocks. My setup is a modified
 version of the usage example in the [[https://github.com/minad/org-modern][GitHub repo]].
 
 #+begin_src emacs-lisp
@@ -1212,15 +1212,13 @@ version of the usage example in the [[https://github.com/minad/org-modern][GitHu
   (setq org-superstar-leading-bullet " ")
   (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO" . 9744)
-                                          ("INPROG-TODO" . 9744)
-                                          ("WORK" . 9744)
-                                          ("STUDY" . 9744)
-                                          ("SOMEDAY" . 9744)
+                                          ("DONE" . 9744)
                                           ("READ" . 9744)
-                                          ("PROJ" . 9744)
-                                          ("CONTACT" . 9744)
-                                          ("DONE" . 9745)))
-  ;; :hook (org-mode . org-superstar-mode)
+                                          ("IDEA" . 9744)
+                                          ("WAITING" . 9744)
+                                          ("CANCELLED" . 9744)
+                                          ("PROJECT" . 9744)
+                                          ("POSTPONED" . 9744)))
   )
 #+end_src
 
@@ -1313,7 +1311,7 @@ pick the colours straight from the official [[https://www.nordtheme.com/docs/col
 		("PROJECT"   :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
         ("READ"      :inherit (org-todo region) :foreground "#8FBCBB" :weight bold)
 		("WAITING"   :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
-		("DONE"      :inherit (org-todo region) :foreground "#4C566A" :weight bold)
+		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)
 		("CANCELLED" :inherit (org-todo region) :foreground "#BF616A" :weight bold)
 		("POSTPONED" :inherit (org-todo region) :foreground "#D08770" :weight bold)
 		("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" :weight bold)))
@@ -1531,7 +1529,7 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 
 * Email
 
-** =mu4e=
+** TODO =mu4e=
 
 =mu4e= (=mu= for Emacs) is the 
 
