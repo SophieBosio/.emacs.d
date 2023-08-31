@@ -1050,6 +1050,8 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
 #+end_src
 
+** TODO =win-switch=
+
 ** PDF Tools
 
 This displays PDFs in a much more beautiful way.
@@ -1297,9 +1299,9 @@ Then I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO" "PROJECT" "READ" "WAITING"        ; Needs further action
+		 "TODO" "PROJECT" "READ" "CHECK" "IDEA" ; Needs further action
 		 "|"
-		 "IDEA" "CANCELLED" "POSTPONED" "DONE"))) ; Needs no action currently
+		 "POSTPONED" "CANCELLED" "DONE")))      ; Needs no action currently
 #+end_src
 
 And change their appearance slightly, to help differentiate between them. I'll
@@ -1310,7 +1312,7 @@ pick the colours straight from the official [[https://www.nordtheme.com/docs/col
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
 		("PROJECT"   :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
         ("READ"      :inherit (org-todo region) :foreground "#8FBCBB" :weight bold)
-		("WAITING"   :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
+		("CHECK"     :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
 		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)
 		("CANCELLED" :inherit (org-todo region) :foreground "#BF616A" :weight bold)
 		("POSTPONED" :inherit (org-todo region) :foreground "#D08770" :weight bold)
