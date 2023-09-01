@@ -358,6 +358,8 @@ Switch to the other window  =C-x o= \to  =M-o=.
 (define-key custom-bindings-map (kbd "M-o") 'other-window)
 #+end_src
 
+I also use =win-switch= to get nicer macros for switching and managing windows.
+
 *** Auto-Saving
 
 I prefer having my files save automatically. Any changes I don't want, I just
@@ -752,9 +754,9 @@ point it to my own image, but the ='logo= banner is also really nice.
                           (agenda       . 5))))
 #+END_SRC
 
-** Olivetti
+** Text Centring
 
-=Olivetti= is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
+[[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
 With the the font and font size I use, setting the =fill-column= variable to 4, means I can display /exactly/ 80 mono characters before the line is folded.
 
@@ -950,9 +952,9 @@ Roam-notes, and other sequences often used.
 (add-to-list 'warning-suppress-types '(yasnippet backquote-change)) 
 #+end_src
 
-** Helpful & Which Key
+** Better Help
 
-Helpful is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
+[[https://github.com/Wilfred/helpful][Helpful]] is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
 
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
@@ -974,7 +976,7 @@ to enter a command, it will show you where you can go from there.
   (which-key-mode))
 #+end_src
 
-** Flyspell
+** Spelling
 
 [[https://www.emacswiki.org/emacs/FlySpell][Flyspell]] enables on-the-fly spell checking and highlights misspelled words in
 the way that you'd expect.
@@ -1016,9 +1018,9 @@ buffer where flyspell is enabled.
   (ispell-change-dictionary "british" t))
 #+end_src
 
-** Magit
+** Version Control
 
-Magit is a Git client specifically for Emacs, and it's super powerful.
+[[https://github.com/magit/magit][Magit]] is a Git client specifically for Emacs, and it's super powerful.
 
 Let's first make sure we're highlighting uncommitted changes.
 
@@ -1038,7 +1040,7 @@ Then configure Magit.
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 #+end_src
 
-** Projectile
+** Project Management
  
 [[https://projectile.mx/][Projectile]] provides a convenient project interaction interface. I keep most of
 my projects in a specific folder, so I'll set Projectile to check that path specifically.
@@ -1050,9 +1052,7 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
 #+end_src
 
-** TODO =win-switch=
-
-** PDF Tools
+** Viewing PDFs
 
 This displays PDFs in a much more beautiful way.
 
@@ -1110,7 +1110,7 @@ For this, we need an OpenAI Key. I've stored mine in =~/.authinfo=.
       (auth-source-pick-first-password :host "api.openai.com"))
 #+end_src
 
-** Browser
+** Browser Preference
 
 Open links with Firefox by default.
 
