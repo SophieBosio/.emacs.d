@@ -1299,9 +1299,9 @@ Then I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO" "PROJECT" "READ" "CHECK" "IDEA" ; Needs further action
+		 "TODO" "PROJ" "READ" "CHECK" "IDEA" ; Needs further action
 		 "|"
-		 "POSTPONED" "CANCELLED" "DONE")))      ; Needs no action currently
+		 "DONE")))                           ; Needs no action currently
 #+end_src
 
 And change their appearance slightly, to help differentiate between them. I'll
@@ -1310,12 +1310,10 @@ pick the colours straight from the official [[https://www.nordtheme.com/docs/col
 #+begin_src emacs-lisp
 (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
-		("PROJECT"   :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
+		("PROJ"   :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
         ("READ"      :inherit (org-todo region) :foreground "#8FBCBB" :weight bold)
 		("CHECK"     :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
 		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)
-		("CANCELLED" :inherit (org-todo region) :foreground "#BF616A" :weight bold)
-		("POSTPONED" :inherit (org-todo region) :foreground "#D08770" :weight bold)
 		("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" :weight bold)))
 #+end_src
 
@@ -1335,6 +1333,12 @@ The first step is to set the relevant directories.
 (setq org-directory "~/Dropbox/org/")
 (setq org-agenda-files (list "inbox.org" "projects.org"))
 #+END_SRC
+
+Set the archive location to a unified archive.
+
+#+begin_src emacs-lisp
+(setq org-archive-location (concat org-directory "archive.org::"))
+#+end_src
 
 Then to set up the relevant capture templates, with accompanying keybindings.
 
