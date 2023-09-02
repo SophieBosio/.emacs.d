@@ -347,20 +347,6 @@ And I do want line numbers, but only in programming modes.
 (add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
 #+END_SRC
 
-*** Custom Shortcuts
-
-I have some commands I use a lot, and I'm not super great at lifting my pinky
-for commands on the form =C-x y=, so I'll define some shortcuts to use instead.
-Note that on my computer, I have set =caps lock= to be =ctrl= and =ctrl= to be =super=.
-
-Switch to the other window  =C-x o= \to  =M-o=.
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "M-o") 'other-window)
-#+end_src
-
-I also use =win-switch= to get nicer macros for switching and managing windows.
-
 *** Auto-Saving
 
 I prefer having my files save automatically. Any changes I don't want, I just
@@ -488,6 +474,12 @@ added to the kill ring. With this the help of some regexps, it behaves more like
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 #+END_SRC
+
+Let's bind this in my custom keybindings map.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map [C-backspace] 'custom/backward-delete)
+#+end_src
 
 Speaking of killing text, it's nice to be able to browse the kill ring.
 
@@ -639,6 +631,12 @@ this function to =C-c C-t= in the "Keybindings" section.
       (let ((rotated (nconc (cdr themes) (list (car themes)))))
         (load-theme (car (setq themes rotated)) t))
       (message (concat "Switched to " (symbol-name (car themes)))))))
+#+end_src
+
+Let's bind it to a key.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes))
 #+end_src
 
 When changing themes interactively, as with =M-x load-theme=, the current custom
@@ -1703,12 +1701,17 @@ buffers. I'll set it to work by default and enforce max line length.
 
 *** Extra Keybindings
 
+Most of my custom keybindings are bound directly in the section with the
+relevant package, but here are a few extra ones.
+
+Switch to the other window  =C-x o= \to  =M-o=.
+
 #+begin_src emacs-lisp
-(use-package emacs
-  :config
-  (define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes))
-  (define-key custom-bindings-map [C-backspace] 'custom/backward-delete))
+(define-key custom-bindings-map (kbd "M-o") 'other-window)
 #+end_src
+
+I also plan to use =win-switch= to get nicer macros for switching and managing windows.
+
 
 *** Activating the Keymap
 
