@@ -351,6 +351,7 @@ And I do want line numbers, but only in programming modes.
 
 I have some commands I use a lot, and I'm not super great at lifting my pinky
 for commands on the form =C-x y=, so I'll define some shortcuts to use instead.
+Note that on my computer, I have set =caps lock= to be =ctrl= and =ctrl= to be =super=.
 
 Switch to the other window  =C-x o= \to  =M-o=.
 
@@ -952,7 +953,7 @@ Roam-notes, and other sequences often used.
 (add-to-list 'warning-suppress-types '(yasnippet backquote-change)) 
 #+end_src
 
-** Better Help
+** Better Help Buffers
 
 [[https://github.com/Wilfred/helpful][Helpful]] is an improvement on Emacs' built-in *help* buffer. It's more user-friendly and easier to read.
 
@@ -1186,9 +1187,10 @@ version of the usage example in the [[https://github.com/minad/org-modern][GitHu
    org-fold-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
+   org-modern-progress '("")
 
    ;; Don't style the following
-   org-modern-tag nil
+   ;; org-modern-tag nil
    org-modern-priority nil
    org-modern-todo nil
    org-modern-table nil
@@ -1212,7 +1214,7 @@ version of the usage example in the [[https://github.com/minad/org-modern][GitHu
 (use-package org-superstar
   :config
   (setq org-superstar-leading-bullet " ")
-  (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
+  (setq org-superstar-special-todo-items nil) ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO" . 9744)
                                           ("DONE" . 9744)
                                           ("READ" . 9744)
