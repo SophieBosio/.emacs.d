@@ -616,8 +616,7 @@ I really like the doom-themes, so I'll get those. My favourite for everyday use 
   (load-theme 'doom-nord t))
 #+END_SRC
 
-This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]]. I'll bind
-this function to =C-c C-t= in the "Keybindings" section.
+This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]].
 
 #+begin_src emacs-lisp
 (defvar favourite-themes '(doom-nord doom-nord-light doom-flatwhite))
