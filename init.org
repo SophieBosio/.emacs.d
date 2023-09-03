@@ -1157,10 +1157,15 @@ source code block like it normally would when writing code in that language.
       org-edit-src-content-indentation 0)
 #+end_src
 
-Log when TODOs are marked as done.
+Some Org options to deal with headers and TODO's nicely.
 
 #+begin_src emacs-lisp
-(setq org-log-done t)
+(setq org-log-done                       t
+	  org-auto-align-tags                t
+	  org-tags-column                    -80
+	  org-fold-catch-invisible-edits     'show-and-error
+	  org-special-ctrl-a/e               t
+	  org-insert-heading-respect-content t)
 #+end_src
 
 Next, I always want to center the text and enable linebreaks in Org. I've added
@@ -1179,21 +1184,16 @@ version of the usage example in the [[https://github.com/minad/org-modern][GitHu
 (use-package org-modern
   :config
   (setq
-   org-auto-align-tags t
-   org-tags-column 0
-   org-fold-catch-invisible-edits 'show-and-error
-   org-special-ctrl-a/e t
-   org-insert-heading-respect-content t
-   org-modern-progress '("")
+   org-modern-symbol "DejaVu Sans"
 
    ;; Don't style the following
-   ;; org-modern-tag nil
+   ;; org-modern-tag      nil
    org-modern-priority nil
-   org-modern-todo nil
-   org-modern-table nil
+   org-modern-todo     nil
+   org-modern-table    nil
+   org-modern-progress nil
 
    ;; Agenda styling
-   org-agenda-tags-column 0
    org-agenda-block-separator ?─
    org-agenda-time-grid
    '((daily today require-timed)
@@ -1211,16 +1211,20 @@ version of the usage example in the [[https://github.com/minad/org-modern][GitHu
 (use-package org-superstar
   :config
   (setq org-superstar-leading-bullet " ")
-  (setq org-superstar-special-todo-items nil) ;; Makes TODO header bullets into boxes
-  (setq org-superstar-todo-bullet-alist '(("TODO" . 9744)
-                                          ("DONE" . 9744)
-                                          ("READ" . 9744)
-                                          ("IDEA" . 9744)
-                                          ("WAITING" . 9744)
-                                          ("CANCELLED" . 9744)
-                                          ("PROJECT" . 9744)
-                                          ("POSTPONED" . 9744)))
-  )
+  (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
+  (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
+                                          ("PROJ"  . 9744)
+                                          ("READ"  . 9744)
+                                          ("CHECK" . 9744)
+                                          ("IDEA"  . 9744)
+										  ("DONE"  . 9745)))
+  :hook (org-mode . org-superstar-mode))
+#+end_src
+
+Move tags to far right of the screen.
+
+#+begin_src emacs-lisp
+;; (setq org-tags-column -1)
 #+end_src
 
 Increase the size of LaTeX previews in Org.
@@ -1309,11 +1313,11 @@ pick the colours straight from the official [[https://www.nordtheme.com/docs/col
 #+begin_src emacs-lisp
 (setq org-todo-keyword-faces
       '(("TODO"      :inherit (org-todo region) :foreground "#A3BE8C" :weight bold)
-		("PROJ"   :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
+		("PROJ"      :inherit (org-todo region) :foreground "#88C0D0" :weight bold)
         ("READ"      :inherit (org-todo region) :foreground "#8FBCBB" :weight bold)
 		("CHECK"     :inherit (org-todo region) :foreground "#81A1C1" :weight bold)
-		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)
-		("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" :weight bold)))
+		("IDEA"      :inherit (org-todo region) :foreground "#EBCB8B" :weight bold)
+		("DONE"      :inherit (org-todo region) :foreground "#30343d" :weight bold)))
 #+end_src
 
 For whatever reason, I've had an issue with clocking in, where the default
