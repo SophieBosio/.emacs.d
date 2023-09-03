@@ -1582,8 +1582,7 @@ it manually!
   :defer t
   :hook
   (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
-  (python-mode . eglot-ensure)
-)
+  (python-mode . eglot-ensure))
 #+end_src
 
 ** Haskell
@@ -1697,6 +1696,23 @@ buffers. I'll set it to work by default and enforce max line length.
   :custom
   (blacken-line-length t)
   :hook (python-mode-hook . blacken-mode))
+#+end_src
+
+** Clojure
+
+[[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs.
+
+#+begin_src emacs-lisp
+(use-package cider
+  :defer t
+  :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer)))
+#+end_src
+
+[[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
+
+#+begin_src emacs-lisp
+(use-package clj-refactor
+  :defer t)
 #+end_src
 
 
