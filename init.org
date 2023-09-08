@@ -284,7 +284,8 @@ And finally, I want scrolling to be a *lot* slower than it is by default.
 
 ** Personal Defaults
 
-Some of these, I can't argue are "sane" in general - but they're what I want.
+Of course, all defaults are personal. But these are ones I definitely cannot
+justify putting in the Personal Defaults section.
 
 *** Appearance
 
@@ -727,8 +728,8 @@ in just vterm, please do let me know :~)
               ("M-6" . (lambda () (interactive) (switch-vterm 6)))
               ("M-7" . (lambda () (interactive) (switch-vterm 7)))
               ("M-8" . (lambda () (interactive) (switch-vterm 8)))
-              ("M-9" . (lambda () (interactive) (switch-vterm 9))))
-        (:map vterm-mode-map
+              ("M-9" . (lambda () (interactive) (switch-vterm 9)))
+			  ("C-c C-c" . (lambda () (interactive) (vterm-send-key (kbd "C-c"))))
 			  ("C-<backspace>" . (lambda () (interactive) (vterm-send-key (kbd "C-w")))))
 
   :config
