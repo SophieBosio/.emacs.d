@@ -520,6 +520,17 @@ When called without a prefix argument, kill just the current buffer
 (define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
 #+end_src
 
+*** Selecting Regions
+
+[[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
+symbol, word, sentence, paragraph). It's super handy!
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :bind (:map custom-bindings-map ("C-<dead-diaeresis>" . er/expand-region)
+			                      ("C-å" . er/contract-region)))
+#+end_src
+
 *** Language-Specific Commenting
 
 I use =C-'= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
