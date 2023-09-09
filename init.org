@@ -729,8 +729,7 @@ in just vterm, please do let me know :~)
               ("M-7" . (lambda () (interactive) (switch-vterm 7)))
               ("M-8" . (lambda () (interactive) (switch-vterm 8)))
               ("M-9" . (lambda () (interactive) (switch-vterm 9)))
-			  ("C-c C-c" . (lambda () (interactive) (vterm-send-key (kbd "C-c"))))
-			  ("C-<backspace>" . (lambda () (interactive) (vterm-send-key (kbd "C-w")))))
+			  ("C-c C-c" . (lambda () (interactive) (vterm-send-key (kbd "C-c")))))
 
   :config
   ;; Don't query about killing vterm buffers, just kill it
@@ -1188,36 +1187,7 @@ is always on.
 (add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
- =org-modern= styles and prettifies a lot of Org elements, such as
-headings, lists, tables, and source code blocks. My setup is a modified
-version of the usage example in the [[https://github.com/minad/org-modern][GitHub repo]].
-
-#+begin_src emacs-lisp :tangle no
-(use-package org-modern
-  :config
-  (setq
-   org-modern-symbol "DejaVu Sans"
-
-   ;; Don't style the following
-   ;; org-modern-tag      nil
-   org-modern-priority nil
-   org-modern-todo     nil
-   org-modern-table    nil
-   org-modern-progress nil
-
-   ;; Agenda styling
-   org-agenda-block-separator ?─
-   org-agenda-time-grid
-   '((daily today require-timed)
-	 (800 1000 1200 1400 1600 1800 2000)
-	 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-   org-agenda-current-time-string
-   "⭠ now ─────────────────────────────────────────────────")
-
-  (global-org-modern-mode))
-#+end_src
-
-=org-superstar= is similar to =org-modern= but has some other options for styling.
+=org-superstar= styles some of my UI elements.
 
 #+begin_src emacs-lisp
 (use-package org-superstar
