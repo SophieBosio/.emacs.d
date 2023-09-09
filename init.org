@@ -728,7 +728,8 @@ in just vterm, please do let me know :~)
               ("M-6" . (lambda () (interactive) (switch-vterm 6)))
               ("M-7" . (lambda () (interactive) (switch-vterm 7)))
               ("M-8" . (lambda () (interactive) (switch-vterm 8)))
-              ("M-9" . (lambda () (interactive) (switch-vterm 9)))
+              ("M-9" . (lambda () (interactive) (switch-vterm 9))))
+  :bind (:map vterm-mode-map
 			  ("C-c C-c" . (lambda () (interactive) (vterm-send-key (kbd "C-c")))))
 
   :config
