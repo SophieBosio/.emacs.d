@@ -666,16 +666,22 @@ I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano
 some neat built-in features, like the option to put the modeline in the header
 bar instead of at the bottom of the screen.
 
-For some reason, the newest versions, after Version 1.0, don't work for me.
-Therefore I have kept an old copy.
-
 #+begin_src emacs-lisp
-(require 'nano-modeline-old)
-(nano-modeline-mode 1)
-(setq nano-modeline-space-top      +0.60    ;; Space above the text
-      nano-modeline-space-bottom   -0.60    ;; Space below the text
-      nano-modeline-prefix         'status  ;; I want icons, not RW/RO signifiers
-      nano-modeline-prefix-padding t)       ;; Padding between prefix and text
+(use-package nano-modeline
+  :init
+  ;; Disable the default modeline
+  (setq-default mode-line-format nil)
+  :config
+  (setq nano-modeline-padding '(0.55 . 0.55))
+  (defun my-nano-modeline (&optional default)
+    (funcall nano-modeline-position
+             `((nano-modeline-buffer-status) " "
+               (nano-modeline-buffer-name) " "
+               (nano-modeline-git-info))
+             `((nano-modeline-cursor-position) " "
+               (nano-modeline-window-dedicated))
+             default))
+  (my-nano-modeline 1))
 #+end_src
 
 ** Terminal Emulator
