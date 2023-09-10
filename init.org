@@ -781,6 +781,7 @@ With the the font and font size I use, setting the =fill-column= variable to 4, 
   :defer t
   :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
   :config
+  (setq olivetti-style t)
   (setq-default olivetti-body-width (+ fill-column 4)))
 #+END_SRC
 
