@@ -1129,7 +1129,7 @@ For this, we need an OpenAI Key. I've stored mine in =~/.authinfo=.
 
 ** Browser Preference
 
-Open links with Firefox by default.
+Open links with Brave by default.
 
 #+begin_src emacs-lisp
 (setq browse-url-browser-function 'browse-url-generic
@@ -1150,6 +1150,15 @@ Let's first make sure we're using Org.
 #+BEGIN_SRC emacs-lisp
 (use-package org)
 #+END_SRC
+
+Usually, I prefer for my Org documents to open with all the headers folded.
+Since I elsewhere have a setting to bring me to the last visited place in a
+file, that makes sure that the relevant section is unfolded, while all the
+others are folded by default.
+
+#+begin_src emacs-lisp
+(setq-default org-startup-folded t)
+#+end_src
 
 *** Prettifying
 
