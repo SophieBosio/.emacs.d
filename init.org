@@ -774,7 +774,8 @@ point it to my own image, but the ='logo= banner is also really nice.
 
 [[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
-With the the font and font size I use, setting the =fill-column= variable to 4, means I can display /exactly/ 80 mono characters before the line is folded.
+With the the font and font size I use, setting the =fill-column= variable to 4,
+means I can display /exactly/ 80 mono characters before the line is folded.
 
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
@@ -1207,7 +1208,7 @@ is always on.
 Increase the size of LaTeX previews in Org.
 
 #+begin_src emacs-lisp
-(plist-put org-format-latex-options :scale 2)
+(plist-put org-format-latex-options :scale 1.35)
 #+end_src
 
 *** Org Text Faces
