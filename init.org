@@ -1475,6 +1475,25 @@ SVG graphics.
 (add-hook 'org-mode-hook 'svg-tag-mode)
 #+end_src
 
+*** Images
+
+[[https://github.com/abo-abo/org-download][org-download]] lets me easily put copied screenshots into my org-documents.
+
+#+begin_src emacs-lisp
+(use-package org-download
+  :after org
+  :bind
+  (:map org-mode-map
+        (("s-t" . org-download-screenshot)
+         ("s-y" . org-download-clipboard))))
+#+end_src
+
+Show inline images by default
+
+#+begin_src haskell
+(setq org-startup-with-inline-images t)
+#+end_src
+
 *** Hugo
 
 [[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
