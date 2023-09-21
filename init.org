@@ -175,15 +175,26 @@ And load custom settings from =custom.el= if it exists.
 Some of my config depends on software, packages, fonts, etc. external to Emacs. Here's
 a list that I try to keep up to date:
 
+*Utilities:*
+
 - ripgrep
 - Fish
+- Brave browser
+- graphviz (for org-roam-graph)
+- notmuch
+- isync
+
+*Programming languages++:*
+
 - GHCi
 - Python3
 - Java
 - Clojure
 - OCaml
 - LiveTeX
-- Brave browser
+
+*Misc:*
+
 - Source Sans Pro
 - Roboto Mono with ligatures
 
@@ -1656,9 +1667,8 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 
 * Email
 
-** TODO =mu4e=
-
-=mu4e= (=mu= for Emacs) is the 
+I use a combination of [[https://wiki.archlinux.org/title/isync][isync]], [[https://marlam.de/msmtp/][msmpt]], and [[https://notmuchmail.org/notmuch-emacs/][notmuch]] to write and view emails in
+Emacs. Then I use [[https://github.com/jeremy-compostella/org-msg][org-msg]] to write my emails in Org mode and format them as HTML emails.
 
 ** =org-msg=
 
