@@ -192,6 +192,8 @@ a list that I try to keep up to date:
 - Clojure
 - OCaml
 - LiveTeX
+- Racket
+- Lua
 
 *Misc:*
 
@@ -675,7 +677,7 @@ This theme cycling function is borrowed from Lars' [[https://github.com/larstvei
 Let's bind it to a key.
 
 #+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-c C-t") (cycle-themes))
+(define-key custom-bindings-map (kbd "C-c b") (cycle-themes))
 #+end_src
 
 When changing themes interactively, as with =M-x load-theme=, the current custom
