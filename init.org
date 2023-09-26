@@ -675,7 +675,7 @@ I really like the doom-themes, so I'll get those. My favourite for everyday use 
 This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]].
 
 #+begin_src emacs-lisp
-(defvar favourite-themes '(doom-nord doom-nord-light doom-flatwhite))
+(defvar favourite-themes '(doom-nord eink))
 
 (defun cycle-themes ()
   "Returns a function that lets you cycle your themes."
@@ -702,6 +702,34 @@ disable the currently enabled themes when switching.
 (defadvice load-theme
     (before disable-before-load (theme &optional no-confirm no-enable) activate)
   (mapc 'disable-theme custom-enabled-themes))
+#+end_src
+
+*** Removing Themes from List View
+
+This is a bit pedantic of me, but I have some packages with themes I really like -
+e.g., Doom themes - that also contain a lot of themes I /don't/ use, and I don't
+want to see those when selecting among available themes. This little code
+snippet shows only the themes I do use.
+
+#+begin_src emacs-lisp
+(defvar my/visible-themes '("dichromacy"
+							"doom-flatwhite"
+							"doom-nord"
+							"eink"
+							"modus-operandi"
+							"nano-dark"
+							"nano-light"
+							"nano"
+							"os1"
+							"shanty-themes-light"
+							"spacemacs"
+							"spacemacs-light"
+							"twilight-bright"))
+
+(defun my/valid-themes (orig-fun theme-name)
+  (and (funcall orig-fun theme-name)
+       (member (symbol-name theme-name) my/visible-themes)))
+(advice-add 'custom-theme-name-valid-p :around #'my/valid-themes)
 #+end_src
 
 ** Mode Line
@@ -1502,7 +1530,7 @@ SVG graphics.
 (add-hook 'org-mode-hook 'svg-tag-mode)
 #+end_src
 
-*** Images
+*** Pasting Images
 
 [[https://github.com/abo-abo/org-download][org-download]] lets me easily put copied screenshots into my org-documents.
 
