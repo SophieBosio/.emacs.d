@@ -194,6 +194,8 @@ a list that I try to keep up to date:
 - LiveTeX
 - Racket
 - Lua
+- Idris
+- Erlang
 
 *Misc:*
 
