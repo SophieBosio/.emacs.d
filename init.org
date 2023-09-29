@@ -846,8 +846,7 @@ point it to my own image, but the ='logo= banner is also really nice.
 
 [[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
-With the the font and font size I use, setting the =fill-column= variable to 4,
-means I can display /exactly/ 80 mono characters before the line is folded.
+With the rest of my setup, setting the =fill-column= variable to 4, means I can display /exactly/ 80 mono characters before the line is folded.
 
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
@@ -857,6 +856,14 @@ means I can display /exactly/ 80 mono characters before the line is folded.
   (setq olivetti-style t)
   (setq-default olivetti-body-width (+ fill-column 4)))
 #+END_SRC
+
+In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap]] to visually wrap lines.
+
+#+begin_src emacs-lisp
+(use-package adaptive-wrap
+  :defer t
+  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
+#+end_src
 
 ** Completion
 
