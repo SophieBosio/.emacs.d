@@ -930,7 +930,7 @@ that it can do.
 (use-package corfu
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto t)                 ;; Enable auto completion
   (corfu-auto-delay 0)           ;; No delay
   (corfu-auto-prefix 2)          ;; Start when this many characters have been typed
   (corfu-popupinfo-delay 0.5)    ;; Short delay
@@ -939,7 +939,7 @@ that it can do.
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
   (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matche
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
 
   :init
   (global-corfu-mode))
@@ -1242,15 +1242,14 @@ others are folded by default.
 
 *** Prettifying
 
-We'll declutter by hiding leading starts in headings and emphasis markers (e.g.,
-the slashes in  =/.../= ). We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
+We'll declutter by adapting the indentation and hiding leading starts in headings. We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
 insert special characters LaTeX-style by using a leading backslash (e.g., =\alpha= to
 write the greek letter alpha) and display ellipses in a condensed way.
 
 #+begin_src emacs-lisp
 (setq org-adapt-indentation t
       org-hide-leading-stars t
-      org-hide-emphasis-markers t
+      ;; org-hide-emphasis-markers t
       org-pretty-entities t
 	  org-ellipsis "  ·")
 #+end_src
@@ -1749,6 +1748,16 @@ Sophie Bosio
 
 
 * Programming
+
+** Custom File Endings
+
+For my MSc thesis, I'm implementing a small functional programming language
+called Contra. It's pretty similar to Haskell, so using Haskell mode does a
+fairly good job of syntax highlighting my =.con=-files.
+
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.con\\'" . haskell-mode))
+#+end_src
 
 ** Eglot
 
