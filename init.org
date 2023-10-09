@@ -708,8 +708,7 @@ advice =load-theme= to always disable the currently enabled themes when switchin
 #+begin_src emacs-lisp
 (defadvice load-theme
   (before disable-before-load (theme &optional no-confirm no-enable) activate)
-  (mapc 'disable-theme custom-enabled-themes)
-  (my-nano-modeline nil))
+  (mapc 'disable-theme custom-enabled-themes))
 #+end_src
 
 *** Removing Themes from List View
@@ -1344,7 +1343,8 @@ fixed-pitch))
 (set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
 #+end_src
 
-*** Time & Task Tracking
+*** DONE Time & Task Tracking
+	CLOSED: [2023-10-09 Mon 17:42]
 
 Let's first increase the number of possible priorities for Org tasks. I'll set
 mine to =E= so that we have =A= through =E=, in total five levels.
@@ -1427,6 +1427,32 @@ types of notes, each corresponding to a an =.org=-file type.
 #+BEGIN_SRC emacs-lisp
 (define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
 #+END_SRC
+
+Finally, to mark any TODO task, of any state, as DONE quickly, I have a helper
+function that I'll bind to =C-c d=.
+
+#+begin_src emacs-lisp
+(defun org-mark-as-done ()
+  (interactive)
+  (save-excursion
+    (org-back-to-heading t) ;; Make sure command works even if point is
+                            ;; below target heading
+    (cond ((looking-at "\*+ TODO")
+           (org-todo "DONE"))
+          ((looking-at "\*+ PROJ")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ READ")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ CHECK")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ IDEA")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ DONE")
+           (org-todo "DONE"))
+          (t (message "Undefined TODO state.")))))
+
+(define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
+#+end_src
 
 *** UI Elements
 
