@@ -682,7 +682,7 @@ they are from. I really like =doom-themes=, =ef-themes= and =nano-theme=.
 This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]].
 
 #+begin_src emacs-lisp
-(defvar favourite-themes '(doom-nord ef-maris-light))
+(defvar favourite-themes '(doom-nord nano-light))
 
 (defun cycle-themes ()
   "Returns a function that lets you cycle your themes."
@@ -713,12 +713,12 @@ advice =load-theme= to always disable the currently enabled themes when switchin
 
 *** Removing Themes from List View
 
-This is a bit pedantic of me, but I have some packages with themes I really like -
+I have some packages with themes I really like -
 e.g., Doom themes - that also contain a lot of themes I /don't/ use, and I don't
 want to see those when selecting among available themes. This little code
 snippet shows only the themes I do use.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defvar my/visible-themes '("dichromacy"
 							"doom-flatwhite"
 							"doom-nord"
@@ -727,11 +727,8 @@ snippet shows only the themes I do use.
 							"modus-operandi"
 							"nano-dark"
 							"nano-light"
-							"nano"
 							"os1"
-							"shanty-themes-light"
-							"spacemacs"
-							"spacemacs-light"
+							"doom-solarized-light"
 							"twilight-bright"))
 
 (defun my/valid-themes (orig-fun theme-name)
@@ -1343,8 +1340,7 @@ fixed-pitch))
 (set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
 #+end_src
 
-*** DONE Time & Task Tracking
-	CLOSED: [2023-10-09 Mon 17:42]
+*** Time & Task Tracking
 
 Let's first increase the number of possible priorities for Org tasks. I'll set
 mine to =E= so that we have =A= through =E=, in total five levels.
