@@ -661,21 +661,28 @@ don't use it, though, so I won't activate the global mode.
 
 ** Themes
 
-I really like the doom-themes, so I'll get those. My favourite for everyday use is the =doom-nord= theme.
+I have some non-standard themes I really like, so I'll get the packages that
+they are from. I really like =doom-themes=, =ef-themes= and =nano-theme=.
 
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
-  :ensure t
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-nord t))
+
+(use-package ef-themes)
+
+(use-package nano-theme
+  :init
+  (setq nano-light-background "#fafafa"
+        nano-light-highlight "#f5f7f8"))
 #+END_SRC
 
 This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]].
 
 #+begin_src emacs-lisp
-(defvar favourite-themes '(doom-nord eink))
+(defvar favourite-themes '(doom-nord ef-maris-light))
 
 (defun cycle-themes ()
   "Returns a function that lets you cycle your themes."
@@ -695,13 +702,14 @@ Let's bind it to a key.
 #+end_src
 
 When changing themes interactively, as with =M-x load-theme=, the current custom
-theme is not disabled, causing weird issues such as lingering borders. I'll advice =load-theme= to always
-disable the currently enabled themes when switching.
+theme is not disabled, causing weird issues such as lingering borders. I'll
+advice =load-theme= to always disable the currently enabled themes when switching.
 
 #+begin_src emacs-lisp
 (defadvice load-theme
-    (before disable-before-load (theme &optional no-confirm no-enable) activate)
-  (mapc 'disable-theme custom-enabled-themes))
+  (before disable-before-load (theme &optional no-confirm no-enable) activate)
+  (mapc 'disable-theme custom-enabled-themes)
+  (my-nano-modeline nil))
 #+end_src
 
 *** Removing Themes from List View
@@ -715,6 +723,7 @@ snippet shows only the themes I do use.
 (defvar my/visible-themes '("dichromacy"
 							"doom-flatwhite"
 							"doom-nord"
+							"ef-maris-light"
 							"eink"
 							"modus-operandi"
 							"nano-dark"

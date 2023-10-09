@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: org-checkbox
+# key: <c
+# --
+- [ ] $0
