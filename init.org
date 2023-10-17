@@ -187,9 +187,11 @@ a list that I try to keep up to date:
 *Programming languages++:*
 
 - GHCi
+- Stack
 - Python3
 - Java
 - Clojure
+- Leiningen
 - OCaml
 - LiveTeX
 - Racket
@@ -708,6 +710,7 @@ advice =load-theme= to always disable the currently enabled themes when switchin
 #+begin_src emacs-lisp
 (defadvice load-theme
   (before disable-before-load (theme &optional no-confirm no-enable) activate)
+  (disable-theme 'nano-theme)
   (mapc 'disable-theme custom-enabled-themes))
 #+end_src
 
@@ -744,13 +747,7 @@ some neat built-in features, like the option to put the modeline in the header
 bar instead of at the bottom of the screen.
 
 #+begin_src emacs-lisp
-(use-package nano-modeline
-  :init
-  ;; Disable the default modeline
-  (setq-default mode-line-format nil)
-  :config
-  (setq nano-modeline-padding '(0.55 . 0.55))
-  (defun my-nano-modeline (&optional default)
+(defun my-nano-modeline (&optional default)
     (funcall nano-modeline-position
              `((nano-modeline-buffer-status) " "
                (nano-modeline-buffer-name) " "
@@ -758,6 +755,13 @@ bar instead of at the bottom of the screen.
              `((nano-modeline-cursor-position) " "
                (nano-modeline-window-dedicated))
              default))
+
+(use-package nano-modeline
+  :init
+  ;; Disable the default modeline
+  (setq-default mode-line-format nil)
+  :config
+  (setq nano-modeline-padding '(0.55 . 0.55))
   (my-nano-modeline 1))
 #+end_src
 
@@ -1154,6 +1158,7 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
 #+end_src
 
+** Switching Windows
 ** Viewing PDFs
 
 This displays PDFs in a much more beautiful way.
@@ -1919,11 +1924,15 @@ buffers. I'll set it to work by default and enforce max line length.
 
 ** Clojure
 
-[[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs.
+[[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
+built-in support for firing up a REPL and looking up documentation and source
+code, but it also has very Emacs-like shortcuts for expected actions, such as
+=C-x C-e= to evaluate the s-exp at point.
 
 #+begin_src emacs-lisp
 (use-package cider
   :defer t
+  :hook (paredit-mode . hook-mode)
   :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer)))
 #+end_src
 
