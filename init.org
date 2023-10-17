@@ -1433,9 +1433,9 @@ B's Emacs setup]].
 #+begin_src emacs-lisp
 (defun my/prettify-symbols-setup ()
   ;; Checkboxes
-  (push '("[ ]" . "☐") prettify-symbols-alist)
-  (push '("[X]" . "☑") prettify-symbols-alist)
-  (push '("[-]" . "❍") prettify-symbols-alist)
+  (push '("[ ]" . "") prettify-symbols-alist)
+  (push '("[X]" . "") prettify-symbols-alist)
+  (push '("[-]" . "" ) prettify-symbols-alist)
 
   ;; org-abel
   (push '("#+BEGIN_SRC" . ?≫) prettify-symbols-alist)
