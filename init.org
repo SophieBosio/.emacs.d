@@ -1259,7 +1259,6 @@ write the greek letter alpha) and display ellipses in a condensed way.
 #+begin_src emacs-lisp
 (setq org-adapt-indentation t
       org-hide-leading-stars t
-      ;; org-hide-emphasis-markers t
       org-pretty-entities t
 	  org-ellipsis "  ·")
 #+end_src
@@ -1272,6 +1271,24 @@ source code block like it normally would when writing code in that language.
 (setq org-src-fontify-natively t
 	  org-src-tab-acts-natively t
       org-edit-src-content-indentation 0)
+#+end_src
+
+Many people hide emphasis markers (e.g., =/.../= for italics, =*...*= for bold,
+etc.) to have a cleaner visual look, but I got frustrated trying to go back and
+edit text in these markers, as sometimes I would delete the markers itself or
+write outside the markers. [[https://github.com/awth13/org-appear][org-appear]] is the solution to all my troubles. It
+displays the markers when the cursor is within them and hides them otherwise,
+making edits easy while looking pretty.
+
+#+begin_src emacs-lisp
+(use-package org-appear
+  :commands (org-appear-mode)
+  :hook     (org-mode . org-appear-mode)
+  :config 
+  (setq org-hide-emphasis-markers t)  ; Must be activated for org-appear to work
+  (setq org-appear-autoemphasis   t   ; Show bold, italics, verbatim, etc.
+        org-appear-autolinks      t   ; Show links
+		org-appear-autosubmarkers t)) ; Show sub- and superscripts
 #+end_src
 
 Some Org options to deal with headers and TODO's nicely.
@@ -1932,7 +1949,7 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 #+begin_src emacs-lisp
 (use-package cider
   :defer t
-  :hook (paredit-mode . hook-mode)
+  :hook (cider-mode . paredit-mode)
   :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer)))
 #+end_src
 
