@@ -1945,11 +1945,14 @@ buffers. I'll set it to work by default and enforce max line length.
 built-in support for firing up a REPL and looking up documentation and source
 code, but it also has very Emacs-like shortcuts for expected actions, such as
 =C-x C-e= to evaluate the s-exp at point.
+[[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
 #+begin_src emacs-lisp
 (use-package cider
   :defer t
-  :hook (cider-mode . paredit-mode)
+  :hook ((cider-mode      . paredit-mode)
+         (cider-repl-mode . paredit-mode)
+		 (clojure-mode    . paredit-mode))
   :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer)))
 #+end_src
 
