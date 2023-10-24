@@ -847,7 +847,8 @@ point it to my own image, but the ='logo= banner is also really nice.
 		dashboard-set-footer             nil
 		dashboard-page-separator         "\n\n\n"
 		dashboard-items '((projects     . 5)
-                          (recents      . 5)
+                          ;; (recents      . 5)
+						  (bookmarks    . 5)
                           (agenda       . 5))))
 #+END_SRC
 
@@ -1444,7 +1445,7 @@ B's Emacs setup]].
   (push '("#+END_QUOTE" . ?❞) prettify-symbols-alist)
 
   ;; Drawers
-  (push '(":PROPERTIES:" . " - Properties") prettify-symbols-alist)
+  (push '(":PROPERTIES:" . "") prettify-symbols-alist)
 
   ;; Tags
   (push '(":projects:" . "") prettify-symbols-alist)
