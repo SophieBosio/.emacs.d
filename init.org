@@ -2009,6 +2009,14 @@ Switch to the other window  =C-x o= \to  =M-o=.
 
 I also plan to use =win-switch= to get nicer macros for switching and managing windows.
 
+Run a shell command and insert the results into current buffer.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "M-+") '(lambda ()
+                       (interactive)
+                       (let ((current-prefix-arg '(4)))
+                         (call-interactively 'shell-command))))
+#+end_src
 
 *** Activating the Keymap
 
