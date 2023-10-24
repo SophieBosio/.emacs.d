@@ -1324,8 +1324,7 @@ checkboxes for TODOs.
   (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
                                           ("PROJ"  . 9744)
                                           ("READ"  . 9744)
-                                          ("CHECK" . 9744)
-                                          ("IDEA"  . 9744)
+                                          ("PROG"  . 9744)
 										  ("DONE"  . 9745)))
   :hook (org-mode . org-superstar-mode))
 #+end_src
@@ -1381,9 +1380,7 @@ SVG graphics.
 											           :inverse t :margin 0))))
 		("READ" . ((lambda (tag) (svg-tag-make "READ" :face 'org-todo
 											           :inverse t :margin 0))))
-		("CHECK" . ((lambda (tag) (svg-tag-make "CHECK" :face 'org-todo
-											           :inverse t :margin 0))))
-		("IDEA" . ((lambda (tag) (svg-tag-make "IDEA" :face 'org-todo
+		("PROG" . ((lambda (tag) (svg-tag-make "PROG"  :face 'org-todo
 											           :inverse t :margin 0))))
         ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))
 
@@ -1535,9 +1532,9 @@ I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO" "PROJ" "READ" "CHECK" "IDEA" ; Needs further action
+		 "TODO" "PROJ" "READ" "PROG" ; Needs further action
 		 "|"
-		 "DONE")))                           ; Needs no action currently
+		 "DONE")))                    ; Needs no action currently
 #+end_src
 
 For whatever reason, I've had an issue with clocking in, where the default
@@ -1613,9 +1610,7 @@ function that I'll bind to =C-c d=.
            (org-todo "DONE"))
 		  ((looking-at "\*+ READ")
            (org-todo "DONE"))
-		  ((looking-at "\*+ CHECK")
-           (org-todo "DONE"))
-		  ((looking-at "\*+ IDEA")
+		  ((looking-at "\*+ PROG")
            (org-todo "DONE"))
 		  ((looking-at "\*+ DONE")
            (org-todo "DONE"))
