@@ -1444,15 +1444,17 @@ B's Emacs setup]].
   (push '("#+END_QUOTE" . ?❞) prettify-symbols-alist)
 
   ;; Drawers
-  (push '(":PROPERTIES:" . ?) prettify-symbols-alist)
+  (push '(":PROPERTIES:" . " - Properties") prettify-symbols-alist)
 
   ;; Tags
   (push '(":projects:" . "") prettify-symbols-alist)
   (push '(":work:"     . "") prettify-symbols-alist)
   (push '(":inbox:"    . "") prettify-symbols-alist)
+  (push '(":task:"     . "") prettify-symbols-alist)
   (push '(":thesis:"   . "") prettify-symbols-alist)
   (push '(":uio:"      . "") prettify-symbols-alist)
   (push '(":emacs:"    . "") prettify-symbols-alist)
+  (push '(":learn:"    . "") prettify-symbols-alist)
 
   (prettify-symbols-mode))
 
