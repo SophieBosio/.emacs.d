@@ -1801,38 +1801,6 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
 #+end_src
 
 
-* Email
-
-I use a combination of [[https://wiki.archlinux.org/title/isync][isync]], [[https://marlam.de/msmtp/][msmpt]], and [[https://notmuchmail.org/notmuch-emacs/][notmuch]] to write and view emails in
-Emacs. Then I use [[https://github.com/jeremy-compostella/org-msg][org-msg]] to write my emails in Org mode and format them as HTML emails.
-
-** =org-msg=
-
-=org-msg= lets you compose your emails in Org mode, which is  more ergonomic
-than plain text and the resulting HTML is much more beautiful.
-
-#+begin_src emacs-lisp
-(use-package org-msg
-  :after (org mu4e)
-  :config
-  (add-to-list 'mu4e-compose-pre-hook 'org-msg-mode)
-  (setq org-msg-enforce-css (concat user-emacs-directory "email-style.css")
-        org-msg-options "html-postamble:nil toc:nil num:nil author:nil email:nil"
-        org-msg-default-alternatives '((new           . (text html))
-                                       (reply-to-html . (text html))
-                                       (reply-to-text . (text)))
-        org-msg-signature "
-
-#+begin_signature
-#+begin_export html
-
-Best regards,
-Sophie Bosio
-#+end_export
-#+end_signature\n"))
-#+end_src
-
-
 * Programming
 
 ** Custom File Endings
