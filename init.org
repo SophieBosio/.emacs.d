@@ -2,7 +2,7 @@
 #+TITLE: Sophie's Emacs Configuration
 #+AUTHOR: Sophie Bosio
 #+PROPERTY: header-args :tangle yes
-#+STARTUP: overview
+#+OPTIONS: toc:2
 
 [[./images/config-screenshot.png]]
 
