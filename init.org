@@ -10,19 +10,18 @@
 
 This is my attempt at keeping my Emacs configuration organised and readable.
 
-I write all my
-initialisation code in this document as code blocks and then use
+I write all my initialisation code in this document as code blocks and then use
 =org-babel-tangle= to extract those code blocks into a separate file. That new,
 generated file becomes my =init.el=. This way, I can document my code and explain
 my choices to my future self - and to anyone else who might be interested in looking at it.
 
-If you're interested in this, it's called a "literate configuration" and there
-are lots of great blog posts out there with inspiration and tips!
+If you're interested in this approach to writing and sharing your config, it's
+called a "literate configuration" and there are lots of great blog posts out
+there with inspiration and tips!
 
 I've lifted a lot of code from [[https://github.com/rougier][Nicolas Rougier]] (especially his Org setup) and [[https://github.com/larstvei/][Lars Tveito]] and [[https://github.com/larstvei/dot-emacs/blob/master/init.org][his Emacs configuration]].
 
 I'm at the very beginning of learning Emacs, so if you have any suggestions or improvements, I would be very happy to hear about them!
-
 
 * Setup
 
@@ -205,28 +204,13 @@ a list that I try to keep up to date:
 - Roboto Mono with ligatures
 
 
-
-* Interaction, Look & Feel
-
-** Custom Keybindings
-
-I keep a custom keybinding map that I add to per package, and then activate at
-the end of the configuration. This keeps my custom bindings from being
-overwritten by extensions' own bindings.
-
-The first step is to create the custom keybinding map. We'll activate it in the
-very last section, "Custom Keybindings".
-
-#+begin_src emacs-lisp
-(defvar custom-bindings-map (make-keymap)
-  "A keymap for custom keybindings.")
-#+end_src
-
-** Sane Defaults
+* Sane Defaults
 
 I have some defaults that I like to have in my config. Please note that this is
 behaviour that /I/ consider sane, and want in my configuration. You should
 definitely modify these to your tastes!
+
+** UI Elements & Default Behaviours
 
 I want to reduce the number of UI elements that I don't use, so I'll remove those and inhibit some default behaviours. I'll also make the scrolling a little smoother.
 
@@ -272,12 +256,16 @@ Some variables are buffer-local, so to change them globally, we need to use =set
 )
 #+END_SRC
 
-I don't want to type out 'yes' or 'no' every time Emacs asks me something, so I'll set these to 'y' and 'n'.
+** Short Answers
+
+I want to only provide short answers to Emacs' prompts. E.g., I want to type "y"
+or "n" instead of out "yes" or "no".
 
 #+BEGIN_SRC emacs-lisp
-;; (fset 'yes-or-no-p 'y-or-n-p)
 (setq use-short-answers t)
 #+END_SRC
+
+** Auto-Saved Directory
 
 To avoid clutter, let's put all the auto-saved files into one and the same directory.
 
@@ -295,6 +283,8 @@ To avoid clutter, let's put all the auto-saved files into one and the same direc
       `((".*" ,emacs-autosave-directory t)))
 #+END_SRC
 
+** Editor Config
+
 I want to use the [[https://github.com/editorconfig/editorconfig-emacs][EditorConfig]] plugin, which helps maintain consistent coding
 styles across editors when collaborating.
 
@@ -304,6 +294,8 @@ styles across editors when collaborating.
   :config
   (editorconfig-mode 1))
 #+end_src
+
+** Smoother Scrolling
 
 And finally, I want scrolling to be a *lot* slower than it is by default.
 
@@ -316,18 +308,32 @@ And finally, I want scrolling to be a *lot* slower than it is by default.
 (setq use-dialog-box                           nil) ;; Disable dialog
 #+END_SRC
 
-** Personal Defaults
+* Custom Keybindings
 
-Of course, all defaults are personal. But these are ones I definitely cannot
-justify putting in the Personal Defaults section.
+I keep a custom keybinding map that I add to per package, and then activate at
+the end of the configuration. This keeps my custom bindings from being
+overwritten by extensions' own bindings.
 
-*** Appearance
-
-I prefer a bar cursor over a block cursor.
+The first step is to create the custom keybinding map. We'll add bindings to it
+throughout the config, and then activate it at the end of the config file.
 
 #+begin_src emacs-lisp
-(setq-default cursor-type 'bar)
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom keybindings.")
 #+end_src
+
+* Visuals
+** Open in Fullscreen
+
+When I open Emacs, I want it to open maximised and fullscreen by default.
+
+#+BEGIN_SRC emacs-lisp
+(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist     '(fullscreen . maximized))
+;; (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
+#+END_SRC
+
+** Frame Border
 
 I want a small border around the whole frame, because I think it looks nicer. I
 also want to set the fringe width.
@@ -337,13 +343,13 @@ also want to set the fringe width.
 (set-fringe-mode 10)            ;; Set fringe width to 10
 #+END_SRC
 
-And when I open Emacs, I want it to open maximised and fullscreen by default.
+** Programming-Specific Visuals
 
-#+BEGIN_SRC emacs-lisp
-(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist     '(fullscreen . maximized))
-;; (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
-#+END_SRC
+I prefer a bar cursor over a block cursor.
+
+#+begin_src emacs-lisp
+(setq-default cursor-type 'bar)
+#+end_src
 
 When coding, I want my delimiters (parentheses, brackets, etc.) to be colourised
 in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d883502155d5b26e791fec15da6aeca][rainbow-delimiters]] does exactly that.
@@ -355,250 +361,13 @@ in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d88350215
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 
-*** Built-In Minor Modes
-
-Minor modes I want to activate.
+I usually only need column numbers in programming mode.
 
 #+BEGIN_SRC emacs-lisp
-(dolist (mode
-    '(column-number-mode        ;; Show current column number in mode line
-      delete-selection-mode     ;; Replace selected text when yanking
-      dirtrack-mode             ;; Directory tracking in shell
-      global-so-long-mode       ;; Mitigate performance for long lines
-      global-visual-line-mode   ;; Break lines instead of truncating them
-      global-auto-revert-mode   ;; Revert buffers automatically when they change
-      recentf-mode              ;; Remember recently opened files
-      savehist-mode             ;; Remember minibuffer prompt history
-      save-place-mode           ;; Remember last cursor location in file
-      show-paren-mode))         ;; Highlight matching parentheses
-    (funcall mode 1))
-
-(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
-(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
-#+END_SRC
-And I do want line numbers, but only in programming modes.
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'prog-mode-hook 'display-line-numbers-mode) ;; Only line numbers when coding
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 
-*** Auto-Saving
-
-I prefer having my files save automatically. Any changes I don't want, I just
-don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all
-buffers, not just the ones I have open.
-
-But since saving this file - the =init.org=-file - triggers recompilation of
-=init.el=, it's really annoying if this file is autosaved when I write to it.
-Therefore, I'll disable automatic saving for this file in particular.
-
-#+BEGIN_SRC emacs-lisp
-(use-package auto-save-buffers-enhanced
-  :config
-  (auto-save-buffers-enhanced t)
-  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
-#+END_SRC
-
-*** Tabs vs. Indentation
-
-One of the things that drove me the most insane when I first downloaded Emacs,
-was the way it deals with indentation.
-
-I want to use spaces instead of tabs. But if I'm working on a project that does
-use tabs, I don't want to mess with other people's code, so I've used this
-[[https://www.emacswiki.org/emacs/NoTabs][snippet]] from the Emacs Wiki to infer indentation style.
-
-#+begin_src emacs-lisp
-(defun infer-indentation-style ()
-  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
-  ;; neither, we use the current indent-tabs-mode
-  (let ((space-count (how-many "^  " (point-min) (point-max)))
-        (tab-count (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t))))
-
-(setq indent-tabs-mode nil)
-(infer-indentation-style)
-#+end_src
-
-I want to disable electric indent mode when switching to a new major mode.
-
-#+begin_src emacs-lisp
-(add-hook 'after-change-major-mode-hook (lambda() (electric-indent-mode -1)))
-#+end_src
-
-Make backspace remove the whole tab instead of just deleting one space.
-
-#+begin_src emacs-lisp
-(setq backward-delete-char-untabify-method 'hungry)
-#+end_src
-
-Old configuration from a blog post. Note that I'm no longer using this:
-
-#+BEGIN_SRC emacs-lisp :tangle no
-;; Create a variable for our preferred tab width
-(setq custom-tab-width 2)
-
-;; Two callable functions for enabling/disabling tabs in Emacs
-(defun disable-tabs () (setq indent-tabs-mode nil))
-(defun enable-tabs  ()
-  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
-  (setq indent-tabs-mode t)
-  (setq tab-width custom-tab-width))
-
-;; Hooks to Enable Tabs
-(add-hook 'prog-mode-hook 'enable-tabs)
-;; Hooks to Disable Tabs
-(add-hook 'lisp-mode-hook 'disable-tabs)
-(add-hook 'emacs-lisp-mode-hook 'disable-tabs)
-
-;; Language-Specific Tweaks
-(setq-default python-indent-offset custom-tab-width) ;; Python
-(setq-default js-indent-level custom-tab-width)      ;; Javascript
-
-;; Making electric-indent behave sanely
-;; (setq-default electric-indent-inhibit t)
-
-;; Inhibit electric indent mode when changing to new major mode
-(add-hook 'after-change-major-mode-hook (lambda() (electric-indent-mode -1)))
-
-;; Make the backspace properly erase the tab instead of
-;; removing 1 space at a time.
-(setq backward-delete-char-untabify-method 'hungry)
-
-;;Visualize tabs as a pipe character - "|"
-;; This will also show trailing characters as they are useful to spot.
-(setq whitespace-style '(face tabs tab-mark trailing))
-(custom-set-faces
- '(whitespace-tab ((t (:foreground "#636363")))))
-(setq whitespace-display-mappings
-  '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
-(global-whitespace-mode) ; Enable whitespace mode everywhere
-#+END_SRC
-
-*** Killing vs. Deleting
-
-Another thing that bothered me, was how the =backward-kill-word= command
-(C-delete/backspace) would delete not only trailing backspaces, but everything
-behind it until it had deleted a word. Additionally, this was automatically
-added to the kill ring. With this the help of some regexps, it behaves more like normal Ctrl-Backspace.
-
-#+BEGIN_SRC emacs-lisp
-;; Delete a word, a character, or whitespace
-(defun custom/backward-delete ()
-  (interactive)
-  (cond
-   ;; If you see a word, delete all of it
-   ((looking-back (rx (char word)) 1)
-    (custom/delete-dont-kill 1))
-   ;; If you see a single whitespace and a word, delete both together
-   ((looking-back (rx (seq (char word) (= 1 blank))) 1)
-	(custom/delete-dont-kill 1))
-   ;; If you see several whitespaces, delete them until the next word
-   ((looking-back (rx (char blank)) 1)
-    (delete-horizontal-space t))
-   ;; If you see a single non-word character, delete that
-   (t
-    (backward-delete-char 1))))
-
-;; Delete a word without adding it to the kill ring
-(defun custom/delete-dont-kill (arg)
-  "Delete characters backward until encountering the beginning of a word.
-   With argument ARG, do this that many times.
-   Don't kill, just delete."
-  (interactive "p")
-  (delete-region (point) (progn (backward-word arg) (point))))
-#+END_SRC
-
-Let's bind this in my custom keybindings map.
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map [C-backspace] 'custom/backward-delete)
-#+end_src
-
-Speaking of killing text, it's nice to be able to browse the kill ring.
-
-#+begin_src emacs-lisp
-(use-package browse-kill-ring
-  :ensure t)
-#+end_src
-
-*** Killing Buffers
-
-Sometimes, I'm putting some work away and I don't want those files to show up in
-the buffer list. Killing a buffer with =C-x k= or marking several buffers in the
-buffer list to kill them is fine, but can be a bit cumbersome.
-
-I found this function in a [[https://superuser.com/questions/895920/how-can-i-close-all-buffers-in-emacs][Stack Exchange answer]]. It allows me to close the
-current buffer easily by pressing =C-k=. If I prefix it, by writing =C-u C-k=, then
-all "interesting" buffers are killed, leaving internal Emacs buffers intact.
-This cleans up all the buffers I've opened or used myself.
-
-#+begin_src emacs-lisp
-(defun custom-kill-buffer-fn (&optional arg)
-"When called with a prefix argument -- i.e., C-u -- kill all interesting
-buffers -- i.e., all buffers without a leading space in the buffer-name.
-When called without a prefix argument, kill just the current buffer
--- i.e., interesting or uninteresting."
-(interactive "P")
-  (cond
-    ((and (consp arg) (equal arg '(4)))
-      (mapc
-        (lambda (x)
-          (let ((name (buffer-name x)))
-            (unless (eq ?\s (aref name 0))
-              (kill-buffer x))))
-        (buffer-list)))
-    (t
-      (kill-buffer (current-buffer)))))
-
-(define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
-#+end_src
-
-*** Selecting Regions
-
-[[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
-symbol, word, sentence, paragraph). It's super handy!
-
-#+begin_src emacs-lisp
-(use-package expand-region
-  :bind (:map custom-bindings-map ("C-<dead-diaeresis>" . er/expand-region)
-			                      ("C-å" . er/contract-region)))
-#+end_src
-
-*** Undo/Redo
-
-The default "undo until you can redo" behaviour of Emacs still trips me up.
-[[https://github.com/emacsmirror/undo-fu][undo-fu]] lets me specify keys to "only undo" or "only redo".
-
-#+begin_src emacs-lisp
-(use-package undo-fu
-  :bind (:map custom-bindings-map
-			  ("C-_"   . undo-fu-only-undo)
-			  ("C-M-y" . undo-fu-only-redo)))
-#+end_src
-
-*** Language-Specific Commenting
-
-I use =C-'= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
-detects most programming languages and applies appropriate comment style.
-
-#+begin_src emacs-lisp
-(use-package evil-nerd-commenter
-  :ensure t
-  :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
-#+end_src
-
-*** Utilities
-
-And finally, I want to use =ripgrep= as =grep=.
-
-#+BEGIN_SRC emacs-lisp
-(setq grep-command "rg -nS --no-heading "
-      grep-use-null-device nil)
-#+END_SRC
-
-** Fonts
+** Fonts, Ligatures, and Symbols
 
 For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a result of the
 =a-better-ligaturizer= project and the ligaturised font can be found in the
@@ -663,8 +432,7 @@ don't use it, though, so I won't activate the global mode.
 
 ** Themes
 
-I have some non-standard themes I really like, so I'll get the packages that
-they are from. I really like =doom-themes=, =ef-themes= and =nano-theme=.
+I really like =doom-themes=, =ef-themes= and =nano-theme=.
 
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
@@ -680,6 +448,8 @@ they are from. I really like =doom-themes=, =ef-themes= and =nano-theme=.
   (setq nano-light-background "#fafafa"
         nano-light-highlight "#f5f7f8"))
 #+END_SRC
+
+*** Changing Themes on the Fly
 
 This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]].
 
@@ -765,6 +535,233 @@ bar instead of at the bottom of the screen.
   (my-nano-modeline 1))
 #+end_src
 
+** Dashboard
+
+A friendly welcome screen! Note that I point it to my own image, but the ='logo= banner is also really nice.
+
+#+BEGIN_SRC emacs-lisp
+(use-package dashboard
+  :config
+  (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
+  (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner         "~/Documents/dotfiles/images/emacs.png"
+		dashboard-image-banner-max-width 150
+		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
+		dashboard-center-content         t
+		dashboard-set-footer             nil
+		dashboard-page-separator         "\n\n\n"
+		dashboard-items '((projects     . 5)
+                          ;; (recents      . 5)
+						  (bookmarks    . 5)
+                          (agenda       . 5))))
+#+END_SRC
+
+** Text Centring
+
+[[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
+
+With the rest of my setup, setting the =fill-column= variable to 4, means I can display /exactly/ 80 mono characters before the line is folded.
+
+#+BEGIN_SRC emacs-lisp
+(use-package olivetti
+  :defer t
+  :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
+  :config
+  (setq olivetti-style t)
+  (setq-default olivetti-body-width (+ fill-column 4)))
+#+END_SRC
+
+In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap]] to visually wrap lines.
+
+#+begin_src emacs-lisp
+(use-package adaptive-wrap
+  :defer t
+  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
+#+end_src
+
+* Interaction
+** Tweaking Default Behaviour
+
+#+BEGIN_SRC emacs-lisp
+(dolist (mode
+    '(column-number-mode        ;; Show current column number in mode line
+      delete-selection-mode     ;; Replace selected text when yanking
+      dirtrack-mode             ;; Directory tracking in shell
+      global-so-long-mode       ;; Mitigate performance for long lines
+      global-visual-line-mode   ;; Break lines instead of truncating them
+      global-auto-revert-mode   ;; Revert buffers automatically when they change
+      recentf-mode              ;; Remember recently opened files
+      savehist-mode             ;; Remember minibuffer prompt history
+      save-place-mode           ;; Remember last cursor location in file
+      show-paren-mode))         ;; Highlight matching parentheses
+    (funcall mode 1))
+
+(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
+(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
+#+END_SRC
+
+** Auto-Saving
+
+I prefer having my files save automatically. Any changes I don't want, I just
+don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all
+buffers, not just the ones I have open.
+
+But since saving this file - the =init.org=-file - triggers recompilation of
+=init.el=, it's really annoying if this file is autosaved when I write to it.
+Therefore, I'll disable automatic saving for this file in particular.
+
+#+BEGIN_SRC emacs-lisp
+(use-package auto-save-buffers-enhanced
+  :config
+  (auto-save-buffers-enhanced t)
+  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
+#+END_SRC
+
+** Tabs & Indentation
+
+One of the things that drove me the most insane when I first downloaded Emacs,
+was the way it deals with indentation.
+
+I want to use spaces instead of tabs. But if I'm working on a project that does
+use tabs, I don't want to mess with other people's code, so I've used this
+[[https://www.emacswiki.org/emacs/NoTabs][snippet]] from the Emacs Wiki to infer indentation style.
+
+#+begin_src emacs-lisp
+(defun infer-indentation-style ()
+  "Default to no tabs, but use tabs if already in project"
+  (let ((space-count (how-many "^  " (point-min) (point-max)))
+        (tab-count (how-many "^\t" (point-min) (point-max))))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+
+(setq indent-tabs-mode nil)
+(infer-indentation-style)
+#+end_src
+
+I want to disable electric indent mode when switching to a new major mode.
+
+#+begin_src emacs-lisp
+(add-hook 'after-change-major-mode-hook (lambda() (electric-indent-mode -1)))
+#+end_src
+
+And finally, make backspace remove the whole tab instead of just deleting one space.
+
+#+begin_src emacs-lisp
+(setq backward-delete-char-untabify-method 'hungry)
+#+end_src
+
+** Deleting Instead of Killing
+
+Another thing that bothered me, was how the =backward-kill-word= command
+(C-delete/backspace) would delete not only trailing backspaces, but everything
+behind it until it had deleted a word. Additionally, this was automatically
+added to the kill ring. With this the help of some regexps, it behaves more like normal Ctrl-Backspace.
+
+#+BEGIN_SRC emacs-lisp
+;; Delete a word, a character, or whitespace
+(defun custom/backward-delete ()
+  (interactive)
+  (cond
+   ;; If you see a word, delete all of it
+   ((looking-back (rx (char word)) 1)
+    (custom/delete-dont-kill 1))
+   ;; If you see a single whitespace and a word, delete both together
+   ((looking-back (rx (seq (char word) (= 1 blank))) 1)
+	(custom/delete-dont-kill 1))
+   ;; If you see several whitespaces, delete them until the next word
+   ((looking-back (rx (char blank)) 1)
+    (delete-horizontal-space t))
+   ;; If you see a single non-word character, delete that
+   (t
+    (backward-delete-char 1))))
+
+;; Delete a word without adding it to the kill ring
+(defun custom/delete-dont-kill (arg)
+  "Delete characters backward until encountering the beginning of a word.
+   With argument ARG, do this that many times.
+   Don't kill, just delete."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
+#+END_SRC
+
+Let's bind this in my custom keybindings map.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map [C-backspace] 'custom/backward-delete)
+#+end_src
+
+Speaking of killing text, it's nice to be able to browse the kill ring.
+
+#+begin_src emacs-lisp
+(use-package browse-kill-ring
+  :ensure t)
+#+end_src
+
+** Killing Buffers
+
+Sometimes, I'm putting some work away and I don't want those files to show up in
+the buffer list. Killing a buffer with =C-x k= or marking several buffers in the
+buffer list to kill them is fine, but can be a bit cumbersome.
+
+I found this function in a [[https://superuser.com/questions/895920/how-can-i-close-all-buffers-in-emacs][Stack Exchange answer]]. It allows me to close the
+current buffer easily by pressing =C-k=. If I prefix it, by writing =C-u C-k=, then
+all "interesting" buffers are killed, leaving internal Emacs buffers intact.
+This cleans up all the buffers I've opened or used myself.
+
+#+begin_src emacs-lisp
+(defun custom-kill-buffer-fn (&optional arg)
+"When called with a prefix argument -- i.e., C-u -- kill all interesting
+buffers -- i.e., all buffers without a leading space in the buffer-name.
+When called without a prefix argument, kill just the current buffer
+-- i.e., interesting or uninteresting."
+(interactive "P")
+  (cond
+    ((and (consp arg) (equal arg '(4)))
+      (mapc
+        (lambda (x)
+          (let ((name (buffer-name x)))
+            (unless (eq ?\s (aref name 0))
+              (kill-buffer x))))
+        (buffer-list)))
+    (t
+      (kill-buffer (current-buffer)))))
+
+(define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
+#+end_src
+
+** Selecting Regions
+
+[[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
+symbol, word, sentence, paragraph). It's super handy!
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :bind (:map custom-bindings-map ("C-<dead-diaeresis>" . er/expand-region)
+			                      ("C-å" . er/contract-region)))
+#+end_src
+
+** Undo/Redo
+
+The default "undo until you can redo" behaviour of Emacs still trips me up.
+[[https://github.com/emacsmirror/undo-fu][undo-fu]] lets me specify keys to "only undo" or "only redo".
+
+#+begin_src emacs-lisp
+(use-package undo-fu
+  :bind (:map custom-bindings-map
+			  ("C-_"   . undo-fu-only-undo)
+			  ("C-M-y" . undo-fu-only-redo)))
+#+end_src
+
+** Ripgrep
+
+I want to use =ripgrep= as =grep=.
+
+#+BEGIN_SRC emacs-lisp
+(setq grep-command "rg -nS --no-heading "
+      grep-use-null-device nil)
+#+END_SRC
+
 ** Terminal Emulator
 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
@@ -825,69 +822,20 @@ in just vterm, please do let me know :~)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
 #+end_src
 
-** Dashboard
-
-It's perfectly fine to just land in the scratch buffer. I think it's practical
-and aesthetically unproblematic. But I don't really use the scratch buffer that
-much on startup - usually I just =C-x b= my way to where I need to go.
-
-The =dashboard= extension gives you a welcoming and pretty landing buffer. I
-point it to my own image, but the ='logo= banner is also really nice.
-
-#+BEGIN_SRC emacs-lisp
-(use-package dashboard
-  :config
-  (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
-  (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
-  (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner         "~/Documents/dotfiles/images/emacs.png"
-		dashboard-image-banner-max-width 150
-		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
-		dashboard-center-content         t
-		dashboard-set-footer             nil
-		dashboard-page-separator         "\n\n\n"
-		dashboard-items '((projects     . 5)
-                          ;; (recents      . 5)
-						  (bookmarks    . 5)
-                          (agenda       . 5))))
-#+END_SRC
-
-** Text Centring
-
-[[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
-
-With the rest of my setup, setting the =fill-column= variable to 4, means I can display /exactly/ 80 mono characters before the line is folded.
-
-#+BEGIN_SRC emacs-lisp
-(use-package olivetti
-  :defer t
-  :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
-  :config
-  (setq olivetti-style t)
-  (setq-default olivetti-body-width (+ fill-column 4)))
-#+END_SRC
-
-In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap]] to visually wrap lines.
-
-#+begin_src emacs-lisp
-(use-package adaptive-wrap
-  :defer t
-  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
-#+end_src
-
-** Completion
+** Completion Suite
 
 For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other extensions that play well together:
 
 - [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
-- [[https://github.com/minad/consult][Consult]]
-- [[https://github.com/minad/marginalia][Marginalia]]
+- [[https://github.com/minad/consult][consult]]
+- [[https://github.com/minad/marginalia][marginalia]]
 - [[https://github.com/minad/corfu][corfu]]
-- [[https://code.bsdgeek.org/adam/corfu-candidate-overlay][corfu-candidate-overlay]]
 - [[https://github.com/minad/cape][cape]]
-- [[https://github.com/oantolin/orderless][Orderless]]
+- [[https://github.com/oantolin/orderless][orderless]]
 
-Let's start by configuring =Vertico=.
+*** Vertico
+
+The heart of the completion UI!
 
 #+begin_src emacs-lisp
 (use-package vertico
@@ -901,8 +849,10 @@ Let's start by configuring =Vertico=.
 ))
 #+end_src
 
-Next, I want =Vertico= to appear in a small child frame, instead of as a
-traditional minibuffer.
+*** Vertico Posframe
+
+=vertico-posframe= makes Vertico appear in a small child frame, instead of as a
+traditional minibuffer. I like to have mine in the middle of the frame.
 
 #+begin_src emacs-lisp
 (use-package vertico-posframe
@@ -912,6 +862,8 @@ traditional minibuffer.
         vertico-posframe-height vertico-count))
 
 #+end_src
+
+*** Consult
 
 Consult provides a /ton/ of search, navigation, and completion functionality. I
 would definitely recommend looking at the documentation to learn more about all
@@ -926,6 +878,8 @@ that it can do.
 			  ("C-c C-g" . consult-goto-line)))
 #+end_src
 
+*** Marginalia
+
 =Marginalia= gives me annotations in the minibuffer.
 
 #+begin_src emacs-lisp
@@ -933,6 +887,8 @@ that it can do.
   :init 
   (marginalia-mode 1))
 #+end_src
+
+*** Corfu & Cape
 
 =corfu= gives me text completion at point.
 
@@ -967,26 +923,6 @@ that it can do.
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
   (setq tab-always-indent 'complete))
-#+end_src
-
-=corfu-candidate-overlay= changes out the usual list of completion candidates to a
-single overlaid suggestion. I don't usually
-need to select between several candidates, so normally I don't really want a
-whole list.
-
-If there's only one candidate, I can
-select and complete that word with TAB. If there are several candidates,
-pressing TAB gives me the normal dropdown list.
-
-I prefer this aesthetically, since it keeps the list out of the way for as long
-as possible, but it's still available.
-
-#+begin_src emacs-lisp :tangle no
-(use-package corfu-candidate-overlay
-  :after corfu
-  :bind (:map corfu-map ("<tab>" . 'completion-at-point))
-  :config
-  (corfu-candidate-overlay-mode 1))
 #+end_src
 
 =corfu= also uses some of [[https://github.com/minad/cape][cape]]'s functionalities, so let's add that, too.
@@ -1027,6 +963,8 @@ as possible, but it's still available.
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
 )
 #+end_src
+
+*** Orderless
 
 And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
 regexes, in any order. Let's use it together with Corfu.
@@ -1159,8 +1097,6 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
 #+end_src
 
-** TODO Switching Windows
-** TODO Multiple Cursors
 ** Viewing PDFs
 
 This displays PDFs in a much more beautiful way.
@@ -1196,29 +1132,6 @@ documentation to see all the stuff you can do with it.
   (LaTeX-mode . turn-on-flyspell))
 #+end_src
 
-** ChatGPT Shell
-
-[[https://github.com/xenodium/chatgpt-shell][chatgpt-shell]] allows you to query ChatGPT from OpenAI directly inside Emacs. It
-also integrates with DALL-E and Org Babel.
-
-#+begin_src emacs-lisp
-(use-package chatgpt-shell
-  :ensure t
-  :custom
-  ((chatgpt-shell-openai-key
-    (lambda ()
-      (auth-source-pass-get 'secret "openai-key")))))
-#+end_src
-
-For this, we need an OpenAI Key. I've stored mine in =~/.authinfo=.
-
-#+begin_src emacs-lisp
-;; The file ~/.authinfo has this line:
-;; machine api.openai.com password OPENAI_KEY
-(setq chatgpt-shell-openai-key
-      (auth-source-pick-first-password :host "api.openai.com"))
-#+end_src
-
 ** Browser Preference
 
 Open links with Brave by default.
@@ -1228,9 +1141,10 @@ Open links with Brave by default.
       browse-url-generic-program "brave-browser")
 #+end_src
 
+** TODO Switching Windows
+** TODO Multiple Cursors
 
 * Org, Babel, & Roam
-
 ** Org
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
@@ -1721,7 +1635,8 @@ not evaluated by default on export. I also want to add some languages.
    'org-babel-load-languages
    '((emacs-lisp . t)
      (python     . t)
-     (haskell    . t))))
+     (haskell    . t)
+	 (clojure    . t))))
 #+end_src
 
 For Python, use whatever interpreter is set by =python-shell-interpreter=.
@@ -1800,9 +1715,7 @@ to be able to access and edit my Obsidian notes via Emacs. Enter the
   (global-obsidian-mode t))
 #+end_src
 
-
 * Programming
-
 ** Custom File Endings
 
 For my MSc thesis, I'm implementing a small functional programming language
@@ -1811,6 +1724,17 @@ fairly good job of syntax highlighting my =.con=-files.
 
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.con\\'" . haskell-mode))
+#+end_src
+
+** Language-Specific Commenting
+
+I use =C-'= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
+detects most programming languages and applies appropriate comment style.
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :ensure t
+  :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
 #+end_src
 
 ** Eglot
@@ -1964,8 +1888,7 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
   :defer t)
 #+end_src
 
-
-* Custom Keybindings
+* Activating Custom Keybindings
 
 *** Extra Keybindings
 
