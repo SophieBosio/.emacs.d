@@ -203,7 +203,6 @@ a list that I try to keep up to date:
 - Source Sans Pro
 - Roboto Mono with ligatures
 
-
 * Sane Defaults
 
 I have some defaults that I like to have in my config. Please note that this is
@@ -562,15 +561,13 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
 
 [[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
-With the rest of my setup, setting the =fill-column= variable to 4, means I can display /exactly/ 80 mono characters before the line is folded.
-
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
   :defer t
   :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
   :config
-  (setq olivetti-style t)
-  (setq-default olivetti-body-width (+ fill-column 4)))
+  (setq olivetti-style t))
+  ;; (setq-default olivetti-body-width (+ fill-column 4)))
 #+END_SRC
 
 In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap]] to visually wrap lines.
@@ -1235,7 +1232,7 @@ checkboxes for TODOs.
 (use-package org-superstar
   :config
   (setq org-superstar-leading-bullet " ")
-  (setq org-superstar-headline-bullets-list '("◉" "○" "◇" "◈" "◦"))
+  (setq org-superstar-headline-bullets-list '("◉" "○" "⚬" "◈" "◇"))
   (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
                                           ("PROJ"  . 9744)
