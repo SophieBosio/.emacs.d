@@ -1157,7 +1157,7 @@ Let's first make sure we're using Org.
   (setq-default org-startup-folded t))
 #+END_SRC
 
-*** Prettifying
+*** Decluttering
 
 We'll declutter by adapting the indentation and hiding leading starts in headings. We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
 insert special characters LaTeX-style by using a leading backslash (e.g., =\alpha= to
@@ -1289,7 +1289,7 @@ SVG graphics.
         ;; TODO / DONE
         ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo
 											           :inverse t :margin 0))))
-		("PROJ" . ((lambda (tag) (svg-tag-make "PROJ" :face 'org-todo
+		("WAIT" . ((lambda (tag) (svg-tag-make "WAIT" :face 'org-todo
 											           :inverse t :margin 0))))
 		("READ" . ((lambda (tag) (svg-tag-make "READ" :face 'org-todo
 											           :inverse t :margin 0))))
@@ -1447,9 +1447,9 @@ I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO" "PROJ" "READ" "PROG" ; Needs further action
+		 "TODO(t)" "WAIT(w)" "READ(r)" "PROG(p)" ; Needs further action
 		 "|"
-		 "DONE")))                    ; Needs no action currently
+		 "DONE(d)")))                    ; Needs no action currently
 #+end_src
 
 For whatever reason, I've had an issue with clocking in, where the default
@@ -1482,6 +1482,12 @@ Then to set up the relevant capture templates, with accompanying keybindings.
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
        `(("i" "Inbox" entry  (file "inbox.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))
+		 ("p" "Projects" entry  (file "projects.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))
+		 ("t" "Thesis" entry  (file "thesis.org")
         ,(concat "* TODO %?\n"
                  "/Entered on/ %U"))))
 (defun org-capture-inbox ()
@@ -1521,7 +1527,7 @@ function that I'll bind to =C-c d=.
                             ;; below target heading
     (cond ((looking-at "\*+ TODO")
            (org-todo "DONE"))
-          ((looking-at "\*+ PROJ")
+          ((looking-at "\*+ WAIT")
            (org-todo "DONE"))
 		  ((looking-at "\*+ READ")
            (org-todo "DONE"))
