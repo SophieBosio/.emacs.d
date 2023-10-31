@@ -1077,7 +1077,6 @@ Then configure Magit.
 
 #+begin_src emacs-lisp
 (use-package magit
-  :bind (:map custom-bindings-map ("C-c m" . magit-status))
   :config
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
