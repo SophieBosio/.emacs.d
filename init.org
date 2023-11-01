@@ -1234,7 +1234,7 @@ checkboxes for TODOs.
   (setq org-superstar-headline-bullets-list '("◉" "○" "⚬" "◈" "◇"))
   (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
-                                          ("PROJ"  . 9744)
+                                          ("WAIT"  . 9744)
                                           ("READ"  . 9744)
                                           ("PROG"  . 9744)
 										  ("DONE"  . 9745)))
@@ -1286,15 +1286,15 @@ SVG graphics.
           (svg-progress-count (substring tag 1 -1)))))
         
         ;; TODO / DONE
-        ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo
-											           :inverse t :margin 0))))
-		("WAIT" . ((lambda (tag) (svg-tag-make "WAIT" :face 'org-todo
-											           :inverse t :margin 0))))
-		("READ" . ((lambda (tag) (svg-tag-make "READ" :face 'org-todo
-											           :inverse t :margin 0))))
-		("PROG" . ((lambda (tag) (svg-tag-make "PROG"  :face 'org-todo
-											           :inverse t :margin 0))))
-        ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))
+        ;; ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo
+		;; 									           :inverse t :margin 0))))
+		;; ("WAIT" . ((lambda (tag) (svg-tag-make "WAIT" :face 'org-todo
+		;; 									           :inverse t :margin 0))))
+		;; ("READ" . ((lambda (tag) (svg-tag-make "READ" :face 'org-todo
+		;; 									           :inverse t :margin 0))))
+		;; ("PROG" . ((lambda (tag) (svg-tag-make "PROG"  :face 'org-todo
+		;; 									           :inverse t :margin 0))))
+        ;; ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))
 
 
         ;; Citation of the form [cite:@Knuth:1984] 
