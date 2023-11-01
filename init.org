@@ -1756,8 +1756,7 @@ it manually!
 
 ** Haskell
 
-For Haskell, I think the regular =haskell-mode= is nice. I'll add Haskell
-Interactive Mode, which you can read more about [[https://wiki.haskell.org/Emacs/Inferior_Haskell_processes][here]], as well as =haskell-doc-mode=
+For Haskell, I think the regular =haskell-mode= is nice. I'll add =haskell-doc-mode=
 which uses eldoc consistently throughout.
 
 I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
