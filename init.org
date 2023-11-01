@@ -1768,11 +1768,14 @@ Emacs with the results.
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode
   :defer t
-  :hook ((haskell-mode . interactive-haskell-mode)
-         (haskell-mode . haskell-doc-mode))
+  :hook ((haskell-mode . haskell-doc-mode))
   :config
-  (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
-  (setq haskell-hoogle-command "hoogle"))
+  (setq haskell-hoogle-command                  "hoogle"
+		haskell-compile-stack-build-command     "stack build"
+		haskell-compile-stack-build-alt-command "stack build --pedantic")
+  :bind (:map haskell-mode-map
+			  ("\C-ch"   . haskell-hoogle)
+			  ("C-c C-c" . haskell-compile)))
 #+END_SRC
 
 ** OCaml
