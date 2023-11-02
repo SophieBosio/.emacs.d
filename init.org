@@ -1141,7 +1141,7 @@ Open links with Brave by default.
 ** TODO Switching Windows
 ** TODO Multiple Cursors
 
-* Org, Babel, & Roam
+* Org & Co.
 ** Org
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
@@ -1222,7 +1222,7 @@ Increase the size of LaTeX previews in Org.
 (plist-put org-format-latex-options :scale 1.35)
 #+end_src
 
-*** UI Elements
+*** Visuals
 
 =org-superstar= styles some of my UI elements, such as bullets and special
 checkboxes for TODOs.
@@ -1367,6 +1367,7 @@ B's Emacs setup]].
   (push '(":uio:"      . "") prettify-symbols-alist)
   (push '(":emacs:"    . "") prettify-symbols-alist)
   (push '(":learn:"    . "") prettify-symbols-alist)
+  (push '(":code:"     . "") prettify-symbols-alist)
 
   (prettify-symbols-mode))
 
