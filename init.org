@@ -323,6 +323,9 @@ throughout the config, and then activate it at the end of the config file, at
 #+end_src
 
 * Visuals
+
+Note that Org-specific visuals are in the dedicated Org section :~)
+
 ** Open in Fullscreen
 
 When I open Emacs, I want it to open maximised and fullscreen by default.
@@ -1148,7 +1151,8 @@ Open links with Brave by default.
 
 *Note* that I've set keybindings for Org and Roam in the "Keybindings" section.
 
-Let's first make sure we're using Org.
+Let's first make sure we're using Org. I also set the default behaviour to show
+all headings as folded when opening an Org file.
 
 #+BEGIN_SRC emacs-lisp
 (use-package org
@@ -1216,13 +1220,25 @@ is always on.
 (add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
+*** LaTeX Previews
+
 Increase the size of LaTeX previews in Org.
 
 #+begin_src emacs-lisp
 (plist-put org-format-latex-options :scale 1.35)
 #+end_src
 
-*** Visuals
+[[https://github.com/io12/org-fragtog][org-fragtog]] works like org-appear, but for LaTeX fragments: It toggles LaTeX
+previews on and off automatically, depending on the cursor position. If you move the
+cursor to a preview, it's toggled off so you can edit the LaTeX snippet. When
+you move the cursor away, the preview is turned on again.
+
+#+begin_src emacs-lisp
+(use-package org-fragtog
+  :hook (org-mode-hook . org-fragtog-mode))
+#+end_src
+
+*** Bullets
 
 =org-superstar= styles some of my UI elements, such as bullets and special
 checkboxes for TODOs.
@@ -1241,8 +1257,10 @@ checkboxes for TODOs.
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-[[https://github.com/rougier/svg-tag-mode][svg-tag-mode]] replaces keywords such as TODOs, tags, and progress bars with nice
-SVG graphics.
+*** SVG Elements
+
+[[https://github.com/rougier/svg-tag-mode][svg-tag-mode]] lets you replace keywords such as TODOs, tags, and progress bars with nice
+SVG graphics. I use it for dates, progress bars, and citations.
 
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
@@ -1336,6 +1354,8 @@ SVG graphics.
 (add-hook 'org-mode-hook 'svg-tag-mode)
 #+end_src
 
+*** Prettify Tags & Keywords
+
 I have a custom function to prettify tags and other elements, lifted from [[https://github.com/jakebox/jake-emacs/blob/main/jake-emacs/jib-funcs.el][Jake
 B's Emacs setup]].
 
@@ -1421,10 +1441,9 @@ fixed-pitch))
 (set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
 #+end_src
 
-*** Time & Task Tracking
-**** Task Priorities
+*** Task Priorities
 
-Let's first increase the number of possible priorities for Org tasks. I'll set
+Let's increase the number of possible priorities for Org tasks. I'll set
 mine to =E= so that we have =A= through =E=, in total five levels.
 
 #+begin_src emacs-lisp
@@ -1440,7 +1459,7 @@ mine to =E= so that we have =A= through =E=, in total five levels.
         (70 . "#4C566A")))
 #+end_src
 
-**** Custom TODO States
+*** Custom TODO States
 
 I'll expand the list of default task states.
 
@@ -1459,7 +1478,7 @@ keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
 (define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
 #+end_src
 
-**** Get Things Done
+*** Get Things Done
 
 I'm trying out the Get Things Done method by David Allen, using Nicolas Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's
 [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
