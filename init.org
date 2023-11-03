@@ -1480,8 +1480,8 @@ keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
 
 *** Get Things Done
 
-I'm trying out the Get Things Done method by David Allen, using Nicolas Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's
-[[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
+I'm trying out the Get Things Done method by David Allen, using Nicolas
+Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
 
 The first step is to set the relevant directories.
 
@@ -1557,6 +1557,38 @@ function that I'll bind to =C-c d=.
           (t (message "Undefined TODO state.")))))
 
 (define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
+#+end_src
+
+*** Super Agenda
+
+[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
+navigate.
+
+#+begin_src emacs-lisp
+(use-package org-super-agenda
+  :after org
+  :config
+  (setq org-super-agenda-header-prefix " ◦ ") ;; There are some unicode "THIN SPACE"s after the ◦
+  ;; Hide the thin width char glyph
+  (add-hook 'org-agenda-mode-hook
+            #'(lambda () (setq-local nobreak-char-display nil)))
+  (setq org-super-agenda-groups
+		'((:name "Today"
+				 :time-grid t
+				 :order 1)
+		  (:name "Important"
+				:priority "A"
+				:order 2)
+		  (:name "Inbox"
+				 :tag "@inbox"
+				 :order 3)
+		  (:name "Thesis"
+				 :tag "@thesis"
+				 :order 4)
+		  (:name "Projects"
+				 :tag "@projects"
+				 :order 5)))
+  (org-super-agenda-mode))
 #+end_src
 
 *** Pasting Images
