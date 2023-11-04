@@ -631,7 +631,7 @@ use tabs, I don't want to mess with other people's code, so I've used this
 (defun infer-indentation-style ()
   "Default to no tabs, but use tabs if already in project"
   (let ((space-count (how-many "^  " (point-min) (point-max)))
-        (tab-count (how-many "^\t" (point-min) (point-max))))
+        (tab-count   (how-many "^\t" (point-min) (point-max))))
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
@@ -639,10 +639,17 @@ use tabs, I don't want to mess with other people's code, so I've used this
 (infer-indentation-style)
 #+end_src
 
-I want to disable electric indent mode when switching to a new major mode.
+I want to disable electric indent mode.
 
 #+begin_src emacs-lisp
-(add-hook 'after-change-major-mode-hook (lambda() (electric-indent-mode -1)))
+(electric-indent-mode -1)
+#+end_src
+
+Set backtab to =indent-rigidly-left=. Then I can easily unindent regions that use
+spaces instead of tabs.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "<backtab>") 'indent-rigidly-left)
 #+end_src
 
 And finally, make backspace remove the whole tab instead of just deleting one space.
