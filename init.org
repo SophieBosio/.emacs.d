@@ -1792,6 +1792,16 @@ detects most programming languages and applies appropriate comment style.
   :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
 #+end_src
 
+** Subwords
+
+[[https://wikemacs.org/wiki/Subword-mode][subword-mode]] lets you work on each subword in camel case words as individual
+words. It makes it much easier to delete and mark parts of function and variable
+names.
+
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook 'subword-mode)
+#+end_src
+
 ** Eglot
 
 [[https://github.com/joaotavora/eglot][Eglot]] (Emacs polyGLOT) is an LSP server client for Emacs that comes
