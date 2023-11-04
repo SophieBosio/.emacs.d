@@ -1571,7 +1571,8 @@ navigate.
 (use-package org-super-agenda
   :after org
   :config
-  (setq org-super-agenda-header-prefix " ◦ ") ;; There are some unicode "THIN SPACE"s after the ◦
+  ;; (setq org-super-agenda-header-prefix " ◦ ") ;; There are some unicode "THIN SPACE"s after the ◦
+  (setq org-super-agenda-header-prefix "⋙ ")
   ;; Hide the thin width char glyph
   (add-hook 'org-agenda-mode-hook
             #'(lambda () (setq-local nobreak-char-display nil)))
@@ -1592,6 +1593,12 @@ navigate.
 				 :tag "@projects"
 				 :order 5)))
   (org-super-agenda-mode))
+#+end_src
+
+I also want to open my agenda on the current day, not on any specific weekday.
+
+#+begin_src emacs-lisp
+(setq org-agenda-start-on-weekday nil)
 #+end_src
 
 *** Pasting Images
