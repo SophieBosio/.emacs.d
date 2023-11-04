@@ -555,8 +555,7 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
 		dashboard-set-footer             nil
 		dashboard-page-separator         "\n\n\n"
 		dashboard-items '((projects     . 5)
-                          ;; (recents      . 5)
-						  (bookmarks    . 5)
+                          (recents      . 5)
                           (agenda       . 5))))
 #+END_SRC
 
