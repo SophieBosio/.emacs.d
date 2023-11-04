@@ -1142,6 +1142,9 @@ Open links with Brave by default.
 #+end_src
 
 ** TODO Switching Windows
+
+[[https://github.com/frwdrik/emacs.d/blob/master/lisp/init-windows.el][switch-window Setup]]
+
 ** TODO Multiple Cursors
 
 * Org & Co.
