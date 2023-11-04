@@ -1530,14 +1530,6 @@ single, lower-case letter.
 (define-key custom-bindings-map (kbd "C-c t") 'org-todo)
 #+END_SRC
 
-I have some custom =.org=-files that I use to organise different parts of my
-life (see "Org & Roam" section). I'll add keybindings to capture different
-types of notes, each corresponding to a an =.org=-file type.
-
-#+BEGIN_SRC emacs-lisp
-(define-key custom-bindings-map (kbd "C-c i") 'org-capture-inbox)
-#+END_SRC
-
 Finally, to mark any TODO task, of any state, as DONE quickly, I have a helper
 function that I'll bind to =C-c d=.
 
@@ -1560,6 +1552,25 @@ function that I'll bind to =C-c d=.
           (t (message "Undefined TODO state.")))))
 
 (define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
+#+end_src
+
+*** Registers
+
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Registers.html][Registers]] are easier to access than bookmarks and much more flexible. I'll set
+up registers for my GTD files.
+
+#+begin_src emacs-lisp
+(set-register ?1 (cons 'file (concat org-directory "inbox.org")))
+(set-register ?2 (cons 'file (concat org-directory "projects.org")))
+(set-register ?3 (cons 'file (concat org-directory "thesis.org")))
+#+end_src
+
+Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
+file, I don't really need =C-r= to be bound to the default =isearch-backward=.
+Instead, I can use it as the leader key combination to jump to a register.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
 #+end_src
 
 *** Super Agenda
@@ -1887,7 +1898,6 @@ Then I want integration with Dune, Merlin, and utop for the full IDE-experience.
 (use-package merlin
   :config
   (add-hook 'tuareg-mode-hook #'merlin-mode)
-  (add-hook 'merlin-mode-hook #'company-mode)
   ;; we're using flycheck instead
   (setq merlin-error-after-save nil))
 
@@ -1981,7 +1991,6 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 #+end_src
 
 * Activating Custom Keybindings
-
 *** Extra Keybindings
 
 Most of my custom keybindings are bound directly in the section with the
@@ -1998,7 +2007,7 @@ I also plan to use =win-switch= to get nicer macros for switching and managing w
 Run a shell command and insert the results into current buffer.
 
 #+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "M-+") '(lambda ()
+(define-key custom-bindings-map (kbd "M-+") #'(lambda ()
                        (interactive)
                        (let ((current-prefix-arg '(4)))
                          (call-interactively 'shell-command))))
