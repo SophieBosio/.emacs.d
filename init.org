@@ -1146,25 +1146,28 @@ Open links with Brave by default.
 
 ** TODO Multiple Cursors
 
-* Org & Co.
-** Org
+* Org
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
 
-*Note* that I've set keybindings for Org and Roam in the "Keybindings" section.
-
-Let's first make sure we're using Org. I also set the default behaviour to show
-all headings as folded when opening an Org file.
+Let's first make sure we're using Org.
 
 #+BEGIN_SRC emacs-lisp
-(use-package org
-  :config
-  (setq-default org-startup-folded t))
+(use-package org)
 #+END_SRC
+
+** Visuals
+*** Folded Startup
+
+When opening an Org file, all headers are folded by default.
+
+#+begin_src emacs-lisp
+(setq-default org-startup-folded t)
+#+end_src
 
 *** Decluttering
 
-We'll declutter by adapting the indentation and hiding leading starts in headings. We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
+	We'll declutter by adapting the indentation and hiding leading starts in headings. We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
 insert special characters LaTeX-style by using a leading backslash (e.g., =\alpha= to
 write the greek letter alpha) and display ellipses in a condensed way.
 
@@ -1443,6 +1446,7 @@ fixed-pitch))
 (set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
 #+end_src
 
+** Tasks
 *** Task Priorities
 
 Let's increase the number of possible priorities for Org tasks. I'll set
@@ -1470,17 +1474,36 @@ I'll expand the list of default task states.
       '((sequence
 		 "TODO(t)" "WAIT(w)" "READ(r)" "PROG(p)" ; Needs further action
 		 "|"
-		 "DONE(d)")))                    ; Needs no action currently
+		 "DONE(d)")))                            ; Needs no action currently
 #+end_src
 
-For whatever reason, I've had an issue with clocking in, where the default
-keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
+*** Mark As Done
+
+Finally, to mark any TODO task, of any state, as DONE quickly, I have a helper
+function that I'll bind to =C-c d=.
 
 #+begin_src emacs-lisp
-(define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
+(defun org-mark-as-done ()
+  (interactive)
+  (save-excursion
+    (org-back-to-heading t) ;; Make sure command works even if point is
+                            ;; below target heading
+    (cond ((looking-at "\*+ TODO")
+           (org-todo "DONE"))
+          ((looking-at "\*+ WAIT")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ READ")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ PROG")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ DONE")
+           (org-todo "DONE"))
+          (t (message "Undefined TODO state.")))))
+
+(define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
 #+end_src
 
-*** Get Things Done
+** "Get Things Done" Setup
 
 I'm trying out the Get Things Done method by David Allen, using Nicolas
 Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
@@ -1529,31 +1552,14 @@ single, lower-case letter.
 (define-key custom-bindings-map (kbd "C-c t") 'org-todo)
 #+END_SRC
 
-Finally, to mark any TODO task, of any state, as DONE quickly, I have a helper
-function that I'll bind to =C-c d=.
+For whatever reason, I've had an issue with clocking in, where the default
+keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
 
 #+begin_src emacs-lisp
-(defun org-mark-as-done ()
-  (interactive)
-  (save-excursion
-    (org-back-to-heading t) ;; Make sure command works even if point is
-                            ;; below target heading
-    (cond ((looking-at "\*+ TODO")
-           (org-todo "DONE"))
-          ((looking-at "\*+ WAIT")
-           (org-todo "DONE"))
-		  ((looking-at "\*+ READ")
-           (org-todo "DONE"))
-		  ((looking-at "\*+ PROG")
-           (org-todo "DONE"))
-		  ((looking-at "\*+ DONE")
-           (org-todo "DONE"))
-          (t (message "Undefined TODO state.")))))
-
-(define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
+(define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
 #+end_src
 
-*** Registers
+** Registers
 
 [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Registers.html][Registers]] are easier to access than bookmarks and much more flexible. I'll set
 up registers for my GTD files.
@@ -1572,7 +1578,7 @@ Instead, I can use it as the leader key combination to jump to a register.
 (define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
 #+end_src
 
-*** Super Agenda
+** Super Agenda
 
 [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
 navigate.
@@ -1611,7 +1617,7 @@ I also want to open my agenda on the current day, not on any specific weekday.
 (setq org-agenda-start-on-weekday nil)
 #+end_src
 
-*** Pasting Images
+** Pasting Images
 
 [[https://github.com/abo-abo/org-download][org-download]] lets me easily put copied screenshots into my org-documents.
 
@@ -1629,70 +1635,6 @@ Show inline images by default
 #+begin_src haskell
 (setq org-startup-with-inline-images t)
 #+end_src
-
-*** Hugo
-
-[[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
-Blackfriday. The package [[https://github.com/kaushalmodi/ox-hugo/][ox-hugo]] can export Org files to this format, and
-also generate appropriate front-matter. I use it to write my blog in Org and
-easily put it online.
-
-#+BEGIN_SRC emacs-lisp
-(use-package ox-hugo
-  :after ox)
-#+END_SRC
-
-I've had a great time blogging with =ox-hugo=, but it's a little bothersome to
-have to rewrite the front-matter required in the blog post for it to export
-property every time, so below is a little snippet lifted from [[https://ox-hugo.scripter.co/doc/org-capture-setup/][ox-hugo's blog]].
-
-The file =all-posts,org= needs to be present in 'org-directory' and the file's
-heading must be "Blog Posts". It can even be a symlink pointing to the actual location of all-posts.org! If you've named yours differently, change these values.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org-capture
-  (defun org-hugo-new-subtree-post-capture-template ()
-    "Returns `org-capture' template string for new Hugo post.
-See `org-capture-templates' for more information."
-    (let* ((title (read-from-minibuffer "Post Title: "))
-           (fname (org-hugo-slug title)))
-      (mapconcat #'identity
-                 `(
-                   ,(concat "* TODO " title)
-                   ":PROPERTIES:"
-                   ,(concat ":EXPORT_FILE_NAME: " fname)
-                   ":END:"
-                   "%?\n")          ;Place the cursor here finally
-                 "\n")))
-
-  (add-to-list 'org-capture-templates
-               '("h"                ;`org-capture' binding + h
-                 "Hugo post"
-                 entry
-                 (file+olp "all-posts.org" "Blog Posts")
-                 (function org-hugo-new-subtree-post-capture-template))))
-#+end_src
-
-*** RevealJS
-
-[[https://github.com/yjwen/org-reveal][org-reveal]] is exports your Org documents to [[https://revealjs.com/][RevealJS]] presentations. For nice
-syntax highlighting, let's also add =htmlize.el=.
-
-#+begin_src emacs-lisp
-(use-package ox-reveal
-  :config
-  (setq org-reveal-root "file:///home/sophie/reveal.js"))
-(use-package htmlize)
-#+end_src
-
-#+RESULTS:
-
-In the properties of each Org presentation document, you can set the
-=REVEAL-ROOT= either to the CDN distribution of reveal.js or to your download
-location.
-
-CDN: =#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js=
-Local copy: =#+REVEAL_ROOT: file:///d:/reveal.js=
 
 ** Babel
 
@@ -1751,44 +1693,69 @@ navigating Roam nodes.
   (org-roam-db-autosync-enable))
 #+end_src
 
-** Obsidian
+** Hugo
 
-[[https://obsidian.md/][Obsidian]] is a smart note-taking app with similar capabilities to those of Org
-Roam. I've used Obsidian for a long time, but increasingly want to do my work
-in Emacs. So why not just use Roam? Well, Obsidian has a lot of very nice
-graphical features and a large, helpful community dedicated to personal
-knowledge management. Therefore, I still prefer it over Roam, but I would like
-to be able to access and edit my Obsidian notes via Emacs. Enter the
-=obsidian.el= package.
+[[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
+Blackfriday. The package [[https://github.com/kaushalmodi/ox-hugo/][ox-hugo]] can export Org files to this format, and
+also generate appropriate front-matter. I use it to write my blog in Org and
+easily put it online.
+
+#+BEGIN_SRC emacs-lisp
+(use-package ox-hugo
+  :after ox)
+#+END_SRC
+
+I've had a great time blogging with =ox-hugo=, but it's a little bothersome to
+have to rewrite the front-matter required in the blog post for it to export
+property every time, so below is a little snippet lifted from [[https://ox-hugo.scripter.co/doc/org-capture-setup/][ox-hugo's blog]].
+
+The file =all-posts,org= needs to be present in 'org-directory' and the file's
+heading must be "Blog Posts". It can even be a symlink pointing to the actual location of all-posts.org! If you've named yours differently, change these values.
 
 #+begin_src emacs-lisp
-(use-package obsidian
-  :config
-  (obsidian-specify-path "~/Dropbox/obsidian-personal")
-  ;; If you want a different directory of `obsidian-capture':
-  (setq obsidian-inbox-directory "Inbox")
+(with-eval-after-load 'org-capture
+  (defun org-hugo-new-subtree-post-capture-template ()
+    "Returns `org-capture' template string for new Hugo post.
+See `org-capture-templates' for more information."
+    (let* ((title (read-from-minibuffer "Post Title: "))
+           (fname (org-hugo-slug title)))
+      (mapconcat #'identity
+                 `(
+                   ,(concat "* TODO " title)
+                   ":PROPERTIES:"
+                   ,(concat ":EXPORT_FILE_NAME: " fname)
+                   ":END:"
+                   "%?\n")          ;Place the cursor here finally
+                 "\n")))
 
-  (add-hook
-   'obsidian-mode-hook
-   (lambda ()
-	 ;; Replace standard command with Obsidian.el's in obsidian vault:
-	 (local-set-key (kbd "C-c C-o") 'obsidian-follow-link-at-point)
-
-
-	 ;; Use either `obsidian-insert-wikilink' or `obsidian-insert-link':
-	 (local-set-key (kbd "C-c C-l") 'obsidian-insert-wikilink)
-
-	 ;; Following backlinks
-	 (local-set-key (kbd "C-c C-b") 'obsidian-backlink-jump)
-	 
-	 ;; Jump to another Obsidian note
-	 (local-set-key (kbd "C-c C-j") 'obsidian-jump)
-
-	 ;; Capture Obsidian note
-	 (local-set-key (kbd "C-c C-a") 'obsidian-capture)
-	 ))
-  (global-obsidian-mode t))
+  (add-to-list 'org-capture-templates
+               '("h"                ;`org-capture' binding + h
+                 "Hugo post"
+                 entry
+                 (file+olp "all-posts.org" "Blog Posts")
+                 (function org-hugo-new-subtree-post-capture-template))))
 #+end_src
+
+** RevealJS
+
+[[https://github.com/yjwen/org-reveal][org-reveal]] is exports your Org documents to [[https://revealjs.com/][RevealJS]] presentations. For nice
+syntax highlighting, let's also add =htmlize.el=.
+
+#+begin_src emacs-lisp
+(use-package ox-reveal
+  :config
+  (setq org-reveal-root "file:///home/sophie/reveal.js"))
+(use-package htmlize)
+#+end_src
+
+#+RESULTS:
+
+In the properties of each Org presentation document, you can set the
+=REVEAL-ROOT= either to the CDN distribution of reveal.js or to your download
+location.
+
+CDN: =#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js=
+Local copy: =#+REVEAL_ROOT: file:///d:/reveal.js=
 
 * Programming
 ** Custom File Endings
