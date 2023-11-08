@@ -24,7 +24,6 @@ I've lifted a lot of code from [[https://github.com/rougier][Nicolas Rougier]] (
 I'm at the very beginning of learning Emacs, so if you have any suggestions or improvements, I would be very happy to hear about them!
 
 * Setup
-
 ** =init.el= Code
 
 As mentioned, I use =org-babel-tangle= and this document, written in Org mode.
@@ -171,28 +170,22 @@ And load custom settings from =custom.el= if it exists.
 
 ** External Software
 
-Some of my config depends on software, packages, fonts, etc. external to Emacs. Here's
-a list that I try to keep up to date:
+I have started using Nix to manage most of my software, but I haven't figured
+out how to set up everything yet. In the meantime, I keep this list of software
+that is *not* yet in my Nix config.
 
 *Utilities:*
 
-- ripgrep
 - Fish
 - Brave browser
-- graphviz (for org-roam-graph)
-- notmuch
-- isync
 
 *Programming languages++:*
 
 - GHCi
 - Stack
-- Python3
 - Java
-- Clojure
 - Leiningen
 - OCaml
-- LiveTeX
 - Racket
 - Lua
 - Idris
@@ -200,7 +193,6 @@ a list that I try to keep up to date:
 
 *Misc:*
 
-- Source Sans Pro
 - Roboto Mono with ligatures
 
 * Sane Defaults
