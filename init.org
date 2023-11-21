@@ -1796,6 +1796,7 @@ names.
 (use-package wakatime-mode
   :config
   (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
+  (setq wakatime-api-key (auth-source-pick-first-password :host "wakatime"))
   (global-wakatime-mode 1))
 #+end_src
 
