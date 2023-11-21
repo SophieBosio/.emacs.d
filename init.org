@@ -1777,7 +1777,7 @@ detects most programming languages and applies appropriate comment style.
   :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
 #+end_src
 
-** Subwords
+** Subword Mode
 
 [[https://wikemacs.org/wiki/Subword-mode][subword-mode]] lets you work on each subword in camel case words as individual
 words. It makes it much easier to delete and mark parts of function and variable
@@ -1785,6 +1785,18 @@ names.
 
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook 'subword-mode)
+#+end_src
+
+** WakaTime
+
+[[https://wakatime.com][WakaTime]] is an automatic time-tracking plugin.
+[[https://github.com/wakatime/wakatime-mode][wakatime-mode]] integrates it with Emacs.
+
+#+begin_src emacs-lisp
+(use-package wakatime-mode
+  :config
+  (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
+  (global-wakatime-mode 1))
 #+end_src
 
 ** Eglot
