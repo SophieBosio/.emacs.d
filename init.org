@@ -1939,6 +1939,25 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
   :defer t)
 #+end_src
 
+** Coq
+
+[[https://proofgeneral.github.io/][Proof General]] is a generic interface for proof assistants in Emacs. This is a
+simple setup to use it with Coq.
+
+#+begin_src emacs-lisp
+(use-package proof-general
+  :defer t)
+#+end_src
+
+As the [[https://coq.inria.fr/user-interfaces.html][Coq documentation]] suggests, I'll also add
+[[https://github.com/cpitclaudel/company-coq][company-coq]] for completions.
+
+#+begin_src emacs-lisp
+(use-package company-coq
+  :defer t
+  :hook (coq-mode . company-coq-mode))
+#+end_src
+
 * Elfeed
 
 [[https://github.com/skeeto/elfeed][Elfeed]] is a feed reader for Emacs!
