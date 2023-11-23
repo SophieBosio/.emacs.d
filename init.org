@@ -1795,9 +1795,9 @@ names.
 #+begin_src emacs-lisp
 (use-package wakatime-mode
   :config
-  (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
+  (setq wakatime-cli-path "~/.wakatime/wakatime-cli-linux-amd64")
   (setq wakatime-api-key (auth-source-pick-first-password :host "wakatime"))
-  (global-wakatime-mode 1))
+  (global-wakatime-mode))
 #+end_src
 
 ** Eglot
