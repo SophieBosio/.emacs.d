@@ -1634,6 +1634,20 @@ Show inline images by default
 (setq org-startup-with-inline-images t)
 #+end_src
 
+** TOC in Org Files
+
+[[https://github.com/snosov1/toc-org][toc-org]] creates nice, Markdown compatible tables of content for your Org files.
+Perfect for GitHub READMEs.
+
+#+begin_src emacs-lisp
+(use-package toc-org
+  :config
+  (add-hook 'org-mode-hook 'toc-org-mode)
+
+  ;; enable in markdown, too
+  (add-hook 'markdown-mode-hook 'toc-org-mode))
+#+end_src
+
 ** Babel
 
 For working with code blocks in Org mode, I want to make sure code blocks are
