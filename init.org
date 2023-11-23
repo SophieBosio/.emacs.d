@@ -579,9 +579,11 @@ snippet shows only the themes I do use.
 
 ** Mode Line
 
+*** Nano Modeline
+
 I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has
 some neat built-in features, like the option to put the modeline in the header
-bar instead of at the bottom of the screen.
+bar instead of at the bottom of the screen. This is what I use 99% of the time.
 
 #+begin_src emacs-lisp
 (defun my-nano-modeline (&optional default)
@@ -600,6 +602,22 @@ bar instead of at the bottom of the screen.
   :config
   (setq nano-modeline-padding '(0.55 . 0.55))
   (my-nano-modeline 1))
+#+end_src
+
+*** Mini Echo
+
+If I need to save some space, I think that [[https://github.com/liuyinz/mini-echo.el][mini-echo]] is pretty cool and a great
+alternative. It displays the modeline in the echo area, making the screen feel
+nice and spacious.
+
+#+begin_src emacs-lisp :tangle no
+(use-package mini-echo
+  :config
+  (setq mini-echo-default-segments
+  '(:long ("major-mode" "buffer-name" "vcs" "buffer-position")
+    :short ("buffer-position" "macro")))
+  (setq mini-echo-window-divider-args '(t 1 1))
+  (mini-echo-mode))
 #+end_src
 
 ** Dashboard
