@@ -1229,9 +1229,19 @@ Open links with Brave by default.
       browse-url-generic-program "brave-browser")
 #+end_src
 
-** TODO Switching Windows
+** Switching Windows
 
-[[https://github.com/frwdrik/emacs.d/blob/master/lisp/init-windows.el][switch-window Setup]]
+Opening, switching and deleting windows becomes super easy with [[https://github.com/dimitri/switch-window][switch-window]].
+
+#+begin_src emacs-lisp
+(use-package switch-window
+  :bind (:map custom-bindings-map
+			  ("C-x o" . 'switch-window)
+			  ("C-x 1" . 'switch-window-then-maximize)
+			  ("C-x 2" . 'switch-window-then-split-below)
+			  ("C-x 3" . 'switch-window-then-split-right)
+			  ("C-x 0" . 'switch-window-then-delete)))
+#+end_src
 
 ** TODO Multiple Cursors
 
