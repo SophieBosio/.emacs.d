@@ -1465,46 +1465,47 @@ B's Emacs setup]].
 
 #+begin_src emacs-lisp
 (defun my/prettify-symbols-setup ()
-  ;; Headers
-  (push '("#+title:"  . "") prettify-symbols-alist)
-  (push '("#+author:" . "") prettify-symbols-alist)
-  
-  ;; Checkboxes
-  (push '("[ ]" . "") prettify-symbols-alist)
-  (push '("[X]" . "") prettify-symbols-alist)
-  (push '("[-]" . "" ) prettify-symbols-alist)
+  "Beautify keywords"
 
-  ;; org-babel
-  (push '("#+BEGIN_SRC" . ?≫) prettify-symbols-alist)
-  (push '("#+END_SRC" . ?≫) prettify-symbols-alist)
-  (push '("#+begin_src" . ?≫) prettify-symbols-alist)
-  (push '("#+end_src" . ?≫) prettify-symbols-alist)
-
-  (push '("#+BEGIN_QUOTE" . ?❝) prettify-symbols-alist)
-  (push '("#+END_QUOTE" . ?❞) prettify-symbols-alist)
-
-  ;; Drawers
-  (push '(":PROPERTIES:" . "") prettify-symbols-alist)
-
-  ;; Agenda
-  (push '("SCHEDULED:" . "") prettify-symbols-alist)
-  (push '("DEADLINE:"  . "") prettify-symbols-alist)
-
-  ;; Agenda tags
-  (push '(":projects:" . "") prettify-symbols-alist)
-  (push '(":work:"     . "") prettify-symbols-alist)
-  (push '(":inbox:"    . "") prettify-symbols-alist)
-  (push '(":task:"     . "") prettify-symbols-alist)
-  (push '(":thesis:"   . "") prettify-symbols-alist)
-  (push '(":uio:"      . "") prettify-symbols-alist)
-  (push '(":emacs:"    . "") prettify-symbols-alist)
-  (push '(":learn:"    . "") prettify-symbols-alist)
-  (push '(":code:"     . "") prettify-symbols-alist)
-
-  ;; Roam tags
-  (push '("#+filetags:" . "❯") prettify-symbols-alist)
-  (push '(":wip:"       . "") prettify-symbols-alist)
-
+  (setq prettify-symbols-alist
+		(mapcan (lambda (x) (list x (cons (upcase (car x)) (cdr x))))
+				'(; Greek symbols
+				  ("lambda" . ?λ)
+				  ("delta"  . ?Δ)
+				  ("gamma"  . ?Γ)
+				  ("phi"    . ?φ)
+				  ("psi"    . ?ψ)
+				  ; Org headers
+				  ("#+title:"  . "❯ ")
+				  ("#+author:" . "❯ ")
+				  ; Checkboxes
+				  ("[ ]" . "")
+				  ("[X]" . "")
+				  ("[-]" . "" )
+				  ; Blocks
+				  ("#+begin_src"   . "")
+				  ("#+end_src"     . "")
+				  ("#+begin_QUOTE" . "‟")
+				  ("#+begin_QUOTE" . "”")
+				  ; Drawers
+				  (":properties:" . "")
+				  ; Agenda scheduling
+				  ("SCHEDULED:"   . "")
+				  ("DEADLINE:"    . "")
+				  ; Agenda tags
+				  (":projects:"   . "")
+				  (":work:"       . "")
+				  (":inbox:"      . "")
+				  (":task:"       . "")
+				  (":thesis:"     . "")
+				  (":uio:"        . "")
+				  (":emacs:"      . "")
+				  (":learn:"      . "")
+				  (":code:"       . "")
+				  ; Roam tags
+				  ("#+filetags:"  . " ")
+				  (":wip:"        . "")
+				  )))
   (prettify-symbols-mode))
 
 (add-hook 'org-mode-hook        #'my/prettify-symbols-setup)
