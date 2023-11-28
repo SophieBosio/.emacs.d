@@ -631,7 +631,7 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
   (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner         "~/Documents/dotfiles/images/emacs-standalone-E.png"
-		dashboard-image-banner-max-width 150
+		dashboard-image-banner-max-width 110
 		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
 		dashboard-center-content         t
 		dashboard-set-footer             nil
@@ -1465,12 +1465,16 @@ B's Emacs setup]].
 
 #+begin_src emacs-lisp
 (defun my/prettify-symbols-setup ()
+  ;; Headers
+  (push '("#+title:"  . "") prettify-symbols-alist)
+  (push '("#+author:" . "") prettify-symbols-alist)
+  
   ;; Checkboxes
-  (push '("[ ]" . "") prettify-symbols-alist)
-  (push '("[X]" . "") prettify-symbols-alist)
+  (push '("[ ]" . "") prettify-symbols-alist)
+  (push '("[X]" . "") prettify-symbols-alist)
   (push '("[-]" . "" ) prettify-symbols-alist)
 
-  ;; org-abel
+  ;; org-babel
   (push '("#+BEGIN_SRC" . ?≫) prettify-symbols-alist)
   (push '("#+END_SRC" . ?≫) prettify-symbols-alist)
   (push '("#+begin_src" . ?≫) prettify-symbols-alist)
@@ -1480,9 +1484,13 @@ B's Emacs setup]].
   (push '("#+END_QUOTE" . ?❞) prettify-symbols-alist)
 
   ;; Drawers
-  (push '(":PROPERTIES:" . "") prettify-symbols-alist)
+  (push '(":PROPERTIES:" . "") prettify-symbols-alist)
 
-  ;; Tags
+  ;; Agenda
+  (push '("SCHEDULED:" . "") prettify-symbols-alist)
+  (push '("DEADLINE:"  . "") prettify-symbols-alist)
+
+  ;; Agenda tags
   (push '(":projects:" . "") prettify-symbols-alist)
   (push '(":work:"     . "") prettify-symbols-alist)
   (push '(":inbox:"    . "") prettify-symbols-alist)
@@ -1492,6 +1500,10 @@ B's Emacs setup]].
   (push '(":emacs:"    . "") prettify-symbols-alist)
   (push '(":learn:"    . "") prettify-symbols-alist)
   (push '(":code:"     . "") prettify-symbols-alist)
+
+  ;; Roam tags
+  (push '("#+filetags:" . "❯") prettify-symbols-alist)
+  (push '(":wip:"       . "") prettify-symbols-alist)
 
   (prettify-symbols-mode))
 
@@ -1803,6 +1815,14 @@ navigating Roam nodes.
          ("C-c n i" . org-roam-node-insert))
   :config
   (org-roam-db-autosync-enable))
+#+end_src
+
+Set up searching for nodes by tags.
+
+#+begin_src emacs-lisp
+(setq org-roam-node-display-template
+	  (concat "${title:*} "
+			  (propertize "${tags:10}" 'face 'org-tag)))
 #+end_src
 
 ** Hugo
