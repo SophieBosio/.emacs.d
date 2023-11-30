@@ -608,7 +608,7 @@ bar instead of at the bottom of the screen. This is what I use 99% of the time.
   ;; Disable the default modeline
   (setq-default mode-line-format nil)
   :config
-  (setq nano-modeline-padding '(0.55 . 0.55))
+  (setq nano-modeline-padding '(0.45 . 0.45))
   (my-nano-modeline 1))
 #+end_src
 
