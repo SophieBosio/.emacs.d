@@ -92,6 +92,7 @@ improvements, I would be very happy to hear about them!
   - [[#python][Python]]
   - [[#clojure][Clojure]]
   - [[#coq][Coq]]
+  - [[#nix][Nix]]
 - [[#elfeed][Elfeed]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 
@@ -179,6 +180,13 @@ I want to make some tweaks to improve startup performance. First, a common tweak
   (add-hook 'after-init-hook
             (lambda () (setq gc-cons-threshold old-gc-treshold))))
 #+END_SRC
+
+Fix IO bugs.
+
+#+begin_src emacs-lisp
+(setq process-adaptive-read-buffering nil)
+(setq read-process-output-max (* 4 1024 1024))
+#+end_src
 
 Set Emacs user directory explicitly:
 
@@ -2145,6 +2153,12 @@ As the [[https://coq.inria.fr/user-interfaces.html][Coq documentation]] suggests
 (use-package company-coq
   :defer t
   :hook (coq-mode . company-coq-mode))
+#+end_src
+
+** Nix
+
+#+begin_src emacs-lisp
+(use-package nix-mode)
 #+end_src
 
 * Elfeed
