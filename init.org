@@ -1476,19 +1476,19 @@ B's Emacs setup]].
 				  ("phi"    . ?φ)
 				  ("psi"    . ?ψ)
 				  ; Org headers
-				  ("#+title:"  . "❯ ")
-				  ("#+author:" . "❯ ")
+				  ("#+title:"  . "")
+				  ("#+author:" . "")
 				  ; Checkboxes
 				  ("[ ]" . "")
 				  ("[X]" . "")
 				  ("[-]" . "" )
 				  ; Blocks
-				  ("#+begin_src"   . "")
-				  ("#+end_src"     . "")
+				  ("#+begin_src"   . "✧")
+				  ("#+end_src"     . "✧")
 				  ("#+begin_QUOTE" . "‟")
 				  ("#+begin_QUOTE" . "”")
 				  ; Drawers
-				  (":properties:" . "")
+				  (":properties:" . "")
 				  ; Agenda scheduling
 				  ("SCHEDULED:"   . "")
 				  ("DEADLINE:"    . "")
