@@ -1724,6 +1724,16 @@ Instead, I can use it as the leader key combination to jump to a register.
 
 ** Agenda
 
+Open day view with =C-c a d=.
+
+#+begin_src emacs-lisp
+(setq org-agenda-custom-commands
+	  '(("d" "Day View"
+               ((agenda "" ((org-agenda-overriding-header "Day View")
+                            (org-agenda-span 'day)
+                            (org-agenda-sorting-strategy '(scheduled-deadline-up priority-down))))))))
+#+end_src
+
 Don't show me deadlines or scheduled items if they are done.
 
 #+begin_src emacs-lisp
