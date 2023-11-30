@@ -1724,14 +1724,29 @@ Instead, I can use it as the leader key combination to jump to a register.
 
 ** Agenda
 
-Open day view with =C-c a d=.
+Open day view with =C-c a d= and extended three-day view with =C-c a e=.
 
 #+begin_src emacs-lisp
 (setq org-agenda-custom-commands
 	  '(("d" "Day View"
                ((agenda "" ((org-agenda-overriding-header "Day View")
-                            (org-agenda-span 'day)
-                            (org-agenda-sorting-strategy '(scheduled-deadline-up priority-down))))))))
+                            (org-agenda-span 'day))
+					     	(org-super-agenda-groups '(
+                                                       (:name "Today:"
+                                                              :scheduled t
+                                                              :order 2)
+                                                       (:name "Deadlines:"
+                                                              :deadline t
+                                                              :order 3)
+                                                       (:name "Today's Schedule:"
+                                                              :time-grid t
+                                                              :discard (:deadline t)
+                                                              :order 1))))))
+		("e" "Three-Day View"
+               ((agenda "" ((org-agenda-span 3)
+                            (org-agenda-entry-types '(:deadline :scheduled))
+                            (org-agenda-start-on-weekday nil)
+                            (org-deadline-warning-days 0)))))))
 #+end_src
 
 Don't show me deadlines or scheduled items if they are done.
