@@ -1537,8 +1537,8 @@ B's Emacs setup]].
 				  ("[X]" . "")
 				  ("[-]" . "" )
 				  ; Blocks
-				  ("#+begin_src"   . "✧")
-				  ("#+end_src"     . "✧")
+				  ("#+begin_src"   . "")
+				  ("#+end_src"     . "")
 				  ("#+begin_QUOTE" . "‟")
 				  ("#+begin_QUOTE" . "”")
 				  ; Drawers
@@ -1546,19 +1546,22 @@ B's Emacs setup]].
 				  ; Agenda scheduling
 				  ("SCHEDULED:"   . "")
 				  ("DEADLINE:"    . "")
-				  ; Agenda tags
-				  (":projects:"   . "")
+				  ; Agenda tags 
+				  (":@projects:"  . "")
 				  (":work:"       . "")
-				  (":inbox:"      . "")
+				  (":@inbox:"     . "")
 				  (":task:"       . "")
+				  (":@thesis:"    . "")
 				  (":thesis:"     . "")
-				  (":uio:"        . "")
+				  (":uio:"        . "")
 				  (":emacs:"      . "")
-				  (":learn:"      . "")
+				  (":learn:"      . "")
 				  (":code:"       . "")
+				  (":fix:"        . "")
+				  (":bug:"        . "")
 				  ; Roam tags
 				  ("#+filetags:"  . " ")
-				  (":wip:"        . "")
+				  (":wip:"        . "")
 				  )))
   (prettify-symbols-mode))
 
