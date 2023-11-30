@@ -77,7 +77,7 @@ improvements, I would be very happy to hear about them!
   - [[#tasks][Tasks]]
   - [[#get-things-done-setup]["Get Things Done" Setup]]
   - [[#registers][Registers]]
-  - [[#super-agenda][Super Agenda]]
+  - [[#agenda][Agenda]]
   - [[#pasting-images][Pasting Images]]
   - [[#toc-in-org-files][TOC in Org Files]]
   - [[#babel][Babel]]
@@ -1324,6 +1324,52 @@ is always on.
 (add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
+*** Org Text Faces
+
+Make sure =variable-pitch-mode= is always active in Org buffers.
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+#+end_src
+
+Set the sizes and fonts for the various headings.
+
+#+begin_src emacs-lisp
+;; Resize Org headings
+(dolist (face '((org-level-1 . 1.35)
+                (org-level-2 . 1.3)
+                (org-level-3 . 1.2)
+                (org-level-4 . 1.1)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.1)
+                (org-level-7 . 1.1)
+                (org-level-8 . 1.1)))
+  (set-face-attribute (car face) nil :font "Source Sans Pro" :weight 'bold :height (cdr face)))
+
+;; Make the document title a bit bigger
+(set-face-attribute 'org-document-title nil :font "Source Sans Pro" :weight
+'bold :height 1.8)
+#+END_src
+
+Ensure some parts of the Org-document still uses =fixed-pitch= even when
+=variable-pitch-mode= is on.
+
+#+begin_src emacs-lisp
+(require 'org-indent)
+(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+
+;; Ensure that anything that should be fixed-pitch in Org files appears that way
+(set-face-attribute 'org-block nil            :foreground nil :inherit
+'fixed-pitch :height 0.85)
+(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
+(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
+(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
+fixed-pitch))
+(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
+#+end_src
+
 *** LaTeX Previews
 
 Increase the size of LaTeX previews in Org.
@@ -1512,50 +1558,36 @@ B's Emacs setup]].
 (add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
 #+end_src
 
-*** Org Text Faces
+*** Super Agenda
 
-Make sure =variable-pitch-mode= is always active in Org buffers.
-
-#+begin_src emacs-lisp
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-#+end_src
-
-Set the sizes and fonts for the various headings.
+[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
+navigate.
 
 #+begin_src emacs-lisp
-;; Resize Org headings
-(dolist (face '((org-level-1 . 1.35)
-                (org-level-2 . 1.3)
-                (org-level-3 . 1.2)
-                (org-level-4 . 1.1)
-                (org-level-5 . 1.1)
-                (org-level-6 . 1.1)
-                (org-level-7 . 1.1)
-                (org-level-8 . 1.1)))
-  (set-face-attribute (car face) nil :font "Source Sans Pro" :weight 'bold :height (cdr face)))
-
-;; Make the document title a bit bigger
-(set-face-attribute 'org-document-title nil :font "Source Sans Pro" :weight
-'bold :height 1.8)
-#+END_src
-
-Ensure some parts of the Org-document still uses =fixed-pitch= even when
-=variable-pitch-mode= is on.
-
-#+begin_src emacs-lisp
-(require 'org-indent)
-(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-
-;; Ensure that anything that should be fixed-pitch in Org files appears that way
-(set-face-attribute 'org-block nil            :foreground nil :inherit
-'fixed-pitch :height 0.85)
-(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
-(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
-(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
-(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
-fixed-pitch))
-(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
+(use-package org-super-agenda
+  :after org
+  :config
+  (setq org-super-agenda-header-prefix "❯ ")
+  ;; Hide the thin width char glyph
+  (add-hook 'org-agenda-mode-hook
+            #'(lambda () (setq-local nobreak-char-display nil)))
+  (setq org-super-agenda-groups
+		'((:name "Today"
+				 :time-grid t
+				 :order 1)
+		  (:name "Important"
+				:priority "A"
+				:order 2)
+		  (:name "Inbox"
+				 :tag "@inbox"
+				 :order 3)
+		  (:name "Thesis"
+				 :tag "@thesis"
+				 :order 4)
+		  (:name "Projects"
+				 :tag "@projects"
+				 :order 5)))
+  (org-super-agenda-mode))
 #+end_src
 
 ** Tasks
@@ -1690,36 +1722,19 @@ Instead, I can use it as the leader key combination to jump to a register.
 (define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
 #+end_src
 
-** Super Agenda
+** Agenda
 
-[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
-navigate.
+Don't show me deadlines or scheduled items if they are done.
 
 #+begin_src emacs-lisp
-(use-package org-super-agenda
-  :after org
-  :config
-  (setq org-super-agenda-header-prefix "❯ ")
-  ;; Hide the thin width char glyph
-  (add-hook 'org-agenda-mode-hook
-            #'(lambda () (setq-local nobreak-char-display nil)))
-  (setq org-super-agenda-groups
-		'((:name "Today"
-				 :time-grid t
-				 :order 1)
-		  (:name "Important"
-				:priority "A"
-				:order 2)
-		  (:name "Inbox"
-				 :tag "@inbox"
-				 :order 3)
-		  (:name "Thesis"
-				 :tag "@thesis"
-				 :order 4)
-		  (:name "Projects"
-				 :tag "@projects"
-				 :order 5)))
-  (org-super-agenda-mode))
+(setq org-agenda-skip-deadline-if-done  t
+	  org-agenda-skip-scheduled-if-done t)
+#+end_src
+
+Modify dealine leader text.
+
+#+begin_src emacs-lisp
+(setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
 #+end_src
 
 I also want to open my agenda on the current day, not on any specific weekday.
