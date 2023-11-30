@@ -1569,6 +1569,20 @@ B's Emacs setup]].
 (add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
 #+end_src
 
+*** Right-Align Tags
+
+Code snippet from [[https://www.reddit.com/r/emacs/comments/185e4k1/comment/kb39xvy/?utm_source=share&utm_medium=web2x&context=3][this Reddit post]]. It actually right-aligns tags, using
+font-lock and the display property.
+
+#+begin_src emacs-lisp
+(add-to-list 'font-lock-extra-managed-props 'display)
+(font-lock-add-keywords 'org-mode
+                        `(("^.*?\\( \\)\\(:[[:alnum:]_@#%:]+:\\)$"
+                           (1 `(face nil
+                                     display (space :align-to (- right ,(org-string-width (match-string 2)) 3)))
+                              prepend))) t)
+#+end_src
+
 *** Super Agenda
 
 [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
