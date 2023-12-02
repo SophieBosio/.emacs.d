@@ -1766,7 +1766,10 @@ Open day view with =C-c a d= and extended three-day view with =C-c a e=.
                                                        (:name "Today's Schedule:"
                                                               :time-grid t
                                                               :discard (:deadline t)
-                                                              :order 1))))))
+                                                              :order 1)
+													   (:name "Priority:"
+															  :priority "A"
+															  :order 4))))))
 		("e" "Three-Day View"
                ((agenda "" ((org-agenda-span 3)
                             (org-agenda-entry-types '(:deadline :scheduled))
