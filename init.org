@@ -1600,18 +1600,18 @@ navigate.
 		'((:name "Today"
 				 :time-grid t
 				 :order 1)
-		  (:name "Important"
-				:priority "A"
-				:order 2)
 		  (:name "Inbox"
 				 :tag "@inbox"
-				 :order 3)
+				 :order 2)
 		  (:name "Thesis"
 				 :tag "@thesis"
-				 :order 4)
+				 :order 3)
 		  (:name "Projects"
 				 :tag "@projects"
-				 :order 5)))
+				 :order 4)
+		  (:name "Important"
+				:priority "A"
+				:order 5)))
   (org-super-agenda-mode))
 #+end_src
 
@@ -1757,16 +1757,16 @@ Open day view with =C-c a d= and extended three-day view with =C-c a e=.
                ((agenda "" ((org-agenda-overriding-header "Day View")
                             (org-agenda-span 'day))
 					     	(org-super-agenda-groups '(
+                                                       (:name "Today's Schedule:"
+                                                              :time-grid t
+                                                              :discard (:deadline t)
+                                                              :order 1)
                                                        (:name "Today:"
                                                               :scheduled t
                                                               :order 2)
                                                        (:name "Deadlines:"
                                                               :deadline t
                                                               :order 3)
-                                                       (:name "Today's Schedule:"
-                                                              :time-grid t
-                                                              :discard (:deadline t)
-                                                              :order 1)
 													   (:name "Priority:"
 															  :priority "A"
 															  :order 4))))))
