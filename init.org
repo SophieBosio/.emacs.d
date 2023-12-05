@@ -521,7 +521,7 @@ I really like =doom-themes=, =ef-themes= and =nano-theme=.
 (use-package nano-theme
   :init
   (setq nano-light-background "#fafafa"
-        nano-light-highlight "#f5f7f8"))
+        nano-light-highlight  "#f5f7f8"))
 #+END_SRC
 
 *** Changing Themes on the Fly
@@ -568,15 +568,12 @@ snippet shows only the themes I do use.
 
 #+begin_src emacs-lisp
 (defvar my/visible-themes '("dichromacy"
-							"doom-flatwhite"
 							"doom-nord"
+							"doom-solarized-light"
 							"ef-maris-light"
-							"eink"
-							"modus-operandi"
+							"leuven"
 							"nano-dark"
 							"nano-light"
-							"os1"
-							"doom-solarized-light"
 							"twilight-bright"))
 
 (defun my/valid-themes (orig-fun theme-name)
@@ -971,7 +968,7 @@ that it can do.
   :bind (:map custom-bindings-map
               ("C-x b"   . consult-buffer)
 			  ("C-s"     . consult-line)
-              ("M-s"     . consult-ripgrep)
+			  ("M-s"     . consult-ripgrep)
 			  ("C-c C-g" . consult-goto-line)))
 #+end_src
 
@@ -1895,6 +1892,12 @@ shown in the menu.
 (setq org-roam-node-display-template
 	  (concat "${title:*} "
 			  (propertize "${tags:10}" 'face 'org-tag)))
+#+end_src
+
+Follow links with RET.
+
+#+begin_src emacs-lisp
+(setq org-return-follows-link t)
 #+end_src
 
 ** Hugo
