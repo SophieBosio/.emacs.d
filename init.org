@@ -25,7 +25,7 @@ I've lifted a lot of code from the setups of [[https://github.com/rougier][Nicol
 I'm still relatively new to Emacs, so if you have any suggestions or
 improvements, I would be very happy to hear about them!
 
-* Table of Contents :TOC_2_gh:
+* Table of Contents :toc_gh:
 - [[#about][About]]
 - [[#setup][Setup]]
   - [[#initel-code][=init.el= Code]]
@@ -566,7 +566,7 @@ e.g., Doom themes - that also contain a lot of themes I /don't/ use, and I don't
 want to see those when selecting among available themes. This little code
 snippet shows only the themes I do use.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (defvar my/visible-themes '("dichromacy"
 							"doom-flatwhite"
 							"doom-nord"
@@ -1737,6 +1737,7 @@ up registers for my GTD files.
 (set-register ?1 (cons 'file (concat org-directory "inbox.org")))
 (set-register ?2 (cons 'file (concat org-directory "projects.org")))
 (set-register ?3 (cons 'file (concat org-directory "thesis.org")))
+(set-register ?4 (cons 'file (concat org-directory "roam/20231204101233-landing_page.org")))
 #+end_src
 
 Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
