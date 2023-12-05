@@ -550,7 +550,7 @@ Let's bind it to a key.
 
 When changing themes interactively, as with =M-x load-theme=, the current custom
 theme is not disabled, causing weird issues such as lingering borders. I'll
-advice =load-theme= to always disable the currently enabled themes when switching.
+advice =load-theme= to always disable the currently enabled themes when switching.x
 
 #+begin_src emacs-lisp
 (defadvice load-theme
@@ -2144,6 +2144,9 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
 #+begin_src emacs-lisp
+(use-package clojure-mode
+  :bind (:map clojure-mode-map ("C-c C-c" . cider-jack-in)))
+
 (use-package cider
   :defer t
   :hook ((cider-mode      . paredit-mode)
