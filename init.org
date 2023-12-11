@@ -571,6 +571,7 @@ snippet shows only the themes I do use.
 							"doom-nord"
 							"doom-solarized-light"
 							"ef-maris-light"
+							"espresso"
 							"leuven"
 							"nano-dark"
 							"nano-light"
@@ -1377,6 +1378,12 @@ fixed-pitch))
 
 *** LaTeX Previews
 
+Preview LaTeX fragments by default.
+
+#+begin_src emacs-lisp
+(setq org-startup-with-latex-preview t)
+#+end_src
+
 Increase the size of LaTeX previews in Org.
 
 #+begin_src emacs-lisp
@@ -1389,8 +1396,18 @@ cursor to a preview, it's toggled off so you can edit the LaTeX snippet. When
 you move the cursor away, the preview is turned on again.
 
 #+begin_src emacs-lisp
-(use-package org-fragtog
-  :hook (org-mode-hook . org-fragtog-mode))
+(use-package org-fragtog)
+(add-hook 'org-mode-hook 'org-fragtog-mode)
+#+end_src
+
+*** Center Images
+
+[[https://github.com/karthink/org-image-preview/tree/master][org-image-preview]] is a work-in-progress package to update the display of Org mode image
+and video previews. I'm mainly using it to center my Org mode images.
+
+#+begin_src emacs-lisp :tangle no
+(require 'org-image-preview)
+(setq org-image-preview-center t)
 #+end_src
 
 *** Bullets
