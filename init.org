@@ -1400,16 +1400,6 @@ you move the cursor away, the preview is turned on again.
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 #+end_src
 
-*** Center Images
-
-[[https://github.com/karthink/org-image-preview/tree/master][org-image-preview]] is a work-in-progress package to update the display of Org mode image
-and video previews. I'm mainly using it to center my Org mode images.
-
-#+begin_src emacs-lisp :tangle no
-(require 'org-image-preview)
-(setq org-image-preview-center t)
-#+end_src
-
 *** Bullets
 
 =org-superstar= styles some of my UI elements, such as bullets and special
