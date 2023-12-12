@@ -297,11 +297,9 @@ I want to reduce the number of UI elements that I don't use, so I'll remove thos
       echo-keystrokes              0.1       ;; Show keystrokes fast
       frame-inhibit-implied-resize 1         ;; Don't resize frame implicitly
       sentence-end-double-space    nil       ;; No double spaces
-      recentf-max-saved-items 1000           ;; Show more recent files
+      recentf-max-saved-items      1000      ;; Show more recent files
       save-interprogram-paste-before-kill t  ;; Save copies between programs
 )
-
-(set-fringe-mode 10)  ;; Fringe of 10
 #+END_SRC
 
 There are some default modes I want to disable to clean up the UI further.
@@ -584,7 +582,6 @@ snippet shows only the themes I do use.
 #+end_src
 
 ** Mode Line
-
 *** Nano Modeline
 
 I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has
