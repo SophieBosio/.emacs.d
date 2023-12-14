@@ -568,9 +568,8 @@ snippet shows only the themes I do use.
 (defvar my/visible-themes '("dichromacy"
 							"doom-nord"
 							"doom-solarized-light"
-							"ef-maris-light"
+							"ef-frost"
 							"espresso"
-							"leuven"
 							"nano-dark"
 							"nano-light"
 							"twilight-bright"))
