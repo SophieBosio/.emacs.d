@@ -1150,6 +1150,7 @@ buffer where flyspell is enabled.
                             (local-set-key
                              (kbd "C-c l")
                              (cycle-languages)))))
+  :bind ("C-c f" . flyspell-correct-word-before-point)
   :config
   (ispell-change-dictionary "british" t))
 #+end_src
@@ -1211,15 +1212,19 @@ However, it takes a long time to load, so we'll wait to load it until we try to 
 
 ** LaTeX
 
-I use AUCTeX to work with LaTeX files from within Emacs and it's a massive help.
+I use [[https://www.gnu.org/software/auctex/][AUCTeX]] to work with LaTeX files from within Emacs and it's a massive help.
 It has a lot of different features, and I'd recommend checking out the
 documentation to see all the stuff you can do with it.
+
+I also really like =reftex-mode=, which gives you a table of contents with
+clickable links for your file with the keybinding =C-c ==.
 
 #+begin_src emacs-lisp
 (use-package auctex
   :hook
   (LaTeX-mode . turn-on-prettify-symbols-mode)
-  (LaTeX-mode . turn-on-flyspell))
+  (LaTeX-mode . turn-on-flyspell)
+  (LaTeX-mode . reftex-mode))
 #+end_src
 
 ** Browser Preference
