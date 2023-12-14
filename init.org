@@ -204,7 +204,7 @@ Set UFT-8 as preferred coding system.
 ** Packages
 
 To manage downloaded packages, Emacs comes with =package.el= installed. In
-addition, I want to use =use-package= and the conveniently compatible =quelpa=, so let's make sure we have those loaded.
+addition, I want to use =use-package=, so let's make sure we have those loaded.
 
 #+begin_src emacs-lisp
 (require 'package)
