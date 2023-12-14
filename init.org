@@ -2059,6 +2059,16 @@ it manually!
   (python-mode . eglot-ensure))
 #+end_src
 
+** Flycheck
+
+[[https://github.com/flycheck/flycheck][Flycheck]] is an on-the-fly syntax checker.
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+#+end_src
+
 ** Haskell
 
 For Haskell, I think the regular =haskell-mode= is nice. I'll add =haskell-doc-mode=
