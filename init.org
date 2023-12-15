@@ -1227,6 +1227,14 @@ clickable links for your file with the keybinding =C-c ==.
   (LaTeX-mode . reftex-mode))
 #+end_src
 
+When the =reftex= window opens, I want it on the left side of the screen and I
+want it to take up less than half the screen.
+
+#+begin_src emacs-lisp
+(setq reftex-toc-split-windows-horizontally t
+	  reftex-toc-split-windows-fraction     0.2)
+#+end_src
+
 ** Browser Preference
 
 Open links with Brave by default.
