@@ -1258,7 +1258,18 @@ Opening, switching and deleting windows becomes super easy with [[https://github
 			  ("C-x 0" . 'switch-window-then-delete)))
 #+end_src
 
-** TODO Multiple Cursors
+** Multiple Cursors
+
+Makes life so much easier!
+
+#+begin_src emacs-lisp
+(use-package multiple-cursors
+  :defer t
+  :bind (:map custom-bindings-map
+              ("C-c e" . mc/edit-lines)
+              ("C-c a" . mc/mark-all-like-this)
+              ("C-c n" . mc/mark-next-like-this)))
+#+end_src
 
 * Org
 
