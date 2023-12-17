@@ -581,13 +581,47 @@ snippet shows only the themes I do use.
 #+end_src
 
 ** Mode Line
+*** Custom Mode Line
+
+Customising the default modeline is thankfully pretty easy. Note that I use the
+[[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] package for the VC branch symbol in the code below. I've also
+borrowed some code from [[https://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html][this blog post]] by Amit Patel on writing a custom mode line.
+
+#+begin_src emacs-lisp
+(setq-default mode-line-format
+  '("%e"
+	(:propertize "  λ " face font-lock-comment-face)
+	mode-line-frame-identification
+	mode-line-buffer-identification
+	;; Version control info
+	(:eval (when-let (vc vc-mode)
+					 (list (propertize " " 'face 'font-lock-comment-face)
+						   (propertize (substring vc 5)
+									   'face 'font-lock-comment-face))))
+	;; Add space to align to the right
+	(:eval (propertize
+			 " " 'display
+			 `((space :align-to
+					  (-  (+ right right-fringe right-margin)
+						 ,(+ 5 (string-width "%l:%c")))))))
+	(:propertize "%4l:%3c" face mode-line-position-face)))
+
+
+(setq-default mode-line-format
+  (cons (propertize "\u200b" 'display '((raise -0.25) (height 1.25))) mode-line-format))
+#+end_src
+
 *** Nano Modeline
 
 I really like Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]]. It's minimal, pretty, and has
 some neat built-in features, like the option to put the modeline in the header
-bar instead of at the bottom of the screen. This is what I use 99% of the time.
+bar instead of at the bottom of the screen.
 
-#+begin_src emacs-lisp
+I really like it, but I've noticed that the colour of the mode line doesn't
+always update when changing themes. Therefore, I'm currently using the default
+line, but I'm keeping my Nano config for when the issue gets resolved.
+
+#+begin_src emacs-lisp :tangle no
 (defun my-nano-modeline (&optional default)
     (funcall nano-modeline-position
              `((nano-modeline-buffer-status) " "
@@ -604,22 +638,6 @@ bar instead of at the bottom of the screen. This is what I use 99% of the time.
   :config
   (setq nano-modeline-padding '(0.45 . 0.45))
   (my-nano-modeline 1))
-#+end_src
-
-*** Mini Echo
-
-If I need to save some space, I think that [[https://github.com/liuyinz/mini-echo.el][mini-echo]] is pretty cool and a great
-alternative. It displays the modeline in the echo area, making the screen feel
-nice and spacious.
-
-#+begin_src emacs-lisp :tangle no
-(use-package mini-echo
-  :config
-  (setq mini-echo-default-segments
-  '(:long ("major-mode" "buffer-name" "vcs" "buffer-position")
-    :short ("buffer-position" "macro")))
-  (setq mini-echo-window-divider-args '(t 1 1))
-  (mini-echo-mode))
 #+end_src
 
 ** Dashboard
