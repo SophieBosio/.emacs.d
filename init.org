@@ -585,30 +585,38 @@ snippet shows only the themes I do use.
 
 Customising the default modeline is thankfully pretty easy. Note that I use the
 [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] package for the VC branch symbol in the code below. I've also
-borrowed some code from [[https://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html][this blog post]] by Amit Patel on writing a custom mode line.
+borrowed some code from [[https://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html][this blog post]] by Amit Patel on writing a custom mode
+line.
+
+This mode line is heavily inspired by Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]] and he
+even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comment/kdx3aam/?context=3][how to add vertical padding]] to it.
 
 #+begin_src emacs-lisp
 (setq-default mode-line-format
   '("%e"
-	(:propertize "  λ " face font-lock-comment-face)
+	(:propertize " " display (raise +0.3)) ;; Top padding
+	(:propertize " " display (raise -0.3)) ;; Bottom padding
+
+	(:propertize " λ " face font-lock-comment-face)
 	mode-line-frame-identification
 	mode-line-buffer-identification
+
 	;; Version control info
 	(:eval (when-let (vc vc-mode)
 					 (list (propertize " " 'face 'font-lock-comment-face)
 						   (propertize (substring vc 5)
 									   'face 'font-lock-comment-face))))
+
 	;; Add space to align to the right
 	(:eval (propertize
 			 " " 'display
 			 `((space :align-to
 					  (-  (+ right right-fringe right-margin)
 						 ,(+ 5 (string-width "%l:%c")))))))
+	
+	;; Line and column numbers
+	;; Set aside 4 digits for the line number and 3 digits for the column number
 	(:propertize "%4l:%3c" face mode-line-position-face)))
-
-
-(setq-default mode-line-format
-  (cons (propertize "\u200b" 'display '((raise -0.25) (height 1.25))) mode-line-format))
 #+end_src
 
 *** Nano Modeline
