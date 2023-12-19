@@ -412,7 +412,7 @@ I want a small border around the whole frame, because I think it looks nicer. I
 also want to set the fringe width.
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'default-frame-alist '(internal-border-width . 22))
+(add-to-list 'default-frame-alist '(internal-border-width . 16))
 (set-fringe-mode 10)            ;; Set fringe width to 10
 #+END_SRC
 
