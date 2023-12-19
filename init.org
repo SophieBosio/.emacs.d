@@ -594,10 +594,10 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 #+begin_src emacs-lisp
 (setq-default mode-line-format
   '("%e"
-	(:propertize " " display (raise +0.3)) ;; Top padding
-	(:propertize " " display (raise -0.3)) ;; Bottom padding
+	(:propertize " " display (raise +0.4)) ;; Top padding
+	(:propertize " " display (raise -0.4)) ;; Bottom padding
 
-	(:propertize " λ " face font-lock-comment-face)
+	(:propertize "λ " face font-lock-comment-face)
 	mode-line-frame-identification
 	mode-line-buffer-identification
 
@@ -612,11 +612,10 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 			 " " 'display
 			 `((space :align-to
 					  (-  (+ right right-fringe right-margin)
-						 ,(+ 5 (string-width "%l:%c")))))))
+						 ,(+ 3 (string-width "%l:%c")))))))
 	
 	;; Line and column numbers
-	;; Set aside 4 digits for the line number and 3 digits for the column number
-	(:propertize "%4l:%3c" face mode-line-position-face)))
+	(:propertize "%l:%c" face mode-line-position-face)))
 #+end_src
 
 *** Nano Modeline
