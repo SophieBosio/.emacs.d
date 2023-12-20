@@ -202,6 +202,12 @@ Fix IO bugs.
 (setq read-process-output-max (* 4 1024 1024))
 #+end_src
 
+Prevent Emacs from freezing when updating ELPA.
+
+#+begin_src emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+end_src
+
 Then I want to do some house keeping. First, let's set the Emacs user
 and default directories explicitly:
 
@@ -215,6 +221,19 @@ Set UFT-8 as preferred coding system.
 #+BEGIN_SRC emacs-lisp
 (set-language-environment "UTF-8")
 #+END_SRC
+
+** Mac (OS X) Options
+
+On a Mac, I would want to add some specific settings.
+
+#+begin_src emacs-lisp
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier       'meta
+		mac-option-modifier         nil
+		mac-control-modifier       'control
+		mac-right-command-modifier 'super
+		mac-right-control-modifier 'hyper))
+#+end_src
 
 ** Packages
 
