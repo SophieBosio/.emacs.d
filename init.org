@@ -172,6 +172,7 @@ To avoid doing this each time a change is made we can add a function to the =aft
 I want to make some tweaks to improve startup performance. First, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards.
 
 #+BEGIN_SRC emacs-lisp
+(setq gc-cons-percentage 0.6)
 (setq gc-cons-threshold (* 50 1000 1000))
 
 ;; Set and reset threshold
@@ -181,6 +182,19 @@ I want to make some tweaks to improve startup performance. First, a common tweak
             (lambda () (setq gc-cons-threshold old-gc-treshold))))
 #+END_SRC
 
+Compilation warnings.
+
+#+begin_src emacs-lisp
+(setq native-comp-async-report-warnings-errors 'silent) ;; native-comp warning
+(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+#+end_src
+
+This is an optimisation borrowed from Doom Emacs' =core.el=.
+
+#+begin_src emacs-lisp
+(setq idle-update-delay 1.0)
+#+end_src
+
 Fix IO bugs.
 
 #+begin_src emacs-lisp
@@ -188,7 +202,8 @@ Fix IO bugs.
 (setq read-process-output-max (* 4 1024 1024))
 #+end_src
 
-Set Emacs user directory explicitly:
+Then I want to do some house keeping. First, let's set the Emacs user
+and default directories explicitly:
 
 #+BEGIN_SRC emacs-lisp
 (setq user-emacs-directory "~/.emacs.d/")
