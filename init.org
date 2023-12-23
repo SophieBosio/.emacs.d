@@ -604,14 +604,15 @@ want to see those when selecting among available themes. This little code
 snippet shows only the themes I do use.
 
 #+begin_src emacs-lisp
-(defvar my/visible-themes '("dichromacy"
+(defvar my/visible-themes '(
+							"dichromacy"
+							"doom-flatwhite"
 							"doom-nord"
 							"doom-solarized-light"
 							"ef-frost"
-							"espresso"
 							"nano-dark"
 							"nano-light"
-							"twilight-bright"))
+))
 
 (defun my/valid-themes (orig-fun theme-name)
   (and (funcall orig-fun theme-name)
@@ -2168,8 +2169,7 @@ it manually!
 (use-package eglot
   :defer t
   :hook
-  (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
-  (python-mode . eglot-ensure))
+  (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1))))
 #+end_src
 
 ** Flycheck
