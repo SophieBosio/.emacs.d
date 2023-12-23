@@ -879,6 +879,19 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
 #+end_src
 
+*** Workspace Management
+
+[[https://github.com/alphapapa/burly.el][Burly]] uses Emacs bookmarks to act as a lightweight workspace manager.
+
+#+begin_src emacs-lisp
+(use-package burly
+  :bind (:map custom-bindings-map
+			  ("C-c b b" . 'burly-open-bookmark)
+			  ("C-c b l" . 'burly-last-open-bookmark)
+			  ("C-c b s" . 'burly-bookmark-frames) ; Bookmark all frames + configs
+			  ("C-c b c" . 'burly-bookmark-windows))) ; Bookmark current frame + configs
+#+end_src
+
 ** Terminal Emulator
 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
