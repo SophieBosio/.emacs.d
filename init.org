@@ -309,113 +309,6 @@ that is *not* yet in my Nix config.
 
 - Roboto Mono with ligatures
 
-* Sane Defaults
-
-I have some defaults that I like to have in my config. Please note that this is
-behaviour that /I/ consider sane, and want in my configuration. You should
-definitely modify these to your tastes!
-
-** Decluttering
-
-I want to reduce the number of UI elements that I don't use.
-
-#+begin_src emacs-lisp
-(setq inhibit-startup-message      t         ;; No startup message
-      initial-scratch-message      nil       ;; Empty scratch buffer
-      ring-bell-function          'ignore    ;; No bell
-      display-time-default-load-average nil  ;; Don't show me load time
-	  scroll-margin                0         ;; Space between top/bottom
-      use-dialog-box               nil)      ;; Disable dialog
-#+end_src
-
-There are some default modes I want to disable to clean up the UI further.
-
-#+begin_src emacs-lisp
-(dolist (mode
-    '(tool-bar-mode        ;; Remove toolbar
-      scroll-bar-mode      ;; Remove scollbars
-      menu-bar-mode        ;; Remove menu bar
-      blink-cursor-mode))  ;; Solid cursor, not blinking
-    (funcall mode 0))
-#+end_src
-
-** Default Behaviours
-
-#+BEGIN_SRC emacs-lisp
-(setq auto-revert-interval         1         ;; Refresh buffers fast
-      echo-keystrokes              0.1       ;; Show keystrokes fast
-      frame-inhibit-implied-resize 1         ;; Don't resize frame implicitly
-      sentence-end-double-space    nil       ;; No double spaces
-      recentf-max-saved-items      1000      ;; Show more recent files
-	  use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
-      save-interprogram-paste-before-kill t) ;; Save copies between programs
-#+END_SRC
-
-Some variables are buffer-local, so to change them globally, we need to use =setq-default= instead of the normal =setq=.
-
-#+BEGIN_SRC emacs-lisp
-(setq-default tab-width 4                       ;; Smaller tabs
-              fill-column 80                    ;; Maximum line width
-              split-width-threshold 160         ;; Split vertically by default
-              split-height-threshold nil        ;; Split vertically by default
-              frame-resize-pixelwise t          ;; Fine-grained frame resize
-              auto-fill-function 'do-auto-fill) ;; Auto-fill-mode everywhere
-#+END_SRC
-
-Don't trap me in the minubuffer. You know that thing, the one where Emacs tells you
-"attempted command inside minibuffer".
-
-#+begin_src emacs-lisp
-(setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
-(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-#+end_src
-
-** Auto-Saved Directory
-
-To avoid clutter, let's put all the auto-saved files into one and the same directory.
-
-#+BEGIN_SRC emacs-lisp
-(defvar emacs-autosave-directory
-  (concat user-emacs-directory "autosaves/")
-  "This variable dictates where to put auto saves. It is set to a
-  directory called autosaves located wherever your .emacs.d/ is
-  located.")
-
-;; Sets all files to be backed up and auto saved in a single directory.
-(setq backup-directory-alist
-      `((".*" . ,emacs-autosave-directory))
-      auto-save-file-name-transforms
-      `((".*" ,emacs-autosave-directory t)))
-#+END_SRC
-
-** Editor Config
-
-I want to use the [[https://github.com/editorconfig/editorconfig-emacs][EditorConfig]] plugin, which helps maintain consistent coding
-styles across editors when collaborating.
-
-#+begin_src emacs-lisp
-(use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1))
-#+end_src
-
-** Smoother Scrolling
-
-And finally, I want scrolling to be a *lot* slower than it is by default.
-
-#+begin_src emacs-lisp
-(setq scroll-conservatively 101)
-(setq
- mouse-wheel-follow-mouse 't
- mouse-wheel-progressive-speed nil
- ;; Scroll 2 lines at a time, instead of default 5
- ;; Hold shift to scroll x2 and control to scroll x3 as fast
- mouse-wheel-scroll-amount '(1 ((shift) . 3) ((control) . 6)))
-(setq mac-redisplay-dont-reset-vscroll t
-      mac-mouse-wheel-smooth-scroll nil)
-#+end_src
-
 * Custom Keybindings
 
 I keep a custom keybinding map that I add to per package, and then activate at
@@ -434,6 +327,26 @@ throughout the config, and then activate it at the end of the config file, at
 * Visuals
 
 Note that Org-specific visuals are in the dedicated Org section :~)
+
+** Decluttering
+
+Let's declutter a little.
+
+#+begin_src emacs-lisp
+(setq inhibit-startup-message      t         ;; No startup message
+      initial-scratch-message      nil       ;; Empty scratch buffer
+      ring-bell-function          'ignore    ;; No bell
+      display-time-default-load-average nil  ;; Don't show me load time
+	  scroll-margin                0         ;; Space between top/bottom
+      use-dialog-box               nil)      ;; Disable dialog
+
+(dolist (mode
+    '(tool-bar-mode        ;; Remove toolbar
+      scroll-bar-mode      ;; Remove scollbars
+      menu-bar-mode        ;; Remove menu bar
+      blink-cursor-mode))  ;; Solid cursor, not blinking
+    (funcall mode 0))
+#+end_src
 
 ** Open in Fullscreen
 
@@ -732,6 +645,33 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 * Interaction
 ** Tweaking Default Behaviour
 
+*** With =setq=
+
+#+BEGIN_SRC emacs-lisp
+(setq auto-revert-interval         1         ;; Refresh buffers fast
+      echo-keystrokes              0.1       ;; Show keystrokes fast
+      frame-inhibit-implied-resize 1         ;; Don't resize frame implicitly
+      sentence-end-double-space    nil       ;; No double spaces
+      recentf-max-saved-items      1000      ;; Show more recent files
+	  use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
+      save-interprogram-paste-before-kill t  ;; Save copies between programs
+	  history-length 25                      ;; Only save the last 25 minibuffer prompts
+	  global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
+#+END_SRC
+
+*** With =setq-default=
+
+#+BEGIN_SRC emacs-lisp
+(setq-default tab-width 4                       ;; Smaller tabs
+              fill-column 80                    ;; Maximum line width
+              split-width-threshold 160         ;; Split vertically by default
+              split-height-threshold nil        ;; Split vertically by default
+              frame-resize-pixelwise t          ;; Fine-grained frame resize
+              auto-fill-function 'do-auto-fill) ;; Auto-fill-mode everywhere
+#+END_SRC
+
+*** With modes
+
 #+BEGIN_SRC emacs-lisp
 (dolist (mode
     '(column-number-mode        ;; Show current column number in mode line
@@ -745,29 +685,36 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
       save-place-mode           ;; Remember last cursor location in file
       show-paren-mode))         ;; Highlight matching parentheses
     (funcall mode 1))
-
-(setq history-length 25)        ;; Only save the last 25 minibuffer prompts
-(setq global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
 
-** Auto-Saving
+*** Smoother Scrolling
 
-I prefer having my files save automatically. Any changes I don't want, I just
-don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all
-buffers, not just the ones I have open.
+I want scrolling to be a *lot* slower than it is by default.
 
-But since saving this file - the =init.org=-file - triggers recompilation of
-=init.el=, it's really annoying if this file is autosaved when I write to it.
-Therefore, I'll disable automatic saving for this file in particular.
+#+begin_src emacs-lisp
+(setq scroll-conservatively 101)
+(setq
+ mouse-wheel-follow-mouse 't
+ mouse-wheel-progressive-speed nil
+ ;; Scroll 2 lines at a time, instead of default 5
+ ;; Hold shift to scroll x2 and control to scroll x3 as fast
+ mouse-wheel-scroll-amount '(1 ((shift) . 3) ((control) . 6)))
+(setq mac-redisplay-dont-reset-vscroll t
+      mac-mouse-wheel-smooth-scroll nil)
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
-(use-package auto-save-buffers-enhanced
-  :config
-  (auto-save-buffers-enhanced t)
-  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
-#+END_SRC
+*** Don't Trap Me in the Minibuffer
 
-** Tabs & Indentation
+And finally, don't trap me in the minibuffer! I don't want to get "attempted
+command inside minibuffer."
+
+#+begin_src emacs-lisp
+(setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+#+end_src
+
+** Text Editing Preferences
+*** Tabs & Indentation
 
 One of the things that drove me the most insane when I first downloaded Emacs,
 was the way it deals with indentation.
@@ -807,7 +754,7 @@ And finally, make backspace remove the whole tab instead of just deleting one sp
 (setq backward-delete-char-untabify-method 'hungry)
 #+end_src
 
-** Deleting Instead of Killing
+*** Deleting Instead of Killing
 
 Another thing that bothered me, was how the =backward-kill-word= command
 (C-delete/backspace) would delete not only trailing backspaces, but everything
@@ -854,7 +801,44 @@ Speaking of killing text, it's nice to be able to browse the kill ring.
   :ensure t)
 #+end_src
 
-** Killing Buffers
+*** Selecting Regions
+
+[[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
+symbol, word, sentence, paragraph). It's super handy!
+
+#+begin_src emacs-lisp
+(use-package expand-region
+  :bind (:map custom-bindings-map ("C-<dead-diaeresis>" . er/expand-region)
+			                      ("C-å" . er/contract-region)))
+#+end_src
+
+*** Multiple Cursors
+
+Makes life so much easier!
+
+#+begin_src emacs-lisp
+(use-package multiple-cursors
+  :defer t
+  :bind (:map custom-bindings-map
+              ("C-c e" . mc/edit-lines)
+              ("C-c a" . mc/mark-all-like-this)
+              ("C-c n" . mc/mark-next-like-this)))
+#+end_src
+
+*** Undo/Redo
+
+The default "undo until you can redo" behaviour of Emacs still trips me up.
+[[https://github.com/emacsmirror/undo-fu][undo-fu]] lets me specify keys to "only undo" or "only redo".
+
+#+begin_src emacs-lisp
+(use-package undo-fu
+  :bind (:map custom-bindings-map
+			  ("C-_"   . undo-fu-only-undo)
+			  ("C-M-y" . undo-fu-only-redo)))
+#+end_src
+
+** Managing Buffers & Projects
+*** Killing Buffers
 
 Sometimes, I'm putting some work away and I don't want those files to show up in
 the buffer list. Killing a buffer with =C-x k= or marking several buffers in the
@@ -886,37 +870,17 @@ When called without a prefix argument, kill just the current buffer
 (define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
 #+end_src
 
-** Selecting Regions
-
-[[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
-symbol, word, sentence, paragraph). It's super handy!
-
-#+begin_src emacs-lisp
-(use-package expand-region
-  :bind (:map custom-bindings-map ("C-<dead-diaeresis>" . er/expand-region)
-			                      ("C-å" . er/contract-region)))
-#+end_src
-
-** Undo/Redo
-
-The default "undo until you can redo" behaviour of Emacs still trips me up.
-[[https://github.com/emacsmirror/undo-fu][undo-fu]] lets me specify keys to "only undo" or "only redo".
+*** Project Management
+ 
+[[https://projectile.mx/][Projectile]] provides a convenient project interaction interface. I keep most of
+my projects in a specific folder, so I'll set Projectile to check that path specifically.
 
 #+begin_src emacs-lisp
-(use-package undo-fu
-  :bind (:map custom-bindings-map
-			  ("C-_"   . undo-fu-only-undo)
-			  ("C-M-y" . undo-fu-only-redo)))
+(use-package projectile
+  :bind (:map custom-bindings-map ("C-c p" . projectile-command-map))
+  :config
+  (setq projectile-project-search-path '("~/Dropbox/projects/")))
 #+end_src
-
-** Ripgrep
-
-I want to use =ripgrep= as =grep=.
-
-#+BEGIN_SRC emacs-lisp
-(setq grep-command "rg -nS --no-heading "
-      grep-use-null-device nil)
-#+END_SRC
 
 ** Terminal Emulator
 
@@ -978,9 +942,9 @@ in just vterm, please do let me know :~)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
 #+end_src
 
-** Completion Suite
+** Completion & Search
 
-For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other extensions that play well together:
+For completions and search, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other packages that play well together:
 
 - [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
 - [[https://github.com/minad/consult][consult]]
@@ -988,10 +952,11 @@ For completions, I use [[https://github.com/minad/vertico][Vertico]] and a suite
 - [[https://github.com/minad/corfu][corfu]]
 - [[https://github.com/minad/cape][cape]]
 - [[https://github.com/oantolin/orderless][orderless]]
+- [[https://github.com/BurntSushi/ripgrep][ripgrep]]
 
 *** Vertico
 
-The heart of the completion UI!
+[[https://github.com/minad/vertico][Vertico]] is heart of this completion UI!
 
 #+begin_src emacs-lisp
 (use-package vertico
@@ -1007,7 +972,7 @@ The heart of the completion UI!
 
 *** Vertico Posframe
 
-=vertico-posframe= makes Vertico appear in a small child frame, instead of as a
+[[https://github.com/tumashu/vertico-posframe][vertico-posframe]] makes Vertico appear in a small child frame, instead of as a
 traditional minibuffer. I like to have mine in the middle of the frame.
 
 #+begin_src emacs-lisp
@@ -1047,7 +1012,7 @@ normal minibuffer.
 
 *** Consult
 
-Consult provides a /ton/ of search, navigation, and completion functionality. I
+[[https://github.com/minad/consult][Consult]] provides a /ton/ of search, navigation, and completion functionality. I
 would definitely recommend looking at the documentation to learn more about all
 that it can do.
 
@@ -1062,7 +1027,7 @@ that it can do.
 
 *** Marginalia
 
-=Marginalia= gives me annotations in the minibuffer.
+[[https://github.com/minad/marginalia][Marginalia]] gives me annotations in the minibuffer.
 
 #+begin_src emacs-lisp
 (use-package marginalia
@@ -1072,7 +1037,7 @@ that it can do.
 
 *** Corfu & Cape
 
-=corfu= gives me text completion at point.
+[[https://github.com/minad/corfu][corfu]] gives me text completion at point.
 
 #+begin_src emacs-lisp
 (use-package corfu
@@ -1160,6 +1125,69 @@ regexes, in any order. Let's use it together with Corfu.
         orderless-component-separator "[ |]"))
 #+end_src
 
+*** Ripgrep
+
+I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
+
+#+BEGIN_SRC emacs-lisp
+(setq grep-command "rg -nS --no-heading "
+      grep-use-null-device nil)
+#+END_SRC
+
+** Version Control
+
+[[https://github.com/magit/magit][Magit]] is a Git client specifically for Emacs, and it's super powerful.
+
+Let's first make sure we're highlighting uncommitted changes.
+
+#+begin_src emacs-lisp
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode))
+#+end_src
+
+Then configure Magit.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :config
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+#+end_src
+
+** Auto-Saving
+
+To avoid clutter, let's put all the auto-saved files into one and the same directory.
+
+#+BEGIN_SRC emacs-lisp
+(defvar emacs-autosave-directory
+  (concat user-emacs-directory "autosaves/")
+  "This variable dictates where to put auto saves. It is set to a
+  directory called autosaves located wherever your .emacs.d/ is
+  located.")
+
+;; Sets all files to be backed up and auto saved in a single directory.
+(setq backup-directory-alist
+      `((".*" . ,emacs-autosave-directory))
+      auto-save-file-name-transforms
+      `((".*" ,emacs-autosave-directory t)))
+#+END_SRC
+
+I prefer having my files save automatically. Any changes I don't want, I just
+don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all
+buffers, not just the ones I have open.
+
+But since saving this file - the =init.org=-file - triggers recompilation of
+=init.el=, it's really annoying if this file is autosaved when I write to it.
+Therefore, I'll disable automatic saving for this file in particular.
+
+#+BEGIN_SRC emacs-lisp
+(use-package auto-save-buffers-enhanced
+  :config
+  (auto-save-buffers-enhanced t)
+  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
+#+END_SRC
+
 ** Snippets
 
 [[https://github.com/joaotavora/yasnippet][YASnippet]] is a template system for Emacs that allows you to predefine snippets
@@ -1246,39 +1274,6 @@ buffer where flyspell is enabled.
   (ispell-change-dictionary "british" t))
 #+end_src
 
-** Version Control
-
-[[https://github.com/magit/magit][Magit]] is a Git client specifically for Emacs, and it's super powerful.
-
-Let's first make sure we're highlighting uncommitted changes.
-
-#+begin_src emacs-lisp
-(use-package diff-hl
-  :config
-  (global-diff-hl-mode))
-#+end_src
-
-Then configure Magit.
-
-#+begin_src emacs-lisp
-(use-package magit
-  :config
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
-#+end_src
-
-** Project Management
- 
-[[https://projectile.mx/][Projectile]] provides a convenient project interaction interface. I keep most of
-my projects in a specific folder, so I'll set Projectile to check that path specifically.
-
-#+begin_src emacs-lisp
-(use-package projectile
-  :bind (:map custom-bindings-map ("C-c p" . projectile-command-map))
-  :config
-  (setq projectile-project-search-path '("~/Dropbox/projects/")))
-#+end_src
-
 ** Viewing PDFs
 
 This displays PDFs in a much more beautiful way.
@@ -1326,6 +1321,18 @@ want it to take up less than half the screen.
 	  reftex-toc-split-windows-fraction     0.2)
 #+end_src
 
+** Editor Config
+
+I want to use the [[https://github.com/editorconfig/editorconfig-emacs][EditorConfig]] plugin, which helps maintain consistent coding
+styles across editors when collaborating.
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+#+end_src
+
 ** Browser Preference
 
 Open links with Brave by default.
@@ -1347,19 +1354,6 @@ Opening, switching and deleting windows becomes super easy with [[https://github
 			  ("C-x 2" . 'switch-window-then-split-below)
 			  ("C-x 3" . 'switch-window-then-split-right)
 			  ("C-x 0" . 'switch-window-then-delete)))
-#+end_src
-
-** Multiple Cursors
-
-Makes life so much easier!
-
-#+begin_src emacs-lisp
-(use-package multiple-cursors
-  :defer t
-  :bind (:map custom-bindings-map
-              ("C-c e" . mc/edit-lines)
-              ("C-c a" . mc/mark-all-like-this)
-              ("C-c n" . mc/mark-next-like-this)))
 #+end_src
 
 * Org
