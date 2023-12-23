@@ -714,6 +714,7 @@ command inside minibuffer."
 #+end_src
 
 ** Text Editing Preferences
+
 *** Tabs & Indentation
 
 One of the things that drove me the most insane when I first downloaded Emacs,
@@ -1838,27 +1839,15 @@ keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
 (define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
 #+end_src
 
-** Registers
-
-[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Registers.html][Registers]] are easier to access than bookmarks and much more flexible. I'll set
-up registers for my GTD files.
-
-#+begin_src emacs-lisp
-(set-register ?1 (cons 'file (concat org-directory "inbox.org")))
-(set-register ?2 (cons 'file (concat org-directory "projects.org")))
-(set-register ?3 (cons 'file (concat org-directory "thesis.org")))
-(set-register ?4 (cons 'file (concat org-directory "roam/20231204101233-landing_page.org")))
-#+end_src
-
-Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
-file, I don't really need =C-r= to be bound to the default =isearch-backward=.
-Instead, I can use it as the leader key combination to jump to a register.
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
-#+end_src
-
 ** Agenda
+
+I want to open my agenda on the current day, not on any specific weekday.
+
+#+begin_src emacs-lisp
+(setq org-agenda-start-on-weekday nil)
+#+end_src
+
+*** Day Views
 
 Open day view with =C-c a d= and extended three-day view with =C-c a e=.
 
@@ -1888,6 +1877,8 @@ Open day view with =C-c a d= and extended three-day view with =C-c a e=.
                             (org-deadline-warning-days 0)))))))
 #+end_src
 
+*** Displaying Scheduled & Deadline Items
+
 Don't show me deadlines or scheduled items if they are done.
 
 #+begin_src emacs-lisp
@@ -1901,43 +1892,24 @@ Modify dealine leader text.
 (setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
 #+end_src
 
-I also want to open my agenda on the current day, not on any specific weekday.
+** Registers
+
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Registers.html][Registers]] are easier to access than bookmarks and much more flexible. I'll set
+up registers for my GTD files.
 
 #+begin_src emacs-lisp
-(setq org-agenda-start-on-weekday nil)
+(set-register ?1 (cons 'file (concat org-directory "inbox.org")))
+(set-register ?2 (cons 'file (concat org-directory "projects.org")))
+(set-register ?3 (cons 'file (concat org-directory "thesis.org")))
+(set-register ?4 (cons 'file (concat org-directory "roam/20231204101233-landing_page.org")))
 #+end_src
 
-** Pasting Images
-
-[[https://github.com/abo-abo/org-download][org-download]] lets me easily put copied screenshots into my org-documents.
+Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
+file, I don't really need =C-r= to be bound to the default =isearch-backward=.
+Instead, I can use it as the leader key combination to jump to a register.
 
 #+begin_src emacs-lisp
-(use-package org-download
-  :after org
-  :bind
-  (:map org-mode-map
-        (("s-t" . org-download-screenshot)
-         ("s-y" . org-download-clipboard))))
-#+end_src
-
-Show inline images by default
-
-#+begin_src haskell
-(setq org-startup-with-inline-images t)
-#+end_src
-
-** TOC in Org Files
-
-[[https://github.com/snosov1/toc-org][toc-org]] creates nice, Markdown compatible tables of content for your Org files.
-Perfect for GitHub READMEs.
-
-#+begin_src emacs-lisp
-(use-package toc-org
-  :config
-  (add-hook 'org-mode-hook 'toc-org-mode)
-
-  ;; enable in markdown, too
-  (add-hook 'markdown-mode-hook 'toc-org-mode))
+(define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
 #+end_src
 
 ** Babel
@@ -2107,6 +2079,39 @@ location.
 CDN: =#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js=
 Local copy: =#+REVEAL_ROOT: file:///d:/reveal.js=
 
+** Pasting Images
+
+[[https://github.com/abo-abo/org-download][org-download]] lets me easily put copied screenshots into my org-documents.
+
+#+begin_src emacs-lisp
+(use-package org-download
+  :after org
+  :bind
+  (:map org-mode-map
+        (("s-t" . org-download-screenshot)
+         ("s-y" . org-download-clipboard))))
+#+end_src
+
+Show inline images by default
+
+#+begin_src haskell
+(setq org-startup-with-inline-images t)
+#+end_src
+
+** TOC in Org Files
+
+[[https://github.com/snosov1/toc-org][toc-org]] creates nice, Markdown compatible tables of content for your Org files.
+Perfect for GitHub READMEs.
+
+#+begin_src emacs-lisp
+(use-package toc-org
+  :config
+  (add-hook 'org-mode-hook 'toc-org-mode)
+
+  ;; enable in markdown, too
+  (add-hook 'markdown-mode-hook 'toc-org-mode))
+#+end_src
+
 * Programming
 ** Preferences & Extras
 *** Custom File Endings
@@ -2189,7 +2194,7 @@ Emacs with the results.
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode
   :defer t
-  :hook ((haskell-mode . haskell-doc-mode))
+  :hook (haskell-mode . haskell-doc-mode)
   :config
   (setq haskell-hoogle-command                  "hoogle"
 		haskell-compile-stack-build-command     "stack build"
