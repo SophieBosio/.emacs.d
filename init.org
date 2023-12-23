@@ -474,28 +474,34 @@ I really like =doom-themes=, =ef-themes= and =nano-theme=.
         nano-light-highlight  "#f5f7f8"))
 #+END_SRC
 
+*** Setting Favourite Themes
+
+To change themes quickly, I keep a list of my favourite themes.
+
+#+begin_src emacs-lisp
+(defvar my/favourite-themes '(
+							"doom-flatwhite"
+							"doom-nord"
+							"doom-solarized-light"
+							"ef-frost"
+							"nano-dark"
+							"nano-light"
+))
+#+end_src
+
 *** Changing Themes on the Fly
 
 This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]].
 
 #+begin_src emacs-lisp
-(defvar favourite-themes '(doom-nord nano-light))
-
 (defun cycle-themes ()
-  "Returns a function that lets you cycle your themes."
-  (let ((themes favourite-themes))
-    (lambda ()
-      (interactive)
-      ;; Rotates the thme cycle and changes the current theme.
-      (let ((rotated (nconc (cdr themes) (list (car themes)))))
-        (load-theme (car (setq themes rotated)) t))
-      (message (concat "Switched to " (symbol-name (car themes)))))))
-#+end_src
-
-Let's bind it to a key.
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-c b") (cycle-themes))
+  "Cycle quickly between your favourite themes."
+  (interactive)
+  (let ((themes my/favourite-themes))
+	;; Rotates the thme cycle and changes the current theme.
+	(let ((rotated (nconc (cdr themes) (list (car themes)))))
+	  (load-theme (car (setq themes rotated)) t))
+	(message (concat "Switched to " (symbol-name (car themes))))))
 #+end_src
 
 When changing themes interactively, as with =M-x load-theme=, the current custom
@@ -517,19 +523,9 @@ want to see those when selecting among available themes. This little code
 snippet shows only the themes I do use.
 
 #+begin_src emacs-lisp
-(defvar my/visible-themes '(
-							"dichromacy"
-							"doom-flatwhite"
-							"doom-nord"
-							"doom-solarized-light"
-							"ef-frost"
-							"nano-dark"
-							"nano-light"
-))
-
 (defun my/valid-themes (orig-fun theme-name)
   (and (funcall orig-fun theme-name)
-       (member (symbol-name theme-name) my/visible-themes)))
+       (member (symbol-name theme-name) my/favourite-themes)))
 (advice-add 'custom-theme-name-valid-p :around #'my/valid-themes)
 #+end_src
 
@@ -1436,7 +1432,7 @@ is always on.
 (add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
-*** Org Text Faces
+*** Fonts
 
 Make sure =variable-pitch-mode= is always active in Org buffers.
 
