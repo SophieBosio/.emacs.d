@@ -1469,23 +1469,15 @@ Set the sizes and fonts for the various headings.
 'bold :height 1.8)
 #+END_src
 
-Ensure some parts of the Org-document still uses =fixed-pitch= even when
-=variable-pitch-mode= is on.
+[[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] allows you to mix fixed and variable pitched faces in Org mode.
 
 #+begin_src emacs-lisp
-(require 'org-indent)
-(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-
-;; Ensure that anything that should be fixed-pitch in Org files appears that way
-(set-face-attribute 'org-block nil            :foreground nil :inherit
-'fixed-pitch :height 0.85)
-(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 0.85)
-(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 0.85)
-(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 0.85)
-(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
-fixed-pitch))
-(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
+(use-package mixed-pitch
+  :defer t
+  :hook (org-mode . mixed-pitch-mode)
+  :config
+  (setq mixed-pitch-set-height t)
+  (set-face-attribute 'variable-pitch nil :height 1.075))
 #+end_src
 
 *** LaTeX Previews
