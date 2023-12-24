@@ -491,8 +491,6 @@ To change themes quickly, I keep a list of my favourite themes.
 
 *** Changing Themes on the Fly
 
-This theme cycling function is borrowed from Lars' [[https://github.com/larstvei/dot-emacs#theme][configuration]].
-
 #+begin_src emacs-lisp
 (defun cycle-themes ()
   "Cycle quickly between your favourite themes."
@@ -506,12 +504,11 @@ This theme cycling function is borrowed from Lars' [[https://github.com/larstvei
 
 When changing themes interactively, as with =M-x load-theme=, the current custom
 theme is not disabled, causing weird issues such as lingering borders. I'll
-advice =load-theme= to always disable the currently enabled themes when switching.x
+advice =load-theme= to always disable the currently enabled themes when switching.
 
 #+begin_src emacs-lisp
 (defadvice load-theme
   (before disable-before-load (theme &optional no-confirm no-enable) activate)
-  (disable-theme 'nano-theme)
   (mapc 'disable-theme custom-enabled-themes))
 #+end_src
 
