@@ -1,8 +1,10 @@
 
 #+TITLE: Sophie's Emacs Configuration
 #+AUTHOR: Sophie Bosio
+:PROPERTIES:
 #+PROPERTY: header-args :tangle yes
 #+OPTIONS: toc:2
+:END:
 
 [[./images/config-screenshot.png]]
 
@@ -341,10 +343,10 @@ Let's declutter a little.
       use-dialog-box               nil)      ;; Disable dialog
 
 (dolist (mode
-    '(tool-bar-mode        ;; Remove toolbar
-      scroll-bar-mode      ;; Remove scollbars
-      menu-bar-mode        ;; Remove menu bar
-      blink-cursor-mode))  ;; Solid cursor, not blinking
+    '(tool-bar-mode                          ;; Remove toolbar
+      scroll-bar-mode                        ;; Remove scollbars
+      menu-bar-mode                          ;; Remove menu bar
+      blink-cursor-mode))                    ;; Solid cursor, not blinking
     (funcall mode 0))
 #+end_src
 
@@ -486,6 +488,7 @@ To change themes quickly, I keep a list of my favourite themes.
 							"ef-frost"
 							"nano-dark"
 							"nano-light"
+							"timu-rouge"
 ))
 #+end_src
 
@@ -519,7 +522,7 @@ e.g., Doom themes - that also contain a lot of themes I /don't/ use, and I don't
 want to see those when selecting among available themes. This little code
 snippet shows only the themes I do use.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defun my/valid-themes (orig-fun theme-name)
   (and (funcall orig-fun theme-name)
        (member (symbol-name theme-name) my/favourite-themes)))
@@ -558,10 +561,10 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 			 " " 'display
 			 `((space :align-to
 					  (-  (+ right right-fringe right-margin)
-						 ,(+ 3 (string-width "%l:%c")))))))
+						 ,(+ 2 (string-width "%4l:3%c")))))))
 	
 	;; Line and column numbers
-	(:propertize "%l:%c" face mode-line-position-face)))
+	(:propertize "%4l:%c" face mode-line-position-face)))
 #+end_src
 
 *** Nano Modeline
@@ -1374,6 +1377,7 @@ Let's first make sure we're using Org.
 #+END_SRC
 
 ** Visuals
+
 *** Folded Startup
 
 When opening an Org file, all headers are folded by default.
@@ -1725,6 +1729,7 @@ navigate.
 #+end_src
 
 ** Tasks
+
 *** Task Priorities
 
 Let's increase the number of possible priorities for Org tasks. I'll set
