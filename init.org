@@ -1200,6 +1200,17 @@ Therefore, I'll disable automatic saving for this file in particular.
   (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
 #+END_SRC
 
+** Trying Packages
+
+Lars Tveito's [[https://github.com/larstvei/Try][Try]] package lets you try out packages and only save them
+temporarily, saving you the hassle of cleaning up afterwards if you decide you
+don't want to keep using the package. You can even =try= packages from =.el= files
+from URLs directly.
+
+#+begin_src emacs-lisp
+(use-package try)
+#+end_src
+
 ** Snippets
 
 [[https://github.com/joaotavora/yasnippet][YASnippet]] is a template system for Emacs that allows you to predefine snippets
