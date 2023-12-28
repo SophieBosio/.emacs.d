@@ -224,19 +224,6 @@ Set UFT-8 as preferred coding system.
 (set-language-environment "UTF-8")
 #+END_SRC
 
-** Mac (OS X) Options
-
-On a Mac, I would want to add some specific settings.
-
-#+begin_src emacs-lisp
-(when (eq system-type 'darwin)
-  (setq mac-command-modifier       'meta
-		mac-option-modifier         nil
-		mac-control-modifier       'control
-		mac-right-command-modifier 'super
-		mac-right-control-modifier 'hyper))
-#+end_src
-
 ** Packages
 
 To manage downloaded packages, Emacs comes with =package.el= installed. In
@@ -313,6 +300,8 @@ that is *not* yet in my Nix config.
 
 * Custom Keybindings
 
+** Custom Keymap
+
 I keep a custom keybinding map that I add to per package, and then activate at
 the end of the configuration. This keeps my custom bindings from being
 overwritten by extensions' own bindings.
@@ -324,6 +313,19 @@ throughout the config, and then activate it at the end of the config file, at
 #+begin_src emacs-lisp
 (defvar custom-bindings-map (make-keymap)
   "A keymap for custom keybindings.")
+#+end_src
+
+** Mac (OS X) Options
+
+On a Mac, I would want to add some specific settings.
+
+#+begin_src emacs-lisp
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier       'meta
+		mac-option-modifier        'super
+		mac-control-modifier       'control
+		;; mac-right-command-modifier 'super
+		mac-right-control-modifier 'hyper))
 #+end_src
 
 * Visuals
