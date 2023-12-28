@@ -254,10 +254,12 @@ Next, I'll set up my package sources. These are very common and well-maintained 
 (package-initialize)
 #+END_SRC
 
-I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-extensions".
+#+RESULTS:
+
+I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-lisp".
 
 #+BEGIN_SRC emacs-lisp
-(defvar local-extensions "~/.emacs.d/local-extensions/")
+(defvar local-extensions "~/.emacs.d/local-lisp/")
 (add-to-list 'load-path  local-extensions)
 (let ((default-directory local-extensions))
   (normal-top-level-add-subdirs-to-load-path))
