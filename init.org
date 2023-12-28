@@ -259,9 +259,9 @@ Next, I'll set up my package sources. These are very common and well-maintained 
 I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-lisp".
 
 #+BEGIN_SRC emacs-lisp
-(defvar local-extensions "~/.emacs.d/local-lisp/")
-(add-to-list 'load-path  local-extensions)
-(let ((default-directory local-extensions))
+(defvar local-lisp "~/.emacs.d/local-lisp/")
+(add-to-list 'load-path  local-lisp)
+(let ((default-directory local-lisp))
   (normal-top-level-add-subdirs-to-load-path))
 #+END_SRC
 
@@ -301,7 +301,6 @@ that is *not* yet in my Nix config.
 - Roboto Mono with ligatures
 
 * Custom Keybindings
-
 ** Custom Keymap
 
 I keep a custom keybinding map that I add to per package, and then activate at
@@ -430,8 +429,6 @@ fonts that already have ligatures. Mine does, and seems to work just fine out
 of the box with the ligatures defined on the package's page,
 
 #+begin_src emacs-lisp
-(require 'ligature)
-
 (defvar ligature-def '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
                        ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
                        "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
@@ -446,8 +443,10 @@ of the box with the ligatures defined on the package's page,
                        "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                        "\\\\" "://"))
 
-(ligature-set-ligatures 'prog-mode ligature-def)
-(global-ligature-mode t)
+(use-package ligature
+  :config
+  (ligature-set-ligatures 'prog-mode ligature-def)
+  (global-ligature-mode t))
 #+end_src
 
 I also want to be able to display emojis with the Apple emoji font. I usually
@@ -2302,18 +2301,7 @@ space. There's a [[https://github.com/hlissner/emacs-hide-mode-line][dedicated p
 (use-package hide-mode-line
   :defer t
   :hook (inferior-python-mode . hide-mode-line-mode))
-#+end_src
-
-[[https://github.com/pythonic-emacs/blacken][Blacken]] is a package that uses the Python =black= package to reformat Python
-buffers. I'll set it to work by default and enforce max line length.
-
-#+begin_src emacs-lisp
-(use-package blacken
-  :defer t
-  :custom
-  (blacken-line-length t)
-  :hook (python-mode-hook . blacken-mode))
-#+end_src
+#+end_src<
 
 ** Clojure
 
@@ -2425,7 +2413,4 @@ mode for it and activate that mode. The below code does just that.
   :init-value t
   :keymap custom-bindings-map)
 #+end_src
-
-
-
 
