@@ -169,7 +169,8 @@ To avoid doing this each time a change is made we can add a function to the =aft
    (add-hook 'after-save-hook 'tangle-init)
    #+END_SRC
 
-** Start-Up
+* Start-Up
+** Performance
 
 I want to make some tweaks to improve startup performance. First, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards.
 
@@ -209,6 +210,8 @@ Prevent Emacs from freezing when updating ELPA.
 #+begin_src emacs-lisp
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+end_src
+
+** House-Keeping
 
 Then I want to do some house keeping. First, let's set the Emacs user
 and default directories explicitly:
@@ -363,7 +366,8 @@ When I open Emacs, I want it to open maximised and fullscreen by default.
 ;; (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
 
-** Frame Border
+** Frames & Windows
+*** Frame Border
 
 I want a small border around the whole frame, because I think it looks nicer. I
 also want to set the fringe width.
