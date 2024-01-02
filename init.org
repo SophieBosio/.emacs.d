@@ -2316,15 +2316,16 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
 #+begin_src emacs-lisp
-(use-package clojure-mode
-  :bind (:map clojure-mode-map ("C-c C-c" . cider-jack-in)))
+(use-package clojure-mode)
 
 (use-package cider
   :defer t
   :hook ((cider-mode      . paredit-mode)
          (cider-repl-mode . paredit-mode)
 		 (clojure-mode    . paredit-mode))
-  :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer)))
+  :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
+  :config
+  (setq cider-repl-display-help-banner nil))
 #+end_src
 
 [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
