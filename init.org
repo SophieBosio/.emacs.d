@@ -972,6 +972,7 @@ in just vterm, please do let me know :~)
 			  ("C-c C-c" . (lambda () (interactive) (vterm-send-key (kbd "C-c")))))
 
   :config
+  (setq vterm-shell "/opt/homebrew/bin/fish")
   ;; Don't query about killing vterm buffers, just kill it
   (defadvice vterm (after kill-with-no-query nil activate)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
