@@ -405,17 +405,22 @@ I usually only need column numbers in programming mode.
 
 For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a result of the
 =a-better-ligaturizer= project and the ligaturised font can be found in the
-[[https://github.com/lemeb/a-better-ligaturizer][repo]].
+[[https://github.com/lemeb/a-better-ligaturizer][repo]]. I'm also using the excellent [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]], which has great ligature support.
 
 Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" section.
 
 #+begin_src emacs-lisp
+(defvar my/font-height 100)
+
+(when (eq system-type 'darwin)
+  (setq my/font-height 140))
+
 ;; (when (member "Roboto Mono" (font-family-list))
 ;;   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
 ;;   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
 (when (member "Fragment Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "Fragment Mono" :height 100)
+  (set-face-attribute 'default nil :font "Fragment Mono" :height my/font-height)
   (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
 (when (member "Source Sans Pro" (font-family-list))
