@@ -410,9 +410,13 @@ For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a
 Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" section.
 
 #+begin_src emacs-lisp
-(when (member "Roboto Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
-  (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
+;; (when (member "Roboto Mono" (font-family-list))
+;;   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
+;;   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
+
+(when (member "Fragment Mono" (font-family-list))
+  (set-face-attribute 'default nil :font "Fragment Mono" :height 108)
+  (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
 (when (member "Source Sans Pro" (font-family-list))
   (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18))
@@ -1202,6 +1206,7 @@ Therefore, I'll disable automatic saving for this file in particular.
 
 #+BEGIN_SRC emacs-lisp
 (use-package auto-save-buffers-enhanced
+  :ensure t
   :config
   (auto-save-buffers-enhanced t)
   (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
