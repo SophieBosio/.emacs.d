@@ -415,7 +415,7 @@ Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" secti
 ;;   (set-face-attribute 'fixed-pitch nil :family "Roboto Mono"))
 
 (when (member "Fragment Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "Fragment Mono" :height 108)
+  (set-face-attribute 'default nil :font "Fragment Mono" :height 100)
   (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
 (when (member "Source Sans Pro" (font-family-list))
