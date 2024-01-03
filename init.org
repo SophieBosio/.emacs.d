@@ -1309,28 +1309,6 @@ buffer where flyspell is enabled.
   (ispell-change-dictionary "british" t))
 #+end_src
 
-** Viewing PDFs
-
-This displays PDFs in a much more beautiful way.
-
-However, it takes a long time to load, so we'll wait to load it until we try to open a PDF. Then it'll take a long time to open the first PDF, but all the others will load quickly, and we don't need to spend any extra start-up time when we don't need to open any PDFs.
-
-#+begin_src emacs-lisp
-(use-package pdf-tools
-  :defer t
-  :mode "\\.pdf\\'"
-  :bind (:map pdf-view-mode-map
-              ("c" . (lambda ()
-                       (interactive)
-                       (if header-line-format
-                           (setq header-line-format nil)
-                         (nano-modeline-pdf-mode))))
-              ("j" . pdf-view-next-line-or-next-page)
-              ("k" . pdf-view-previous-line-or-previous-page))
-  :init (pdf-loader-install)
-  :config (add-to-list 'revert-without-query ".pdf"))
-#+end_src
-
 ** LaTeX
 
 I use [[https://www.gnu.org/software/auctex/][AUCTeX]] to work with LaTeX files from within Emacs and it's a massive help.
