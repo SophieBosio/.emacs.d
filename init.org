@@ -619,7 +619,7 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
   (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
   (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner         "~/Documents/dotfiles/images/emacs-standalone-E.png"
+  (setq dashboard-startup-banner         (concat user-emacs-directory "images/emacs-standalone-E.png")
 		dashboard-image-banner-max-width 110
 		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
 		dashboard-center-content         t
