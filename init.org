@@ -321,15 +321,22 @@ throughout the config, and then activate it at the end of the config file, at
 
 ** Mac (OS X) Options
 
-On a Mac, I would want to add some specific settings.
+On a Mac, I would want to add some specific settings. As a note to myself, I
+have the following settings in Mac OS:
+
+#+begin_src
+caps-lock -> control (ctrl)
+control   -> control (ctrl)
+option    -> option  (nil)
+command   -> command (meta)
+#+end_src
+
+Then, in Emacs, I set Option to be Super, so it matches Super's position on a
+Windows/Linux keyboard.
 
 #+begin_src emacs-lisp
 (when (eq system-type 'darwin)
-  (setq mac-command-modifier       'meta
-		mac-option-modifier        'super
-		mac-control-modifier       'control
-		;; mac-right-command-modifier 'super
-		mac-right-control-modifier 'hyper))
+  (setq mac-option-modifier 'super))
 #+end_src
 
 * Visuals
