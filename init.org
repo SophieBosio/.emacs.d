@@ -889,7 +889,8 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
 
 #+begin_src emacs-lisp
 (use-package projectile
-  :bind (:map custom-bindings-map ("C-c p" . projectile-command-map))
+  :bind ((:map custom-bindings-map    ("C-c p" . projectile-command-map))
+		 (:map projectile-command-map ("s r"   . 'my-consult-ripgrep-wrapper)))
   :config
   (setq projectile-project-search-path '("~/Dropbox/projects/")))
 #+end_src
