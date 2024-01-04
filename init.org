@@ -2188,7 +2188,27 @@ it manually!
 (use-package eglot
   :defer t
   :hook
-  (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1))))
+  ((eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
+   ((clojure-mode clojurec-mode clojurescript-mode haskell-mode)
+          . eglot-ensure)
+   ((cider-mode eglot-managed-mode) . eglot-disable-in-cider))
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 0)
+  (eglot-extend-to-xref nil)
+  (eglot-stay-out-of '(yasnippet)))
+#+end_src
+
+As [[https://andreyor.st/posts/2023-09-09-migrating-from-lsp-mode-to-eglot/][this blog post]] describes, the Java and Clojure LSPs use a dependency system
+to go to definitions that came from external libraries. To make this work with
+Eglot, we need a dedicated package.
+
+#+begin_src emacs-lisp
+(use-package jarchive
+  :ensure t
+  :after eglot
+  :config
+  (jarchive-mode))
 #+end_src
 
 ** Flycheck
