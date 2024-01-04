@@ -434,16 +434,6 @@ Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" secti
   (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18))
 #+end_src
 
-=prettify-symbols-mode= displays greek letters nicely.
-
-#+BEGIN_SRC emacs-lisp
-(setq-default prettify-symbols-alist '(("lambda" . ?λ)
-                                       ("delta"  . ?Δ)
-                                       ("gamma"  . ?Γ)
-                                       ("phi"    . ?φ)
-                                       ("psi"    . ?ψ)))
-#+END_SRC
-
 The package =ligature.el= provides support for displaying the ligatures of
 fonts that already have ligatures. Mine does, and seems to work just fine out
 of the box with the ligatures defined on the package's page,
