@@ -336,7 +336,8 @@ Windows/Linux keyboard.
 
 #+begin_src emacs-lisp
 (when (eq system-type 'darwin)
-  (setq mac-option-modifier 'super))
+  (setq mac-option-modifier 'super
+		mac-right-option-modifier 'nil))
 #+end_src
 
 * Visuals
@@ -906,7 +907,8 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   :bind ((:map custom-bindings-map    ("C-c p" . projectile-command-map))
 		 (:map projectile-command-map ("s r"   . 'my-consult-ripgrep-wrapper)))
   :config
-  (setq projectile-project-search-path '("~/Dropbox/projects/")))
+  (setq projectile-project-search-path '("~/Dropbox/projects/"))
+  (projectile-mode))
 #+end_src
 
 *** Workspace Management
