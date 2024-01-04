@@ -414,6 +414,14 @@ I usually only need column numbers in programming mode.
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 
+** Icons
+
+Add =nerd-icons=.
+
+#+begin_src emacs-lisp
+(use-package nerd-icons)
+#+end_src
+
 ** Fonts, Ligatures, and Symbols
 
 For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a result of the
