@@ -363,6 +363,12 @@ Let's declutter a little.
     (funcall mode 0))
 #+end_src
 
+This makes the Aqua titlebar the same colour as Emacs (Mac OS).
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+#+end_src
+
 ** Open in Fullscreen
 
 When I open Emacs, I want it to open maximised and fullscreen by default.
