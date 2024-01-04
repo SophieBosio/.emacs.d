@@ -2180,13 +2180,10 @@ it manually!
   :defer t
   :hook
   ((eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
-   ((clojure-mode clojurec-mode clojurescript-mode haskell-mode)
-          . eglot-ensure)
-   ((cider-mode eglot-managed-mode) . eglot-disable-in-cider))
+   ((clojure-mode clojurec-mode clojurescript-mode haskell-mode) . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 0)
-  (eglot-extend-to-xref nil)
   (eglot-stay-out-of '(yasnippet)))
 #+end_src
 
