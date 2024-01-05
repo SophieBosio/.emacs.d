@@ -2204,7 +2204,9 @@ it manually!
   :defer t
   :hook
   ((eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
-   ((clojure-mode clojurec-mode clojurescript-mode haskell-mode) . eglot-ensure))
+   ((clojure-mode clojurec-mode clojurescript-mode)
+          . eglot-ensure)
+   ((cider-mode eglot-managed-mode) . eglot-disable-in-cider))
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 0)
