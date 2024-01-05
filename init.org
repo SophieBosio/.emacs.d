@@ -445,8 +445,8 @@ Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" secti
   (set-face-attribute 'default nil :font "Fragment Mono" :height my/font-height)
   (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
-(when (member "Source Sans Pro" (font-family-list))
-  (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 1.18))
+(when (member "Helvetiva Neue" (font-family-list))
+  (set-face-attribute 'variable-pitch nil :family "Helvetica Neue" :height 1.18))
 #+end_src
 
 The package =ligature.el= provides support for displaying the ligatures of
@@ -1489,10 +1489,10 @@ Set the sizes and fonts for the various headings.
                 (org-level-6 . 1.1)
                 (org-level-7 . 1.1)
                 (org-level-8 . 1.1)))
-  (set-face-attribute (car face) nil :font "Source Sans Pro" :weight 'bold :height (cdr face)))
+  (set-face-attribute (car face) nil :font "Helvetica Neue" :weight 'bold :height (cdr face)))
 
 ;; Make the document title a bit bigger
-(set-face-attribute 'org-document-title nil :font "Source Sans Pro" :weight
+(set-face-attribute 'org-document-title nil :font "Helvetica Neue" :weight
 'bold :height 1.8)
 #+END_src
 
