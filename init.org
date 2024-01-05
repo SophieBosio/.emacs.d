@@ -1045,7 +1045,7 @@ normal minibuffer.
   (vertico-posframe-mode 1))
 
 (bind-key "C-s" #'my-consult-line-wrapper custom-bindings-map)
-(bind-key "M-s" #'my-consult-ripgrep-wrapper custom-bindings-map)
+(bind-key "s-s" #'my-consult-ripgrep-wrapper custom-bindings-map)
 
 ; Ensure posframe is always restored when exiting a minibuffer
 (add-hook 'minibuffer-exit-hook
