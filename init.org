@@ -582,7 +582,7 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 
 	;; Version control info
 	(:eval (when-let (vc vc-mode)
-					 (list (propertize " " 'face 'font-lock-comment-face)
+					 (list (propertize "  " 'face 'font-lock-comment-face)
 						   (propertize (substring vc 5)
 									   'face 'font-lock-comment-face))))
 
