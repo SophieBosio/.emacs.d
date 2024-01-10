@@ -432,7 +432,7 @@ For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a
 Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" section.
 
 #+begin_src emacs-lisp
-(defvar my/font-height 100)
+(defvar my/font-height 102)
 
 (when (eq system-type 'darwin)
   (setq my/font-height 140))
@@ -979,10 +979,12 @@ in just vterm, please do let me know :~)
 			  ("C-c C-c" . (lambda () (interactive) (vterm-send-key (kbd "C-c")))))
 
   :config
-  (setq vterm-shell "/opt/homebrew/bin/fish")
   ;; Don't query about killing vterm buffers, just kill it
   (defadvice vterm (after kill-with-no-query nil activate)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
+
+(when (eq system-type 'darwin)
+  (setq vterm-shell "/opt/homebrew/bin/fish"))
 #+end_src
 
 ** Completion & Search
