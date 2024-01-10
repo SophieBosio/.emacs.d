@@ -1414,8 +1414,195 @@ Let's first make sure we're using Org.
 (use-package org)
 #+END_SRC
 
-** Visuals
+** Tasks
+*** Task Priorities
 
+Let's increase the number of possible priorities for Org tasks. I'll set
+mine to =E= so that we have =A= through =E=, in total five levels.
+
+#+begin_src emacs-lisp
+(setq org-lowest-priority ?F)  ;; Gives us priorities A through F
+(setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
+
+(setq org-priority-faces
+      '((65 . "#BF616A")
+        (66 . "#EBCB8B")
+        (67 . "#B48EAD")
+        (68 . "#81A1C1")
+        (69 . "#5E81AC")
+        (70 . "#4C566A")))
+#+end_src
+
+*** Custom TODO States
+
+I'll expand the list of default task states.
+
+#+begin_src emacs-lisp
+(setq org-todo-keywords
+      '((sequence
+		 "TODO(t)" "WAIT(w)" "READ(r)" "PROG(p)" ; Needs further action
+		 "|"
+		 "DONE(d)")))                            ; Needs no action currently
+#+end_src
+
+*** Mark As Done
+
+Finally, to mark any TODO task, of any state, as DONE quickly, I have a helper
+function that I'll bind to =C-c d=.
+
+#+begin_src emacs-lisp
+(defun org-mark-as-done ()
+  (interactive)
+  (save-excursion
+    (org-back-to-heading t) ;; Make sure command works even if point is
+                            ;; below target heading
+    (cond ((looking-at "\*+ TODO")
+           (org-todo "DONE"))
+          ((looking-at "\*+ WAIT")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ READ")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ PROG")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ DONE")
+           (org-todo "DONE"))
+          (t (message "Undefined TODO state.")))))
+
+(define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
+#+end_src
+
+*** "Get Things Done" Setup
+
+I'm trying out the Get Things Done method by David Allen, using Nicolas
+Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
+
+The first step is to set the relevant directories.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/Dropbox/org/")
+(setq org-agenda-files (list "inbox.org" "ardoq.org" "thesis.org"))
+#+END_SRC
+
+Set the archive location to a unified archive.
+
+#+begin_src emacs-lisp
+(setq org-archive-location (concat org-directory "archive.org::"))
+#+end_src
+
+Then to set up the relevant capture templates, with accompanying keybindings.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+       `(("i" "Inbox" entry  (file "inbox.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))
+		 ("a" "Ardoq" entry  (file "ardoq.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))
+		 ("t" "Thesis" entry  (file "thesis.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))))
+(defun org-capture-inbox ()
+     (interactive)
+     (call-interactively 'org-store-link)
+     (org-capture nil "i"))
+#+END_SRC
+
+*** Keybindings
+
+For basic agenda and TODO-related keybindings, I'll use =C-c= followed by a
+single, lower-case letter.
+
+#+BEGIN_SRC emacs-lisp
+(define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
+(define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
+(define-key custom-bindings-map (kbd "C-c c") 'org-capture)
+(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
+#+END_SRC
+
+For whatever reason, I've had an issue with clocking in, where the default
+keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
+
+#+begin_src emacs-lisp
+(define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
+#+end_src
+
+*** Registers
+
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Registers.html][Registers]] are easier to access than bookmarks and much more flexible. I'll set
+up registers for my GTD files.
+
+#+begin_src emacs-lisp
+(set-register ?1 (cons 'file (concat org-directory "inbox.org")))
+(set-register ?2 (cons 'file (concat org-directory "ardoq.org")))
+(set-register ?3 (cons 'file (concat org-directory "thesis.org")))
+(set-register ?4 (cons 'file (concat org-directory
+"roam/20231204101233-landing_page.org")))
+(set-register ?5 (cons 'file (concat org-directory "projects.org")))
+#+end_src
+
+Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
+file, I don't really need =C-r= to be bound to the default =isearch-backward=.
+Instead, I can use it as the leader key combination to jump to a register.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
+#+end_src
+
+** Agenda
+
+I want to open my agenda on the current day, not on any specific weekday.
+
+#+begin_src emacs-lisp
+(setq org-agenda-start-on-weekday nil)
+#+end_src
+
+*** Day Views
+
+Open day view with =C-c a d= and extended three-day view with =C-c a e=.
+
+#+begin_src emacs-lisp
+(setq org-agenda-custom-commands
+	  '(("d" "Day View"
+               ((agenda "" ((org-agenda-overriding-header "Day View")
+                            (org-agenda-span 'day))
+					     	(org-super-agenda-groups '(
+                                                       (:name "Today's Schedule:"
+                                                              :time-grid t
+                                                              :discard (:deadline t)
+                                                              :order 1)
+                                                       (:name "Today:"
+                                                              :scheduled t
+                                                              :order 2)
+                                                       (:name "Deadlines:"
+                                                              :deadline t
+                                                              :order 3)
+													   (:name "Priority:"
+															  :priority "A"
+															  :order 4))))))
+		("e" "Three-Day View"
+               ((agenda "" ((org-agenda-span 3)
+                            (org-agenda-entry-types '(:deadline :scheduled))
+                            (org-agenda-start-on-weekday nil)
+                            (org-deadline-warning-days 0)))))))
+#+end_src
+
+*** Displaying Scheduled & Deadline Items
+
+Don't show me deadlines or scheduled items if they are done.
+
+#+begin_src emacs-lisp
+(setq org-agenda-skip-deadline-if-done  t
+	  org-agenda-skip-scheduled-if-done t)
+#+end_src
+
+Modify dealine leader text.
+
+#+begin_src emacs-lisp
+(setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
+#+end_src
+
+** Visuals
 *** Folded Startup
 
 When opening an Org file, all headers are folded by default.
@@ -1612,12 +1799,6 @@ SVG graphics. I use it for dates, progress bars, and citations.
         ;; TODO / DONE
         ;; ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo
 		;; 									           :inverse t :margin 0))))
-		;; ("WAIT" . ((lambda (tag) (svg-tag-make "WAIT" :face 'org-todo
-		;; 									           :inverse t :margin 0))))
-		;; ("READ" . ((lambda (tag) (svg-tag-make "READ" :face 'org-todo
-		;; 									           :inverse t :margin 0))))
-		;; ("PROG" . ((lambda (tag) (svg-tag-make "PROG"  :face 'org-todo
-		;; 									           :inverse t :margin 0))))
         ;; ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))
 
 
@@ -1762,195 +1943,6 @@ navigate.
 				:priority "A"
 				:order 5)))
   (org-super-agenda-mode))
-#+end_src
-
-** Tasks
-
-*** Task Priorities
-
-Let's increase the number of possible priorities for Org tasks. I'll set
-mine to =E= so that we have =A= through =E=, in total five levels.
-
-#+begin_src emacs-lisp
-(setq org-lowest-priority ?F)  ;; Gives us priorities A through F
-(setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
-
-(setq org-priority-faces
-      '((65 . "#BF616A")
-        (66 . "#EBCB8B")
-        (67 . "#B48EAD")
-        (68 . "#81A1C1")
-        (69 . "#5E81AC")
-        (70 . "#4C566A")))
-#+end_src
-
-*** Custom TODO States
-
-I'll expand the list of default task states.
-
-#+begin_src emacs-lisp
-(setq org-todo-keywords
-      '((sequence
-		 "TODO(t)" "WAIT(w)" "READ(r)" "PROG(p)" ; Needs further action
-		 "|"
-		 "DONE(d)")))                            ; Needs no action currently
-#+end_src
-
-*** Mark As Done
-
-Finally, to mark any TODO task, of any state, as DONE quickly, I have a helper
-function that I'll bind to =C-c d=.
-
-#+begin_src emacs-lisp
-(defun org-mark-as-done ()
-  (interactive)
-  (save-excursion
-    (org-back-to-heading t) ;; Make sure command works even if point is
-                            ;; below target heading
-    (cond ((looking-at "\*+ TODO")
-           (org-todo "DONE"))
-          ((looking-at "\*+ WAIT")
-           (org-todo "DONE"))
-		  ((looking-at "\*+ READ")
-           (org-todo "DONE"))
-		  ((looking-at "\*+ PROG")
-           (org-todo "DONE"))
-		  ((looking-at "\*+ DONE")
-           (org-todo "DONE"))
-          (t (message "Undefined TODO state.")))))
-
-(define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
-#+end_src
-
-** "Get Things Done" Setup
-
-I'm trying out the Get Things Done method by David Allen, using Nicolas
-Rougier's [[https://github.com/rougier/emacs-gtd][GTD configuration]] and Nicolas Petton's [[https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html][blog post]] on the subject.
-
-The first step is to set the relevant directories.
-
-#+BEGIN_SRC emacs-lisp
-(setq org-directory "~/Dropbox/org/")
-(setq org-agenda-files (list "inbox.org" "ardoq.org" "thesis.org"))
-#+END_SRC
-
-Set the archive location to a unified archive.
-
-#+begin_src emacs-lisp
-(setq org-archive-location (concat org-directory "archive.org::"))
-#+end_src
-
-Then to set up the relevant capture templates, with accompanying keybindings.
-
-#+BEGIN_SRC emacs-lisp
-(setq org-capture-templates
-       `(("i" "Inbox" entry  (file "inbox.org")
-        ,(concat "* TODO %?\n"
-                 "/Entered on/ %U"))
-		 ("a" "Ardoq" entry  (file "ardoq.org")
-        ,(concat "* TODO %?\n"
-                 "/Entered on/ %U"))
-		 ("t" "Thesis" entry  (file "thesis.org")
-        ,(concat "* TODO %?\n"
-                 "/Entered on/ %U"))))
-(defun org-capture-inbox ()
-     (interactive)
-     (call-interactively 'org-store-link)
-     (org-capture nil "i"))
-#+END_SRC
-
-And then I have some keybindings for these functions.
-
-For basic agenda and TODO-related keybindings, I'll use =C-c= followed by a
-single, lower-case letter.
-
-#+BEGIN_SRC emacs-lisp
-(define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
-(define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
-(define-key custom-bindings-map (kbd "C-c c") 'org-capture)
-(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
-#+END_SRC
-
-For whatever reason, I've had an issue with clocking in, where the default
-keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
-
-#+begin_src emacs-lisp
-(define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
-#+end_src
-
-** Agenda
-
-I want to open my agenda on the current day, not on any specific weekday.
-
-#+begin_src emacs-lisp
-(setq org-agenda-start-on-weekday nil)
-#+end_src
-
-*** Day Views
-
-Open day view with =C-c a d= and extended three-day view with =C-c a e=.
-
-#+begin_src emacs-lisp
-(setq org-agenda-custom-commands
-	  '(("d" "Day View"
-               ((agenda "" ((org-agenda-overriding-header "Day View")
-                            (org-agenda-span 'day))
-					     	(org-super-agenda-groups '(
-                                                       (:name "Today's Schedule:"
-                                                              :time-grid t
-                                                              :discard (:deadline t)
-                                                              :order 1)
-                                                       (:name "Today:"
-                                                              :scheduled t
-                                                              :order 2)
-                                                       (:name "Deadlines:"
-                                                              :deadline t
-                                                              :order 3)
-													   (:name "Priority:"
-															  :priority "A"
-															  :order 4))))))
-		("e" "Three-Day View"
-               ((agenda "" ((org-agenda-span 3)
-                            (org-agenda-entry-types '(:deadline :scheduled))
-                            (org-agenda-start-on-weekday nil)
-                            (org-deadline-warning-days 0)))))))
-#+end_src
-
-*** Displaying Scheduled & Deadline Items
-
-Don't show me deadlines or scheduled items if they are done.
-
-#+begin_src emacs-lisp
-(setq org-agenda-skip-deadline-if-done  t
-	  org-agenda-skip-scheduled-if-done t)
-#+end_src
-
-Modify dealine leader text.
-
-#+begin_src emacs-lisp
-(setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
-#+end_src
-
-** Registers
-
-[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Registers.html][Registers]] are easier to access than bookmarks and much more flexible. I'll set
-up registers for my GTD files.
-
-#+begin_src emacs-lisp
-(set-register ?1 (cons 'file (concat org-directory "inbox.org")))
-(set-register ?2 (cons 'file (concat org-directory "ardoq.org")))
-(set-register ?3 (cons 'file (concat org-directory "thesis.org")))
-(set-register ?4 (cons 'file (concat org-directory
-"roam/20231204101233-landing_page.org")))
-(set-register ?5 (cons 'file (concat org-directory "projects.org")))
-#+end_src
-
-Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
-file, I don't really need =C-r= to be bound to the default =isearch-backward=.
-Instead, I can use it as the leader key combination to jump to a register.
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
 #+end_src
 
 ** Babel
@@ -2120,7 +2112,8 @@ location.
 CDN: =#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js=
 Local copy: =#+REVEAL_ROOT: file:///d:/reveal.js=
 
-** Pasting Images
+** Org Conveniencies
+*** Pasting Images
 
 [[https://github.com/abo-abo/org-download][org-download]] lets me easily put copied screenshots into my org-documents.
 
@@ -2139,7 +2132,7 @@ Show inline images by default
 (setq org-startup-with-inline-images t)
 #+end_src
 
-** TOC in Org Files
+*** TOC in Org Files
 
 [[https://github.com/snosov1/toc-org][toc-org]] creates nice, Markdown compatible tables of content for your Org files.
 Perfect for GitHub READMEs.
