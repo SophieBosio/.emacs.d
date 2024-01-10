@@ -1389,6 +1389,21 @@ Opening, switching and deleting windows becomes super easy with [[https://github
 			  ("C-x 0" . 'switch-window-then-delete)))
 #+end_src
 
+** Elfeed
+
+[[https://github.com/skeeto/elfeed][Elfeed]] is a feed reader for Emacs!
+
+#+begin_src emacs-lisp
+(use-package elfeed
+  :bind (:map custom-bindings-map ("C-x w" . elfeed))
+  :config
+  (setq elfeed-feeds
+      '("http://nullprogram.com/feed/"
+        "https://planet.emacslife.com/atom.xml"
+		"https://deniskyashif.com/index.xml"
+		"https://sophiebos.io/index.xml")))
+#+end_src
+
 * Org
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
@@ -2387,21 +2402,6 @@ As the [[https://coq.inria.fr/user-interfaces.html][Coq documentation]] suggests
 
 #+begin_src emacs-lisp
 (use-package nix-mode)
-#+end_src
-
-* Elfeed
-
-[[https://github.com/skeeto/elfeed][Elfeed]] is a feed reader for Emacs!
-
-#+begin_src emacs-lisp
-(use-package elfeed
-  :bind (:map custom-bindings-map ("C-x w" . elfeed))
-  :config
-  (setq elfeed-feeds
-      '("http://nullprogram.com/feed/"
-        "https://planet.emacslife.com/atom.xml"
-		"https://deniskyashif.com/index.xml"
-		"https://sophiebos.io/index.xml")))
 #+end_src
 
 * Activating Custom Keybindings
