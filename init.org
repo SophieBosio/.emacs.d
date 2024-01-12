@@ -370,7 +370,8 @@ This makes the Aqua titlebar the same colour as Emacs (Mac OS).
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 #+end_src
 
-** Open in Fullscreen
+** Frames & Windows
+*** Open in Fullscreen
 
 When I open Emacs, I want it to open maximised and fullscreen by default.
 
@@ -380,16 +381,26 @@ When I open Emacs, I want it to open maximised and fullscreen by default.
 ;; (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
 
-** Frames & Windows
 *** Frame Border
 
-I want a small border around the whole frame, because I think it looks nicer. I
-also want to set the fringe width.
+I want a small border around the whole frame, because I think it looks nicer.
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(internal-border-width . 16))
-(set-fringe-mode 10)            ;; Set fringe width to 10
 #+END_SRC
+
+Some settings to fringes.
+
+#+begin_src emacs-lisp
+(set-fringe-mode 10)            ;; Set fringe width to 10
+
+(setq-default fringes-outside-margins nil)
+(setq-default indicate-buffer-boundaries nil) ;; Otherwise shows a corner icon on the edge
+(setq-default indicate-empty-lines nil) ;; Otherwise there are weird fringes on blank lines
+
+(set-face-attribute 'fringe nil :background nil)
+(set-face-attribute 'header-line nil :background nil :inherit 'default)
+#+end_src
 
 ** Programming-Specific Visuals
 
