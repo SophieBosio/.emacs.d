@@ -398,10 +398,57 @@ Some settings to fringes.
 
 *** Mac OS Settings
 
+Using the [[https://github.com/railwaycat/homebrew-emacsmacport][emacsmacport]] version of Mithuarus's [[https://bitbucket.org/mituharu/emacs-mac/src/master/][emacs-mac]], you can get a
+transparent title bar (e.g., title bar is same colour as theme background),
+which I think is really nice.
+
+To get it, build Emacs with the =--with-natural-title-bar= flag. Alternatively, for no title bar at all, you can
+build it with =--with-no-title-bars=.
+
+#+begin_src shell :tangle no
+# enable tap
+brew tap railwaycat/emacsmacport
+
+# build with transparent/natural title bar
+brew tap emacs-mac --with-natural-title-bar
+
+# or alternatively,
+brew tap emacs-mac --with-no-title-bars
+#+end_src
+
+Then add the corresponding settings to your =init=-file. For natural title bar,
+use =ns-transparent-titlebar= and for no title bar, use =undecorated=. Here, I'm
+using the natural title bar.
+
+I also set some other options. For example, I don't need info in the title bar
+about which buffer is in focus, since this info is already in the mode line. I
+found these options in [[https://notes.alexkehayias.com/emacs-natural-title-bar-with-no-text-in-macos/][this blog post]].
+
 #+begin_src emacs-lisp
 (when (eq system-type 'darwin)
-  ;; (add-to-list 'default-frame-alist '(undecorated-round . t))
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
+  ; use transparent/natural title bar
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  ; don't use proxy icon
+  (setq ns-use-proxy-icon nil)
+  ; don't show buffer name in title bar
+  (setq frame-title-format nil))
+#+end_src
+
+Finally, in your terminal, run these commands to use transparent title bar and
+to hide the icon from the middle of the title bar. I found these in the
+aforementioned blog post and in the Emacs-Mac Port's
+[[https://github.com/railwaycat/homebrew-emacsmacport/wiki/Natural-Title-Bar][wiki
+page]] on the subject.
+
+#+begin_src shell :tangle no
+# for dark themes
+defaults write org.gnu.Emacs TransparentTitleBar DARK
+
+# for light themes
+defaults write org.gnu.Emacs TransparentTitleBar LIGHT
+
+# hide document icon from title bar
+defaults write org.gnu.Emacs HideDocumentIcon YES
 #+end_src
 
 ** Programming-Specific Visuals
