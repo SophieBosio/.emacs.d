@@ -364,12 +364,6 @@ Let's declutter a little.
     (funcall mode 0))
 #+end_src
 
-This makes the Aqua titlebar the same colour as Emacs (Mac OS).
-
-#+begin_src emacs-lisp
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-#+end_src
-
 ** Frames & Windows
 *** Open in Fullscreen
 
@@ -400,6 +394,14 @@ Some settings to fringes.
 
 (set-face-attribute 'fringe nil :background nil)
 (set-face-attribute 'header-line nil :background nil :inherit 'default)
+#+end_src
+
+*** Mac OS Settings
+
+#+begin_src emacs-lisp
+(when (eq system-type 'darwin)
+  ;; (add-to-list 'default-frame-alist '(undecorated-round . t))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
 #+end_src
 
 ** Programming-Specific Visuals
