@@ -319,7 +319,7 @@ throughout the config, and then activate it at the end of the config file, at
   "A keymap for custom keybindings.")
 #+end_src
 
-** Mac (OS X) Options
+** Mac OS Options
 
 On a Mac, I would want to add some specific settings. As a note to myself, I
 have the following settings in Mac OS:
