@@ -235,7 +235,6 @@ addition, I want to use =use-package=, so let's make sure we have those loaded.
 #+begin_src emacs-lisp
 (require 'package)
 (require 'use-package)
-(setq use-package-always-ensure t)
 #+end_src
 
 Next, I'll set up my package sources. These are very common and well-maintained mirrors.
@@ -455,9 +454,7 @@ in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d88350215
 
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
-  :ensure t)
-
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  :hook (prog-mode-hook . rainbow-delimiters-mode))
 #+end_src
 
 I usually only need column numbers in programming mode.
@@ -721,7 +718,6 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 
 * Interaction
 ** Tweaking Default Behaviour
-
 *** With =setq=
 
 #+BEGIN_SRC emacs-lisp
@@ -791,7 +787,6 @@ command inside minibuffer."
 #+end_src
 
 ** Text Editing Preferences
-
 *** Tabs & Indentation
 
 One of the things that drove me the most insane when I first downloaded Emacs,
@@ -876,7 +871,7 @@ Speaking of killing text, it's nice to be able to browse the kill ring.
 
 #+begin_src emacs-lisp
 (use-package browse-kill-ring
-  :ensure t)
+  :defer t)
 #+end_src
 
 *** Selecting Regions
@@ -886,6 +881,7 @@ symbol, word, sentence, paragraph). It's super handy!
 
 #+begin_src emacs-lisp
 (use-package expand-region
+  :defer t
   :bind (:map custom-bindings-map ("C-<dead-diaeresis>" . er/expand-region)
 			                      ("C-å" . er/contract-region)))
 #+end_src
@@ -910,9 +906,10 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 
 #+begin_src emacs-lisp
 (use-package undo-fu
+  :defer t
   :bind (:map custom-bindings-map
 			  ("C-_"   . undo-fu-only-undo)
-			  ("C-M-y" . undo-fu-only-redo)))
+			  ("C-M-_" . undo-fu-only-redo)))
 #+end_src
 
 ** Managing Buffers & Projects
@@ -1592,7 +1589,7 @@ single, lower-case letter.
 For whatever reason, I've had an issue with clocking in, where the default
 keybinding used =TAB= instead of =C-i= to clock in, so I'll set that manually.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (define-key org-mode-map (kbd "C-c C-x C-i") 'org-clock-in)
 #+end_src
 
@@ -1762,7 +1759,6 @@ Set the sizes and fonts for the various headings.
                 (org-level-8        . 1.1)
 				(org-document-title . 1.8)))
   (set-face-attribute (car face) nil :font "Helvetica Neue" :weight 'bold :height (cdr face)))
-
 #+END_src
 
 [[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] allows you to mix fixed and variable pitched faces in Org mode.
@@ -1796,8 +1792,9 @@ cursor to a preview, it's toggled off so you can edit the LaTeX snippet. When
 you move the cursor away, the preview is turned on again.
 
 #+begin_src emacs-lisp
-(use-package org-fragtog)
-(add-hook 'org-mode-hook 'org-fragtog-mode)
+(use-package org-fragtog
+  :after org
+  :hook (org-mode-hook . org-fragtog-mode))
 #+end_src
 
 *** Bullets
@@ -1807,6 +1804,7 @@ checkboxes for TODOs.
 
 #+begin_src emacs-lisp
 (use-package org-superstar
+  :after org
   :config
   (setq org-superstar-leading-bullet " ")
   (setq org-superstar-headline-bullets-list '("◉" "○" "⚬" "◈" "◇"))
@@ -1826,6 +1824,7 @@ SVG graphics. I use it for dates, progress bars, and citations.
 
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
+  :after org
   :config
   (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
   (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
@@ -2053,6 +2052,7 @@ I set up a Roam directory and added a simple configuration for navigating Roam n
 
 #+begin_src emacs-lisp
 (use-package org-roam
+  :after org
   :init
   (setq org-roam-v2-ack t)
   :custom
@@ -2126,7 +2126,7 @@ easily put it online.
 
 #+BEGIN_SRC emacs-lisp
 (use-package ox-hugo
-  :after ox)
+  :after org)
 #+END_SRC
 
 I've had a great time blogging with =ox-hugo=, but it's a little bothersome to
@@ -2160,27 +2160,6 @@ See `org-capture-templates' for more information."
                  (function org-hugo-new-subtree-post-capture-template))))
 #+end_src
 
-** RevealJS
-
-[[https://github.com/yjwen/org-reveal][org-reveal]] is exports your Org documents to [[https://revealjs.com/][RevealJS]] presentations. For nice
-syntax highlighting, let's also add =htmlize.el=.
-
-#+begin_src emacs-lisp
-(use-package ox-reveal
-  :config
-  (setq org-reveal-root "file:///home/sophie/reveal.js"))
-(use-package htmlize)
-#+end_src
-
-#+RESULTS:
-
-In the properties of each Org presentation document, you can set the
-=REVEAL-ROOT= either to the CDN distribution of reveal.js or to your download
-location.
-
-CDN: =#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js=
-Local copy: =#+REVEAL_ROOT: file:///d:/reveal.js=
-
 ** Org Conveniencies
 *** Pasting Images
 
@@ -2208,6 +2187,7 @@ Perfect for GitHub READMEs.
 
 #+begin_src emacs-lisp
 (use-package toc-org
+  :after org
   :config
   (add-hook 'org-mode-hook 'toc-org-mode)
 
@@ -2234,7 +2214,7 @@ detects most programming languages and applies appropriate comment style.
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
-  :ensure t
+  :defer t
   :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
 #+end_src
 
@@ -2256,10 +2236,11 @@ names.
 #+begin_src emacs-lisp
 (when (eq system-type 'linux)
   (use-package wakatime-mode
-  :config
-  (setq wakatime-cli-path "~/.wakatime/wakatime-cli-linux-amd64")
-  (setq wakatime-api-key (auth-source-pick-first-password :host "wakatime"))
-  (global-wakatime-mode)))
+	:defer t
+	:config
+	(setq wakatime-cli-path "~/.wakatime/wakatime-cli-linux-amd64")
+	(setq wakatime-api-key (auth-source-pick-first-password :host "wakatime"))
+	(global-wakatime-mode)))
 #+end_src
 
 ** Eglot
@@ -2332,7 +2313,8 @@ Emacs with the results.
 OCaml requires some setup for =ocp-indent=,
 
 #+begin_src emacs-lisp
-(use-package ocp-indent)
+(use-package ocp-indent
+  :defer t)
 #+end_src
 
 and for =merlin=.
@@ -2355,24 +2337,28 @@ Then I want integration with Dune, Merlin, and utop for the full IDE-experience.
 #+begin_src emacs-lisp
 ;; Major mode for OCaml programming
 (use-package tuareg
+  :defer t
   :mode (("\\.ocamlinit\\'" . tuareg-mode)))
 
 ;; Major mode for editing Dune project files
 (use-package dune
-  :ensure t)
+  :defer t)
 
 ;; Merlin provides advanced IDE features
 (use-package merlin
+  :defer t
   :config
   (add-hook 'tuareg-mode-hook #'merlin-mode)
   ;; we're using flycheck instead
   (setq merlin-error-after-save nil))
 
 (use-package merlin-eldoc
+  :defer t
   :hook ((tuareg-mode) . merlin-eldoc-setup))
 
 ;; utop REPL configuration
 (use-package utop
+  :defer t
   :config
   (add-hook 'tuareg-mode-hook #'utop-minor-mode))
 #+end_src
@@ -2384,6 +2370,7 @@ Let's first set the language interpreter.
 #+begin_src emacs-lisp
 (use-package python
   :interpreter ("python3" . python-mode)
+  :defer t
   :config
   (setq python-shell-interpreter "python3.11")
   (add-hook 'python-mode
@@ -2416,7 +2403,8 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
 #+begin_src emacs-lisp
-(use-package clojure-mode)
+(use-package clojure-mode
+  :defer t)
 
 (use-package cider
   :defer t
@@ -2465,7 +2453,8 @@ As the [[https://coq.inria.fr/user-interfaces.html][Coq documentation]] suggests
 ** Nix
 
 #+begin_src emacs-lisp
-(use-package nix-mode)
+(use-package nix-mode
+  :defer t)
 #+end_src
 
 * Activating Custom Keybindings
