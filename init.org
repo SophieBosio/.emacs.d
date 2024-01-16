@@ -331,9 +331,6 @@ command   -> command (meta)
 #+end_src
 
 * Visuals
-
-Note that Org-specific visuals are in the dedicated Org section :~)
-
 ** Decluttering
 
 Let's declutter a little.
@@ -472,12 +469,14 @@ Add =nerd-icons=.
 #+end_src
 
 ** Fonts, Ligatures, and Symbols
+*** Default, Fixed, and Variable Fonts
 
 For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a result of the
 =a-better-ligaturizer= project and the ligaturised font can be found in the
 [[https://github.com/lemeb/a-better-ligaturizer][repo]]. I'm also using the excellent [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]], which has great ligature support.
 
-Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" section.
+Please note that I scale and set Org-specific faces in the [[#visuals-1][Org >
+Visuals]] section.
 
 #+begin_src emacs-lisp
 (defvar my/font-height 102)
@@ -494,8 +493,24 @@ Please note that Org-specific faces are set in the "Org, Roam, & Obsidian" secti
   (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
 (when (member "Helvetiva Neue" (font-family-list))
-  (set-face-attribute 'variable-pitch nil :family "Helvetica Neue" :height 1.18))
+  (set-face-attribute 'variable-pitch nil :family "Helvetica Neue"))
 #+end_src
+
+*** Mixed Pitch Fonts
+
+[[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] allows you to mix fixed and variable pitched faces in Org and LaTeX mode.
+
+#+begin_src emacs-lisp
+(use-package mixed-pitch
+  :defer t
+  :hook ((org-mode   . mixed-pitch-mode)
+		 (LaTeX-mode . mixed-pitch-mode))
+  :config
+  (setq mixed-pitch-set-height t)
+  (set-face-attribute 'variable-pitch nil :height 1.05))
+#+end_src
+
+*** Ligatures
 
 The package =ligature.el= provides support for displaying the ligatures of
 fonts that already have ligatures. Mine does, and seems to work just fine out
@@ -521,6 +536,8 @@ of the box with the ligatures defined on the package's page,
   (ligature-set-ligatures 'prog-mode ligature-def)
   (global-ligature-mode t))
 #+end_src
+
+*** Emojis
 
 I also want to be able to display emojis with the Apple emoji font. I usually
 don't use it, though, so I won't activate the global mode.
@@ -642,7 +659,7 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 						 ,(+ 2 (string-width "%4l:3%c")))))))
 	
 	;; Line and column numbers
-	(:propertize "%4l:%c" face mode-line-position-face)))
+	(:propertize "%4l:%c" face mode-line)))
 #+end_src
 
 *** Nano Modeline
@@ -737,7 +754,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width 4                       ;; Smaller tabs
               fill-column 80                    ;; Maximum line width
-              split-width-threshold 160         ;; Split vertically by default
+              split-width-threshold 80          ;; Split vertically by default
               split-height-threshold nil        ;; Split vertically by default
               frame-resize-pixelwise t          ;; Fine-grained frame resize
               auto-fill-function 'do-auto-fill) ;; Auto-fill-mode everywhere
@@ -1604,23 +1621,14 @@ making edits easy while looking pretty.
 		org-appear-autosubmarkers t)) ; Show sub- and superscripts
 #+end_src
 
-*** Mixed Pitch Fonts
+*** Variable Pitch
 
-Make sure =variable-pitch-mode= is always active in Org buffers.
+Make sure =variable-pitch-mode= is always active in Org buffers. I normally
+wouldn't need this, since I use the =mixed-pitch= package in the font section, but
+for some reason, it seems the header bullet in Org mode are affected by this.
 
 #+begin_src emacs-lisp
 (add-hook 'org-mode-hook 'variable-pitch-mode)
-#+end_src
-
-[[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] allows you to mix fixed and variable pitched faces in Org mode.
-
-#+begin_src emacs-lisp
-(use-package mixed-pitch
-  :defer t
-  :hook (org-mode . mixed-pitch-mode)
-  :config
-  (setq mixed-pitch-set-height t)
-  (set-face-attribute 'variable-pitch nil :height 1.075))
 #+end_src
 
 *** Fragtog for LaTeX Previews
