@@ -1169,7 +1169,7 @@ that it can do.
 (use-package corfu
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-auto t)                 ;; Enable auto completion
   (corfu-auto-delay 0)           ;; No delay
   (corfu-auto-prefix 2)          ;; Start when this many characters have been typed
   (corfu-popupinfo-delay 0.5)    ;; Short delay
