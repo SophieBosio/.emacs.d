@@ -2347,7 +2347,7 @@ Emacs with the results.
 
 OCaml requires some setup for =ocp-indent=,
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package ocp-indent
   :defer t)
 #+end_src
