@@ -752,12 +752,13 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 *** With =setq-default=
 
 #+BEGIN_SRC emacs-lisp
-(setq-default tab-width 4                       ;; Smaller tabs
-              fill-column 80                    ;; Maximum line width
-              split-width-threshold 100         ;; Split vertically by default
-              split-height-threshold nil        ;; Split vertically by default
-              frame-resize-pixelwise t          ;; Fine-grained frame resize
-              auto-fill-function 'do-auto-fill) ;; Auto-fill-mode everywhere
+(setq-default tab-width              4              ;; Smaller tabs
+              fill-column            80             ;; Maximum line width
+              split-width-threshold  100            ;; Split vertically by default
+              split-height-threshold nil            ;; Split vertically by default
+			  window-min-width       60             ;; No smaller windows than this
+              frame-resize-pixelwise t              ;; Fine-grained frame resize
+              auto-fill-function     'do-auto-fill) ;; Auto-fill-mode everywhere
 #+END_SRC
 
 *** With modes
