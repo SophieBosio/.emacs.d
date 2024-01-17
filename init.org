@@ -27,27 +27,26 @@ I've lifted a lot of code from the setups of [[https://github.com/rougier][Nicol
 I'm still relatively new to Emacs, so if you have any suggestions or
 improvements, I would be very happy to hear about them!
 
-* Table of Contents :toc_gh:
+* Table of Contents :toc_2_gh:
 - [[#about][About]]
 - [[#setup][Setup]]
   - [[#initel-code][=init.el= Code]]
   - [[#git-tracking--practicalities][Git Tracking & Practicalities]]
   - [[#lexical-scoping][Lexical Scoping]]
   - [[#tangling][Tangling]]
-  - [[#start-up][Start-Up]]
+- [[#start-up][Start-Up]]
+  - [[#performance][Performance]]
+  - [[#house-keeping][House-Keeping]]
   - [[#packages][Packages]]
   - [[#external-software][External Software]]
-- [[#sane-defaults][Sane Defaults]]
-  - [[#ui-elements--default-behaviours][UI Elements & Default Behaviours]]
-  - [[#short-answers][Short Answers]]
-  - [[#auto-saved-directory][Auto-Saved Directory]]
-  - [[#editor-config][Editor Config]]
-  - [[#smoother-scrolling][Smoother Scrolling]]
 - [[#custom-keybindings][Custom Keybindings]]
+  - [[#custom-keymap][Custom Keymap]]
+  - [[#mac-os-options][Mac OS Options]]
 - [[#visuals][Visuals]]
-  - [[#open-in-fullscreen][Open in Fullscreen]]
-  - [[#frame-border][Frame Border]]
+  - [[#decluttering][Decluttering]]
+  - [[#frames--windows][Frames & Windows]]
   - [[#programming-specific-visuals][Programming-Specific Visuals]]
+  - [[#icons][Icons]]
   - [[#fonts-ligatures-and-symbols][Fonts, Ligatures, and Symbols]]
   - [[#themes][Themes]]
   - [[#mode-line][Mode Line]]
@@ -55,47 +54,39 @@ improvements, I would be very happy to hear about them!
   - [[#text-centring][Text Centring]]
 - [[#interaction][Interaction]]
   - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
-  - [[#auto-saving][Auto-Saving]]
-  - [[#tabs--indentation][Tabs & Indentation]]
-  - [[#deleting-instead-of-killing][Deleting Instead of Killing]]
-  - [[#killing-buffers][Killing Buffers]]
-  - [[#selecting-regions][Selecting Regions]]
-  - [[#undoredo][Undo/Redo]]
-  - [[#ripgrep][Ripgrep]]
+  - [[#text-editing-preferences][Text Editing Preferences]]
+  - [[#managing-buffers--projects][Managing Buffers & Projects]]
   - [[#terminal-emulator][Terminal Emulator]]
-  - [[#completion-suite][Completion Suite]]
+  - [[#completion--search][Completion & Search]]
+  - [[#version-control][Version Control]]
+  - [[#auto-saving][Auto-Saving]]
+  - [[#trying-packages][Trying Packages]]
   - [[#snippets][Snippets]]
   - [[#better-help-buffers][Better Help Buffers]]
   - [[#spelling][Spelling]]
-  - [[#version-control][Version Control]]
-  - [[#project-management][Project Management]]
-  - [[#viewing-pdfs][Viewing PDFs]]
   - [[#latex][LaTeX]]
+  - [[#editor-config][Editor Config]]
   - [[#browser-preference][Browser Preference]]
   - [[#switching-windows][Switching Windows]]
-  - [[#multiple-cursors][Multiple Cursors]]
+  - [[#elfeed][Elfeed]]
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
   - [[#tasks][Tasks]]
-  - [[#get-things-done-setup]["Get Things Done" Setup]]
-  - [[#registers][Registers]]
   - [[#agenda][Agenda]]
-  - [[#pasting-images][Pasting Images]]
-  - [[#toc-in-org-files][TOC in Org Files]]
   - [[#babel][Babel]]
   - [[#roam][Roam]]
   - [[#hugo][Hugo]]
-  - [[#revealjs][RevealJS]]
+  - [[#org-conveniencies][Org Conveniencies]]
 - [[#programming][Programming]]
   - [[#preferences--extras][Preferences & Extras]]
   - [[#eglot][Eglot]]
+  - [[#flycheck][Flycheck]]
   - [[#haskell][Haskell]]
   - [[#ocaml][OCaml]]
   - [[#python][Python]]
   - [[#clojure][Clojure]]
   - [[#coq][Coq]]
   - [[#nix][Nix]]
-- [[#elfeed][Elfeed]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 
 * Setup
@@ -337,18 +328,18 @@ Let's declutter a little.
 
 #+begin_src emacs-lisp
 (setq inhibit-startup-message      t         ;; No startup message
-      initial-scratch-message      nil       ;; Empty scratch buffer
-      ring-bell-function          'ignore    ;; No bell
-      display-time-default-load-average nil  ;; Don't show me load time
+	  initial-scratch-message      nil       ;; Empty scratch buffer
+	  ring-bell-function          'ignore    ;; No bell
+	  display-time-default-load-average nil  ;; Don't show me load time
 	  scroll-margin                0         ;; Space between top/bottom
-      use-dialog-box               nil)      ;; Disable dialog
+	  use-dialog-box               nil)      ;; Disable dialog
 
 (dolist (mode
-    '(tool-bar-mode                          ;; Remove toolbar
-      scroll-bar-mode                        ;; Remove scollbars
-      menu-bar-mode                          ;; Remove menu bar
-      blink-cursor-mode))                    ;; Solid cursor, not blinking
-    (funcall mode 0))
+		 '(tool-bar-mode                     ;; Remove toolbar
+		   scroll-bar-mode                   ;; Remove scollbars
+		   menu-bar-mode                     ;; Remove menu bar
+		   blink-cursor-mode))               ;; Solid cursor, not blinking
+  (funcall mode 0))
 #+end_src
 
 ** Frames & Windows
@@ -373,11 +364,11 @@ I want a small border around the whole frame, because I think it looks nicer.
 Some settings to fringes.
 
 #+begin_src emacs-lisp
-(set-fringe-mode 10)            ;; Set fringe width to 10
+(set-fringe-mode 10)                          ;; Set fringe width to 10
 
 (setq-default fringes-outside-margins nil)
 (setq-default indicate-buffer-boundaries nil) ;; Otherwise shows a corner icon on the edge
-(setq-default indicate-empty-lines nil) ;; Otherwise there are weird fringes on blank lines
+(setq-default indicate-empty-lines nil)       ;; Otherwise there are weird fringes on blank lines
 
 (set-face-attribute 'fringe nil :background nil)
 (set-face-attribute 'header-line nil :background nil :inherit 'default)
@@ -475,8 +466,7 @@ For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a
 =a-better-ligaturizer= project and the ligaturised font can be found in the
 [[https://github.com/lemeb/a-better-ligaturizer][repo]]. I'm also using the excellent [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]], which has great ligature support.
 
-Please note that I scale and set Org-specific faces in the [[#visuals-1][Org >
-Visuals]] section.
+Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > Visuals]] section.
 
 #+begin_src emacs-lisp
 (defvar my/font-height 102)
