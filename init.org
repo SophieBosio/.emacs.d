@@ -2316,10 +2316,9 @@ names.
 [[https://github.com/wakatime/wakatime-mode][wakatime-mode]] integrates it with Emacs.
 
 #+begin_src emacs-lisp
-(when (eq system-type 'linux)
-  (use-package wakatime-mode
-	:defer t
-	:config
+(use-package wakatime-mode
+  :config
+  (when (eq system-type 'gnu/linux)
 	(setq wakatime-cli-path "~/.wakatime/wakatime-cli-linux-amd64")
 	(setq wakatime-api-key (auth-source-pick-first-password :host "wakatime"))
 	(global-wakatime-mode)))
