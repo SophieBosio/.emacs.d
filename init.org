@@ -1478,6 +1478,17 @@ Opening, switching and deleting windows becomes super easy with [[https://github
 		"https://sophiebos.io/index.xml")))
 #+end_src
 
+** Code Screenshots
+
+Sometimes, you want to take a screenshot of your buffer to share or use in a
+presentation. [[https://github.com/tecosaur/screenshot][screenshot]] is a great and convenient package that captures the
+selected region and presents it nicely -- no cropping needed and perfect for code screenshots!
+
+#+begin_src emacs-lisp
+(use-package screenshot
+  :defer t)
+#+end_src
+
 * Org
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
