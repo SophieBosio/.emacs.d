@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: new-org-context-admin
+# key: <oc
+# --
+(ardoq.operations/org-ctx "ardoqbundlesproduction" "admin@ardoq.com")
