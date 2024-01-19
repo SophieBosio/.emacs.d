@@ -69,6 +69,7 @@ improvements, I would be very happy to hear about them!
   - [[#browser-preference][Browser Preference]]
   - [[#switching-windows][Switching Windows]]
   - [[#elfeed][Elfeed]]
+  - [[#code-screenshots][Code Screenshots]]
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
   - [[#tasks][Tasks]]
@@ -472,7 +473,7 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 (defvar my/font-height 102)
 
 (when (eq system-type 'darwin)
-  (setq my/font-height 140))
+  (setq my/font-height 135))
 
 ;; (when (member "Roboto Mono" (font-family-list))
 ;;   (set-face-attribute 'default nil :font "Roboto Mono" :height 108)
@@ -746,7 +747,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
               fill-column            80             ;; Maximum line width
               split-width-threshold  100            ;; Split vertically by default
               split-height-threshold nil            ;; Split vertically by default
-			  window-min-width       60             ;; No smaller windows than this
+			  window-min-width       80             ;; No smaller windows than this
               frame-resize-pixelwise t              ;; Fine-grained frame resize
               auto-fill-function     'do-auto-fill) ;; Auto-fill-mode everywhere
 #+END_SRC
