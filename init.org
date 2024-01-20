@@ -746,8 +746,8 @@ font size, without necessarily increasing the size of everything else.
 #+begin_src emacs-lisp
 (use-package presentation
   :defer t
+  :hook (presentation-mode . (lambda () (mixed-pitch-mode 'toggle)))
   :config
-  (mixed-pitch-mode -1)
   (setq presentation-default-text-scale 2))
 #+end_src
 
@@ -1298,7 +1298,6 @@ Let's first make sure we're highlighting uncommitted changes.
 
 #+begin_src emacs-lisp
 (use-package diff-hl
-  :defer t
   :config
   (global-diff-hl-mode))
 #+end_src
