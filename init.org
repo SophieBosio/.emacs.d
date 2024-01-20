@@ -41,21 +41,21 @@ improvements, I would be very happy to hear about them!
   - [[#external-software][External Software]]
 - [[#custom-keybindings][Custom Keybindings]]
   - [[#custom-keymap][Custom Keymap]]
-  - [[#mac-os-options][Mac OS Options]]
+  - [[#mac-os-modifier-keys][Mac OS Modifier Keys]]
 - [[#visuals][Visuals]]
   - [[#decluttering][Decluttering]]
   - [[#frames--windows][Frames & Windows]]
   - [[#programming-specific-visuals][Programming-Specific Visuals]]
   - [[#icons][Icons]]
-  - [[#fonts-ligatures-and-symbols][Fonts, Ligatures, and Symbols]]
+  - [[#fonts-ligatures-and-emojis][Fonts, Ligatures, and Emojis]]
   - [[#themes][Themes]]
   - [[#mode-line][Mode Line]]
   - [[#dashboard][Dashboard]]
-  - [[#text-centring][Text Centring]]
+  - [[#text-centring--wrapping][Text Centring & Wrapping]]
 - [[#interaction][Interaction]]
   - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
   - [[#text-editing-preferences][Text Editing Preferences]]
-  - [[#managing-buffers--projects][Managing Buffers & Projects]]
+  - [[#managing-buffers-windows--projects][Managing Buffers, Windows, & Projects]]
   - [[#terminal-emulator][Terminal Emulator]]
   - [[#completion--search][Completion & Search]]
   - [[#version-control][Version Control]]
@@ -67,7 +67,6 @@ improvements, I would be very happy to hear about them!
   - [[#latex][LaTeX]]
   - [[#editor-config][Editor Config]]
   - [[#browser-preference][Browser Preference]]
-  - [[#switching-windows][Switching Windows]]
   - [[#elfeed][Elfeed]]
   - [[#code-screenshots][Code Screenshots]]
 - [[#org][Org]]
@@ -290,9 +289,11 @@ that is *not* yet in my Nix config.
 - Idris
 - Erlang
 
-*Misc:*
-
-- Roboto Mono with ligatures
+*Fonts:*
+- Fragment Mono
+- Rubik
+- Source Sans Pro
+- Roboto Mono with Ligatures
 
 * Custom Keybindings
 ** Custom Keymap
@@ -310,7 +311,7 @@ throughout the config, and then activate it at the end of the config file, at
   "A keymap for custom keybindings.")
 #+end_src
 
-** Mac OS Options
+** Mac OS Modifier Keys
 
 On a Mac, I would want to add some specific settings. As a note to myself, I
 have the following settings in Mac OS:
@@ -318,7 +319,7 @@ have the following settings in Mac OS:
 #+begin_src
 caps-lock -> control (ctrl)
 control   -> control (ctrl)
-option    -> option  (nil)
+option    -> option  (alt)
 command   -> command (meta)
 #+end_src
 
@@ -371,8 +372,7 @@ Some settings to fringes.
 (setq-default indicate-buffer-boundaries nil) ;; Otherwise shows a corner icon on the edge
 (setq-default indicate-empty-lines nil)       ;; Otherwise there are weird fringes on blank lines
 
-(set-face-attribute 'fringe nil :background nil)
-(set-face-attribute 'header-line nil :background nil :inherit 'default)
+(set-face-attribute 'header-line nil :inherit 'default)
 #+end_src
 
 *** Mac OS Settings
@@ -460,7 +460,7 @@ Add =nerd-icons=.
 (use-package nerd-icons)
 #+end_src
 
-** Fonts, Ligatures, and Symbols
+** Fonts, Ligatures, and Emojis
 *** Default, Fixed, and Variable Fonts
 
 For the fixed-pitch font, I'm using a ligaturised version of Roboto Mono. It's a result of the
@@ -483,8 +483,8 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
   (set-face-attribute 'default nil :font "Fragment Mono" :height my/font-height)
   (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
-(when (member "Helvetiva Neue" (font-family-list))
-  (set-face-attribute 'variable-pitch nil :family "Helvetica Neue"))
+(when (member "Rubik" (font-family-list))
+  (set-face-attribute 'variable-pitch nil :family "Rubik"))
 #+end_src
 
 *** Mixed Pitch Fonts
@@ -558,11 +558,12 @@ I really like the =doom-themes= package.
 To change themes quickly, I keep a list of my favourite themes.
 
 #+begin_src emacs-lisp
-(defvar my/favourite-themes '(doom-nord
-							  doom-tomorrow-day
-							  doom-earl-grey
-							  doom-rouge
-							  doom-solarized-light))
+(defvar my/favourite-themes
+  '(doom-nord
+	doom-tomorrow-day
+	doom-earl-grey
+	doom-rouge
+	doom-solarized-light))
 #+end_src
 
 *** Changing Themes on the Fly
@@ -638,6 +639,7 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 
 	;; Version control info
 	(:eval (when-let (vc vc-mode)
+			 ;; Use a pretty branch symbol in front of the branch name
 					 (list (propertize "  " 'face 'font-lock-comment-face)
 						   (propertize (substring vc 5)
 									   'face 'font-lock-comment-face))))
@@ -650,7 +652,7 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 						 ,(+ 2 (string-width "%4l:3%c")))))))
 	
 	;; Line and column numbers
-	(:propertize "%4l:%c" face mode-line)))
+	(:propertize "%4l:%c" face mode-line-active)))
 #+end_src
 
 *** Nano Modeline
@@ -703,7 +705,7 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
                           (agenda       . 5))))
 #+END_SRC
 
-** Text Centring
+** Text Centring & Wrapping
 
 [[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
@@ -713,7 +715,6 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
   :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
   :config
   (setq olivetti-style t))
-  ;; (setq-default olivetti-body-width (+ fill-column 4)))
 #+END_SRC
 
 In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap]] to visually wrap lines.
@@ -734,10 +735,10 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
       frame-inhibit-implied-resize 1         ;; Don't resize frame implicitly
       sentence-end-double-space    nil       ;; No double spaces
       recentf-max-saved-items      1000      ;; Show more recent files
-	  use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
+      use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
       save-interprogram-paste-before-kill t  ;; Save copies between programs
-	  history-length 25                      ;; Only save the last 25 minibuffer prompts
-	  global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
+      history-length 25                      ;; Only save the last 25 minibuffer prompts
+      global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
 
 *** With =setq-default=
@@ -747,7 +748,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
               fill-column            80             ;; Maximum line width
               split-width-threshold  100            ;; Split vertically by default
               split-height-threshold nil            ;; Split vertically by default
-			  window-min-width       80             ;; No smaller windows than this
+              window-min-width       80             ;; No smaller windows than this
               frame-resize-pixelwise t              ;; Fine-grained frame resize
               auto-fill-function     'do-auto-fill) ;; Auto-fill-mode everywhere
 #+END_SRC
@@ -921,7 +922,7 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 			  ("C-M-_" . undo-fu-only-redo)))
 #+end_src
 
-** Managing Buffers & Projects
+** Managing Buffers, Windows, & Projects
 *** Killing Buffers
 
 Sometimes, I'm putting some work away and I don't want those files to show up in
@@ -954,6 +955,20 @@ When called without a prefix argument, kill just the current buffer
 (define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
 #+end_src
 
+*** Switching Windows
+
+Opening, switching and deleting windows becomes super easy with [[https://github.com/dimitri/switch-window][switch-window]].
+
+#+begin_src emacs-lisp
+(use-package switch-window
+  :bind (:map custom-bindings-map
+			  ("C-x o" . 'switch-window)
+			  ("C-x 1" . 'switch-window-then-maximize)
+			  ("C-x 2" . 'switch-window-then-split-below)
+			  ("C-x 3" . 'switch-window-then-split-right)
+			  ("C-x 0" . 'switch-window-then-delete)))
+#+end_src
+
 *** Project Management
  
 [[https://projectile.mx/][Projectile]] provides a convenient project interaction interface. I keep most of
@@ -977,12 +992,11 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   :bind (:map custom-bindings-map
 			  ("C-c b b" . 'burly-open-bookmark)
 			  ("C-c b l" . 'burly-last-open-bookmark)
-			  ("C-c b s" . 'burly-bookmark-frames) ; Bookmark all frames + configs
+			  ("C-c b s" . 'burly-bookmark-frames)    ; Bookmark all frames + configs
 			  ("C-c b c" . 'burly-bookmark-windows))) ; Bookmark current frame + configs
 #+end_src
 
 ** Terminal Emulator
-
 *** Mac OS Environment Variables
 
 On Mac, the environment variables aren't synchronised automatically between the
@@ -1080,12 +1094,11 @@ For completions and search, I use [[https://github.com/minad/vertico][Vertico]] 
 (use-package vertico
   :config
   (vertico-mode 1)
-  (setq vertico-count 25                       ; Show more candidates
-		read-extended-command-predicate 'command-completion-default-include-p
-		read-file-name-completion-ignore-case t  ; Ignore case of file names
-		read-buffer-completion-ignore-case t     ; Ignore case in buffer completion
-		completion-ignore-case t                 ; Ignore case in completion
-))
+  (setq vertico-count                         25  ; Show more candidates
+		read-extended-command-predicate       'command-completion-default-include-p
+		read-file-name-completion-ignore-case t   ; Ignore case of file names
+		read-buffer-completion-ignore-case    t   ; Ignore case in buffer completion
+		completion-ignore-case                t)) ; Ignore case in completion
 #+end_src
 
 *** Vertico Posframe
@@ -1161,16 +1174,16 @@ that it can do.
 (use-package corfu
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-auto t)                 ;; Enable auto completion
   (corfu-auto-delay 0)           ;; No delay
   (corfu-auto-prefix 2)          ;; Start when this many characters have been typed
   (corfu-popupinfo-delay 0.5)    ;; Short delay
+  (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
   ;; (corfu-separator ?\s)          ;; Orderless field separator
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
 
   :init
   (global-corfu-mode))
@@ -1220,10 +1233,10 @@ that it can do.
   (add-to-list 'completion-at-point-functions #'cape-history)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-tex)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
   ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
   ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
   ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-  (add-to-list 'completion-at-point-functions #'cape-dict)
   ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
 )
@@ -1344,12 +1357,12 @@ Roam-notes, and other sequences often used.
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
   :bind (:map custom-bindings-map
-			  ("C-h f" . #'helpful-callable)
+			  ("C-h f" . #'helpful-function)
 			  ("C-h v" . #'helpful-variable)
 			  ("C-h k" . #'helpful-key)
 			  ("C-h x" . #'helpful-command)
 			  ("C-h d" . #'helpful-at-point)
-			  ("C-h F" . #'helpful-function)))
+			  ("C-h c" . #'helpful-callable)))
 #+END_SRC
 
 [[https://github.com/justbur/emacs-which-key][which-key]] shows you available keybindings in the minibuffer. When you've started
@@ -1450,20 +1463,6 @@ Open links with Brave by default.
       browse-url-generic-program "brave-browser")
 #+end_src
 
-** Switching Windows
-
-Opening, switching and deleting windows becomes super easy with [[https://github.com/dimitri/switch-window][switch-window]].
-
-#+begin_src emacs-lisp
-(use-package switch-window
-  :bind (:map custom-bindings-map
-			  ("C-x o" . 'switch-window)
-			  ("C-x 1" . 'switch-window-then-maximize)
-			  ("C-x 2" . 'switch-window-then-split-below)
-			  ("C-x 3" . 'switch-window-then-split-right)
-			  ("C-x 0" . 'switch-window-then-delete)))
-#+end_src
-
 ** Elfeed
 
 [[https://github.com/skeeto/elfeed][Elfeed]] is a feed reader for Emacs!
@@ -1513,16 +1512,17 @@ Set the sizes and fonts for the various headings.
 
 #+begin_src emacs-lisp
   ;; Resize Org headings
-  (dolist (face '((org-level-1        . 1.35)
-				  (org-level-2        . 1.3)
-				  (org-level-3        . 1.2)
-				  (org-level-4        . 1.1)
-				  (org-level-5        . 1.1)
-				  (org-level-6        . 1.1)
-				  (org-level-7        . 1.1)
-				  (org-level-8        . 1.1)
-				  (org-document-title . 1.8)))
-	(set-face-attribute (car face) nil :font "Helvetica Neue" :weight 'bold :height (cdr face)))
+  (dolist (face
+		   '((org-level-1        . 1.35)
+			 (org-level-2        . 1.3)
+			 (org-level-3        . 1.2)
+			 (org-level-4        . 1.1)
+			 (org-level-5        . 1.1)
+			 (org-level-6        . 1.1)
+			 (org-level-7        . 1.1)
+			 (org-level-8        . 1.1)
+			 (org-document-title . 1.8)))
+	(set-face-attribute (car face) nil :font "Rubik" :weight 'bold :height (cdr face)))
 #+END_src
 
 *** LaTeX Previews
@@ -1581,11 +1581,11 @@ Some Org options to deal with headers and TODO's nicely.
 
 #+begin_src emacs-lisp
   (setq org-log-done                       t
-		org-auto-align-tags                t
-		org-tags-column                    -80
-		org-fold-catch-invisible-edits     'show-and-error
-		org-special-ctrl-a/e               t
-		org-insert-heading-respect-content t)
+        org-auto-align-tags                t
+        org-tags-column                    -80
+        org-fold-catch-invisible-edits     'show-and-error
+        org-special-ctrl-a/e               t
+        org-insert-heading-respect-content t)
   #+end_src
 
 Let's finally close the =use-package= declaration with a parenthesis.
