@@ -1301,7 +1301,8 @@ Then configure Magit.
 #+begin_src emacs-lisp
 (use-package magit
   :config
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (setq magit.mode-quit-window 'magit-restore-window-configuration)
+  (add-hook 'magit-pre-refresh-hook  'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 #+end_src
 
@@ -2480,6 +2481,9 @@ forms. I don't have it on all the time.
 (use-package prism
   :defer t)
 #+end_src
+
+TODO: Change behaviour of REPL so it prefers using existing windows rather than
+splitting and creating a new one. https://docs.cider.mx/cider/repl/configuration.html
 
 ** Coq
 
