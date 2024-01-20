@@ -1193,18 +1193,17 @@ that it can do.
 #+begin_src emacs-lisp
 (use-package corfu
   :custom
+  (corfu-auto t)                 ;; Enable auto completion
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto-delay 0)           ;; No delay
   (corfu-auto-prefix 2)          ;; Start when this many characters have been typed
   (corfu-popupinfo-delay 0.5)    ;; Short delay
   (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-auto t)                 ;; Enable auto completion
   ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
   ;; (corfu-separator ?\s)          ;; Orderless field separator
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-
   :init
   (global-corfu-mode))
 
@@ -1451,7 +1450,8 @@ clickable links for your file with the keybinding =C-c ==.
   :hook
   (LaTeX-mode . turn-on-prettify-symbols-mode)
   (LaTeX-mode . turn-on-flyspell)
-  (LaTeX-mode . reftex-mode))
+  (LaTeX-mode . reftex-mode)
+  (LaTeX-mode . (lambda () (corfu-mode -1))))
 #+end_src
 
 When the =reftex= window opens, I want it on the left side of the screen and I
