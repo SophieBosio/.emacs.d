@@ -458,6 +458,14 @@ I usually only need column numbers in programming mode.
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 
+When I open the files =foo/bar/file= and =baz/bar/name=, use forward slashes to
+distinguish them. Default behaviour is angle brackets, giving =name<foo/bar>=.
+
+#+begin_src emacs-lisp
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+#+end_src
+
 ** Icons
 
 Add =nerd-icons=.
