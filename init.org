@@ -2076,18 +2076,14 @@ For working with code blocks in Org mode, I want to make sure code blocks are
 not evaluated by default on export. I also want to add some languages.
 
 #+begin_src emacs-lisp
-(use-package ob
-  :ensure nil
-  :after org
-  :config
-  (setq org-export-use-babel nil
-        org-confirm-babel-evaluate nil)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (python     . t)
-     (haskell    . t)
-	 (clojure    . t))))
+(setq org-export-use-babel       nil
+	  org-confirm-babel-evaluate nil)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (python     . t)
+   (haskell    . t)
+   (clojure    . t)))
 #+end_src
 
 For Python, use whatever interpreter is set by =python-shell-interpreter=.
