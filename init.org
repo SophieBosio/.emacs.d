@@ -70,6 +70,7 @@ improvements, I would be very happy to hear about them!
   - [[#browser-preference][Browser Preference]]
   - [[#elfeed][Elfeed]]
   - [[#code-screenshots][Code Screenshots]]
+  - [[#config-profiling][Config Profiling]]
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
   - [[#tasks][Tasks]]
@@ -326,7 +327,19 @@ command   -> command (meta)
 * Visuals
 ** Decluttering
 
-Let's declutter a little.
+Let's declutter a little. This should have gone into =early-init.el=, but I get
+strange compilation warnings (optimiser says there's too much on the stack).
+
+#+begin_src emacs-lisp
+(dolist (mode
+		 '(tool-bar-mode                     ;; Remove toolbar
+		   scroll-bar-mode                   ;; Remove scollbars
+		   menu-bar-mode                     ;; Remove menu bar
+		   blink-cursor-mode))               ;; Solid cursor, not blinking
+  (funcall mode 0))
+#+end_src
+
+This wouldn't go into =early-init= anyways.
 
 #+begin_src emacs-lisp
 (setq inhibit-startup-message      t         ;; No startup message
@@ -335,13 +348,6 @@ Let's declutter a little.
 	  display-time-default-load-average nil  ;; Don't show me load time
 	  scroll-margin                0         ;; Space between top/bottom
 	  use-dialog-box               nil)      ;; Disable dialog
-
-(dolist (mode
-		 '(tool-bar-mode                     ;; Remove toolbar
-		   scroll-bar-mode                   ;; Remove scollbars
-		   menu-bar-mode                     ;; Remove menu bar
-		   blink-cursor-mode))               ;; Solid cursor, not blinking
-  (funcall mode 0))
 #+end_src
 
 ** Frames & Windows
@@ -1292,6 +1298,7 @@ Let's first make sure we're highlighting uncommitted changes.
 
 #+begin_src emacs-lisp
 (use-package diff-hl
+  :defer t
   :config
   (global-diff-hl-mode))
 #+end_src
@@ -1300,6 +1307,7 @@ Then configure Magit.
 
 #+begin_src emacs-lisp
 (use-package magit
+  :defer t
   :config
   (setq magit.mode-quit-window 'magit-restore-window-configuration)
   (add-hook 'magit-pre-refresh-hook  'diff-hl-magit-pre-refresh)
@@ -1507,6 +1515,19 @@ selected region and presents it nicely -- no cropping needed and perfect for cod
 
 #+begin_src emacs-lisp
 (require 'screenshot)
+#+end_src
+
+** Config Profiling
+
+[[https://github.com/jschaf/esup][ESUP]] is a package for profiling your config. You can use it to shave precious seconds off your
+startup time, which is useful to me because I keep closing it when I'm done with
+a task and then immediately needing it again.
+
+#+begin_src emacs-lisp
+(use-package esup
+  :defer t
+  :config
+  (setq esup-depth 0))
 #+end_src
 
 * Org
@@ -2079,12 +2100,12 @@ not evaluated by default on export. I also want to add some languages.
 #+begin_src emacs-lisp
 (setq org-export-use-babel       nil
 	  org-confirm-babel-evaluate nil)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (python     . t)
-   (haskell    . t)
-   (clojure    . t)))
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '((emacs-lisp . t)
+;;    (python     . t)
+;;    (haskell    . t)
+;;    (clojure    . t)))
 #+end_src
 
 For Python, use whatever interpreter is set by =python-shell-interpreter=.
