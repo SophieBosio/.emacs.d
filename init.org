@@ -52,6 +52,7 @@ improvements, I would be very happy to hear about them!
   - [[#mode-line][Mode Line]]
   - [[#dashboard][Dashboard]]
   - [[#text-centring--wrapping][Text Centring & Wrapping]]
+  - [[#presentation-mode][Presentation Mode]]
 - [[#interaction][Interaction]]
   - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
   - [[#text-editing-preferences][Text Editing Preferences]]
@@ -226,6 +227,8 @@ addition, I want to use =use-package=, so let's make sure we have those loaded.
 #+begin_src emacs-lisp
 (require 'package)
 (require 'use-package)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 #+end_src
 
 Next, I'll set up my package sources. These are very common and well-maintained mirrors.
@@ -243,11 +246,8 @@ Next, I'll set up my package sources. These are very common and well-maintained 
         ("ORG"          . 10)
         ("MELPA Stable" . 5)
         ("nongnu"       . 0)))
-
 (package-initialize)
 #+END_SRC
-
-#+RESULTS:
 
 I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-lisp".
 
@@ -372,7 +372,7 @@ Some settings to fringes.
 (setq-default indicate-buffer-boundaries nil) ;; Otherwise shows a corner icon on the edge
 (setq-default indicate-empty-lines nil)       ;; Otherwise there are weird fringes on blank lines
 
-(set-face-attribute 'header-line nil :inherit 'default)
+(set-face-attribute 'header-line t :inherit 'default)
 #+end_src
 
 *** Mac OS Settings
@@ -723,6 +723,26 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 (use-package adaptive-wrap
   :defer t
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
+#+end_src
+
+[[https://github.com/joostkremers/writeroom-mode][Writeroom Mode]] gives you a distraction-free writing environment.
+
+#+begin_src emacs-lisp
+(use-package writeroom-mode
+  :defer t)
+#+end_src
+
+** Presentation Mode
+
+For presenting (e.g., code or Org mode buffers), it's useful to increase the
+font size, without necessarily increasing the size of everything else.
+
+#+begin_src emacs-lisp
+(use-package presentation
+  :defer t
+  :config
+  (mixed-pitch-mode -1)
+  (setq presentation-default-text-scale 2))
 #+end_src
 
 * Interaction
@@ -1485,8 +1505,7 @@ presentation. [[https://github.com/tecosaur/screenshot][screenshot]] is a great 
 selected region and presents it nicely -- no cropping needed and perfect for code screenshots!
 
 #+begin_src emacs-lisp
-(use-package screenshot
-  :defer t)
+(require 'screenshot)
 #+end_src
 
 * Org
