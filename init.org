@@ -1548,10 +1548,19 @@ parenthesis open, to include some options from the "Visuals" section inside the
 #+BEGIN_SRC emacs-lisp
 (use-package org
   :defer t
-  :config
 #+END_SRC
 
 ** Visuals
+*** Text Centring
+
+I always want to center the text and enable linebreaks in Org. I've added
+a hook to activate =olivetti-mode=, and =visual-fill-mode=
+is always on.
+
+#+begin_src emacs-lisp
+:hook (org-mode-hook . olivetti-mode)
+#+end_src
+
 *** Fonts
 
 *Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
@@ -1559,6 +1568,7 @@ parenthesis open, to include some options from the "Visuals" section inside the
 Set the sizes and fonts for the various headings.
 
 #+begin_src emacs-lisp
+  :config
   ;; Resize Org headings
   (dolist (face
 		   '((org-level-1        . 1.35)
@@ -1640,16 +1650,6 @@ Let's finally close the =use-package= declaration with a parenthesis.
 
 #+begin_src emacs-lisp
 )
-#+end_src
-
-*** Text Centring
-
-Next, I always want to center the text and enable linebreaks in Org. I've added
-a hook to activate =olivetti-mode=, and =visual-fill-mode=
-is always on.
-
-#+begin_src emacs-lisp
-(add-hook 'org-mode-hook 'olivetti-mode)
 #+end_src
 
 *** Hide Emphasis Markers
