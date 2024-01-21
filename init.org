@@ -938,9 +938,7 @@ Makes life so much easier!
 (use-package multiple-cursors
   :defer t
   :bind (:map custom-bindings-map
-              ("C-c e" . mc/edit-lines)
-              ("C-c a" . mc/mark-all-like-this)
-              ("C-c n" . mc/mark-next-like-this)))
+              ("M-n" . mc/mark-next-like-this)))
 #+end_src
 
 *** Undo/Redo
@@ -1815,7 +1813,6 @@ B's Emacs setup]].
 #+begin_src emacs-lisp
 (defun my/prettify-symbols-setup ()
   "Beautify keywords"
-
   (setq prettify-symbols-alist
 		(mapcan (lambda (x) (list x (cons (upcase (car x)) (cdr x))))
 				'(; Greek symbols
@@ -1832,32 +1829,35 @@ B's Emacs setup]].
 				  ("[X]" . "")
 				  ("[-]" . "" )
 				  ; Blocks
-				  ("#+begin_src"   . "")
-				  ("#+end_src"     . "")
+				  ("#+begin_src"   . "") ; 
+				  ("#+end_src"     . "")
 				  ("#+begin_QUOTE" . "‟")
 				  ("#+begin_QUOTE" . "”")
 				  ; Drawers
-				  (":properties:" . "")
+				  ;    ⚙️
+				  (":properties:" . "")
 				  ; Agenda scheduling
 				  ("SCHEDULED:"   . "")
 				  ("DEADLINE:"    . "")
-				  ; Agenda tags 
-				  (":@projects:"  . "")
-				  (":work:"       . "")
-				  (":@inbox:"     . "")
-				  (":task:"       . "")
-				  (":@thesis:"    . "")
-				  (":thesis:"     . "")
-				  (":uio:"        . "")
+				  ; Agenda tags  
+				  (":@projects:"  . "☕")
+				  (":work:"       . "🚀")
+				  (":@inbox:"     . "✉️")
+				  (":goal:"       . "🎯")
+				  (":task:"       . "📋")
+				  (":@thesis:"    . "📝")
+				  (":thesis:"     . "📝")
+				  (":uio:"        . "🏛️")
 				  (":emacs:"      . "")
-				  (":learn:"      . "")
-				  (":code:"       . "")
-				  (":fix:"        . "")
-				  (":bug:"        . "")
+				  (":learn:"      . "🌱")
+				  (":code:"       . "💻")
+				  (":fix:"        . "🛠️")
+				  (":bug:"        . "🚩")
+				  (":read:"       . "📚")
 				  ; Roam tags
-				  ("#+filetags:"  . " ")
-				  (":wip:"        . "")
-				  (":ct:"         . "") ; Category Theory
+				  ("#+filetags:"  . "🏷️")
+				  (":wip:"        . "🏗️")
+				  (":ct:"         . "↔️") ; Category Theory
 				  )))
   (prettify-symbols-mode))
 
@@ -2125,7 +2125,7 @@ For Python, use whatever interpreter is set by =python-shell-interpreter=.
   (setq org-babel-python-command python-shell-interpreter))
 #+end_src
 
-** Roam
+** Roam   
 
 [[https://roamresearch.com/][Roam]] is a smart note-taking system in the style of a personal knowledge
 management system. [[https://www.orgroam.com/][org-roam]] is a port of this system that uses all plain-text Org-files.
