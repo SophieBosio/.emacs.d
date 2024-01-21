@@ -1558,7 +1558,7 @@ a hook to activate =olivetti-mode=, and =visual-fill-mode=
 is always on.
 
 #+begin_src emacs-lisp
-:hook (org-mode-hook . olivetti-mode)
+:hook (org-mode . olivetti-mode)
 #+end_src
 
 *** Fonts
