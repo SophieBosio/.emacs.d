@@ -324,6 +324,13 @@ option    -> option  (alt)
 command   -> command (meta)
 #+end_src
 
+#+begin_src emacs-lisp
+(setq mac-command-modifier       'meta
+	  mac-right-command-modifier 'meta
+	  mac-option-modifier        nil
+	  mac-right-option-modifier  nil)
+#+end_src
+
 * Visuals
 ** Decluttering
 
@@ -382,6 +389,8 @@ Some settings to fringes.
 #+end_src
 
 *** Mac OS Settings
+
+*TODO:* Update to =emacs-plus=.
 
 Using the [[https://github.com/railwaycat/homebrew-emacsmacport][emacsmacport]] version of Mithuarus's [[https://bitbucket.org/mituharu/emacs-mac/src/master/][emacs-mac]], you can get a
 transparent title bar (e.g., title bar is same colour as theme background),
