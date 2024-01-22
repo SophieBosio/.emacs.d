@@ -2135,6 +2135,7 @@ I set up a Roam directory and added a simple configuration for navigating Roam n
 #+begin_src emacs-lisp
 (use-package org-roam
   :after org
+  :hook (org-roam-mode . org-roam-db-autosync-mode)
   :init
   (setq org-roam-v2-ack t)
   :custom
