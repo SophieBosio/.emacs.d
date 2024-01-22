@@ -666,7 +666,7 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 						 ,(+ 2 (string-width "%4l:3%c")))))))
 	
 	;; Line and column numbers
-	(:propertize "%4l:%c" face mode-line-active)))
+	(:propertize "%4l:%c" face mode-line-buffer-id)))
 #+end_src
 
 *** Nano Modeline
