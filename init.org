@@ -482,7 +482,7 @@ For the fixed-pitch font, I'm using the excellent [[https://github.com/weiweihua
 Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > Visuals]] section.
 
 #+begin_src emacs-lisp
-(defvar my/font-height 101)
+(defvar my/font-height 102)
 
 (when (eq system-type 'darwin)
   (setq my/font-height 135))
@@ -493,9 +493,6 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 
 (when (member "Open Sans" (font-family-list))
   (set-face-attribute 'variable-pitch nil :family "Open Sans"))
-
-(when (member "Helvetica Neue" (font-family-list))
-  (set-face-attribute 'variable-pitch nil :family "Helvetica Neue"))
 #+end_src
 
 *** Mixed Pitch Fonts
@@ -506,10 +503,7 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 (use-package mixed-pitch
   :defer t
   :hook ((org-mode   . mixed-pitch-mode)
-		 (LaTeX-mode . mixed-pitch-mode))
-  :config
-  (setq mixed-pitch-set-height t)
-  (set-face-attribute 'variable-pitch nil :height 1.1))
+		 (LaTeX-mode . mixed-pitch-mode)))
 #+end_src
 
 *** Ligatures
