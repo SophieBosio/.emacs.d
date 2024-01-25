@@ -388,6 +388,22 @@ Some settings to fringes.
 (set-face-attribute 'header-line t :inherit 'default)
 #+end_src
 
+*** Splitting Windows
+
+I want maximum two windows by default. If I have already split the frame into
+two windows and then call a function that opens a new window (for example a
+Magit or a compilation buffer), then I want Emacs to reuse the inactive window
+instead of creating a new one. Setting both =split-height-threshold= and
+=split-width-threshold= to =nil= ensures this. I'll also set =fill-column= to 80 characters.
+
+#+begin_src emacs-lisp
+(setq-default split-height-threshold nil
+			  split-width-threshold  nil
+              fill-column            80   ;; Maximum line width
+              ;; window-min-width     80  ;; No smaller windows than this
+)
+#+end_src
+
 *** Mac OS Settings
 
 *TODO:* Update to =emacs-plus=.
@@ -779,10 +795,6 @@ font size, without necessarily increasing the size of everything else.
 
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width              4              ;; Smaller tabs
-              fill-column            80             ;; Maximum line width
-              split-width-threshold  100            ;; Split vertically by default
-              split-height-threshold nil            ;; Split vertically by default
-              ;; window-min-width       80             ;; No smaller windows than this
               frame-resize-pixelwise t              ;; Fine-grained frame resize
               auto-fill-function     'do-auto-fill) ;; Auto-fill-mode everywhere
 #+END_SRC
