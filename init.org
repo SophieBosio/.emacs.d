@@ -2200,6 +2200,20 @@ Follow links with RET.
 (setq org-return-follows-link t)
 #+end_src
 
+*** Graph UI
+
+[[https://github.com/org-roam/org-roam-ui][Org Roam UI]] gives you a pretty and functional graph of your notes, Obsidian-style.
+
+#+begin_src emacs-lisp
+(use-package org-roam-ui
+    :after org-roam
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+#+end_src
+
 ** Hugo
 
 [[https://gohugo.io/][Hugo]] is a static site generator. By default, it uses a Markdown flavour called
