@@ -1890,38 +1890,6 @@ font-lock and the display property.
                               prepend))) t)
 #+end_src
 
-*** Super Agenda
-
-[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
-navigate.
-
-#+begin_src emacs-lisp
-(use-package org-super-agenda
-  :after org
-  :config
-  (setq org-super-agenda-header-prefix "❯ ")
-  ;; Hide the thin width char glyph
-  (add-hook 'org-agenda-mode-hook
-            #'(lambda () (setq-local nobreak-char-display nil)))
-  (setq org-super-agenda-groups
-		'((:name "Today"
-				 :time-grid t
-				 :order 1)
-		  (:name "Inbox"
-				 :tag "@inbox"
-				 :order 2)
-		  (:name "Thesis"
-				 :tag "@thesis"
-				 :order 3)
-		  (:name "Projects"
-				 :tag "@projects"
-				 :order 4)
-		  (:name "Important"
-				:priority "A"
-				:order 5)))
-  (org-super-agenda-mode))
-#+end_src
-
 ** Tasks
 *** Task Priorities
 
@@ -2063,6 +2031,41 @@ I want to open my agenda on the current day, not on any specific weekday.
 
 #+begin_src emacs-lisp
 (setq org-agenda-start-on-weekday nil)
+#+end_src
+
+*** Super Agenda
+
+[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
+navigate.
+
+#+begin_src emacs-lisp
+(use-package org-super-agenda
+  :after org
+  :config
+  (setq org-super-agenda-header-prefix "❯ ")
+  ;; Hide the thin width char glyph
+  (add-hook 'org-agenda-mode-hook
+            #'(lambda () (setq-local nobreak-char-display nil)))
+  (setq org-super-agenda-groups
+		'((:name "Today"
+				 :time-grid t
+				 :order 1)
+		  (:name "In Progress"
+				 :todo "PROG"
+				 :order 2)
+		  (:name "Inbox"
+				 :tag "@inbox"
+				 :order 3)
+		  (:name "Ardoq"
+				 :tag "@ardoq"
+				 :order 4)
+		  (:name "Thesis"
+				 :tag "@thesis"
+				 :order 5)
+		  (:name "Important"
+				:priority "A"
+				:order 6)))
+  (org-super-agenda-mode))
 #+end_src
 
 *** Day Views
