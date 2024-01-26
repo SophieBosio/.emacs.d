@@ -73,6 +73,7 @@ improvements, I would be very happy to hear about them!
   - [[#config-profiling][Config Profiling]]
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
+  - [[#org-ql][Org QL]]
   - [[#tasks][Tasks]]
   - [[#agenda][Agenda]]
   - [[#babel][Babel]]
@@ -1890,6 +1891,16 @@ font-lock and the display property.
                               prepend))) t)
 #+end_src
 
+** Org QL
+
+[[https://github.com/alphapapa/org-ql][org-ql]] is a query language for Org mode. I use it to find things and to set up a
+pretty calendar view.
+
+#+begin_src emacs-lisp
+(use-package org-ql
+  :defer t)
+#+end_src
+
 ** Tasks
 *** Task Priorities
 
@@ -2073,29 +2084,43 @@ navigate.
 Open day view with =C-c a d= and extended three-day view with =C-c a e=.
 
 #+begin_src emacs-lisp
-(setq org-agenda-custom-commands
-	  '(("d" "Day View"
-               ((agenda "" ((org-agenda-overriding-header "Day View")
-                            (org-agenda-span 'day))
-					     	(org-super-agenda-groups '(
-                                                       (:name "Today's Schedule:"
-                                                              :time-grid t
-                                                              :discard (:deadline t)
-                                                              :order 1)
-                                                       (:name "Today:"
-                                                              :scheduled t
-                                                              :order 2)
-                                                       (:name "Deadlines:"
-                                                              :deadline t
-                                                              :order 3)
-													   (:name "Priority:"
-															  :priority "A"
-															  :order 4))))))
-		("e" "Three-Day View"
+;; Delete defaults
+(setq org-agenda-custom-commands nil)
+
+(defvar my/regular-org-super-agenda-groups
+  '((:name "Today's Schedule:"
+		   :time-grid t
+		   :discard (:deadline t)
+		   :order 1)
+	(:name "Today:"
+		   :scheduled t
+		   :order 2)
+	(:name "Deadlines:"
+		   :deadline t
+		   :order 3)
+	(:name "Priority:"
+		   :priority "A"
+		   :order 4)))
+
+(defvar my/in-prog-groups
+  '((:name "In Progress:"
+		   :todo "PROG")))
+
+(add-to-list 'org-agenda-custom-commands
+	  '("d" "Day View"
+		 ((agenda "" ((org-agenda-overriding-header "Day View")
+					  (org-agenda-span 'day)
+					  (org-super-agenda-groups my/regular-org-super-agenda-groups)))
+          (org-ql-block '(todo "PROG")
+                              ((org-ql-block-header "Active tasks")
+                               (org-super-agenda-groups my/in-prog-groups))))))
+
+(add-to-list 'org-agenda-custom-commands
+		'("e" "Three-Day View"
                ((agenda "" ((org-agenda-span 3)
                             (org-agenda-entry-types '(:deadline :scheduled))
                             (org-agenda-start-on-weekday nil)
-                            (org-deadline-warning-days 0)))))))
+                            (org-deadline-warning-days 0))))))
 #+end_src
 
 *** Displaying Scheduled & Deadline Items
