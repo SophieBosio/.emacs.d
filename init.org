@@ -393,14 +393,13 @@ Some settings to fringes.
 I want maximum two windows by default. If I have already split the frame into
 two windows and then call a function that opens a new window (for example a
 Magit or a compilation buffer), then I want Emacs to reuse the inactive window
-instead of creating a new one. Setting both =split-height-threshold= and
-=split-width-threshold= to =nil= ensures this. I'll also set =fill-column= to 80 characters.
+instead of creating a new one. Setting =split-height-threshold= to =nil= ensures this. I'll also set =fill-column= to 80 characters.
 
 #+begin_src emacs-lisp
 (setq-default split-height-threshold nil
-			  split-width-threshold  nil
+			  ;; split-width-threshold  nil
               fill-column            80   ;; Maximum line width
-              ;; window-min-width     80  ;; No smaller windows than this
+              ;; window-min-width       80  ;; No smaller windows than this
 )
 #+end_src
 
