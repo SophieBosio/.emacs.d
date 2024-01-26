@@ -509,7 +509,7 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 (defvar my/font-height 102)
 
 (when (eq system-type 'darwin)
-  (setq my/font-height 135))
+  (setq my/font-height 134))
 
 (when (member "Fragment Mono" (font-family-list))
   (set-face-attribute 'default nil :font "Fragment Mono" :height my/font-height)
