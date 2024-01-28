@@ -4,6 +4,7 @@
 :PROPERTIES:
 #+PROPERTY: header-args :tangle yes
 #+OPTIONS: toc:2
+#+startup: folded
 :END:
 
 [[./images/config-screenshot.png]]
@@ -1663,7 +1664,7 @@ Increase the size of LaTeX previews in Org.
 
 When opening an Org file, all headers are folded by default.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (setq-default org-startup-folded t)
 #+end_src
 
@@ -1750,7 +1751,7 @@ you move the cursor away, the preview is turned on again.
 #+begin_src emacs-lisp
 (use-package org-fragtog
   :after org
-  :hook (org-mode-hook . org-fragtog-mode))
+  :hook (org-mode . org-fragtog-mode))
 #+end_src
 
 *** Bullets
@@ -1915,7 +1916,8 @@ B's Emacs setup]].
 				  (":bug:"        . "🚩")
 				  (":read:"       . "📚")
 				  ; Roam tags
-				  ("#+filetags:"  . "🏷️")
+				  ;("#+filetags:"  . "🏷️")
+				  ("#+filetags:"  . "")
 				  (":wip:"        . "🏗️")
 				  (":ct:"         . "↔️") ; Category Theory
 				  )))
@@ -2072,7 +2074,7 @@ up registers for my GTD files.
 (set-register ?2 (cons 'file (concat org-directory "ardoq.org")))
 (set-register ?3 (cons 'file (concat org-directory "thesis.org")))
 (set-register ?4 (cons 'file (concat org-directory
-"roam/20231204101233-landing_page.org")))
+"roam/20240128135100-roam.org")))
 (set-register ?5 (cons 'file (concat org-directory "projects.org")))
 #+end_src
 
