@@ -991,6 +991,26 @@ symbol, word, sentence, paragraph). It's super handy!
 			                      ("C-å" . er/contract-region)))
 #+end_src
 
+*** Filling/Unfilling
+
+In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks
+like a normal paragraph in Emacs (one line) is actually several lines with =\n=
+all over. This function removes those and makes the selected region one line
+again.
+
+#+begin_src emacs-lisp
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+		;; This would override `fill-column' if it's an integer.
+		(emacs-lisp-docstring-fill-column t))
+	(fill-paragraph nil region)))
+;; Handy key definition
+(define-key custom-bindings-map "\M-Q" 'unfill-paragraph)
+#+end_src
+
 *** Multiple Cursors
 
 Makes life so much easier!
@@ -1656,16 +1676,6 @@ Increase the size of LaTeX previews in Org.
 
 #+begin_src emacs-lisp
 (plist-put org-format-latex-options :scale 1.35)
-#+end_src
-
-*** Folded Startup
-
-*Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
-
-When opening an Org file, all headers are folded by default.
-
-#+begin_src emacs-lisp :tangle no
-  (setq-default org-startup-folded t)
 #+end_src
 
 *** Decluttering
