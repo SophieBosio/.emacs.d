@@ -391,17 +391,65 @@ Some settings to fringes.
 
 *** Splitting Windows
 
-I want maximum two windows by default. If I have already split the frame into
+I want maximum two windows by default. I have a function, taken from [[https://emacs.stackexchange.com/a/40517][this Stack
+Overflow post]], that rewrites the =split-window-sensibly= function to reverse its
+preference and essentially prefer splitting side-by-side.
+
+#+begin_src emacs-lisp
+(defun split-window-sensibly-prefer-horizontal (&optional window)
+"Based on split-window-sensibly, but designed to prefer a horizontal split,
+i.e. windows tiled side-by-side."
+  (let ((window (or window (selected-window))))
+    (or (and (window-splittable-p window t)
+         ;; Split window horizontally
+         (with-selected-window window
+           (split-window-right)))
+    (and (window-splittable-p window)
+         ;; Split window vertically
+         (with-selected-window window
+           (split-window-below)))
+    (and
+         ;; If WINDOW is the only usable window on its frame (it is
+         ;; the only one or, not being the only one, all the other
+         ;; ones are dedicated) and is not the minibuffer window, try
+         ;; to split it horizontally disregarding the value of
+         ;; `split-height-threshold'.
+         (let ((frame (window-frame window)))
+           (or
+            (eq window (frame-root-window frame))
+            (catch 'done
+              (walk-window-tree (lambda (w)
+                                  (unless (or (eq w window)
+                                              (window-dedicated-p w))
+                                    (throw 'done nil)))
+                                frame)
+              t)))
+     (not (window-minibuffer-p window))
+     (let ((split-width-threshold 0))
+       (when (window-splittable-p window t)
+         (with-selected-window window
+               (split-window-right))))))))
+
+(defun split-window-really-sensibly (&optional window)
+  (let ((window (or window (selected-window))))
+    (if (> (window-total-width window) (* 2 (window-total-height window)))
+        (with-selected-window window (split-window-sensibly-prefer-horizontal window))
+      (with-selected-window window (split-window-sensibly window)))))
+
+(setq split-window-preferred-function 'split-window-really-sensibly)
+#+end_src
+
+If I have already split the frame into
 two windows and then call a function that opens a new window (for example a
 Magit or a compilation buffer), then I want Emacs to reuse the inactive window
-instead of creating a new one. Setting =split-height-threshold= to =nil= ensures this. I'll also set =fill-column= to 80 characters.
+instead of creating a new one. Setting both =split-height-threshold= and
+=split-width-threshold= to =nil= seems to ensure this. I'll also set =fill-column= to 80 characters.
 
 #+begin_src emacs-lisp
 (setq-default split-height-threshold nil
-			  ;; split-width-threshold  nil
-              fill-column            80   ;; Maximum line width
-              ;; window-min-width       80  ;; No smaller windows than this
-)
+			  split-width-threshold  nil
+              fill-column            80)  ;; Maximum line width
+              ;; window-min-width       80) ;; No smaller windows than this
 #+end_src
 
 *** Mac OS Settings
