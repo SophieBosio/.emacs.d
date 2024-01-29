@@ -1938,10 +1938,9 @@ B's Emacs setup]].
 				  (":bug:"        . "🚩")
 				  (":read:"       . "📚")
 				  ; Roam tags
-				  ;("#+filetags:"  . "🏷️")
-				  ("#+filetags:"  . "")
+				  ("#+filetags:"  . "📎")
 				  (":wip:"        . "🏗️")
-				  (":ct:"         . "↔️") ; Category Theory
+				  (":ct:"         . "") ; Category Theory
 				  )))
   (prettify-symbols-mode))
 
