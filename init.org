@@ -4,7 +4,7 @@
 :PROPERTIES:
 #+PROPERTY: header-args :tangle yes
 #+OPTIONS: toc:2
-#+startup: folded
+#+STARTUP: overview
 :END:
 
 [[./images/config-screenshot.png]]
@@ -294,8 +294,7 @@ that is *not* yet in my Nix config.
 
 *Fonts:*
 - Fragment Mono
-- Rubik
-- Source Sans Pro
+- Open Source Sans
 - Roboto Mono with Ligatures
 
 * Custom Keybindings
@@ -1632,6 +1631,9 @@ parenthesis open, to include some options from the "Visuals" section inside the
 ** Visuals
 *** Text Centring
 
+*Note:* We are still in the =:config= section of the =use-package= declaration for Org
+mode.
+
 I always want to center the text and enable linebreaks in Org. I've added
 a hook to activate =olivetti-mode=, and =visual-fill-mode=
 is always on.
@@ -1678,10 +1680,20 @@ Increase the size of LaTeX previews in Org.
 (plist-put org-format-latex-options :scale 1.35)
 #+end_src
 
+*** Folded Startup
+
+*Note:* We are still in the =:config= section of the =use-package= declaration for Org
+mode.
+
+In general, show me all the headings.
+
+#+begin_src emacs-lisp
+(setq org-startup-folded 'content)
+#+end_src
+
 *** Decluttering
 
-*Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
-
+*Note:* We are still in the =:config= section of the =use-package= declaration for Org mode.
 
 We'll declutter by adapting the indentation and hiding leading starts in headings. We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
 insert special characters LaTeX-style by using a leading backslash (e.g., =\alpha= to
@@ -1713,7 +1725,7 @@ Some Org options to deal with headers and TODO's nicely.
         org-fold-catch-invisible-edits     'show-and-error
         org-special-ctrl-a/e               t
         org-insert-heading-respect-content t)
-  #+end_src
+#+end_src
 
 Let's finally close the =use-package= declaration with a parenthesis.
 
