@@ -1,0 +1,3 @@
+# Make GitHub's Linguist ignore all my yasnippets
+# Otherwise, my repo is marked as 50+% yas instead of Org/Elisp
+snippets/** linguist-vendored
