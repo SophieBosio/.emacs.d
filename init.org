@@ -443,12 +443,12 @@ If I have already split the frame into
 two windows and then call a function that opens a new window (for example a
 Magit or a compilation buffer), then I want Emacs to reuse the inactive window
 instead of creating a new one. Setting both =split-height-threshold= and
-=split-width-threshold= to =nil= seems to ensure this. I'll also set =fill-column= to 80 characters.
+=split-width-threshold= to =nil= seems to ensure this.
 
 #+begin_src emacs-lisp
 (setq-default split-height-threshold nil
-			  split-width-threshold  nil
-              fill-column            80)  ;; Maximum line width
+			  split-width-threshold  nil)
+              ;; fill-column            80)  ;; Maximum line width
               ;; window-min-width       80) ;; No smaller windows than this
 #+end_src
 
@@ -1563,9 +1563,7 @@ styles across editors when collaborating.
 
 #+begin_src emacs-lisp
 (use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1))
+  :defer t)
 #+end_src
 
 ** Browser Preference
