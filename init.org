@@ -1530,6 +1530,15 @@ buffer where flyspell is enabled.
   (ispell-change-dictionary "british" t))
 #+end_src
 
+I'm also testing out [[https://github.com/minad/jinx][Jinx]].
+
+#+begin_src emacs-lisp
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)))
+#+end_src
+
 ** LaTeX
 
 I use [[https://www.gnu.org/software/auctex/][AUCTeX]] to work with LaTeX files from within Emacs and it's a massive help.
