@@ -579,6 +579,17 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 		 (LaTeX-mode . mixed-pitch-mode)))
 #+end_src
 
+*** Monitor-Dependent Text Size Scaling
+
+[[https://github.com/WJCFerguson/textsize][textsize.el]] is a package for automatically resizing your text size
+based on the display you're using. Super useful when, like me, you
+switch between a laptop screen and a large monitor.
+
+#+begin_src emacs-lisp
+(use-package textsize
+  :init (textsize-mode))
+#+end_src
+
 *** Ligatures
 
 The package =ligature.el= provides support for displaying the ligatures of
