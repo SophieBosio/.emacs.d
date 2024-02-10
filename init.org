@@ -653,9 +653,9 @@ To change themes quickly, I keep a list of my favourite themes.
 (defvar my/favourite-themes
   '(doom-nord
 	doom-tomorrow-day
-	doom-earl-grey
-	doom-rouge
-	doom-solarized-light))
+	doom-tomorrow-night
+	doom-solarized-light
+	doom-oksolar-light))
 #+end_src
 
 *** Changing Themes on the Fly
