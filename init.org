@@ -585,9 +585,12 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 based on the display you're using. Super useful when, like me, you
 switch between a laptop screen and a large monitor.
 
+On my MacBook, I set it to 19 default points.
+
 #+begin_src emacs-lisp
 (use-package textsize
-  :init (textsize-mode))
+  :init (textsize-mode)
+  (setq textsize-default-points 19))
 #+end_src
 
 *** Ligatures
