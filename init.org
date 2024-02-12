@@ -292,7 +292,8 @@ that is *not* yet in my Nix config.
 - Idris
 - Erlang
 - Agda
-- Lean
+- Alex (Haskell/Agda)
+- Happy (Haskell/Agda)
 
 *Fonts:*
 - [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
@@ -454,7 +455,7 @@ instead of creating a new one. Setting both =split-height-threshold= and
               ;; window-min-width       80) ;; No smaller windows than this
 #+end_src
 
-*** Mac OS Settings
+*** Transparent Title Bar on Mac OS
 
 *TODO:* Update to =emacs-plus=.
 
@@ -509,6 +510,19 @@ defaults write org.gnu.Emacs TransparentTitleBar LIGHT
 
 # hide document icon from title bar
 defaults write org.gnu.Emacs HideDocumentIcon YES
+#+end_src
+
+*** Undecorated Title Bar on Gnome
+
+[[https://www.gnu.org/software/emacs/manual/html_node/elisp/Management-Parameters.html][It's possible]] to set the Emacs window to be "undecorated", i.e.,
+without a title bar and thus with no buttons on Gnome.
+
+#+begin_src emacs-lisp
+(when (eq system-type 'gnu/linux)
+  ; don't show buffer name in title bar
+  (setq frame-title-format nil)
+  ; use undecorated title bar
+  (add-to-list 'default-frame-alist '(undecorated . t)))
 #+end_src
 
 ** Programming-Specific Visuals
@@ -2662,9 +2676,6 @@ forms. I don't have it on all the time.
 (use-package prism
   :defer t)
 #+end_src
-
-TODO: Change behaviour of REPL so it prefers using existing windows rather than
-splitting and creating a new one. https://docs.cider.mx/cider/repl/configuration.html
 
 ** Coq
 
