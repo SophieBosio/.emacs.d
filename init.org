@@ -276,26 +276,28 @@ out how to set up everything yet. In the meantime, I keep this list of software
 that is *not* yet in my Nix config.
 
 *Utilities:*
-
 - Fish
-- Brave browser
+- Starship
+- Firefox
 
 *Programming languages++:*
-
-- GHCi
-- Stack
+- GHCi (Haskell)
+- Stack (Haskell)
 - Java
+- Clojure
 - Leiningen
 - OCaml
 - Racket
 - Lua
 - Idris
 - Erlang
+- Agda
+- Lean
 
 *Fonts:*
-- Fragment Mono
-- Open Source Sans
-- Roboto Mono with Ligatures
+- [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
+- [[https://fonts.google.com/specimen/Open+Sans][Open Sans]]
+- [[https://github.com/lemeb/a-better-ligaturizer/blob/master/output-fonts/RobotoMono.ttf][Roboto Mono with Ligatures]]
 
 * Custom Keybindings
 ** Custom Keymap
