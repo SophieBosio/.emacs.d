@@ -1595,7 +1595,7 @@ Open links with Brave by default.
 
 #+begin_src emacs-lisp
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "brave-browser")
+      browse-url-generic-program "firefox")
 #+end_src
 
 ** Elfeed
