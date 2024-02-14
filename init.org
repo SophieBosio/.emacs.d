@@ -1438,6 +1438,15 @@ Then configure Magit.
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 #+end_src
 
+And finally use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the project's TODOs directly in the Magit buffer.
+
+#+begin_src emacs-lisp
+(use-package magit-todos
+  :after magit
+  :config
+  (magit-todos-mode 1))
+#+end_src
+
 ** Auto-Saving
 
 To avoid clutter, let's put all the auto-saved files into one and the same directory.
