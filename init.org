@@ -2556,6 +2556,17 @@ Emacs with the results.
 			  ("C-c C-c" . haskell-compile)))
 #+END_SRC
 
+** Agda
+
+To install Agda, you need Haskell - stack or cabal - and a few other
+programs. Once those are installed, you can add this to your =init.el=.
+Or you can just let =agda-mode setup= do it for you.
+
+#+begin_src emacs-lisp
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
+#+end_src
+
 ** OCaml
 
 OCaml requires some setup for =ocp-indent=,
