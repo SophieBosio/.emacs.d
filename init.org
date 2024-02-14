@@ -86,12 +86,14 @@ improvements, I would be very happy to hear about them!
   - [[#eglot][Eglot]]
   - [[#flycheck][Flycheck]]
   - [[#haskell][Haskell]]
+  - [[#agda][Agda]]
   - [[#ocaml][OCaml]]
   - [[#python][Python]]
   - [[#clojure][Clojure]]
   - [[#coq][Coq]]
   - [[#nix][Nix]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
+- [[#todos][TODOs]]
 
 * Setup
 ** =init.el= Code
@@ -601,7 +603,7 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 based on the display you're using. Super useful when, like me, you
 switch between a laptop screen and a large monitor.
 
-On my MacBook, I set it to 19 default points and on Linux to 14.
+On my MacBook, I set it to 19 default points and on Linux to 15.
 
 #+begin_src emacs-lisp
 (use-package textsize
@@ -612,7 +614,7 @@ On my MacBook, I set it to 19 default points and on Linux to 14.
 			  ("C-x C-0" . textsize-reset))
   :config
   (if (eq system-type 'gnu/linux)
-	(setq textsize-default-points 14)
+	(setq textsize-default-points 15)
 	(setq textsize-default-points 19)))
 #+end_src
 
@@ -755,7 +757,7 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 	;; Version control info
 	(:eval (when-let (vc vc-mode)
 			 ;; Use a pretty branch symbol in front of the branch name
-					 (list (propertize "  " 'face 'font-lock-comment-face)
+					 (list (propertize "   " 'face 'font-lock-comment-face)
 						   (propertize (substring vc 5)
 									   'face 'font-lock-comment-face))))
 
@@ -2739,3 +2741,9 @@ mode for it and activate that mode. The below code does just that.
   :keymap custom-bindings-map)
 #+end_src
 
+
+* TODOs
+- [ ] Find prose font that scales well with TODO boxes and verbatim code
+- [ ] Check out [[https://github.com/alphapapa/org-quick-peek][org-quick-peek]]
+- [ ] Check out [[https://www.emacswiki.org/emacs/TransposeFrame][Transpose Frame]]
+- [ ] Check out  [[https://github.com/oantolin/embark][embark]]
