@@ -1105,7 +1105,7 @@ When called without a prefix argument, kill just the current buffer
 (define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
 #+end_src
 
-*** Switching Windows
+*** Opening, Closing, & Switching Windows
 
 Opening, switching and deleting windows becomes super easy with [[https://github.com/dimitri/switch-window][switch-window]].
 
@@ -1117,6 +1117,17 @@ Opening, switching and deleting windows becomes super easy with [[https://github
 			  ("C-x 2" . 'switch-window-then-split-below)
 			  ("C-x 3" . 'switch-window-then-split-right)
 			  ("C-x 0" . 'switch-window-then-delete)))
+#+end_src
+
+And [[https://www.emacswiki.org/emacs/TransposeFrame][Transpose
+Frame]] has some nice functions for shifting windows around. I only really use the
+one to swap the left- and right-hand sides of the frame, but there are
+others you might find useful.
+
+#+begin_src emacs-lisp
+(use-package transpose-frame
+  :bind (:map custom-bindings-map
+			  ("C-c f" . 'flop-frame)))
 #+end_src
 
 *** Project Management
@@ -2725,7 +2736,6 @@ mode for it and activate that mode. The below code does just that.
 * TODOs
 - [ ] Find prose font that scales well with TODO boxes and verbatim code
 - [ ] Check out [[https://github.com/alphapapa/org-quick-peek][org-quick-peek]]
-- [ ] Check out [[https://www.emacswiki.org/emacs/TransposeFrame][Transpose Frame]]
 - [ ] Check out  [[https://github.com/oantolin/embark][embark]]
 
   
