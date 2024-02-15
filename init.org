@@ -402,8 +402,7 @@ preference and essentially prefer splitting side-by-side.
 
 #+begin_src emacs-lisp
 (defun split-window-sensibly-prefer-horizontal (&optional window)
-"Based on split-window-sensibly, but designed to prefer a horizontal split,
-i.e. windows tiled side-by-side."
+"Based on `split-window-sensibly', but prefers to split WINDOW side-by-side."
   (let ((window (or window (selected-window))))
     (or (and (window-splittable-p window t)
          ;; Split window horizontally
@@ -1176,7 +1175,7 @@ in just vterm, please do let me know :~)
 
 #+begin_src emacs-lisp
 (use-package vterm
-  :defer  t
+  :defer t
 
   :preface
   (let ((last-vterm ""))
@@ -1537,48 +1536,8 @@ to enter a command, it will show you where you can go from there.
 
 ** Spelling
 
-[[https://www.emacswiki.org/emacs/FlySpell][Flyspell]] enables on-the-fly spell checking and highlights misspelled words in
-the way that you'd expect.
-
-I've borrowed [[https://github.com/larstvei/dot-emacs#flyspell][Lars' function]] for cycling through languages from his config. The
-below code ensures changing spelling language in one buffer does not affect the
-spelling languages of other buffers. I mostly write in British English, but
-adapt to American English when collaborating, so I'll add both.
-
-#+begin_src emacs-lisp
-(defun cycle-languages ()
-  "Changes the ispell dictionary to the first element in
-ISPELL-LANGUAGES, and returns an interactive function that cycles
-the languages in ISPELL-LANGUAGES when invoked."
-  (let ((ispell-languages (list "british" "norsk" "american" "italiano" "francais")))
-    (lambda ()
-      (interactive)
-      ;; Rotates the languages cycle and changes the ispell dictionary.
-      (let ((rotated (nconc (cdr ispell-languages) (list (car ispell-languages)))))
-        (ispell-change-dictionary (car (setq ispell-languages rotated)))))))
-#+end_src
-
-I'll enable =flyspell-mode= for all text modes and use =flyspell-prog-mode= for
-spell checking comments and strings in all programming modes. =C-c l= is bound to
-a function returned from =cycle-languages=, giving a language switcher for every
-buffer where flyspell is enabled.
-
-#+begin_src emacs-lisp
-(use-package flyspell
-  :defer t
-  :if (executable-find "aspell")
-  :hook ((text-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode)
-         (flyspell-mode . (lambda ()
-                            (local-set-key
-                             (kbd "C-c l")
-                             (cycle-languages)))))
-  :bind ("C-c f" . flyspell-correct-word-before-point)
-  :config
-  (ispell-change-dictionary "british" t))
-#+end_src
-
-I'm also testing out [[https://github.com/minad/jinx][Jinx]].
+[[https://github.com/minad/jinx][Jinx]] is a =libenchant=-powered spellchecker with a super nice UI. I'm
+trying it out instead of Flyspell, which I used before.
 
 #+begin_src emacs-lisp
 (use-package jinx
@@ -1805,6 +1764,14 @@ making edits easy while looking pretty.
   (setq org-appear-autoemphasis   t   ; Show bold, italics, verbatim, etc.
         org-appear-autolinks      t   ; Show links
 		org-appear-autosubmarkers t)) ; Show sub- and superscripts
+#+end_src
+
+*** Inline Images
+
+Show inline images by default
+
+#+begin_src haskell
+(setq org-startup-with-inline-images t)
 #+end_src
 
 *** Variable Pitch
@@ -2422,7 +2389,7 @@ See `org-capture-templates' for more information."
 #+end_src
 
 ** Org Conveniencies
-*** Pasting Images
+*** Pasting Images with =org-download=
 
 [[https://github.com/abo-abo/org-download][org-download]] lets me easily put copied screenshots into my org-documents.
 
@@ -2433,12 +2400,6 @@ See `org-capture-templates' for more information."
   (:map org-mode-map
         (("s-t" . org-download-screenshot)
          ("s-y" . org-download-clipboard))))
-#+end_src
-
-Show inline images by default
-
-#+begin_src haskell
-(setq org-startup-with-inline-images t)
 #+end_src
 
 *** TOC in Org Files
@@ -2766,5 +2727,5 @@ mode for it and activate that mode. The below code does just that.
 - [ ] Check out [[https://github.com/alphapapa/org-quick-peek][org-quick-peek]]
 - [ ] Check out [[https://www.emacswiki.org/emacs/TransposeFrame][Transpose Frame]]
 - [ ] Check out  [[https://github.com/oantolin/embark][embark]]
-- [ ] Check out [[https://github.com/LionyxML/ros][org-ros]]
 
+  
