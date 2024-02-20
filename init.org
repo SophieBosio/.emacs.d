@@ -567,9 +567,12 @@ Add =nerd-icons=.
 ** Fonts, Ligatures, and Emojis
 *** Default, Fixed, and Variable Fonts
 
-For the fixed-pitch font, I'm using the excellent [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]], which has great ligature support.
-
 Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > Visuals]] section.
+
+For the fixed-pitch font, I'm using the excellent [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]], which
+has great ligature support.
+
+I have Open Sans configured as my variable-pitch font.
 
 #+begin_src emacs-lisp
 (defvar my/font-height 102)
@@ -602,7 +605,8 @@ Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > V
 based on the display you're using. Super useful when, like me, you
 switch between a laptop screen and a large monitor.
 
-On my MacBook, I set it to 19 default points and on Linux to 15.
+On my MacBook, I set it to 19 default points and on Linux to 15
+(laptop) and 11 (monitor).
 
 #+begin_src emacs-lisp
 (use-package textsize
@@ -613,7 +617,8 @@ On my MacBook, I set it to 19 default points and on Linux to 15.
 			  ("C-x C-0" . textsize-reset))
   :config
   (if (eq system-type 'gnu/linux)
-	(setq textsize-default-points 15)
+	(setq textsize-default-points 11)
+	;; (setq textsize-default-points 15)
 	(setq textsize-default-points 19)))
 #+end_src
 
@@ -2736,6 +2741,7 @@ mode for it and activate that mode. The below code does just that.
 * TODOs
 - [ ] Find prose font that scales well with TODO boxes and verbatim code
 - [ ] Check out [[https://github.com/alphapapa/org-quick-peek][org-quick-peek]]
+- [X] Check out [[https://github.com/cpitclaudel/quick-peek][quick-peek]] (not on MELPA)
 - [ ] Check out  [[https://github.com/oantolin/embark][embark]]
 
   
