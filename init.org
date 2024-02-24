@@ -2480,6 +2480,15 @@ names.
 	(global-wakatime-mode)))
 #+end_src
 
+*** Markdown
+
+Need-to-have for programmers.
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :defer t)
+#+end_src
+
 ** Eglot
 
 [[https://github.com/joaotavora/eglot][Eglot]] (Emacs polyGLOT) is an LSP server client for Emacs that comes
