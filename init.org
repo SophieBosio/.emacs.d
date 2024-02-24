@@ -52,8 +52,7 @@ improvements, I would be very happy to hear about them!
   - [[#themes][Themes]]
   - [[#mode-line][Mode Line]]
   - [[#dashboard][Dashboard]]
-  - [[#text-centring--wrapping][Text Centring & Wrapping]]
-  - [[#presentation-mode][Presentation Mode]]
+  - [[#text-display-modes][Text Display Modes]]
 - [[#interaction][Interaction]]
   - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
   - [[#text-editing-preferences][Text Editing Preferences]]
@@ -606,7 +605,7 @@ based on the display you're using. Super useful when, like me, you
 switch between a laptop screen and a large monitor.
 
 On my MacBook, I set it to 19 default points and on Linux to 15
-(laptop) and 11 (monitor).
+(laptop) and 12 (monitor).
 
 #+begin_src emacs-lisp
 (use-package textsize
@@ -617,7 +616,7 @@ On my MacBook, I set it to 19 default points and on Linux to 15
 			  ("C-x C-0" . textsize-reset))
   :config
   (if (eq system-type 'gnu/linux)
-	(setq textsize-default-points 11)
+	(setq textsize-default-points 12)
 	;; (setq textsize-default-points 15)
 	(setq textsize-default-points 19)))
 #+end_src
@@ -826,7 +825,8 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
                           (agenda       . 5))))
 #+END_SRC
 
-** Text Centring & Wrapping
+** Text Display Modes
+*** Olivetti
 
 [[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
 
@@ -838,6 +838,8 @@ A friendly welcome screen! Note that I point it to my own image, but the ='logo=
   (setq olivetti-style t))
 #+END_SRC
 
+*** Adaptive Wrap
+
 In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap]] to visually wrap lines.
 
 #+begin_src emacs-lisp
@@ -846,6 +848,8 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
   :hook (visual-line-mode . adaptive-wrap-prefix-mode))
 #+end_src
 
+*** Writeroom Mode
+
 [[https://github.com/joostkremers/writeroom-mode][Writeroom Mode]] gives you a distraction-free writing environment.
 
 #+begin_src emacs-lisp
@@ -853,18 +857,29 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
   :defer t)
 #+end_src
 
-** Presentation Mode
+*** Focus
 
-For presenting (e.g., code or Org mode buffers), it's useful to increase the
-font size, without necessarily increasing the size of everything else.
+ [[https://github.com/larstvei/Focus][Focus]] dims surrounding text in a semantic manner (sentences,
+ paragraphs, sections, code blocks, etc.) making it easier to, well,
+ focus. I find this especially helpful when editing LaTeX.
 
-#+begin_src emacs-lisp
-(use-package presentation
-  :defer t
-  :hook (presentation-mode . (lambda () (mixed-pitch-mode 'toggle)))
-  :config
-  (setq presentation-default-text-scale 2))
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package focus
+   :defer t)
+ #+end_src
+
+*** Presentation Mode
+
+ For presenting (e.g., code or Org mode buffers), it's useful to increase the
+ font size, without necessarily increasing the size of everything else.
+
+ #+begin_src emacs-lisp
+ (use-package presentation
+   :defer t
+   :hook (presentation-mode . (lambda () (mixed-pitch-mode 'toggle)))
+   :config
+   (setq presentation-default-text-scale 2))
+ #+end_src
 
 * Interaction
 ** Tweaking Default Behaviour
