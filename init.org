@@ -880,7 +880,8 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width              4              ;; Smaller tabs
               frame-resize-pixelwise t              ;; Fine-grained frame resize
-              auto-fill-function     'do-auto-fill) ;; Auto-fill-mode everywhere
+              ;; auto-fill-function     'do-auto-fill ;; Auto-fill-mode
+)
 #+END_SRC
 
 *** With modes
@@ -2756,5 +2757,6 @@ mode for it and activate that mode. The below code does just that.
 - [ ] Check out [[https://github.com/alphapapa/org-quick-peek][org-quick-peek]]
 - [X] Check out [[https://github.com/cpitclaudel/quick-peek][quick-peek]] (not on MELPA)
 - [ ] Check out  [[https://github.com/oantolin/embark][embark]]
+- [ ] Bind function to flash/locate cursor to =M--=
 
   
