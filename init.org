@@ -51,7 +51,6 @@ improvements, I would be very happy to hear about them!
   - [[#fonts-ligatures-and-emojis][Fonts, Ligatures, and Emojis]]
   - [[#themes][Themes]]
   - [[#mode-line][Mode Line]]
-  - [[#dashboard][Dashboard]]
   - [[#text-display-modes][Text Display Modes]]
 - [[#interaction][Interaction]]
   - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
@@ -803,27 +802,6 @@ line, but I'm keeping my Nano config for when the issue gets resolved.
   (setq nano-modeline-padding '(0.45 . 0.45))
   (my-nano-modeline 1))
 #+end_src
-
-** Dashboard
-
-A friendly welcome screen! Note that I point it to my own image, but the ='logo= banner is also really nice.
-
-#+BEGIN_SRC emacs-lisp
-(use-package dashboard
-  :config
-  (setq dashboard-display-icons-p     t) ;; display icons on both GUI and terminal
-  (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
-  (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner         (concat user-emacs-directory "images/emacs-standalone-E.png")
-		dashboard-image-banner-max-width 110
-		dashboard-banner-logo-title      "ELISP YOUR WAY TO HEAV3N"
-		dashboard-center-content         t
-		dashboard-set-footer             nil
-		dashboard-page-separator         "\n\n\n"
-		dashboard-items '((projects     . 5)
-                          (recents      . 5)
-                          (agenda       . 5))))
-#+END_SRC
 
 ** Text Display Modes
 *** Olivetti
@@ -2090,7 +2068,7 @@ The first step is to set the relevant directories.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Dropbox/org/")
-(setq org-agenda-files (list "inbox.org" "ardoq.org" "thesis.org"))
+(setq org-agenda-files (list "inbox.org" "thesis.org"))
 #+END_SRC
 
 Set the archive location to a unified archive.
@@ -2104,9 +2082,6 @@ Then to set up the relevant capture templates, with accompanying keybindings.
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
        `(("i" "Inbox" entry  (file "inbox.org")
-        ,(concat "* TODO %?\n"
-                 "/Entered on/ %U"))
-		 ("a" "Ardoq" entry  (file "ardoq.org")
         ,(concat "* TODO %?\n"
                  "/Entered on/ %U"))
 		 ("t" "Thesis" entry  (file "thesis.org")
@@ -2144,11 +2119,9 @@ up registers for my GTD files.
 
 #+begin_src emacs-lisp
 (set-register ?1 (cons 'file (concat org-directory "inbox.org")))
-(set-register ?2 (cons 'file (concat org-directory "ardoq.org")))
-(set-register ?3 (cons 'file (concat org-directory "thesis.org")))
-(set-register ?4 (cons 'file (concat org-directory
-"roam/20240128135100-roam.org")))
-(set-register ?5 (cons 'file (concat org-directory "projects.org")))
+(set-register ?2 (cons 'file (concat org-directory "thesis.org")))
+(set-register ?3 (cons 'file (concat org-directory "roam/20240128135100-roam.org")))
+(set-register ?4 (cons 'file (concat org-directory "projects.org")))
 #+end_src
 
 Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
@@ -2187,11 +2160,11 @@ navigate.
 		  (:name "In Progress"
 				 :todo "PROG"
 				 :order 2)
+		  (:name "Ardoq"
+				 :tag "work"
+				 :order 3)
 		  (:name "Inbox"
 				 :tag "@inbox"
-				 :order 3)
-		  (:name "Ardoq"
-				 :tag "@ardoq"
 				 :order 4)
 		  (:name "Thesis"
 				 :tag "@thesis"
@@ -2259,6 +2232,22 @@ Modify dealine leader text.
 
 #+begin_src emacs-lisp
 (setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
+#+end_src
+
+*** Startup with Agenda View
+
+I used to have a nice dashboard as a welcome screen, but when I open
+Emacs, I usually just open a recently opened buffer with =C-x b=
+or I open a project with =C-c p p=. It's more useful to me to
+immediately get an overview of  my tasks so I can jump right into it.
+The below hook runs my custom agenda function to open a day view, and
+deletes other windows so I don't see the agenda *and* the scratch buffer.
+
+#+begin_src emacs-lisp
+(add-hook 'after-init-hook
+		  (lambda () (progn (org-agenda nil "d")
+					(delete-other-windows)
+					(olivetti-mode))))
 #+end_src
 
 ** Babel
