@@ -2562,7 +2562,7 @@ To install Agda, you need Haskell - stack or cabal - and a few other
 programs. Once those are installed, you can add this to your =init.el=.
 Or you can just let =agda-mode setup= do it for you.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
 #+end_src
