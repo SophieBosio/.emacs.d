@@ -1571,7 +1571,8 @@ clickable links for your file with the keybinding =C-c ==.
   (LaTeX-mode . turn-on-prettify-symbols-mode)
   (LaTeX-mode . turn-on-flyspell)
   (LaTeX-mode . reftex-mode)
-  (LaTeX-mode . (lambda () (corfu-mode -1))))
+  (LaTeX-mode . (lambda () (corfu-mode -1)))
+  (LaTeX-mode . outline-minor-mode))
 #+end_src
 
 When the =reftex= window opens, I want it on the left side of the screen and I
