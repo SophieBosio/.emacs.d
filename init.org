@@ -372,6 +372,23 @@ When I open Emacs, I want it to open maximised and fullscreen by default.
 ;; (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
 
+*** Frame Transparency
+
+#+begin_src emacs-lisp
+ (defun toggle-transparency ()
+   (interactive)
+   (let ((alpha (frame-parameter nil 'alpha)))
+     (set-frame-parameter
+      nil 'alpha
+      (if (eql (cond ((numberp alpha) alpha)
+                     ((numberp (cdr alpha)) (cdr alpha))
+                     ;; Also handle undocumented (<active> <inactive>) form.
+                     ((numberp (cadr alpha)) (cadr alpha)))
+               100)
+          '(90 . 55) '(100 . 100)))))
+ (global-set-key (kbd "C-c v") 'toggle-transparency)
+#+end_src
+
 *** Frame Border
 
 I want a small border around the whole frame, because I think it looks nicer.
