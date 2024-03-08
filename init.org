@@ -1109,6 +1109,19 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 			  ("C-M-_" . undo-fu-only-redo)))
 #+end_src
 
+*** Move Lines
+
+[[https://github.com/wyuenho/move-dup][move-dup]] provides bindings for moving and duplicating whole lines. It's super convenient.
+
+#+begin_src emacs-lisp
+(use-package move-dup
+  :bind (:map prog-mode-map
+			  (("M-<up>"     . move-dup-move-lines-up)
+			   ("C-M-<up>"   . move-dup-duplicate-up)
+			   ("M-<down>"   . move-dup-move-lines-down)
+			   ("C-M-<down>" . move-dup-duplicate-down))))
+#+end_src
+
 ** Managing Buffers, Windows, & Projects
 *** Killing Buffers
 
