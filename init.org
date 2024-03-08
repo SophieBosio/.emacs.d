@@ -571,6 +571,25 @@ distinguish them. Default behaviour is angle brackets, giving =name<foo/bar>=.
 (setq uniquify-buffer-name-style 'forward)
 #+end_src
 
+Highlight lines over 100 characters long.
+
+#+begin_src emacs-lisp
+(setq my-whitespace-style '(face tabs lines-tail)
+      whitespace-style my-whitespace-style
+      whitespace-line-column 100
+      fill-column 100
+      whitespace-display-mappings
+      '((space-mark 32 [183] [46])
+        (newline-mark 10 [36 10])
+        (tab-mark 9 [9655 9] [92 9])))
+
+;; in e.g. clojure-mode-hook
+;; (whitespace-mode 1)
+;; or globally
+;; (global-whitespace-mode 1)
+(add-hook 'prog-mode 'white-space-mode)
+#+end_src
+
 ** Icons
 
 Add =nerd-icons=.
