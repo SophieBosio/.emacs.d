@@ -2732,7 +2732,16 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 
 #+begin_src emacs-lisp
 (use-package clj-refactor
-  :defer t)
+  :after clojure-mode
+  :hook (clojure-mode . clj-refactor-mode))
+#+end_src
+
+[[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]].
+
+#+begin_src emacs-lisp
+(use-package flycheck-clj-kondo
+  :after clojure-mode
+  :hook (clojure-mode . flycheck-clj-kondo-mode))
 #+end_src
 
 [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
