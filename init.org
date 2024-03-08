@@ -653,7 +653,9 @@ On my MacBook, I set it to 19 default points and on Linux to 15
   (if (eq system-type 'gnu/linux)
 	(setq textsize-default-points 12)
 	;; (setq textsize-default-points 15)
-	(setq textsize-default-points 19)))
+	;; (setq textsize-default-points 19)
+	nil
+))
 #+end_src
 
 *** Ligatures
