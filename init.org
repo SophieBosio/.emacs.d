@@ -831,6 +831,8 @@ line, but I'm keeping my Nano config for when the issue gets resolved.
   :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
   :config
   (setq olivetti-style t))
+
+(add-hook'olivetti-mode-on-hook (lambda () (olivetti-set-width 88)))
 #+END_SRC
 
 *** Adaptive Wrap
