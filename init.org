@@ -1588,7 +1588,6 @@ clickable links for your file with the keybinding =C-c ==.
 (use-package auctex
   :hook
   (LaTeX-mode . turn-on-prettify-symbols-mode)
-  (LaTeX-mode . turn-on-flyspell)
   (LaTeX-mode . reftex-mode)
   (LaTeX-mode . (lambda () (corfu-mode -1)))
   (LaTeX-mode . outline-minor-mode)
