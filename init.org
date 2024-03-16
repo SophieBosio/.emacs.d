@@ -2572,8 +2572,8 @@ Emacs with the results.
 		haskell-compile-stack-build-command     "stack build"
 		haskell-compile-stack-build-alt-command "stack build --pedantic")
   :bind (:map haskell-mode-map
-			  ("\C-ch"   . haskell-hoogle)
-			  ("C-c C-c" . haskell-compile)))
+			  ("\C-c\C-h" . haskell-hoogle)
+			  ("C-c C-c"  . haskell-compile)))
 #+END_SRC
 
 ** Agda
@@ -2778,5 +2778,5 @@ mode for it and activate that mode. The below code does just that.
 - [X] Check out [[https://github.com/cpitclaudel/quick-peek][quick-peek]] (not on MELPA)
 - [ ] Check out  [[https://github.com/oantolin/embark][embark]]
 - [ ] Bind function to flash/locate cursor to =M--=
-
+- [ ] Check out [[https://github.com/mohkale/consult-eglot/][consult-eglot]]
   
