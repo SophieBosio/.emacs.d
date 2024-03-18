@@ -1741,6 +1741,22 @@ Set the sizes and fonts for the various headings.
   '(outline-9          ((t (:height 1.1)))))
 #+END_src
 
+*** Opening Links
+
+*Note:* We are still in the =:config= section of the =use-package= declaration for Org
+mode.
+
+By default, when opening an Org-link, the current window is split into two. I'd like for the new window to replace the current one. To do this, we need to edit =org-link-frame-setup= and change the default cons =(file . find-file-other-window)= to =(file . find-file)=.
+
+#+begin_src emacs-lisp :tangle no
+(setq org-link-frame-setup
+	  '((vm      . vm-visit-folder-other-frame)
+		(vm-imap . vm-visit-imap-folder-other-frame)
+		(gnus    . org-gnus-no-new-news)
+		(file    . find-file)
+		(wl      . wl-other-frame)))
+#+end_src
+
 *** LaTeX Previews
 
 *Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
