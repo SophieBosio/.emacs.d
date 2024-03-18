@@ -2840,5 +2840,7 @@ mode for it and activate that mode. The below code does just that.
 - [X] Check out [[https://github.com/cpitclaudel/quick-peek][quick-peek]] (not on MELPA)
 - [ ] Check out  [[https://github.com/oantolin/embark][embark]]
 - [ ] Bind function to flash/locate cursor to =M--=
-- [ ] Check out [[https://github.com/kofm/harpoon.el][harpoon]]
 - [ ] Check out [[https://github.com/rexim/org-cliplink][org-cliplink]]
+- [ ] Check out [[https://github.com/mohkale/consult-eglot/][consult-eglot]]
+- [ ] Check out [[https://github.com/otavioschwanck/harpoon.el][harpoon]]
+- [ ] Check out [[https://github.com/alphapapa/bufler.el][bufler]]
