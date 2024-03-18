@@ -2732,9 +2732,19 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 =C-x C-e= to evaluate the s-exp at point.
 [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
+
+[[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
+
+#+begin_src emacs-lisp
+(use-package flycheck-clj-kondo
+  :ensure t)
+#+end_src
+
 #+begin_src emacs-lisp
 (use-package clojure-mode
-  :defer t)
+  :defer t
+  :config
+  (require 'flycheck-clj-kondo))
 
 (use-package cider
   :defer t
@@ -2752,14 +2762,6 @@ code, but it also has very Emacs-like shortcuts for expected actions, such as
 (use-package clj-refactor
   :after clojure-mode
   :hook (clojure-mode . clj-refactor-mode))
-#+end_src
-
-[[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]].
-
-#+begin_src emacs-lisp
-(use-package flycheck-clj-kondo
-  :after clojure-mode
-  :hook (clojure-mode . flycheck-clj-kondo-mode))
 #+end_src
 
 [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
