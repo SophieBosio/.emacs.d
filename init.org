@@ -475,7 +475,7 @@ instead of creating a new one. Setting both =split-height-threshold= and
 
 *** Transparent Title Bar on Mac OS
 
-*TODO:* Update to =emacs-plus=.
+*TODO:* I've started using =emacs-plus= instead of =emacs-mac=. I need to update this text to reflect that, but a similar option does exist for =emacs-plus= :~)
 
 Using the [[https://github.com/railwaycat/homebrew-emacsmacport][emacsmacport]] version of Mithuarus's [[https://bitbucket.org/mituharu/emacs-mac/src/master/][emacs-mac]], you can get a
 transparent title bar (e.g., title bar is same colour as theme background),
@@ -649,7 +649,7 @@ I have Open Sans configured as my variable-pitch font.
 (use-package mixed-pitch
   :defer t
   :hook ((org-mode   . mixed-pitch-mode)
-		 (LaTeX-mode . mixed-pitch-mode)))
+         (LaTeX-mode . mixed-pitch-mode)))
 #+end_src
 
 *** Monitor-Dependent Text Size Scaling
@@ -659,7 +659,7 @@ based on the display you're using. Super useful when, like me, you
 switch between a laptop screen and a large monitor.
 
 On my MacBook, I set it to 19 default points and on Linux to 15
-(laptop) and 12 (monitor).
+(laptop) and 12 (monitor). For now, I have a dumb approach. I'll need to figure out a better system for this in the future.
 
 #+begin_src emacs-lisp :tangle no
 (use-package textsize
@@ -736,10 +736,10 @@ To change themes quickly, I keep a list of my favourite themes.
 #+begin_src emacs-lisp
 (defvar my/favourite-themes
   '(doom-nord
-	doom-tomorrow-day
-	doom-tomorrow-night
-	doom-solarized-light
-	doom-oksolar-light))
+    doom-tomorrow-day
+    doom-tomorrow-night
+    doom-solarized-light
+    doom-oksolar-light))
 #+end_src
 
 *** Changing Themes on the Fly
@@ -872,7 +872,7 @@ line, but I'm keeping my Nano config for when the issue gets resolved.
   :config
   (setq olivetti-style t))
 
-(add-hook'olivetti-mode-on-hook (lambda () (olivetti-set-width 88)))
+(add-hook 'olivetti-mode-on-hook (lambda () (olivetti-set-width 88)))
 #+END_SRC
 
 *** Adaptive Wrap
@@ -965,15 +965,15 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 I want scrolling to be a *lot* slower than it is by default.
 
 #+begin_src emacs-lisp
-(setq scroll-conservatively 101)
-(setq
- mouse-wheel-follow-mouse 't
- mouse-wheel-progressive-speed nil
- ;; Scroll 2 lines at a time, instead of default 5
- ;; Hold shift to scroll x2 and control to scroll x3 as fast
- mouse-wheel-scroll-amount '(1 ((shift) . 3) ((control) . 6)))
+(setq scroll-conservatively            101
+      mouse-wheel-follow-mouse         't
+      mouse-wheel-progressive-speed    nil
+      ;; Scroll 2 lines at a time, instead of default 5
+      ;; Hold shift to scroll x2 and control to scroll x3 as fast
+      mouse-wheel-scroll-amount        '(1 ((shift) . 3) ((control) . 6)))
+
 (setq mac-redisplay-dont-reset-vscroll t
-      mac-mouse-wheel-smooth-scroll nil)
+      mac-mouse-wheel-smooth-scroll    nil)
 #+end_src
 
 *** Don't Trap Me in the Minibuffer
@@ -982,7 +982,8 @@ And finally, don't trap me in the minibuffer! I don't want to get "attempted
 command inside minibuffer."
 
 #+begin_src emacs-lisp
-(setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
+(setq minibuffer-prompt-properties
+	  '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
 
@@ -1326,10 +1327,10 @@ For completions and search, I use [[https://github.com/minad/vertico][Vertico]] 
   :config
   (vertico-mode 1)
   (setq vertico-count                         25  ; Show more candidates
-		read-extended-command-predicate       'command-completion-default-include-p
-		read-file-name-completion-ignore-case t   ; Ignore case of file names
-		read-buffer-completion-ignore-case    t   ; Ignore case in buffer completion
-		completion-ignore-case                t)) ; Ignore case in completion
+        read-extended-command-predicate       'command-completion-default-include-p
+        read-file-name-completion-ignore-case t   ; Ignore case of file names
+        read-buffer-completion-ignore-case    t   ; Ignore case in buffer completion
+        completion-ignore-case                t)) ; Ignore case in completion
 #+end_src
 
 *** Vertico Posframe
@@ -1861,7 +1862,7 @@ making edits easy while looking pretty.
   (setq org-hide-emphasis-markers t)  ; Must be activated for org-appear to work
   (setq org-appear-autoemphasis   t   ; Show bold, italics, verbatim, etc.
         org-appear-autolinks      t   ; Show links
-		org-appear-autosubmarkers t)) ; Show sub- and superscripts
+        org-appear-autosubmarkers t)) ; Show sub- and superscripts
 #+end_src
 
 *** Inline Images
@@ -2641,8 +2642,8 @@ Emacs with the results.
 		haskell-compile-stack-build-command     "stack build"
 		haskell-compile-stack-build-alt-command "stack build --pedantic")
   :bind (:map haskell-mode-map
-			  ("\C-c\C-h" . haskell-hoogle)
-			  ("C-c C-c"  . haskell-compile)))
+			  ("C-c C-h" . haskell-hoogle)
+			  ("C-c C-c" . haskell-compile)))
 #+END_SRC
 
 ** Agda
