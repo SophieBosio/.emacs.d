@@ -309,7 +309,7 @@ overwritten by extensions' own bindings.
 
 The first step is to create the custom keybinding map. We'll add bindings to it
 throughout the config, and then activate it at the end of the config file, at
-[[*Activating Custom Keybindings][Activating Custom Keybindings]].
+[[#activating-custom-keybindings][Activating Custom Keybindings]].
 
 #+begin_src emacs-lisp
 (defvar custom-bindings-map (make-keymap)
