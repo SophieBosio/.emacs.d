@@ -330,9 +330,9 @@ command   -> command (meta)
 
 #+begin_src emacs-lisp
 (setq mac-command-modifier       'meta
-	  mac-right-command-modifier 'meta
-	  mac-option-modifier        nil
-	  mac-right-option-modifier  nil)
+      mac-right-command-modifier 'meta
+      mac-option-modifier        nil
+      mac-right-option-modifier  nil)
 #+end_src
 
 * Visuals
@@ -373,6 +373,8 @@ When I open Emacs, I want it to open maximised and fullscreen by default.
 #+END_SRC
 
 *** Frame Transparency
+
+This doesn't work ideally, but it does the job. I use it very rarely.
 
 #+begin_src emacs-lisp
  (defun toggle-transparency ()
@@ -466,7 +468,7 @@ instead of creating a new one. Setting both =split-height-threshold= and
 
 #+begin_src emacs-lisp
 (setq-default split-height-threshold nil
-			  split-width-threshold  nil)
+              split-width-threshold  nil)
               ;; fill-column            80)  ;; Maximum line width
               ;; window-min-width       80) ;; No smaller windows than this
 #+end_src
@@ -542,12 +544,15 @@ without a title bar and thus with no buttons on Gnome.
 #+end_src
 
 ** Programming-Specific Visuals
+*** Cursor
 
 I prefer a bar cursor over a block cursor.
 
 #+begin_src emacs-lisp
 (setq-default cursor-type 'bar)
 #+end_src
+
+*** Delimiters (Parentheses etc.)
 
 When coding, I want my delimiters (parentheses, brackets, etc.) to be colourised
 in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d883502155d5b26e791fec15da6aeca][rainbow-delimiters]] does exactly that.
@@ -557,19 +562,25 @@ in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d88350215
   :hook (prog-mode-hook . rainbow-delimiters-mode))
 #+end_src
 
-I usually only need column numbers in programming mode.
+*** Line Numbers
+
+I usually only need line numbers in programming mode.
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 
-When I open the files =foo/bar/file= and =baz/bar/name=, use forward slashes to
-distinguish them. Default behaviour is angle brackets, giving =name<foo/bar>=.
+*** Uniquify Buffers
+
+When opening the files =foo/bar/name= and =baz/bar/name=, use forward slashes to
+distinguish them. Default behaviour is angle brackets, which would yield =name<foo/bar>= and =name<baz/bar>=..
 
 #+begin_src emacs-lisp
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 #+end_src
+
+*** Highlight Long Lines
 
 Highlight lines over 100 characters long.
 
@@ -587,7 +598,7 @@ Highlight lines over 100 characters long.
 ;; (whitespace-mode 1)
 ;; or globally
 ;; (global-whitespace-mode 1)
-(add-hook 'prog-mode 'white-space-mode)
+(add-hook 'prog-mode 'whitespace-mode)
 #+end_src
 
 ** Icons
@@ -642,7 +653,7 @@ switch between a laptop screen and a large monitor.
 On my MacBook, I set it to 19 default points and on Linux to 15
 (laptop) and 12 (monitor).
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package textsize
   :init (textsize-mode)
   :bind (:map custom-bindings-map
@@ -1221,7 +1232,6 @@ shell and Emacs.
   :if (memq window-system '(mac ns))
   :config
   (exec-path-from-shell-initialize))
-
 #+end_src
 
 *** vterm
@@ -1652,7 +1662,7 @@ Open links with Brave by default.
 
 #+begin_src emacs-lisp
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
+      browse-url-generic-program "brave-browser")
 #+end_src
 
 ** Elfeed
@@ -1676,7 +1686,7 @@ Sometimes, you want to take a screenshot of your buffer to share or use in a
 presentation. [[https://github.com/tecosaur/screenshot][screenshot]] is a great and convenient package that captures the
 selected region and presents it nicely -- no cropping needed and perfect for code screenshots!
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (require 'screenshot)
 #+end_src
 
