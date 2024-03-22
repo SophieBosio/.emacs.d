@@ -2531,6 +2531,14 @@ Need-to-have for programmers.
   :defer t)
 #+end_src
 
+** Tree-Sitter
+
+[[https://github.com/emacs-tree-sitter/elisp-tree-sitter][Tree-sitter]] is an incremental parsing library, and Emacs bindings now come built into Emacs 29+ if you choose to build Emacs with tree-sitter support.
+
+Once setup, you can get tree-sitter grammars by building them or downloading them. The hard work has already been done for us, for example [[https://github.com/casouri/tree-sitter-module/][here]] and [[https://github.com/emacs-tree-sitter/tree-sitter-langs][here]].
+
+If you want to keep these in a location outside the =.emacs.d= directory, you can set =treesit-extra-load-path=.
+
 ** Eglot
 
 [[https://github.com/joaotavora/eglot][Eglot]] (Emacs polyGLOT) is an LSP server client for Emacs that comes
