@@ -81,15 +81,11 @@ improvements, I would be very happy to hear about them!
   - [[#org-conveniencies][Org Conveniencies]]
 - [[#programming][Programming]]
   - [[#preferences--extras][Preferences & Extras]]
+  - [[#tree-sitter][Tree-Sitter]]
   - [[#eglot][Eglot]]
   - [[#flycheck][Flycheck]]
-  - [[#haskell][Haskell]]
-  - [[#agda][Agda]]
-  - [[#ocaml][OCaml]]
-  - [[#python][Python]]
-  - [[#clojure][Clojure]]
-  - [[#coq][Coq]]
-  - [[#nix][Nix]]
+  - [[#http][HTTP]]
+  - [[#programming-languages][Programming Languages]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 - [[#todos][TODOs]]
 
@@ -556,8 +552,7 @@ But sometimes, that makes it hard to spot the cursor when switching between buff
 
 #+begin_src emacs-lisp
 (use-package cursor-flash
-  :defer t
-  :hook (prog-mode . cursor-flash-mode))
+  :defer t)
 #+end_src
 
 *** Delimiters (Parentheses etc.)
@@ -2578,199 +2573,209 @@ Eglot, we need a dedicated package.
   :init (global-flycheck-mode))
 #+end_src
 
-** Haskell
+** HTTP
 
-For Haskell, I think the regular =haskell-mode= is nice. I'll add =haskell-doc-mode=
-which uses eldoc consistently throughout.
+[[https://github.com/pashky/restclient.el][restclient.el]] lets you run HTTP requests from a static, plain-text query file.
 
-I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
-look up functions and packages. I've set it up according to the GitHub docs, so
-that =C-c h= opens a prompt and querying the database opens a help buffer inside
-Emacs with the results.
-
-#+BEGIN_SRC emacs-lisp
-(use-package haskell-mode
-  :defer t
-  :hook (haskell-mode . haskell-doc-mode)
-  :config
-  (setq haskell-hoogle-command                  "hoogle"
-		haskell-compile-stack-build-command     "stack build"
-		haskell-compile-stack-build-alt-command "stack build --pedantic")
-  :bind (:map haskell-mode-map
-			  ("C-c C-h" . haskell-hoogle)
-			  ("C-c C-c" . haskell-compile)))
-#+END_SRC
-
-** Agda
-
-To install Agda, you need Haskell - stack or cabal - and a few other
-programs. Once those are installed, you can add this to your =init.el=.
-Or you can just let =agda-mode setup= do it for you.
-
-#+begin_src emacs-lisp :tangle no
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
-#+end_src
-
-** OCaml
-
-OCaml requires some setup for =ocp-indent=,
-
-#+begin_src emacs-lisp :tangle no
-(use-package ocp-indent
+#+begin_src emacs-lisp
+(use-package restclient
   :defer t)
 #+end_src
 
-and for =merlin=.
+** Programming Languages
+*** Haskell
+
+ For Haskell, I think the regular =haskell-mode= is nice. I'll add =haskell-doc-mode=
+ which uses eldoc consistently throughout.
+
+ I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
+ look up functions and packages. I've set it up according to the GitHub docs, so
+ that =C-c h= opens a prompt and querying the database opens a help buffer inside
+ Emacs with the results.
+
+ #+BEGIN_SRC emacs-lisp
+ (use-package haskell-mode
+   :defer t
+   :hook (haskell-mode . haskell-doc-mode)
+   :config
+   (setq haskell-hoogle-command                  "hoogle"
+		 haskell-compile-stack-build-command     "stack build"
+		 haskell-compile-stack-build-alt-command "stack build --pedantic")
+   :bind (:map haskell-mode-map
+			   ("C-c C-h" . haskell-hoogle)
+			   ("C-c C-c" . haskell-compile)))
+ #+END_SRC
+
+*** Agda
+
+ To install Agda, you need Haskell - stack or cabal - and a few other
+ programs. Once those are installed, you can add this to your =init.el=.
+ Or you can just let =agda-mode setup= do it for you.
+
+ #+begin_src emacs-lisp :tangle no
+ (load-file (let ((coding-system-for-read 'utf-8))
+                 (shell-command-to-string "agda-mode locate")))
+ #+end_src
+
+*** OCaml
+
+ OCaml requires some setup for =ocp-indent=,
+
+ #+begin_src emacs-lisp :tangle no
+ (use-package ocp-indent
+   :defer t)
+ #+end_src
+
+ and for =merlin=.
  
-#+begin_src emacs-lisp
-(let ((opam-share (ignore-errors (car (process-lines "opam" "var" "share")))))
-      (when (and opam-share (file-directory-p opam-share))
-       ;; Register Merlin
-       (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
-       (autoload 'merlin-mode "merlin" nil t nil)
-       ;; Automatically start it in OCaml buffers
-       (add-hook 'tuareg-mode-hook 'merlin-mode t)
-       (add-hook 'caml-mode-hook 'merlin-mode t)
-       ;; Use opam switch to lookup ocamlmerlin binary
-       (setq merlin-command 'opam)))
-#+end_src
+ #+begin_src emacs-lisp
+ (let ((opam-share (ignore-errors (car (process-lines "opam" "var" "share")))))
+       (when (and opam-share (file-directory-p opam-share))
+		;; Register Merlin
+		(add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+		(autoload 'merlin-mode "merlin" nil t nil)
+		;; Automatically start it in OCaml buffers
+		(add-hook 'tuareg-mode-hook 'merlin-mode t)
+		(add-hook 'caml-mode-hook 'merlin-mode t)
+		;; Use opam switch to lookup ocamlmerlin binary
+		(setq merlin-command 'opam)))
+ #+end_src
 
-Then I want integration with Dune, Merlin, and utop for the full IDE-experience.
+ Then I want integration with Dune, Merlin, and utop for the full IDE-experience.
 
-#+begin_src emacs-lisp
-;; Major mode for OCaml programming
-(use-package tuareg
-  :defer t
-  :mode (("\\.ocamlinit\\'" . tuareg-mode)))
+ #+begin_src emacs-lisp
+ ;; Major mode for OCaml programming
+ (use-package tuareg
+   :defer t
+   :mode (("\\.ocamlinit\\'" . tuareg-mode)))
 
-;; Major mode for editing Dune project files
-(use-package dune
-  :defer t)
+ ;; Major mode for editing Dune project files
+ (use-package dune
+   :defer t)
 
-;; Merlin provides advanced IDE features
-(use-package merlin
-  :defer t
-  :config
-  (add-hook 'tuareg-mode-hook #'merlin-mode)
-  ;; we're using flycheck instead
-  (setq merlin-error-after-save nil))
+ ;; Merlin provides advanced IDE features
+ (use-package merlin
+   :defer t
+   :config
+   (add-hook 'tuareg-mode-hook #'merlin-mode)
+   ;; we're using flycheck instead
+   (setq merlin-error-after-save nil))
 
-(use-package merlin-eldoc
-  :defer t
-  :hook ((tuareg-mode) . merlin-eldoc-setup))
+ (use-package merlin-eldoc
+   :defer t
+   :hook ((tuareg-mode) . merlin-eldoc-setup))
 
-;; utop REPL configuration
-(use-package utop
-  :defer t
-  :config
-  (add-hook 'tuareg-mode-hook #'utop-minor-mode))
-#+end_src
+ ;; utop REPL configuration
+ (use-package utop
+   :defer t
+   :config
+   (add-hook 'tuareg-mode-hook #'utop-minor-mode))
+ #+end_src
 
-** Python
+*** Python
 
-Let's first set the language interpreter.
+ Let's first set the language interpreter.
 
-#+begin_src emacs-lisp
-(use-package python
-  :interpreter ("python3" . python-mode)
-  :defer t
-  :config
-  (setq python-shell-interpreter "python3.11")
-  (add-hook 'python-mode
-			(lambda () (setq forward-sexp-function nil))))
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package python
+   :interpreter ("python3" . python-mode)
+   :defer t
+   :config
+   (setq python-shell-interpreter "python3.11")
+   (add-hook 'python-mode
+			 (lambda () (setq forward-sexp-function nil))))
+ #+end_src
 
-Note that you also need =pyright= for this! Installation will depend on your
-system. It's available from [[https://pypi.org/project/pyright/][PyPI]]. On Ubuntu, I had the most luck installing via
-snap:
+ Note that you also need =pyright= for this! Installation will depend on your
+ system. It's available from [[https://pypi.org/project/pyright/][PyPI]]. On Ubuntu, I had the most luck installing via
+ snap:
 
-#+begin_src shell :tangle no
-sudo snap install pyright --classic
-#+end_src
+ #+begin_src shell :tangle no
+ sudo snap install pyright --classic
+ #+end_src
 
-Then, I want to hide the modeline for inferior Python processes to save screen
-space. There's a [[https://github.com/hlissner/emacs-hide-mode-line][dedicated package]] for this.
+ Then, I want to hide the modeline for inferior Python processes to save screen
+ space. There's a [[https://github.com/hlissner/emacs-hide-mode-line][dedicated package]] for this.
 
-#+begin_src emacs-lisp
-(use-package hide-mode-line
-  :defer t
-  :hook (inferior-python-mode . hide-mode-line-mode))
-#+end_src<
+ #+begin_src emacs-lisp
+ (use-package hide-mode-line
+   :defer t
+   :hook (inferior-python-mode . hide-mode-line-mode))
+ #+end_src<
 
-** Clojure
+*** Clojure
 
-[[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
-built-in support for firing up a REPL and looking up documentation and source
-code, but it also has very Emacs-like shortcuts for expected actions, such as
-=C-x C-e= to evaluate the s-exp at point.
-[[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
+ [[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
+ built-in support for firing up a REPL and looking up documentation and source
+ code, but it also has very Emacs-like shortcuts for expected actions, such as
+ =C-x C-e= to evaluate the s-exp at point.
+ [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
 
-[[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
+ [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
 
-#+begin_src emacs-lisp
-(use-package flycheck-clj-kondo
-  :ensure t)
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package flycheck-clj-kondo
+   :ensure t)
+ #+end_src
 
-#+begin_src emacs-lisp
-(use-package clojure-mode
-  :defer t
-  :config
-  (require 'flycheck-clj-kondo))
+ #+begin_src emacs-lisp
+ (use-package clojure-mode
+   :defer t
+   :config
+   (require 'flycheck-clj-kondo))
 
-(use-package cider
-  :defer t
-  :hook ((cider-mode      . paredit-mode)
-         (cider-repl-mode . paredit-mode)
-		 (clojure-mode    . paredit-mode))
-  :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
-  :config
-  (setq cider-repl-display-help-banner nil))
-#+end_src
+ (use-package cider
+   :defer t
+   :hook ((cider-mode      . paredit-mode)
+          (cider-repl-mode . paredit-mode)
+		  (clojure-mode    . paredit-mode))
+   :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
+   :config
+   (setq cider-repl-display-help-banner nil))
+ #+end_src
 
-[[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
+ [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
 
-#+begin_src emacs-lisp
-(use-package clj-refactor
-  :after clojure-mode
-  :hook (clojure-mode . clj-refactor-mode))
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package clj-refactor
+   :after clojure-mode
+   :hook (clojure-mode . clj-refactor-mode))
+ #+end_src
 
-[[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
-forms. I don't have it on all the time.
+ [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
+ forms. I don't have it on all the time.
 
-#+begin_src emacs-lisp
-(use-package prism
-  :defer t)
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package prism
+   :defer t)
+ #+end_src
 
-** Coq
+*** Coq
 
-[[https://proofgeneral.github.io/][Proof General]] is a generic interface for proof assistants in Emacs. This is a
-simple setup to use it with Coq.
+ [[https://proofgeneral.github.io/][Proof General]] is a generic interface for proof assistants in Emacs. This is a
+ simple setup to use it with Coq.
 
-#+begin_src emacs-lisp
-(use-package proof-general
-  :defer t)
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package proof-general
+   :defer t)
+ #+end_src
 
-As the [[https://coq.inria.fr/user-interfaces.html][Coq documentation]] suggests, I'll also add
-[[https://github.com/cpitclaudel/company-coq][company-coq]] for completions.
+ As the [[https://coq.inria.fr/user-interfaces.html][Coq documentation]] suggests, I'll also add
+ [[https://github.com/cpitclaudel/company-coq][company-coq]] for completions.
 
-#+begin_src emacs-lisp
-(use-package company-coq
-  :defer t
-  :hook (coq-mode . company-coq-mode))
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package company-coq
+   :defer t
+   :hook (coq-mode . company-coq-mode))
+ #+end_src
 
-** Nix
+*** Nix
 
-#+begin_src emacs-lisp
-(use-package nix-mode
-  :defer t)
-#+end_src
+ #+begin_src emacs-lisp
+ (use-package nix-mode
+   :defer t)
+ #+end_src
 
 * Activating Custom Keybindings
 *** Extra Keybindings
