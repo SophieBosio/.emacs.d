@@ -2001,8 +2001,8 @@ B's Emacs setup]].
 				  ;    ⚙️
 				  (":properties:" . "")
 				  ; Agenda scheduling
-				  ("SCHEDULED:"   . "")
-				  ("DEADLINE:"    . "")
+				  ("SCHEDULED:"   . "🕘")
+				  ("DEADLINE:"    . "⏰")
 				  ; Agenda tags  
 				  (":@projects:"  . "☕")
 				  (":work:"       . "🚀")
