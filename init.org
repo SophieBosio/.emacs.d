@@ -465,34 +465,29 @@ instead of creating a new one. Setting both =split-height-threshold= and
 #+begin_src emacs-lisp
 (setq-default split-height-threshold nil
               split-width-threshold  nil)
-              ;; fill-column            80)  ;; Maximum line width
+              ;; fill-column            80) ;; Maximum line width
               ;; window-min-width       80) ;; No smaller windows than this
 #+end_src
 
 *** Transparent Title Bar on Mac OS
 
-*TODO:* I've started using =emacs-plus= instead of =emacs-mac=. I need to update this text to reflect that, but a similar option does exist for =emacs-plus= :~)
+I use [[https://github.com/d12frosted/homebrew-emacs-plus][Emacs Plus]] port for Mac OS. With it, you can get a transparent title bar (i.e., title bar is same colour as theme background) which I think is really nice.
 
-Using the [[https://github.com/railwaycat/homebrew-emacsmacport][emacsmacport]] version of Mithuarus's [[https://bitbucket.org/mituharu/emacs-mac/src/master/][emacs-mac]], you can get a
-transparent title bar (e.g., title bar is same colour as theme background),
-which I think is really nice.
-
-To get it, build Emacs with the =--with-natural-title-bar= flag. Alternatively, for no title bar at all, you can
-build it with =--with-no-title-bars=.
+First, install Emacs Plus.
 
 #+begin_src shell :tangle no
 # enable tap
-brew tap railwaycat/emacsmacport
+brew tap d12frosted/emacs-plus
 
-# build with transparent/natural title bar
-brew tap emacs-mac --with-natural-title-bar
-
-# or alternatively,
-brew tap emacs-mac --with-no-title-bars
+# install
+brew install emacs-plus [options]
 #+end_src
 
-Then add the corresponding settings to your =init=-file. For natural title bar,
-use =ns-transparent-titlebar= and for no title bar, use =undecorated=. Here, I'm
+Then add the corresponding settings to your =init=-file.
+
+There are two different styles you can choose from. You can have absolutely no title bar on your window or you can have a transparent bar, which still has the three stoplight buttons in the upper-left corner.
+
+For natural title bar, use =ns-transparent-titlebar= and for no title bar, use =undecorated=. Here, I'm
 using the natural title bar.
 
 I also set some other options. For example, I don't need info in the title bar
@@ -512,8 +507,7 @@ found these options in [[https://notes.alexkehayias.com/emacs-natural-title-bar-
 Finally, in your terminal, run these commands to use transparent title bar and
 to hide the icon from the middle of the title bar. I found these in the
 aforementioned blog post and in the Emacs-Mac Port's
-[[https://github.com/railwaycat/homebrew-emacsmacport/wiki/Natural-Title-Bar][wiki
-page]] on the subject.
+[[https://github.com/railwaycat/homebrew-emacsmacport/wiki/Natural-Title-Bar][wiki page]] on the subject.
 
 #+begin_src shell :tangle no
 # for dark themes
