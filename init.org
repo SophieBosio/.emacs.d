@@ -1094,7 +1094,7 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
   :defer t
   :bind (:map custom-bindings-map
 			  ("C-_"   . undo-fu-only-undo)
-			  ("C-M-_" . undo-fu-only-redo)))
+			  ("M-_" . undo-fu-only-redo)))
 #+end_src
 
 *** Move Lines
