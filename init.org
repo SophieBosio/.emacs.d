@@ -548,13 +548,6 @@ I prefer a bar cursor over a block cursor.
 (setq-default cursor-type 'bar)
 #+end_src
 
-But sometimes, that makes it hard to spot the cursor when switching between buffers. [[https://github.com/Boruch-Baum/emacs-cursor-flash][cursor-flash]] highlights the cursor temporarily when switching buffer or window.
-
-#+begin_src emacs-lisp
-(use-package cursor-flash
-  :defer t)
-#+end_src
-
 *** Delimiters (Parentheses etc.)
 
 When coding, I want my delimiters (parentheses, brackets, etc.) to be colourised
