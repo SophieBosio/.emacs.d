@@ -1354,7 +1354,7 @@ that it can do.
               ("C-x b"   . consult-buffer)
 			  ;; ("C-s"     . consult-line)
 			  ;; ("M-s"     . consult-ripgrep)
-			  ("C-c C-g" . consult-goto-line)))
+			  ("M-g g" . consult-goto-line)))
 #+end_src
 
 *** Marginalia
