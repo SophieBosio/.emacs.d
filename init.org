@@ -548,6 +548,16 @@ I prefer a bar cursor over a block cursor.
 (setq-default cursor-type 'bar)
 #+end_src
 
+But having a thin cursor can make it hard to see where you are after switching buffers or jumping around. [[https://github.com/Malabarba/beacon][Beacon]] highlights your cursor temporarily, which immediately answers the question "Woah, where am I now?"
+
+#+begin_src emacs-lisp
+(use-package beacon
+  :defer t
+  :init  (beacon-mode 1)
+  :config
+  (setq beacon-blink-when-window-scrolls nil))
+#+end_src
+
 *** Delimiters (Parentheses etc.)
 
 When coding, I want my delimiters (parentheses, brackets, etc.) to be colourised
