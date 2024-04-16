@@ -2745,7 +2745,8 @@ Eglot, we need a dedicated package.
    :defer t
    :hook ((cider-mode      . paredit-mode)
           (cider-repl-mode . paredit-mode)
-		  (clojure-mode    . paredit-mode))
+		  (clojure-mode    . paredit-mode)
+          (clojure-mode    . whitespace-mode))
    :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
    :config
    (setq cider-repl-display-help-banner nil))
