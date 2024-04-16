@@ -2203,7 +2203,7 @@ navigate.
   (add-hook 'org-agenda-mode-hook
             #'(lambda () (setq-local nobreak-char-display nil)))
   (setq org-super-agenda-groups
-		'((:name "Today"
+		'((:name "Scheduled"
 				 :scheduled t
 				 :order 1)
 		  (:name "In Progress"
