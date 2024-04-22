@@ -650,22 +650,19 @@ I have Open Sans configured as my variable-pitch font.
 based on the display you're using. Super useful when, like me, you
 switch between a laptop screen and a large monitor.
 
-On my MacBook, I set it to 19 default points and on Linux to 15
-(laptop) and 12 (monitor). For now, I have a dumb approach. I'll need to figure out a better system for this in the future.
+On Linux, I set the default point size to 15 (laptop) and 12 (monitor). For now, I have a dumb approach. I'll need to figure out a better system for this in the future.
 
-#+begin_src emacs-lisp :tangle no
-(use-package textsize
-  :init (textsize-mode)
-  :bind (:map custom-bindings-map
-			  ("C-x C-+" . textsize-increment)
-			  ("C-x C--" . textsize-decrement)
-			  ("C-x C-0" . textsize-reset))
-  :config
-  (if (eq system-type 'gnu/linux)
+#+begin_src emacs-lisp
+(if (eq system-type 'gnu/linux)
+  (use-package textsize
+	:init (textsize-mode)
+	:bind (:map custom-bindings-map
+				("C-x C-+" . textsize-increment)
+				("C-x C--" . textsize-decrement)
+				("C-x C-0" . textsize-reset))
+	:config
 	(setq textsize-default-points 12)
 	;; (setq textsize-default-points 15)
-	;; (setq textsize-default-points 19)
-	nil
 ))
 #+end_src
 
