@@ -31,6 +31,7 @@ improvements, I would be very happy to hear about them!
 * Table of Contents :toc_2_gh:
 - [[#about][About]]
 - [[#setup][Setup]]
+  - [[#prerequisites][Prerequisites]]
   - [[#initel-code][=init.el= Code]]
   - [[#git-tracking--practicalities][Git Tracking & Practicalities]]
   - [[#lexical-scoping][Lexical Scoping]]
@@ -39,7 +40,6 @@ improvements, I would be very happy to hear about them!
   - [[#performance][Performance]]
   - [[#house-keeping][House-Keeping]]
   - [[#packages][Packages]]
-  - [[#external-software][External Software]]
 - [[#custom-keybindings][Custom Keybindings]]
   - [[#custom-keymap][Custom Keymap]]
   - [[#mac-os-modifier-keys][Mac OS Modifier Keys]]
@@ -90,6 +90,35 @@ improvements, I would be very happy to hear about them!
 - [[#todos][TODOs]]
 
 * Setup
+** Prerequisites
+
+You probably don't want to run this configuration as-is, since it's highly personal and very likely contains things you don't want in your Emacs.
+
+However, if you do want to try it, or if you want to steal a chunk and something's not working right, this is the software that I have installed in addition to Emacs and that is present in this config, one way or another.
+
+This doubles as a memo to myself for when I need to set up a new machine.
+
+- [[https://www.mozilla.org/en-US/firefox/][Firefox Browser]]
+- [[https://github.com/BurntSushi/ripgrep][ripgrep]] search utility
+- [[https://tree-sitter.github.io/tree-sitter/][Tree-Sitter]] parser generator & incremental parsing library
+- [[https://github.com/AbiWord/enchant][Enchant]] spellchecker library
+- [[https://www.tug.org/interest.html#free][LaTeX]] type-setting system
+
+Here are the programming languages and utils I set up. The configuration for other languages I have in here, like OCaml or Coq, shouldn't break anything if you don't have the software.
+
+- [[https://docs.haskellstack.org/en/stable/][Stack]], [[https://www.haskell.org/cabal/][Cabal]], and [[https://github.com/haskell/haskell-language-server][hsl]] for Haskell - all of which you can install via [[https://www.haskell.org/ghcup/][GHCup]]
+- [[https://agda.readthedocs.io/][Agda]], for which you also need Haskell and the Haskell packages [[https://haskell-alex.readthedocs.io/en/][Alex]] and [[https://haskell-happy.readthedocs.io/en/][Happy]]
+- [[https://clojure.org/guides/install_clojure][Clojure]], for which you also need a JDK and [[https://leiningen.org/][Leiningen]]
+
+I use these fonts. They are used both in the [[#visuals][Visuals]]-section, under [[#fonts-ligatures-and-emojis][Fonts, Ligatures, and Emojis]] and in the [[#org][Org]]-section, under [[#visuals][Visuals]] and then [[#fonts][Fonts]].
+
+- [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
+- [[https://fonts.google.com/specimen/Open+Sans][Open Sans]]
+- [[https://github.com/lemeb/a-better-ligaturizer/blob/master/output-fonts/RobotoMono.ttf][Roboto Mono with Ligatures]]
+- Apple Emoji
+
+The rest of what you need *should* be downloaded by this configuration file. If you try it and find anything missing from this list, please let me know!
+
 ** =init.el= Code
 
 As mentioned, I use =org-babel-tangle= and this document, written in Org mode.
@@ -264,37 +293,6 @@ And load custom settings from =custom.el= if it exists.
 (when (file-exists-p custom-file)
   (load custom-file))
 #+END_SRC
-
-** External Software
-
-I have started using Nix to manage most of my software, but I haven't figured
-out how to set up everything yet. In the meantime, I keep this list of software
-that is *not* yet in my Nix config.
-
-*Utilities:*
-- Fish
-- Starship
-- Firefox
-
-*Programming languages++:*
-- GHCi (Haskell)
-- Stack (Haskell)
-- Java
-- Clojure
-- Leiningen
-- OCaml
-- Racket
-- Lua
-- Idris
-- Erlang
-- Agda
-- Alex (Haskell/Agda)
-- Happy (Haskell/Agda)
-
-*Fonts:*
-- [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
-- [[https://fonts.google.com/specimen/Open+Sans][Open Sans]]
-- [[https://github.com/lemeb/a-better-ligaturizer/blob/master/output-fonts/RobotoMono.ttf][Roboto Mono with Ligatures]]
 
 * Custom Keybindings
 ** Custom Keymap
