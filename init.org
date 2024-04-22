@@ -718,15 +718,23 @@ I really like the =doom-themes= package.
   (load-theme 'doom-nord t))
 #+END_SRC
 
+*** Custom Theme
+
+I have a work-in-progress light theme that I use from time to time. Let's add the path to that so I can load it.
+
+#+begin_src emacs-lisp
+(setq custom-theme-directory "~/Dropbox/projects/south-theme/")
+#+end_src
+
 *** Setting Favourite Themes
 
 To change themes quickly, I keep a list of my favourite themes.
 
 #+begin_src emacs-lisp
 (defvar my/favourite-themes
-  '(doom-nord
+  '(south
+    doom-nord
     doom-tomorrow-day
-    doom-tomorrow-night
     doom-solarized-light
     doom-oksolar-light))
 #+end_src
