@@ -2621,7 +2621,8 @@ Eglot, we need a dedicated package.
    :config
    (setq haskell-hoogle-command                  "hoogle"
 		 haskell-compile-stack-build-command     "stack build"
-		 haskell-compile-stack-build-alt-command "stack build --pedantic")
+		 haskell-compile-stack-build-alt-command "stack build --pedantic"
+         haskell-compile-command                 "stack build")
    :bind (:map haskell-mode-map
 			   ("C-c C-h" . haskell-hoogle)
 			   ("C-c C-c" . haskell-compile)))
