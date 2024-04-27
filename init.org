@@ -47,8 +47,8 @@ improvements, I would be very happy to hear about them!
   - [[#decluttering][Decluttering]]
   - [[#frames--windows][Frames & Windows]]
   - [[#programming-specific-visuals][Programming-Specific Visuals]]
-  - [[#icons][Icons]]
-  - [[#fonts-ligatures-and-emojis][Fonts, Ligatures, and Emojis]]
+  - [[#fonts][Fonts]]
+  - [[#icons--emojis][Icons & Emojis]]
   - [[#themes][Themes]]
   - [[#mode-line][Mode Line]]
   - [[#text-display-modes][Text Display Modes]]
@@ -110,7 +110,7 @@ Here are the programming languages and utils I set up. The configuration for oth
 - [[https://agda.readthedocs.io/][Agda]], for which you also need Haskell and the Haskell packages [[https://haskell-alex.readthedocs.io/en/][Alex]] and [[https://haskell-happy.readthedocs.io/en/][Happy]]
 - [[https://clojure.org/guides/install_clojure][Clojure]], for which you also need a JDK and [[https://leiningen.org/][Leiningen]]
 
-I use these fonts. They are used both in the [[#visuals][Visuals]]-section, under [[#fonts-ligatures-and-emojis][Fonts, Ligatures, and Emojis]] and in the [[#org][Org]]-section, under [[#visuals][Visuals]] and then [[#fonts][Fonts]].
+I use these fonts. They are used both in the [[#visuals][Visuals]]-section, under [[#fonts][Fonts]] and in the [[#org][Org]]-section, under [[#visuals][Visuals]] and then [[#fonts][Fonts]].
 
 - [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
 - [[https://fonts.google.com/specimen/Open+Sans][Open Sans]]
@@ -599,15 +599,7 @@ Highlight lines over 100 characters long.
 (add-hook 'prog-mode 'whitespace-mode)
 #+end_src
 
-** Icons
-
-Add =nerd-icons=.
-
-#+begin_src emacs-lisp
-(use-package nerd-icons)
-#+end_src
-
-** Fonts, Ligatures, and Emojis
+** Fonts
 *** Default, Fixed, and Variable Fonts
 
 Please note that I scale and set Org-specific faces in the [[#visuals-1][Org > Visuals]] section.
@@ -669,7 +661,13 @@ of the box with the ligatures defined on the package's page,
   (global-ligature-mode t))
 #+end_src
 
-*** Emojis
+** Icons & Emojis
+
+Add =nerd-icons=.
+
+#+begin_src emacs-lisp
+(use-package nerd-icons)
+#+end_src
 
 I also want to be able to display emojis with the Apple emoji font. I usually
 don't use it, though, so I won't activate the global mode.
