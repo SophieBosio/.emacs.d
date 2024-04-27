@@ -642,28 +642,6 @@ I have Open Sans configured as my variable-pitch font.
          (LaTeX-mode . mixed-pitch-mode)))
 #+end_src
 
-*** Monitor-Dependent Text Size Scaling
-
-[[https://github.com/WJCFerguson/textsize][textsize.el]] is a package for automatically resizing your text size
-based on the display you're using. Super useful when, like me, you
-switch between a laptop screen and a large monitor.
-
-On Linux, I set the default point size to 15 (laptop) and 12 (monitor). For now, I have a dumb approach. I'll need to figure out a better system for this in the future.
-
-#+begin_src emacs-lisp
-(if (eq system-type 'gnu/linux)
-  (use-package textsize
-	:init (textsize-mode)
-	:bind (:map custom-bindings-map
-				("C-x C-+" . textsize-increment)
-				("C-x C--" . textsize-decrement)
-				("C-x C-0" . textsize-reset))
-	:config
-	(setq textsize-default-points 12)
-	;; (setq textsize-default-points 15)
-))
-#+end_src
-
 *** Ligatures
 
 The package =ligature.el= provides support for displaying the ligatures of
