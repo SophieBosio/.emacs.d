@@ -661,6 +661,14 @@ of the box with the ligatures defined on the package's page,
   (global-ligature-mode t))
 #+end_src
 
+*** Zoom
+
+The default zoom step is a little much on my Linux (Gnome 46) laptop, so let's decrease it a little.
+
+#+begin_src emacs-lisp
+(setq text-scale-mode-step 1.1)
+#+end_src
+
 ** Icons & Emojis
 
 Add =nerd-icons=.
