@@ -72,7 +72,6 @@ improvements, I would be very happy to hear about them!
   - [[#config-profiling][Config Profiling]]
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
-  - [[#org-ql][Org QL]]
   - [[#tasks][Tasks]]
   - [[#agenda][Agenda]]
   - [[#babel][Babel]]
@@ -1854,9 +1853,9 @@ checkboxes for TODOs.
   (setq org-superstar-headline-bullets-list '("◇" "⚬" "•" "‣" "*"))
   (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
-                                          ("WAIT"  . 9744)
-                                          ("READ"  . 9744)
                                           ("PROG"  . 9744)
+                                          ("NEXT"  . 9744)
+                                          ("WAIT"  . 9744)
 										  ("DONE"  . 9745)))
   :hook (org-mode . org-superstar-mode))
 #+end_src
@@ -2027,16 +2026,6 @@ font-lock and the display property.
                               prepend))) t)
 #+end_src
 
-** Org QL
-
-[[https://github.com/alphapapa/org-ql][org-ql]] is a query language for Org mode. I use it to find things and to set up a
-pretty calendar view.
-
-#+begin_src emacs-lisp
-(use-package org-ql
-  :defer t)
-#+end_src
-
 ** Tasks
 *** Task Priorities
 
@@ -2063,7 +2052,7 @@ I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO(t)" "PROG(p)" "WAIT(w)" "READ(r)" ; Needs further action
+		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" ; Needs further action
 		 "|"
 		 "DONE(d)")))                            ; Needs no action currently
 #+end_src
@@ -2081,9 +2070,9 @@ function that I'll bind to =C-c d=.
                             ;; below target heading
     (cond ((looking-at "\*+ TODO")
            (org-todo "DONE"))
-          ((looking-at "\*+ WAIT")
+		  ((looking-at "\*+ NEXT")
            (org-todo "DONE"))
-		  ((looking-at "\*+ READ")
+          ((looking-at "\*+ WAIT")
            (org-todo "DONE"))
 		  ((looking-at "\*+ PROG")
            (org-todo "DONE"))
@@ -2169,11 +2158,18 @@ Instead, I can use it as the leader key combination to jump to a register.
 
 ** Agenda
 
+First, some regular agenda settings.
+
 I want to open my agenda on the current day, not on any specific weekday.
+
+I also don't want to have a divider line separating my different agenda blocks. This is because I sometimes use packages like Olivetti to center the agenda, which makes the divider line wrap around and take up multiple lines.
+
+Similarly, I right-align my tags, so they also end up shifted around and often on a new line. =org-agenda-remove-tags= doesn't remove them, but for some reason it disables the right-alignment in the agenda, which is perfect.
 
 #+begin_src emacs-lisp
 (setq org-agenda-start-on-weekday nil
-	  org-agenda-block-separator  nil)
+	  org-agenda-block-separator  nil
+	  org-agenda-remove-tags      t)
 #+end_src
 
 *** Super Agenda
@@ -2185,48 +2181,52 @@ navigate.
 (use-package org-super-agenda
   :after org
   :config
-  (setq org-super-agenda-header-prefix "❯ ")
+  (setq org-super-agenda-header-prefix "\n❯ ")
   ;; Hide the thin width char glyph
   (add-hook 'org-agenda-mode-hook
             #'(lambda () (setq-local nobreak-char-display nil)))
-  (setq org-super-agenda-groups
-		'((:name "Scheduled"
-				 :scheduled t
-				 :order 1)
-		  (:name "In Progress"
-				 :todo "PROG"
-				 :order 2)
-		  (:name "Deadlines"
-				 :deadline t
-				 :order 3)
-		  (:name "Ardoq"
-				 :tag "work"
-				 :order 4)
-		  (:name "Inbox"
-				 :tag "@inbox"
-				 :order 5)
-		  (:name "Thesis"
-				 :tag "@thesis"
-				 :order 6)
-		  (:name "Unscheduled important"
-				 :priority "A"
-				 :order 7)))
   (org-super-agenda-mode))
 #+end_src
 
-*** Day Views
+*** Org QL
 
-Open day view with =C-c a d= and extended three-day view with =C-c a e=.
+[[https://github.com/alphapapa/org-ql][org-ql]] is a query language for Org mode. It's super powerful and doesn't really belong in the Agenda section of my config, but for now, I only use it to find things and to set up a pretty calendar view.
 
 #+begin_src emacs-lisp
-;; Delete defaults
+(use-package org-ql
+  :defer t)
+#+end_src
+
+*** Agenda Views
+
+With Super Agenda and Org QL, we can now define some display groups for the agenda, to show us exactly the info we want.
+
+We'll set up some groups with the Super Agenda syntax.
+
+#+begin_src emacs-lisp
+;; Delete default agenda commands
 (setq org-agenda-custom-commands nil)
 
+(defvar regular-view-groups
+  '((:name "Scheduled"
+		   :scheduled t
+		   :order 1)
+	(:name "Deadlines"
+		   :deadline t
+		   :order 2)))
+#+end_src
+
+Now I'll set up commands to open the day view with =C-c a d= and extended three-day view with =C-c a e=. Notice that I'm first setting some options for the built-in agenda, and then defining a block with Super Agenda groups and Org QL queries.
+
+#+begin_src emacs-lisp
 (add-to-list 'org-agenda-custom-commands
 	  '("d" "Day View"
 		 ((agenda "" ((org-agenda-overriding-header "Day View")
-					  (org-agenda-span 'day)))
-          (org-ql-block '(todo "PROG") ((org-ql-block-header ""))))))
+					  (org-agenda-span 'day)
+					  (org-super-agenda-groups regular-view-groups)))
+		  (org-ql-block '(todo "PROG") ((org-ql-block-header "\n❯ In Progress")))
+		  (org-ql-block '(todo "NEXT") ((org-ql-block-header "\n❯ Next Up")))
+		  (org-ql-block '(priority "A") ((org-ql-block-header "\n❯ Important"))))))
 
 
 (add-to-list 'org-agenda-custom-commands
