@@ -713,8 +713,8 @@ To change themes quickly, I keep a list of my favourite themes.
 
 #+begin_src emacs-lisp
 (defvar my/favourite-themes
-  '(south
-    doom-nord
+  '(doom-nord
+    south
     doom-tomorrow-day
     doom-solarized-light
     doom-oksolar-light))
