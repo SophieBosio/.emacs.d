@@ -621,13 +621,13 @@ has great ligature support.
 I have Open Sans configured as my variable-pitch font.
 
 #+begin_src emacs-lisp
-(defvar my/font-height 102)
+(defvar soph/font-height 102)
 
 (when (eq system-type 'darwin)
-  (setq my/font-height 134))
+  (setq soph/font-height 134))
 
 (when (member "Fragment Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "Fragment Mono" :height my/font-height)
+  (set-face-attribute 'default nil :font "Fragment Mono" :height soph/font-height)
   (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
 (when (member "Open Sans" (font-family-list))
@@ -1955,7 +1955,7 @@ I have a custom function to prettify tags and other elements, lifted from [[http
 B's Emacs setup]].
 
 #+begin_src emacs-lisp
-(defun my/prettify-symbols-setup ()
+(defun soph/prettify-symbols-setup ()
   "Beautify keywords"
   (setq prettify-symbols-alist
 		(mapcan (lambda (x) (list x (cons (upcase (car x)) (cdr x))))
@@ -2005,8 +2005,8 @@ B's Emacs setup]].
 				  )))
   (prettify-symbols-mode))
 
-(add-hook 'org-mode-hook        #'my/prettify-symbols-setup)
-(add-hook 'org-agenda-mode-hook #'my/prettify-symbols-setup)
+(add-hook 'org-mode-hook        #'soph/prettify-symbols-setup)
+(add-hook 'org-agenda-mode-hook #'soph/prettify-symbols-setup)
 #+end_src
 
 *** Right-Align Tags
