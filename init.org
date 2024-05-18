@@ -1505,10 +1505,13 @@ Then configure Magit.
 #+begin_src emacs-lisp
 (use-package magit
   :defer t
+  :hook
+  (magit-pre-refresh-hook  . diff-hl-magit-pre-refresh)
+  (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   :config
-  (setq magit.mode-quit-window 'magit-restore-window-configuration)
-  (add-hook 'magit-pre-refresh-hook  'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  (setq magit-mode-quit-window 'magit-restore-window-configuration
+		magit-auto-revert-mode t
+		auto-revert-mode       t))
 #+end_src
 
 And finally use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the project's TODOs directly in the Magit buffer.
