@@ -847,6 +847,16 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 	(:propertize "%4l:%c" face mode-line-buffer-id)))
 #+end_src
 
+*** Hide Mode Line
+
+[[https://github.com/hlissner/emacs-hide-mode-line][hide-mode-line-mode]] is extracted from Doom Emacs, and does what it says on the tin. It can also be added to hooks to hide the mode line in certain modes. I have it bound to =C-c h=.
+
+#+begin_src emacs-lisp
+(use-package hide-mode-line
+  :defer t
+  :bind (:map custom-bindings-map ("C-c h" . hide-mode-line-mode)))
+#+end_src
+
 ** Text Display Modes
 *** Olivetti
 
