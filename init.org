@@ -856,9 +856,8 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
  #+begin_src emacs-lisp
  (use-package presentation
    :defer t
-   :hook (presentation-mode . (lambda () (mixed-pitch-mode 'toggle)))
    :config
-   (setq presentation-default-text-scale 2))
+   (setq presentation-default-text-scale 2.5))
  #+end_src
 
 * Interaction
