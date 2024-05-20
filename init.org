@@ -43,6 +43,7 @@ improvements, I would be very happy to hear about them!
 - [[#custom-keybindings][Custom Keybindings]]
   - [[#custom-keymap][Custom Keymap]]
   - [[#mac-os-modifier-keys][Mac OS Modifier Keys]]
+  - [[#dwim-shell-commands][DWIM Shell Commands]]
 - [[#visuals][Visuals]]
   - [[#decluttering][Decluttering]]
   - [[#frames--windows][Frames & Windows]]
@@ -326,6 +327,17 @@ command   -> command (meta)
       mac-right-command-modifier 'meta
       mac-option-modifier        nil
       mac-right-option-modifier  nil)
+#+end_src
+
+** DWIM Shell Commands
+
+[[https://github.com/xenodium/dwim-shell-command][DWIM Shell Commands]] ("Do What I Mean" shell commands) are a collection of command-line utilities integrated with Emacs. We'll load the optional package with pre-configured commands as well.
+
+#+begin_src emacs-lisp
+(use-package dwim-shell-command
+  :defer t)
+
+(require 'dwim-shell-commands)
 #+end_src
 
 * Visuals
@@ -723,6 +735,13 @@ I have a work-in-progress light theme that I use from time to time. Let's add th
   ;; (setq auto-dark-detection-method nil) ;; dangerous to be set manually
 
   (auto-dark-mode t))
+#+end_src
+
+We can even change the system theme from within Emacs using a [[https://github.com/xenodium/dwim-shell-command/][dwim-shell-command]].
+
+#+begin_src emacs-lisp
+(when (eq system-type 'darwin)
+  (define-key custom-bindings-map (kbd "C-M-t") 'dwim-shell-commands-macos-toggle-dark-mode))
 #+end_src
 
 *** Conflict-Free Theme Changing
