@@ -707,105 +707,32 @@ I have a work-in-progress light theme that I use from time to time. Let's add th
 (setq custom-theme-directory "~/Dropbox/projects/south-theme/")
 #+end_src
 
-*** Setting Favourite Themes
+*** Changing Theme With System Theme
 
-To change themes quickly, I keep a list of my favourite themes.
-
-#+begin_src emacs-lisp
-(defvar my/favourite-themes
-  '(doom-nord
-    south
-    doom-tomorrow-day
-    doom-solarized-light
-    doom-oksolar-light))
-
-(defvar my/default-dark-theme 'doom-nord)
-(defvar my/default-light-theme 'doom-tomorrow-day)
-#+end_src
-
-*** Changing Themes on the Fly
-
-I have this snippet from Lars'
-[[https://github.com/larstvei/dot-emacs#theme][configuration]]. I use it to switch between my favourite themes quickly.
-
-Note that I've bound it to =C-c ø=, which may (likely) not be available
-on your keyboard.
+[[https://github.com/LionyxML/auto-dark-emacs][auto-dark-emacs]] is a package for switching themes with the system theme. It works both on Linux and on MacOS.
 
 #+begin_src emacs-lisp
-(defun cycle-themes ()
-  "Returns a function that lets you cycle your themes."
-  (let ((themes my/favourite-themes))
-    (lambda ()
-      (interactive)
-      ;; Rotates the thme cycle and changes the current theme.
-      (let ((rotated (nconc (cdr themes) (list (car themes)))))
-        (load-theme (car (setq themes rotated)) t))
-      (message (concat "Switched to " (symbol-name (car themes)))))))
+(use-package auto-dark
+  :ensure t
+  :config
+  (setq auto-dark-dark-theme               'doom-nord
+		auto-dark-light-theme              'south
+		auto-dark-polling-interval-seconds 5
+		auto-dark-allow-osascript          nil
+		auto-dark-allow-powershell         nil)
+  ;; (setq auto-dark-detection-method nil) ;; dangerous to be set manually
 
-(define-key custom-bindings-map (kbd "C-c ø") (cycle-themes))
+  (auto-dark-mode t))
 #+end_src
 
-When changing themes interactively, as with =M-x load-theme=, the current custom
-theme is not disabled, causing weird issues such as lingering borders. I'll
-advice =load-theme= to always disable the currently enabled themes when switching.
+*** Conflict-Free Theme Changing
+
+When changing themes interactively, as with =M-x load-theme=, the current custom theme is not disabled and this causes some weird issues. For example, the borders around posframes disappear. [[https://github.com/larstvei/dot-emacs?tab=readme-ov-file#advice][This snippet]] from Lars' config advises =load-theme= to always disable the currently enabled themes before switching.
 
 #+begin_src emacs-lisp
 (defadvice load-theme
-  (before disable-before-load (theme &optional no-confirm no-enable) activate)
+    (before disable-before-load (theme &optional no-confirm no-enable) activate)
   (mapc 'disable-theme custom-enabled-themes))
-#+end_src
-
-*** Changing Theme With System Theme
-
-The code below is from [[https://www.reddit.com/r/emacs/comments/o49v2w/comment/i5ibcyv/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button][this Reddit post]], and allows us to change the Emacs theme automatically when changing system theme using =dbus=. A few tweaks and it works great on Gnome.
-
-#+begin_src emacs-lisp
-(use-package dbus)
-(defun my/set-theme-from-dbus-value (value)
-  "Set the appropiate theme according to the color-scheme setting value."
-  (message "value is %s" value)
-  (if (equal value '1)
-	  (progn (message "Switch to dark theme")
-			 (load-theme my/default-dark-theme t))
-	(progn (message "Switch to light theme")
-		   (load-theme my/default-light-theme t))))
-
-(defun my/color-scheme-changed (path var value)
-  "DBus handler to detect when the color-scheme has changed."
-  (when (and (string-equal path "org.freedesktop.appearance")
-			 (string-equal var "color-scheme"))
-	(my/set-theme-from-dbus-value (car value))
-	))
-
-;; Register for future changes
-(dbus-register-signal
-   :session "org.freedesktop.portal.Desktop"
-   "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
-   "SettingChanged"
-   #'my/color-scheme-changed)
-
-;; Request the current color-scheme
-(dbus-call-method-asynchronously
- :session "org.freedesktop.portal.Desktop"
- "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
- "Read"
- (lambda (value) (my/set-theme-from-dbus-value (caar value)))
- "org.freedesktop.appearance"
- "color-scheme"
- )
-#+end_src
-
-*** Removing Themes from List View
-
-I have some packages with themes I really like - e.g., Doom themes - that also contain a lot of themes I /don't/ use, and I don't want to see those when selecting among available themes. This little code snippet shows only the themes I do use.
-
-Convert the list of pure theme names in =my/favourite-themes= to a list of strings, then for each installed theme, check if the theme name is in =my/favourite-themes=. If it is, include it in the list of valid theme names.
-
-#+begin_src emacs-lisp :tangle no
-(defun my/valid-themes (orig-fun theme-name)
-  (and (funcall orig-fun theme-name)
-       (member (symbol-name theme-name) (mapcar #'(lambda (x) (format "%s" x)) my/favourite-themes))))
-(advice-add 'custom-theme-name-valid-p :around #'my/valid-themes)
 #+end_src
 
 ** Mode Line
