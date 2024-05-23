@@ -78,6 +78,7 @@ improvements, I would be very happy to hear about them!
   - [[#babel][Babel]]
   - [[#roam][Roam]]
   - [[#hugo][Hugo]]
+  - [[#org-present][Org Present]]
   - [[#org-conveniencies][Org Conveniencies]]
 - [[#programming][Programming]]
   - [[#preferences--extras][Preferences & Extras]]
@@ -2419,6 +2420,47 @@ See `org-capture-templates' for more information."
                  entry
                  (file+olp "all-posts.org" "Blog Posts")
                  (function org-hugo-new-subtree-post-capture-template))))
+#+end_src
+
+** Org Present
+
+[[https://github.com/rlister/org-present][org-present]] is a mode for creating straightforward and nice presentations from Org-files. Most of this config is from [[https://systemcrafters.net/emacs-tips/presentations-with-org-present/][System Crafters' blog post]] on the subject.
+
+#+begin_src emacs-lisp
+(defun soph/org-present-prepare-slide ()
+  ;; Show only top-level headlines
+  (org-overview)
+  ;; Unfold the current entry
+  (org-fold-show-entry)
+  ;; Show only direct subheadings of the slide but don't expand them
+  (org-fold-show-children))
+
+(defun soph/org-present-start ()
+  ;; Tweak font sizes
+  (setq-local
+   face-remapping-alist '((default (:height 1.5) variable-pitch)
+                          (header-line (:height 3.0) variable-pitch)
+                          (org-document-title (:height 1.75) org-document-title)
+                          (org-code (:height 1.55) org-code)
+                          (org-verbatim (:height 1.55) org-verbatim)
+                          (org-block (:height 1.25) org-block)
+                          (org-block-begin-line (:height 0.7) org-block)))
+  ;; Set a blank header line string to create blank space at the top
+  (setq header-line-format " "))
+
+(defun soph/org-present-end ()
+  ;; Reset font customizations
+  (setq-local face-remapping-alist '((default variable-pitch default)))
+  ;; Clear the header line string so that it isn't displayed
+  (setq header-line-format nil))
+
+
+(use-package org-present
+  :defer t
+  :hook
+  ((org-present-after-navigate-functions . soph/org-present-prepare-slide)
+  (org-present-mode                      . soph/org-present-start)
+  (org-present-mode-quit                 . soph/org-present-end)))
 #+end_src
 
 ** Org Conveniencies
