@@ -707,17 +707,25 @@ I really like the =doom-themes= package.
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
   :config
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-nord t))
+  (setq doom-themes-enable-bold t     ; if nil, bold is universally disabled
+        doom-themes-enable-italic t)) ; if nil, italics is universally disabled
 #+END_SRC
 
-*** Custom Theme
-
-I have a work-in-progress light theme that I use from time to time. Let's add the path to that so I can load it.
+I also have a custom light theme I'm working on called South. Let's add the path to that so I can load it.
 
 #+begin_src emacs-lisp
 (setq custom-theme-directory "~/Dropbox/projects/south-theme/")
+#+end_src
+
+*** Default Dark & Light Themes
+
+My favourite dark theme is =doom-nord=. I haven't been able to find any light themes I really love, so I made South to act as Nord's bright counterpart. I'll set these two as my default dark and light themes respectively, and load the dark theme by default.
+
+#+begin_src emacs-lisp
+(defvar soph/default-dark-theme  'doom-nord)
+(defvar soph/default-light-theme 'south)
+
+(load-theme soph/default-dark-theme t)
 #+end_src
 
 *** Changing Theme With System Theme
@@ -728,8 +736,8 @@ I have a work-in-progress light theme that I use from time to time. Let's add th
 (use-package auto-dark
   :ensure t
   :config
-  (setq auto-dark-dark-theme               'doom-nord
-		auto-dark-light-theme              'south
+  (setq auto-dark-dark-theme               soph/default-dark-theme
+		auto-dark-light-theme              soph/default-light-theme
 		auto-dark-polling-interval-seconds 5
 		auto-dark-allow-osascript          nil
 		auto-dark-allow-powershell         nil)
@@ -738,7 +746,7 @@ I have a work-in-progress light theme that I use from time to time. Let's add th
   (auto-dark-mode t))
 #+end_src
 
-We can even change the system theme from within Emacs using a [[https://github.com/xenodium/dwim-shell-command/][dwim-shell-command]].
+We can even change the system theme from within Emacs using a [[https://github.com/xenodium/dwim-shell-command/][dwim-shell-command]] for Mac OS. The Gnome extension [[https://nightthemeswitcher.romainvigier.fr/][Night Theme Switcher]] takes care of things on my Linux machine.
 
 #+begin_src emacs-lisp
 (when (eq system-type 'darwin)
