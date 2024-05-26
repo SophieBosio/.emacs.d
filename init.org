@@ -394,7 +394,7 @@ This doesn't work ideally, but it does the job. I use it very rarely.
                      ((numberp (cadr alpha)) (cadr alpha)))
                100)
           '(90 . 55) '(100 . 100)))))
- (global-set-key (kbd "C-c v") 'toggle-transparency)
+ (global-set-key (kbd "C-c h t") 'toggle-transparency)
 #+end_src
 
 *** Frame Border
@@ -804,12 +804,12 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 
 *** Hide Mode Line
 
-[[https://github.com/hlissner/emacs-hide-mode-line][hide-mode-line-mode]] is extracted from Doom Emacs, and does what it says on the tin. It can also be added to hooks to hide the mode line in certain modes. I have it bound to =C-c h=.
+[[https://github.com/hlissner/emacs-hide-mode-line][hide-mode-line-mode]] is extracted from Doom Emacs, and does what it says on the tin. It can also be added to hooks to hide the mode line in certain modes. I have it bound to =C-c h m= - mneumonically "User command: Hide Modeline".
 
 #+begin_src emacs-lisp
 (use-package hide-mode-line
   :defer t
-  :bind (:map custom-bindings-map ("C-c h" . hide-mode-line-mode)))
+  :bind (:map custom-bindings-map ("C-c h m" . hide-mode-line-mode)))
 #+end_src
 
 ** Text Display Modes
@@ -871,6 +871,23 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 
 * Interaction
 ** Tweaking Default Behaviour
+*** With modes
+
+#+BEGIN_SRC emacs-lisp
+(dolist (mode
+    '(column-number-mode        ;; Show current column number in mode line
+      delete-selection-mode     ;; Replace selected text when yanking
+      dirtrack-mode             ;; Directory tracking in shell
+      global-so-long-mode       ;; Mitigate performance for long lines
+      global-visual-line-mode   ;; Break lines instead of truncating them
+      global-auto-revert-mode   ;; Revert buffers automatically when they change
+      recentf-mode              ;; Remember recently opened files
+      savehist-mode             ;; Remember minibuffer prompt history
+      save-place-mode           ;; Remember last cursor location in file
+      show-paren-mode))         ;; Highlight matching parentheses
+    (funcall mode t))
+#+END_SRC
+
 *** With =setq=
 
 #+BEGIN_SRC emacs-lisp
@@ -892,23 +909,6 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
               frame-resize-pixelwise t              ;; Fine-grained frame resize
               ;; auto-fill-function     'do-auto-fill ;; Auto-fill-mode
 )
-#+END_SRC
-
-*** With modes
-
-#+BEGIN_SRC emacs-lisp
-(dolist (mode
-    '(column-number-mode        ;; Show current column number in mode line
-      delete-selection-mode     ;; Replace selected text when yanking
-      dirtrack-mode             ;; Directory tracking in shell
-      global-so-long-mode       ;; Mitigate performance for long lines
-      global-visual-line-mode   ;; Break lines instead of truncating them
-      global-auto-revert-mode   ;; Revert buffers automatically when they change
-      recentf-mode              ;; Remember recently opened files
-      savehist-mode             ;; Remember minibuffer prompt history
-      save-place-mode           ;; Remember last cursor location in file
-      show-paren-mode))         ;; Highlight matching parentheses
-    (funcall mode 1))
 #+END_SRC
 
 *** Smoother Scrolling
@@ -1464,8 +1464,7 @@ Then configure Magit.
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   :config
   (setq magit-mode-quit-window 'magit-restore-window-configuration
-		magit-auto-revert-mode t
-		auto-revert-mode       t))
+		magit-auto-revert-mode t))
 #+end_src
 
 And finally use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the project's TODOs directly in the Magit buffer.
