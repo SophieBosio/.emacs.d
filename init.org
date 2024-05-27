@@ -530,17 +530,14 @@ defaults write org.gnu.Emacs TransparentTitleBar LIGHT
 defaults write org.gnu.Emacs HideDocumentIcon YES
 #+end_src
 
-*** Undecorated Title Bar on Gnome
+*** Plain Title Bar on GNOME
 
-[[https://www.gnu.org/software/emacs/manual/html_node/elisp/Management-Parameters.html][It's possible]] to set the Emacs window to be "undecorated", i.e.,
-without a title bar and thus with no buttons on Gnome.
+On GNOME, I can't get a transparent/native title bar. But I can remove the text from the middle, so it's completely plain.
 
 #+begin_src emacs-lisp
 (when (eq system-type 'gnu/linux)
   ; don't show buffer name in title bar
-  (setq frame-title-format nil)
-  ; use undecorated title bar
-  (add-to-list 'default-frame-alist '(undecorated . t)))
+  (setq frame-title-format nil))
 #+end_src
 
 ** Programming-Specific Visuals
