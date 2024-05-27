@@ -2151,6 +2151,7 @@ up registers for my GTD files.
 (set-register ?2 (cons 'file (concat org-directory "thesis.org")))
 (set-register ?3 (cons 'file (concat org-directory "roam/20240128135100-roam.org")))
 (set-register ?4 (cons 'file (concat org-directory "projects.org")))
+(set-register ?5 (cons 'file "~/Documents/playground/clj-playground/src/clj_playground/playground.clj"))
 #+end_src
 
 Since I have =C-s= bound to =consult-line= which lets me search everywhere in a
