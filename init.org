@@ -555,6 +555,7 @@ But having a thin cursor can make it hard to see where you are after switching b
 (use-package beacon
   :defer t
   :init  (beacon-mode 1)
+  :bind (:map custom-bindings-map ("C-;" . beacon-blink))
   :config
   (setq beacon-blink-when-window-scrolls nil))
 #+end_src
