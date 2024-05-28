@@ -2654,6 +2654,56 @@ Eglot, we need a dedicated package.
 			   ("C-c C-c" . haskell-compile)))
  #+END_SRC
 
+*** Clojure
+
+ [[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
+ built-in support for firing up a REPL and looking up documentation and source
+ code, but it also has very Emacs-like shortcuts for expected actions, such as
+ =C-x C-e= to evaluate the s-exp at point.
+ [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
+
+
+ [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
+
+ #+begin_src emacs-lisp
+ (use-package flycheck-clj-kondo
+   :ensure t)
+ #+end_src
+
+ #+begin_src emacs-lisp
+ (use-package clojure-mode
+   :defer t
+   :config
+   (require 'flycheck-clj-kondo))
+
+ (use-package cider
+   :defer t
+   :hook ((cider-mode      . paredit-mode)
+          (cider-repl-mode . paredit-mode)
+		  (clojure-mode    . paredit-mode)
+          (clojure-mode    . whitespace-mode))
+   :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
+   :config
+   (setq cider-repl-display-help-banner nil))
+ #+end_src
+
+ [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
+
+ #+begin_src emacs-lisp
+  (use-package clj-refactor
+	:after clojure-mode
+	:hook (clojure-mode . clj-refactor-mode)
+	:bind (:map custom-bindings-map ("C-c r" . cljr-find-usages)))
+ #+end_src
+
+ [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
+ forms. I don't have it on all the time.
+
+ #+begin_src emacs-lisp
+ (use-package prism
+   :defer t)
+ #+end_src
+
 *** Agda
 
  To install Agda, you need Haskell - stack or cabal - and a few other
@@ -2750,56 +2800,6 @@ Eglot, we need a dedicated package.
    :defer t
    :hook (inferior-python-mode . hide-mode-line-mode))
  #+end_src<
-
-*** Clojure
-
- [[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
- built-in support for firing up a REPL and looking up documentation and source
- code, but it also has very Emacs-like shortcuts for expected actions, such as
- =C-x C-e= to evaluate the s-exp at point.
- [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
-
-
- [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
-
- #+begin_src emacs-lisp
- (use-package flycheck-clj-kondo
-   :ensure t)
- #+end_src
-
- #+begin_src emacs-lisp
- (use-package clojure-mode
-   :defer t
-   :config
-   (require 'flycheck-clj-kondo))
-
- (use-package cider
-   :defer t
-   :hook ((cider-mode      . paredit-mode)
-          (cider-repl-mode . paredit-mode)
-		  (clojure-mode    . paredit-mode)
-          (clojure-mode    . whitespace-mode))
-   :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
-   :config
-   (setq cider-repl-display-help-banner nil))
- #+end_src
-
- [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
-
- #+begin_src emacs-lisp
-  (use-package clj-refactor
-	:after clojure-mode
-	:hook (clojure-mode . clj-refactor-mode)
-	:bind (:map custom-bindings-map ("C-c r" . cljr-find-usages)))
- #+end_src
-
- [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
- forms. I don't have it on all the time.
-
- #+begin_src emacs-lisp
- (use-package prism
-   :defer t)
- #+end_src
 
 *** Coq
 
