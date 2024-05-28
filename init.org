@@ -2787,9 +2787,10 @@ Eglot, we need a dedicated package.
  [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
 
  #+begin_src emacs-lisp
- (use-package clj-refactor
-   :after clojure-mode
-   :hook (clojure-mode . clj-refactor-mode))
+  (use-package clj-refactor
+	:after clojure-mode
+	:hook (clojure-mode . clj-refactor-mode)
+	:bind (:map custom-bindings-map ("C-c r" . cljr-find-usages)))
  #+end_src
 
  [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
