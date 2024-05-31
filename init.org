@@ -871,18 +871,16 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 *** With modes
 
 #+BEGIN_SRC emacs-lisp
-(dolist (mode
-    '(column-number-mode        ;; Show current column number in mode line
-      delete-selection-mode     ;; Replace selected text when yanking
-      dirtrack-mode             ;; Directory tracking in shell
-      global-so-long-mode       ;; Mitigate performance for long lines
-      global-visual-line-mode   ;; Break lines instead of truncating them
-      global-auto-revert-mode   ;; Revert buffers automatically when they change
-      recentf-mode              ;; Remember recently opened files
-      savehist-mode             ;; Remember minibuffer prompt history
-      save-place-mode           ;; Remember last cursor location in file
-      show-paren-mode))         ;; Highlight matching parentheses
-    (funcall mode t))
+(column-number-mode      t) ;; Show current column number in mode line
+(delete-selection-mode   t) ;; Replace selected text when yanking
+(dirtrack-mode           t) ;; Directory tracking in shell
+(global-so-long-mode     t) ;; Mitigate performance for long lines
+(global-visual-line-mode t) ;; Break lines instead of truncating them
+(global-auto-revert-mode t) ;; Revert buffers automatically when they change
+(recentf-mode            t) ;; Remember recently opened files
+(savehist-mode           t) ;; Remember minibuffer prompt history
+(save-place-mode         t) ;; Remember last cursor location in file
+(show-paren-mode         t) ;; Highlight matching parentheses
 #+END_SRC
 
 *** With =setq=
