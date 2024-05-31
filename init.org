@@ -2879,3 +2879,9 @@ mode for it and activate that mode. The below code does just that.
 - [ ] Check out [[https://github.com/mohkale/consult-eglot/][consult-eglot]]
 - [ ] Check out [[https://github.com/otavioschwanck/harpoon.el][harpoon]]
 - [ ] Check out [[https://github.com/alphapapa/bufler.el][bufler]]
+- [ ] Check out [[https://github.com/magnars/s.el][s - string manipulation]]
+- [ ] Check out [[https://github.com/rejeep/f.el][f - file manipulation]]
+- [ ] Check out [[https://github.com/magnars/dash.el][dash - list manipulation]]
+- [ ] Check out [[https://github.com/tarsius/paren-face][paren-face]]
+- [ ] Check out [[https://github.com/sshaw/git-link.git][git-link]] - seems very useful for work
+- [ ] Check out [[https://codeberg.org/pidu/git-timemachine][git-timemachine]]
