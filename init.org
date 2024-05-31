@@ -193,20 +193,19 @@ To avoid doing this each time a change is made we can add a function to the =aft
 * Start-Up
 ** Performance
 
-I want to make some tweaks to improve startup performance. First, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards.
+Famously, the Emacs garbage collector can impede startup times quite dramatically. Therefore, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards. Luckily, there exists a package exactly for this purpose called the [[https://github.com/emacsmirror/gcmh][Garbage Collector Magic Hack]]-
 
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-percentage 0.6)
-(setq gc-cons-threshold (* 50 1000 1000))
 
-;; Set and reset threshold
-(let ((old-gc-treshold gc-cons-threshold))
-  (setq gc-cons-threshold most-positive-fixnum)
-  (add-hook 'after-init-hook
-            (lambda () (setq gc-cons-threshold old-gc-treshold))))
+(use-package gcmh
+  :config
+  (setq gcmh-idle-delay 5
+        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+  (gcmh-mode 1))
 #+END_SRC
 
-Compilation warnings.
+I also get quite a lot of compilation warnings, especially from native compilation, but they are usually safe to ignore.
 
 #+begin_src emacs-lisp
 (setq native-comp-async-report-warnings-errors 'silent) ;; native-comp warning
