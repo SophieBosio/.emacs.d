@@ -2662,14 +2662,6 @@ Eglot, we need a dedicated package.
  =C-x C-e= to evaluate the s-exp at point.
  [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
-
- [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
-
- #+begin_src emacs-lisp
- (use-package flycheck-clj-kondo
-   :ensure t)
- #+end_src
-
  #+begin_src emacs-lisp
  (use-package clojure-mode
    :defer t
@@ -2687,7 +2679,14 @@ Eglot, we need a dedicated package.
    (setq cider-repl-display-help-banner nil))
  #+end_src
 
- [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
+ [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
+
+ #+begin_src emacs-lisp
+ (use-package flycheck-clj-kondo
+   :ensure t)
+ #+end_src
+
+ [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring. It also has a function for finding references, which I'll bind to =C-c r=.
 
  #+begin_src emacs-lisp
   (use-package clj-refactor
