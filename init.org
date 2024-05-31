@@ -1063,7 +1063,8 @@ Makes life so much easier!
 (use-package multiple-cursors
   :defer t
   :bind (:map custom-bindings-map
-              ("M-n" . mc/mark-next-like-this)))
+              ("M-n" . mc/mark-next-like-this)
+			  ("M-p" . mc/mark-previous-like-this)))
 #+end_src
 
 *** Undo/Redo
