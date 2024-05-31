@@ -2696,6 +2696,13 @@ Eglot, we need a dedicated package.
 	:bind (:map custom-bindings-map ("C-c r" . cljr-find-usages)))
  #+end_src
 
+[[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions.
+
+#+begin_src emacs-lisp
+(use-package cider-eval-sexp-fu
+  :defer t)
+#+end_src
+
  [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
  forms. I don't have it on all the time.
 
