@@ -899,6 +899,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 
 #+BEGIN_SRC emacs-lisp
 (setq auto-revert-interval         1         ;; Refresh buffers fast
+	  auto-revert-verbose          nil       ;; Don't notify me about reverts
       echo-keystrokes              0.1       ;; Show keystrokes fast
       frame-inhibit-implied-resize 1         ;; Don't resize frame implicitly
       sentence-end-double-space    nil       ;; No double spaces
