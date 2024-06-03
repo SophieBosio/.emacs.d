@@ -548,7 +548,7 @@ I prefer a bar cursor over a block cursor.
 (setq-default cursor-type 'bar)
 #+end_src
 
-But having a thin cursor can make it hard to see where you are after switching buffers or jumping around. [[https://github.com/Malabarba/beacon][Beacon]] highlights your cursor temporarily, which immediately answers the question "Woah, where am I now?"
+Having a thin cursor can make it hard to see where you are after switching buffers or jumping around. [[https://github.com/Malabarba/beacon][Beacon]] highlights your cursor temporarily, which immediately answers the question "Woah, where am I now?"
 
 #+begin_src emacs-lisp
 (use-package beacon
@@ -557,6 +557,18 @@ But having a thin cursor can make it hard to see where you are after switching b
   :bind (:map custom-bindings-map ("C-;" . beacon-blink))
   :config
   (setq beacon-blink-when-window-scrolls nil))
+#+end_src
+
+*** Highlighting Symbol Occurrences
+
+It's nice to instantly see all the occurrences of a symbol in a buffer without I-searching for it. Since highlighting the cursor is bound to =C-;=, I'll bind a function from [[https://github.com/nschum/highlight-symbol.el][highlight-symbol]] to highlight a symbol with =C-:=.
+
+*TODO:* Change the colour of the highlight to match Beacon.
+
+#+begin_src emacs-lisp
+(use-package highlight-symbol
+  :defer t
+  :bind (:map custom-bindings-map ("C-:" . highlight-symbol)))
 #+end_src
 
 *** Delimiters (Parentheses etc.)
