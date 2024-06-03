@@ -2537,7 +2537,7 @@ detects most programming languages and applies appropriate comment style.
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
   :defer t
-  :bind (:map custom-bindings-map ("C-'" . evilnc-comment-or-uncomment-lines)))
+  :bind (:map custom-bindings-map ("C-ø" . evilnc-comment-or-uncomment-lines)))
 #+end_src
 
 *** Subword Mode
