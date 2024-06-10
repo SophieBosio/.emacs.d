@@ -16,17 +16,21 @@ This is my attempt at keeping my Emacs configuration organised and readable.
 I write all my initialisation code in this document as code blocks and then use
 =org-babel-tangle= to extract those code blocks into a separate file. That new,
 generated file becomes my =init.el=. This way, I can document my code and explain
-my choices to my future self - and to anyone else who might be interested in looking at it.
+my choices to my future self - and to anyone else who might be interested in looking at it. I've stolen the code for doing this and several other tidbits from [[https://github.com/larstvei/dot-emacs/blob/master/init.org][Lars Tveito]].
 
 If you're interested in this approach to writing and sharing your config, it's
 called a "literate configuration" and there are lots of great blog posts out
 there with inspiration and tips!
 
-I've lifted a lot of code from the setups of [[https://github.com/rougier][Nicolas Rougier]] (especially his Org setup),
-[[https://github.com/larstvei/dot-emacs/blob/master/init.org][Lars Tveito]], and [[https://github.com/jakebox/jake-emacs][Jacob Boxerman]], and I can heartily recommend checking those out.
+I've lifted a lot of code from other people's configurations, including:
+- [[https://github.com/rougier][Nicolas Rougier]] (especially his Org setup)
+- [[https://github.com/larstvei/dot-emacs/blob/master/init.org][Lars Tveito]]
+- [[https://github.com/jakebox/jake-emacs][Jacob Boxerman]]
+- [[https://github.com/purcell/emacs.d][Steve Purcell]]
 
-I'm still relatively new to Emacs, so if you have any suggestions or
-improvements, I would be very happy to hear about them!
+I can heartily recommend checking those out.
+
+You likely do not want to copy my configuration file, since it's full of idiosyncrasies and pretty subjective choices. But I do encourage you to take any bits and pieces that seem interesting, try them out, and incorporate the ones you like into your own config.
 
 * Table of Contents :toc_2_gh:
 - [[#about][About]]
@@ -111,7 +115,7 @@ Here are the programming languages and utils I set up. The configuration for oth
 - [[https://agda.readthedocs.io/][Agda]], for which you also need Haskell and the Haskell packages [[https://haskell-alex.readthedocs.io/en/][Alex]] and [[https://haskell-happy.readthedocs.io/en/][Happy]]
 - [[https://clojure.org/guides/install_clojure][Clojure]], for which you also need a JDK and [[https://leiningen.org/][Leiningen]]
 
-I use these fonts. They are used both in the [[#visuals][Visuals]]-section, under [[#fonts][Fonts]] and in the [[#org][Org]]-section, under [[#visuals][Visuals]] and then [[#fonts][Fonts]].
+I use these fonts. They are used both in [[#visuals][Visuals]] > [[#fonts][Fonts]] and in [[#org][Org]] > [[#visuals-1][Visuals]] > [[#fonts-1][Fonts]].
 
 - [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
 - [[https://fonts.google.com/specimen/Open+Sans][Open Sans]]
