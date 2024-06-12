@@ -70,6 +70,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#better-help-buffers][Better Help Buffers]]
   - [[#spelling][Spelling]]
   - [[#latex][LaTeX]]
+  - [[#pdf-tools][PDF Tools]]
   - [[#editor-config][Editor Config]]
   - [[#browser-preference][Browser Preference]]
   - [[#elfeed][Elfeed]]
@@ -1622,6 +1623,16 @@ want it to take up less than half the screen.
 #+begin_src emacs-lisp
 (setq reftex-toc-split-windows-horizontally t
 	  reftex-toc-split-windows-fraction     0.2)
+#+end_src
+
+** PDF Tools
+
+[[https://github.com/vedang/pdf-tools][PDF Tools]] is an improved version of the built-in DocView for viewing PDFs.
+
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :defer t
+  :init (pdf-loader-install))
 #+end_src
 
 ** Editor Config
