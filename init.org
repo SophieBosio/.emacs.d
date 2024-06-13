@@ -2150,7 +2150,8 @@ The first step is to set the relevant directories.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Dropbox/org/")
-(setq org-agenda-files (list "inbox.org" "thesis.org"))
+(add-to-list 'org-agenda-files "inbox.org")
+(add-to-list 'org-agenda-files "thesis.org")
 #+END_SRC
 
 Set the archive location to a unified archive.
