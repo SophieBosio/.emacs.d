@@ -43,7 +43,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
 - [[#start-up][Start-Up]]
   - [[#performance][Performance]]
   - [[#house-keeping][House-Keeping]]
-  - [[#packages][Packages]]
+  - [[#package-sources][Package Sources]]
+  - [[#local-files][Local Files]]
 - [[#custom-keybindings][Custom Keybindings]]
   - [[#custom-keymap][Custom Keymap]]
   - [[#mac-os-modifier-keys][Mac OS Modifier Keys]]
@@ -252,7 +253,7 @@ Set UFT-8 as preferred coding system.
 (set-language-environment "UTF-8")
 #+END_SRC
 
-** Packages
+** Package Sources
 
 To manage downloaded packages, Emacs comes with =package.el= installed. In
 addition, I want to use =use-package=, so let's make sure we have those loaded.
@@ -282,22 +283,37 @@ Next, I'll set up my package sources. These are very common and well-maintained 
 (package-initialize)
 #+END_SRC
 
+** Local Files
+
 I have a folder with extensions that have been downloaded manually. I'll add these to the =load-path= so Emacs knows where to look for them. My folder is called "local-lisp".
 
 #+BEGIN_SRC emacs-lisp
-(defvar local-lisp "~/.emacs.d/local-lisp/")
+(defvar local-lisp (concat user-emacs-directory "local-lisp/"))
 (add-to-list 'load-path  local-lisp)
 (let ((default-directory local-lisp))
   (normal-top-level-add-subdirs-to-load-path))
 #+END_SRC
 
-And load custom settings from =custom.el= if it exists.
+I'll initialise the list of Org agenda files to an empty list. There are used for task management and for my calendar, and I'll add to the list both in =private.el= and in the Org section [[#tasks][Tasks]].
 
-#+BEGIN_SRC emacs-lisp
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
-#+END_SRC
+#+begin_src emacs-lisp
+(setq org-agenda-files '())
+#+end_src
+
+And load custom settings from =custom.el= and private settings from =private.el= if they exist.
+
+#+begin_src emacs-lisp
+(add-hook
+ 'after-init-hook
+ (lambda ()
+   (let ((private-file (concat user-emacs-directory "private.el"))
+		 (custom-file (concat user-emacs-directory "custom.el")))
+     (when (file-exists-p private-file)
+       (load-file private-file))
+     (when custom-file
+       (load-file custom-file))
+     (server-start))))
+#+end_src
 
 * Custom Keybindings
 ** Custom Keymap
