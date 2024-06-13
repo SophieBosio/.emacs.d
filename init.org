@@ -531,7 +531,7 @@ found these options in [[https://notes.alexkehayias.com/emacs-natural-title-bar-
   ; don't use proxy icon
   (setq ns-use-proxy-icon nil)
   ; don't show buffer name in title bar
-  (setq frame-title-format nil))
+  (setq frame-title-format ""))
 #+end_src
 
 Finally, in your terminal, run these commands to use transparent title bar and
