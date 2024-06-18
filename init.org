@@ -1180,6 +1180,13 @@ Opening, switching and deleting windows becomes super easy with [[https://github
 			  ("C-x 0" . 'switch-window-then-delete)))
 #+end_src
 
+I often need to switch back and forth between the current and the last opened buffer, which usually takes three keystrokes: =C-x b RET=. Let's bind it to =C-.= for convenience, with a function I got from [[http://whattheemacsd.com/][What the .emacs.d!?]].
+
+#+begin_src emacs-lisp
+(fset 'quick-switch-buffer [?\C-x ?b return])
+(define-key custom-bindings-map (kbd "C-.") 'quick-switch-buffer)
+#+end_src
+
 And [[https://www.emacswiki.org/emacs/TransposeFrame][Transpose
 Frame]] has some nice functions for shifting windows around. I only really use the
 one to swap the left- and right-hand sides of the frame, but there are
