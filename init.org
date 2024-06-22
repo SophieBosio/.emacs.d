@@ -2376,7 +2376,10 @@ I set up a Roam directory and added a simple configuration for navigating Roam n
   ("C-c n i" . org-roam-node-insert)
   ("C-c q"   . org-roam-tag-add)
   :config
-  (org-roam-db-autosync-enable))
+  ;; Sync my Org Roam database automatically
+  (org-roam-db-autosync-enable)
+  ;; Open Org files in same window
+  (add-to-list 'org-link-frame-setup '(file . find-file)))
 #+end_src
 
 *** Consult Org Roam
