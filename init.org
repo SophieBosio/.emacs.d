@@ -589,7 +589,9 @@ It's nice to instantly see all the occurrences of a symbol in a buffer without I
 #+begin_src emacs-lisp
 (use-package highlight-symbol
   :defer t
-  :bind (:map custom-bindings-map ("C-:" . highlight-symbol)))
+  :bind (:map custom-bindings-map ("C-:" . highlight-symbol))
+  :config
+  (setq highlight-symbol-colors '("LightSteelBlue1")))
 #+end_src
 
 *** Delimiters (Parentheses etc.)
