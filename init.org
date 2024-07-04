@@ -1073,8 +1073,7 @@ symbol, word, sentence, paragraph). It's super handy!
 #+begin_src emacs-lisp
 (use-package expand-region
   :defer t
-  :bind (:map custom-bindings-map ("C-<dead-diaeresis>" . er/expand-region)
-			                      ("C-å" . er/contract-region)))
+  :bind (:map custom-bindings-map ("C-+" . er/expand-region)))
 #+end_src
 
 *** Filling/Unfilling
