@@ -1664,8 +1664,12 @@ styles across editors when collaborating.
 Open links with Firefox by default.
 
 #+begin_src emacs-lisp
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
+(when (eq system-type 'darwin)
+  (setq browse-url-browser-function 'browse-url-default-macosx-browser))
+
+(when (eq system-type 'gnu/linux)
+  (setq browse-url-browser-function 'browse-url-generic
+		browse-url-generic-program "firefox"))
 #+end_src
 
 ** Elfeed
