@@ -1505,7 +1505,7 @@ in just vterm, please do let me know :~)
 
 [[https://github.com/magit/magit][Magit]] is a Git client specifically for Emacs, and it's super powerful.
 
-Let's first make sure we're highlighting uncommitted changes.
+Let's first make sure we're highlighting uncommitted changes with [[https://github.com/dgutov/diff-hl][diff-hl]]. It highlights added, deleted, and modified code segments by adding a coloured bar to the left-hand gutter of the buffer.
 
 #+begin_src emacs-lisp
 (use-package diff-hl
@@ -1513,7 +1513,7 @@ Let's first make sure we're highlighting uncommitted changes.
   (global-diff-hl-mode))
 #+end_src
 
-Then configure Magit.
+Then configure Magit. I'll add hooks to have =diff-hl= update the gutter whenever Magit refreshes.
 
 #+begin_src emacs-lisp
 (use-package magit
@@ -1526,13 +1526,20 @@ Then configure Magit.
 		magit-auto-revert-mode t))
 #+end_src
 
-And finally use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the project's TODOs directly in the Magit buffer.
+I'll use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the project's TODOs directly in the Magit buffer.
 
 #+begin_src emacs-lisp
 (use-package magit-todos
   :after magit
   :config
   (magit-todos-mode 1))
+#+end_src
+
+And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git forges (e.g., GitHub, and GitLab) directly from Magit.
+
+#+begin_src emacs-lisp
+(use-package forge
+  :after magit)
 #+end_src
 
 ** Auto-Saving
@@ -2970,4 +2977,4 @@ mode for it and activate that mode. The below code does just that.
 - [ ] Check out [[https://github.com/sshaw/git-link.git][git-link]] - seems very useful for work
 - [ ] Check out [[https://codeberg.org/pidu/git-timemachine][git-timemachine]]
 - [ ] Check out [[https://github.com/magnars/fold-this.el][fold-this]]
-- [ ] Check out Magiit [[https://github.com/magit/forge][Forge]]
+- [ ] Configure Magiit [[https://github.com/magit/forge][Forge]]
