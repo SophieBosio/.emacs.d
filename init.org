@@ -1631,8 +1631,10 @@ trying it out instead of Flyspell, which I used before.
 #+begin_src emacs-lisp
 (use-package jinx
   :hook (emacs-startup . global-jinx-mode)
-  :bind (("M-$" . jinx-correct)
-         ("C-M-$" . jinx-languages)))
+  :bind (("M-$"   . jinx-correct)
+         ("C-M-$" . jinx-languages))
+  :config
+  (setq jinx-languages "en_GB"))
 #+end_src
 
 ** LaTeX
