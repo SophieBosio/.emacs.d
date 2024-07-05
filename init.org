@@ -2059,7 +2059,7 @@ B's Emacs setup]].
 				  ; Checkboxes
 				  ("[ ]" . "")
 				  ("[X]" . "")
-				  ("[-]" . "" )
+				  ("[-]" . "")
 				  ; Blocks
 				  ("#+begin_src"   . "") ; 
 				  ("#+end_src"     . "")
@@ -2957,3 +2957,5 @@ mode for it and activate that mode. The below code does just that.
 - [ ] Check out [[https://github.com/tarsius/paren-face][paren-face]]
 - [ ] Check out [[https://github.com/sshaw/git-link.git][git-link]] - seems very useful for work
 - [ ] Check out [[https://codeberg.org/pidu/git-timemachine][git-timemachine]]
+- [ ] Check out [[https://github.com/magnars/fold-this.el][fold-this]]
+- [ ] Check out Magiit [[https://github.com/magit/forge][Forge]]
