@@ -1519,8 +1519,8 @@ Then configure Magit.
 (use-package magit
   :defer t
   :hook
-  (magit-pre-refresh-hook  . diff-hl-magit-pre-refresh)
-  (magit-post-refresh-hook . diff-hl-magit-post-refresh)
+  ((magit-pre-refresh  . diff-hl-magit-pre-refresh)
+   (magit-post-refresh . diff-hl-magit-post-refresh))
   :config
   (setq magit-mode-quit-window 'magit-restore-window-configuration
 		magit-auto-revert-mode t))
