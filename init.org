@@ -91,8 +91,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
 - [[#programming][Programming]]
   - [[#preferences--extras][Preferences & Extras]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#eglot][Eglot]]
   - [[#flycheck][Flycheck]]
+  - [[#eldoc][Eldoc]]
   - [[#http][HTTP]]
   - [[#programming-languages][Programming Languages]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -2670,35 +2670,6 @@ Once setup, you can get tree-sitter grammars by building them or downloading the
 
 If you want to keep these in a location outside the =.emacs.d= directory, you can set =treesit-extra-load-path=.
 
-** Eglot
-
-[[https://github.com/joaotavora/eglot][Eglot]] (Emacs polyGLOT) is an LSP server client for Emacs that comes
-pre-installed from Emacs 29. If using a previous version, you can of course also install
-it manually!
-
-#+begin_src emacs-lisp
-(use-package eglot
-  :defer t
-  :hook
-  ((eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1))))
-  :custom
-  (eglot-autoshutdown t)
-  (eglot-events-buffer-size 0)
-  (eglot-stay-out-of '(yasnippet)))
-#+end_src
-
-As [[https://andreyor.st/posts/2023-09-09-migrating-from-lsp-mode-to-eglot/][this blog post]] describes, the Java and Clojure LSPs use a dependency system
-to go to definitions that came from external libraries. To make this work with
-Eglot, we need a dedicated package.
-
-#+begin_src emacs-lisp
-(use-package jarchive
-  :ensure t
-  :after eglot
-  :config
-  (jarchive-mode))
-#+end_src
-
 ** Flycheck
 
 [[https://github.com/flycheck/flycheck][Flycheck]] is an on-the-fly syntax checker.
@@ -2707,6 +2678,17 @@ Eglot, we need a dedicated package.
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
+#+end_src
+
+** Eldoc
+
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Programming-Language-Doc.html][Eldoc]] is Emacs' built-in language documentation feature. It will show function documentation as applicable while you're programming.
+
+#+begin_src emacs-lisp
+(use-package eldoc
+  :defer t
+  :config
+  (global-eldoc-mode))
 #+end_src
 
 ** HTTP
