@@ -2755,14 +2755,6 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
   :defer t)
 #+end_src
 
- [[https://github.com/alphapapa/prism.el][prism.el]] colourises your code blocks by depth. It works especially well for Lisp
- forms. I don't have it on all the time.
-
- #+begin_src emacs-lisp
- (use-package prism
-   :defer t)
- #+end_src
-
 *** Agda
 
  To install Agda, you need Haskell - stack or cabal - and a few other
