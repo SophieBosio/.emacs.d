@@ -2767,8 +2767,13 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
          (clojurec-mode . lsp)
          (lsp-mode      . lsp-enable-which-key-integration))
   :config
-  (setq lsp-headerline-breadcrumb-enable nil   ;; Don't show breadcrumbs
-        lsp-ui-doc-enable                nil)) ;; Don't show childframes with info
+  (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
+        lsp-ui-sideline-enable           nil   ;; No sideline
+        lsp-ui-doc-enable                nil   ;; No childframes with info
+
+        ;; Disable all mode line features, since I use a custom mode line
+        lsp-modeline-code-actions-enable nil
+        lsp-modeline-diagnostics-enable  nil))
 #+end_src
 
 *** Agda
