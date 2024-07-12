@@ -371,10 +371,10 @@ strange compilation warnings (optimiser says there's too much on the stack).
 
 #+begin_src emacs-lisp
 (dolist (mode
-		 '(tool-bar-mode                     ;; Remove toolbar
-		   scroll-bar-mode                   ;; Remove scollbars
-		   menu-bar-mode                     ;; Remove menu bar
-		   blink-cursor-mode))               ;; Solid cursor, not blinking
+         '(tool-bar-mode                     ;; Remove toolbar
+           scroll-bar-mode                   ;; Remove scollbars
+           menu-bar-mode                     ;; Remove menu bar
+           blink-cursor-mode))               ;; Solid cursor, not blinking
   (funcall mode 0))
 #+end_src
 
@@ -382,11 +382,11 @@ This wouldn't go into =early-init= anyways.
 
 #+begin_src emacs-lisp
 (setq inhibit-startup-message           t         ;; No startup message
-	  initial-scratch-message           nil       ;; Empty scratch buffer
-	  ring-bell-function                'ignore   ;; No bell
-	  display-time-default-load-average nil       ;; Don't show me load time
-	  scroll-margin                     0         ;; Space between top/bottom
-	  use-dialog-box                    nil)      ;; Disable dialog
+      initial-scratch-message           nil       ;; Empty scratch buffer
+      ring-bell-function                'ignore   ;; No bell
+      display-time-default-load-average nil       ;; Don't show me load time
+      scroll-margin                     0         ;; Space between top/bottom
+      use-dialog-box                    nil)      ;; Disable dialog
 #+end_src
 
 ** Frames & Windows
@@ -768,12 +768,10 @@ My favourite dark theme is =doom-nord=. I haven't been able to find any light th
   :ensure t
   :config
   (setq auto-dark-dark-theme               soph/default-dark-theme
-		auto-dark-light-theme              soph/default-light-theme
-		auto-dark-polling-interval-seconds 5
-		auto-dark-allow-osascript          nil
-		auto-dark-allow-powershell         nil)
-  ;; (setq auto-dark-detection-method nil) ;; dangerous to be set manually
-
+        auto-dark-light-theme              soph/default-light-theme
+        auto-dark-polling-interval-seconds 5
+        auto-dark-allow-osascript          nil
+        auto-dark-allow-powershell         nil)
   (auto-dark-mode t))
 #+end_src
 
@@ -991,10 +989,10 @@ use tabs, I don't want to mess with other people's code, so I've used this
   "Default to no tabs, but use tabs if already in project"
   (let ((space-count (how-many "^  " (point-min) (point-max)))
         (tab-count   (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+    (if (> space-count tab-count) (setq-default indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq-default indent-tabs-mode t))))
 
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 (infer-indentation-style)
 #+end_src
 
@@ -2122,7 +2120,7 @@ Let's increase the number of possible priorities for Org tasks. I'll set
 mine to =E= so that we have =A= through =E=, in total five levels.
 
 #+begin_src emacs-lisp
-(setq org-lowest-priority ?F)  ;; Gives us priorities A through F
+(setq org-lowest-priority  ?F) ;; Gives us priorities A through F
 (setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
 
 (setq org-priority-faces
@@ -2259,8 +2257,8 @@ Similarly, I right-align my tags, so they also end up shifted around and often o
 
 #+begin_src emacs-lisp
 (setq org-agenda-start-on-weekday nil
-	  org-agenda-block-separator  nil
-	  org-agenda-remove-tags      t)
+      org-agenda-block-separator  nil
+      org-agenda-remove-tags      t)
 #+end_src
 
 *** Super Agenda
@@ -2360,7 +2358,7 @@ not evaluated by default on export. I also want to add some languages.
 
 #+begin_src emacs-lisp
 (setq org-export-use-babel       nil
-	  org-confirm-babel-evaluate nil)
+      org-confirm-babel-evaluate nil)
 ;; (org-babel-do-load-languages
 ;;  'org-babel-load-languages
 ;;  '((emacs-lisp . t)
@@ -2445,8 +2443,8 @@ shown in the menu.
 
 #+begin_src emacs-lisp
 (setq org-roam-node-display-template
-	  (concat "${title:*} "
-			  (propertize "${tags:10}" 'face 'org-tag)))
+      (concat "${title:*} "
+        (propertize "${tags:10}" 'face 'org-tag)))
 #+end_src
 
 *** Follow Links
@@ -2729,12 +2727,12 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
    :hook (haskell-mode . haskell-doc-mode)
    :config
    (setq haskell-hoogle-command                  "hoogle"
-		 haskell-compile-stack-build-command     "stack build"
-		 haskell-compile-stack-build-alt-command "stack build --pedantic"
+         haskell-compile-stack-build-command     "stack build"
+         haskell-compile-stack-build-alt-command "stack build --pedantic"
          haskell-compile-command                 "stack build")
    :bind (:map haskell-mode-map
-			   ("C-c C-h" . haskell-hoogle)
-			   ("C-c C-c" . haskell-compile)))
+               ("C-c C-h" . haskell-hoogle)
+               ("C-c C-c" . haskell-compile)))
  #+END_SRC
 
 *** Clojure
@@ -2755,7 +2753,7 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
    :defer t
    :hook ((cider-mode      . paredit-mode)
           (cider-repl-mode . paredit-mode)
-		  (clojure-mode    . paredit-mode)
+          (clojure-mode    . paredit-mode)
           (clojure-mode    . whitespace-mode))
    :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
    :config
@@ -2947,7 +2945,7 @@ mode for it and activate that mode. The below code does just that.
 - [ ] Find prose font that scales well with TODO boxes and verbatim code
 - [ ] Check out [[https://github.com/alphapapa/org-quick-peek][org-quick-peek]]
 - [ ] Check out [[https://github.com/cpitclaudel/quick-peek][quick-peek]] (not on MELPA)
-- [ ] Check out  [[https://github.com/oantolin/embark][embark]]
+- [ ] Check out [[https://github.com/oantolin/embark][embark]]
 - [ ] Check out [[https://github.com/rexim/org-cliplink][org-cliplink]]
 - [ ] Check out [[https://github.com/mohkale/consult-eglot/][consult-eglot]]
 - [ ] Check out [[https://github.com/otavioschwanck/harpoon.el][harpoon]]
