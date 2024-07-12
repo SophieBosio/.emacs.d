@@ -501,7 +501,7 @@ instead of creating a new one. Setting both =split-height-threshold= and
               ;; window-min-width       80) ;; No smaller windows than this
 #+end_src
 
-*** Transparent Title Bar on Mac OS
+*** Title Bar on Mac OS
 
 I use [[https://github.com/d12frosted/homebrew-emacs-plus][Emacs Plus]] port for Mac OS. With it, you can get a transparent title bar (i.e., title bar is same colour as theme background) which I think is really nice.
 
@@ -519,17 +519,14 @@ Then add the corresponding settings to your =init=-file.
 
 There are two different styles you can choose from. You can have absolutely no title bar on your window or you can have a transparent bar, which still has the three stoplight buttons in the upper-left corner.
 
-For natural title bar, use =ns-transparent-titlebar= and for no title bar, use =undecorated=. Here, I'm
-using the natural title bar.
+For natural title bar, use =ns-transparent-titlebar= and for no title bar, use =undecorated= or =undercorated-round=.
 
-I also set some other options. For example, I don't need info in the title bar
-about which buffer is in focus, since this info is already in the mode line. I
-found these options in [[https://notes.alexkehayias.com/emacs-natural-title-bar-with-no-text-in-macos/][this blog post]].
+I also set some other options. For example, I don't need info in the title bar about which buffer is in focus, since this info is already in the mode line. I found these options in [[https://notes.alexkehayias.com/emacs-natural-title-bar-with-no-text-in-macos/][this blog post]].
 
 #+begin_src emacs-lisp
 (when (eq system-type 'darwin)
-  ; use transparent/natural title bar
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  ; no title bar
+  (add-to-list 'default-frame-alist '(undecorated-round . t))
   ; don't use proxy icon
   (setq ns-use-proxy-icon nil)
   ; don't show buffer name in title bar
