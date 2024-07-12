@@ -371,22 +371,22 @@ strange compilation warnings (optimiser says there's too much on the stack).
 
 #+begin_src emacs-lisp
 (dolist (mode
-         '(tool-bar-mode                     ;; Remove toolbar
-           scroll-bar-mode                   ;; Remove scollbars
-           menu-bar-mode                     ;; Remove menu bar
-           blink-cursor-mode))               ;; Solid cursor, not blinking
+         '(tool-bar-mode       ;; Remove toolbar
+           scroll-bar-mode     ;; Remove scollbars
+           menu-bar-mode       ;; Remove menu bar
+           blink-cursor-mode)) ;; Solid cursor, not blinking
   (funcall mode 0))
 #+end_src
 
 This wouldn't go into =early-init= anyways.
 
 #+begin_src emacs-lisp
-(setq inhibit-startup-message           t         ;; No startup message
-      initial-scratch-message           nil       ;; Empty scratch buffer
-      ring-bell-function                'ignore   ;; No bell
-      display-time-default-load-average nil       ;; Don't show me load time
-      scroll-margin                     0         ;; Space between top/bottom
-      use-dialog-box                    nil)      ;; Disable dialog
+(setq inhibit-startup-message           t       ;; No startup message
+      initial-scratch-message           nil     ;; Empty scratch buffer
+      ring-bell-function                'ignore ;; No bell
+      display-time-default-load-average nil     ;; Don't show me load time
+      scroll-margin                     0       ;; Space between top/bottom
+      use-dialog-box                    nil)    ;; Disable dialog
 #+end_src
 
 ** Frames & Windows
@@ -918,7 +918,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 
 #+BEGIN_SRC emacs-lisp
 (setq auto-revert-interval         1         ;; Refresh buffers fast
-	  auto-revert-verbose          nil       ;; Don't notify me about reverts
+      auto-revert-verbose          nil       ;; Don't notify me about reverts
       echo-keystrokes              0.1       ;; Show keystrokes fast
       frame-inhibit-implied-resize 1         ;; Don't resize frame implicitly
       sentence-end-double-space    nil       ;; No double spaces
@@ -932,10 +932,8 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 *** With =setq-default=
 
 #+BEGIN_SRC emacs-lisp
-(setq-default tab-width              4              ;; Smaller tabs
-              frame-resize-pixelwise t              ;; Fine-grained frame resize
-              ;; auto-fill-function     'do-auto-fill ;; Auto-fill-mode
-)
+(setq-default tab-width              4  ;; Smaller tabs
+              frame-resize-pixelwise t) ;; Fine-grained frame resize
 #+END_SRC
 
 *** Smoother Scrolling
@@ -946,8 +944,8 @@ I want scrolling to be a *lot* slower than it is by default.
 (setq scroll-conservatively            101
       mouse-wheel-follow-mouse         't
       mouse-wheel-progressive-speed    nil
-      ;; Scroll 2 lines at a time, instead of default 5
-      ;; Hold shift to scroll x2 and meta to scroll x3 as fast
+      ;; Scroll 1 line at a time, instead of default 5
+      ;; Hold shift to scroll faster and meta to scroll very fast
       mouse-wheel-scroll-amount        '(1 ((shift) . 3) ((meta) . 6)))
 
 (setq mac-redisplay-dont-reset-vscroll t
@@ -1113,8 +1111,8 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 (use-package undo-fu
   :defer t
   :bind (:map custom-bindings-map
-			  ("C-_"   . undo-fu-only-undo)
-			  ("M-_" . undo-fu-only-redo)))
+              ("C-_"   . undo-fu-only-undo)
+              ("M-_" . undo-fu-only-redo)))
 #+end_src
 
 *** Move Lines
@@ -1124,10 +1122,10 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 #+begin_src emacs-lisp
 (use-package move-dup
   :bind (:map prog-mode-map
-			  (("M-<up>"     . move-dup-move-lines-up)
-			   ("C-M-<up>"   . move-dup-duplicate-up)
-			   ("M-<down>"   . move-dup-move-lines-down)
-			   ("C-M-<down>" . move-dup-duplicate-down))))
+              (("M-<up>"     . move-dup-move-lines-up)
+               ("C-M-<up>"   . move-dup-duplicate-up)
+               ("M-<down>"   . move-dup-move-lines-down)
+               ("C-M-<down>" . move-dup-duplicate-down))))
 #+end_src
 
 ** Managing Buffers & Windows
@@ -1170,11 +1168,11 @@ Opening, switching and deleting windows becomes super easy with [[https://github
 #+begin_src emacs-lisp
 (use-package switch-window
   :bind (:map custom-bindings-map
-			  ("C-x o" . 'switch-window)
-			  ("C-x 1" . 'switch-window-then-maximize)
-			  ("C-x 2" . 'switch-window-then-split-below)
-			  ("C-x 3" . 'switch-window-then-split-right)
-			  ("C-x 0" . 'switch-window-then-delete)))
+              ("C-x o" . 'switch-window)
+              ("C-x 1" . 'switch-window-then-maximize)
+              ("C-x 2" . 'switch-window-then-split-below)
+              ("C-x 3" . 'switch-window-then-split-right)
+              ("C-x 0" . 'switch-window-then-delete)))
 #+end_src
 
 I often need to switch back and forth between the current and the last opened buffer, which usually takes three keystrokes: =C-x b RET=. Let's bind it to =C-.= for convenience, with a function I got from [[http://whattheemacsd.com/][What the .emacs.d!?]].
@@ -1192,7 +1190,7 @@ others you might find useful.
 #+begin_src emacs-lisp
 (use-package transpose-frame
   :bind (:map custom-bindings-map
-			  ("C-c f" . 'flop-frame)))
+              ("C-c f" . 'flop-frame)))
 #+end_src
 
 ** Project Management
@@ -1305,10 +1303,8 @@ that it can do.
 #+begin_src emacs-lisp
 (use-package consult
   :bind (:map custom-bindings-map
-              ("C-x b"   . consult-buffer)
-			  ;; ("C-s"     . consult-line)
-			  ;; ("M-s"     . consult-ripgrep)
-			  ("M-g g" . consult-goto-line)))
+              ("C-x b" . consult-buffer)
+              ("M-g g" . consult-goto-line)))
 #+end_src
 
 *** Marginalia
@@ -1793,11 +1789,11 @@ By default, when opening an Org-link, the current window is split into two. I'd 
 
 #+begin_src emacs-lisp :tangle no
 (setq org-link-frame-setup
-	  '((vm      . vm-visit-folder-other-frame)
-		(vm-imap . vm-visit-imap-folder-other-frame)
-		(gnus    . org-gnus-no-new-news)
-		(file    . find-file)
-		(wl      . wl-other-frame)))
+      '((vm      . vm-visit-folder-other-frame)
+        (vm-imap . vm-visit-imap-folder-other-frame)
+        (gnus    . org-gnus-no-new-news)
+        (file    . find-file)
+        (wl      . wl-other-frame)))
 #+end_src
 
 I'd also like to open links with =RET=.
@@ -1843,9 +1839,9 @@ write the greek letter alpha) and display ellipses in a condensed way.
 
 #+begin_src emacs-lisp
   (setq org-adapt-indentation t
-		org-hide-leading-stars t
-		org-pretty-entities t
-		org-ellipsis "  ·")
+        org-hide-leading-stars t
+        org-pretty-entities t
+        org-ellipsis "  ·")
 #+end_src
 
 For source code blocks specifically, I want Org to display the contents using
@@ -1854,8 +1850,8 @@ source code block like it normally would when writing code in that language.
 
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t
-		org-src-tab-acts-natively t
-		org-edit-src-content-indentation 0)
+        org-src-tab-acts-natively t
+        org-edit-src-content-indentation 0)
 #+end_src
 
 Some Org options to deal with headers and TODO's nicely.
@@ -1889,10 +1885,10 @@ making edits easy while looking pretty.
   :commands (org-appear-mode)
   :hook     (org-mode . org-appear-mode)
   :config 
-  (setq org-hide-emphasis-markers t)  ; Must be activated for org-appear to work
-  (setq org-appear-autoemphasis   t   ; Show bold, italics, verbatim, etc.
-        org-appear-autolinks      t   ; Show links
-        org-appear-autosubmarkers t)) ; Show sub- and superscripts
+  (setq org-hide-emphasis-markers t)  ;; Must be activated for org-appear to work
+  (setq org-appear-autoemphasis   t   ;; Show bold, italics, verbatim, etc.
+        org-appear-autolinks      t   ;; Show links
+        org-appear-autosubmarkers t)) ;; Show sub- and superscripts
 #+end_src
 
 *** Inline Images
@@ -1942,7 +1938,7 @@ checkboxes for TODOs.
                                           ("PROG"  . 9744)
                                           ("NEXT"  . 9744)
                                           ("WAIT"  . 9744)
-										  ("DONE"  . 9745)))
+                                          ("DONE"  . 9745)))
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
@@ -2138,9 +2134,9 @@ I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" ; Needs further action
+		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" ;; Needs further action
 		 "|"
-		 "DONE(d)")))                            ; Needs no action currently
+		 "DONE(d)")))                            ;; Needs no action currently
 #+end_src
 
 *** Mark As Done
@@ -2297,11 +2293,11 @@ We'll set up some groups with the Super Agenda syntax.
 
 (defvar regular-view-groups
   '((:name "Scheduled"
-		   :scheduled t
-		   :order 1)
+     :scheduled t
+     :order 1)
 	(:name "Deadlines"
-		   :deadline t
-		   :order 2)))
+     :deadline t
+     :order 2)))
 #+end_src
 
 Now I'll set up commands to open the day view with =C-c a d= and extended three-day view with =C-c a e=. Notice that I'm first setting some options for the built-in agenda, and then defining a block with Super Agenda groups and Org QL queries.
@@ -2310,8 +2306,8 @@ Now I'll set up commands to open the day view with =C-c a d= and extended three-
 (add-to-list 'org-agenda-custom-commands
 	  '("d" "Day View"
 		 ((agenda "" ((org-agenda-overriding-header "Day View")
-					  (org-agenda-span 'day)
-					  (org-super-agenda-groups regular-view-groups)))
+                      (org-agenda-span 'day)
+                      (org-super-agenda-groups regular-view-groups)))
 		  (org-ql-block '(todo "PROG") ((org-ql-block-header "\n❯ In Progress")))
 		  (org-ql-block '(todo "NEXT") ((org-ql-block-header "\n❯ Next Up")))
           (org-ql-block '(todo "WAIT") ((org-ql-block-header "\n❯ Waiting")))
