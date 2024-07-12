@@ -2755,6 +2755,22 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
   :defer t)
 #+end_src
 
+[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have put in in the Clojure section because Clojure is the only language I've set up with LSP support so far. In the future, I might move this to its own section.
+
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :defer t
+  :bind (:map lsp-mode-map
+              ("M-<return>" . lsp-execute-code-action)
+              ("C-M-."      . lsp-find-references))
+  :hook ((clojure-mode  . lsp)
+         (clojurec-mode . lsp)
+         (lsp-mode      . lsp-enable-which-key-integration))
+  :config
+  (setq lsp-headerline-breadcrumb-enable nil   ;; Don't show breadcrumbs
+        lsp-ui-doc-enable                nil)) ;; Don't show childframes with info
+#+end_src
+
 *** Agda
 
  To install Agda, you need Haskell - stack or cabal - and a few other
