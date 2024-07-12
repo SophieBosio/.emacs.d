@@ -948,8 +948,8 @@ I want scrolling to be a *lot* slower than it is by default.
       mouse-wheel-follow-mouse         't
       mouse-wheel-progressive-speed    nil
       ;; Scroll 2 lines at a time, instead of default 5
-      ;; Hold shift to scroll x2 and control to scroll x3 as fast
-      mouse-wheel-scroll-amount        '(1 ((shift) . 3) ((control) . 6)))
+      ;; Hold shift to scroll x2 and meta to scroll x3 as fast
+      mouse-wheel-scroll-amount        '(1 ((shift) . 3) ((meta) . 6)))
 
 (setq mac-redisplay-dont-reset-vscroll t
       mac-mouse-wheel-smooth-scroll    nil)
