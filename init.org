@@ -203,12 +203,13 @@ To avoid doing this each time a change is made we can add a function to the =aft
 Famously, the Emacs garbage collector can impede startup times quite dramatically. Therefore, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards. Luckily, there exists a package exactly for this purpose called the [[https://github.com/emacsmirror/gcmh][Garbage Collector Magic Hack]]-
 
 #+BEGIN_SRC emacs-lisp
-(setq gc-cons-percentage 0.6)
+(setq gc-cons-percentage      0.6)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package gcmh
   :config
   (setq gcmh-idle-delay 5
-        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+        gcmh-high-cons-threshold (* 100 1024 1024))  ; 100mb
   (gcmh-mode 1))
 #+END_SRC
 
