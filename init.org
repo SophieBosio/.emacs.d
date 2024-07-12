@@ -395,7 +395,6 @@ This wouldn't go into =early-init= anyways.
 When I open Emacs, I want it to open maximised and fullscreen by default.
 
 #+BEGIN_SRC emacs-lisp
-(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist     '(fullscreen . maximized))
 ;; (add-hook 'window-setup-hook          'toggle-frame-fullscreen t)  ;; F11
 #+END_SRC
