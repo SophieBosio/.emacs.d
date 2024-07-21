@@ -2733,13 +2733,12 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
    :ensure t)
  #+end_src
 
- [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring. It also has a function for finding references, which I'll bind to =C-c r=.
+ [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
 
  #+begin_src emacs-lisp
   (use-package clj-refactor
 	:after clojure-mode
-	:hook (clojure-mode . clj-refactor-mode)
-	:bind (:map custom-bindings-map ("C-c r" . cljr-find-usages)))
+	:hook (clojure-mode . clj-refactor-mode))
  #+end_src
 
 [[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions.
