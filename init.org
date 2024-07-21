@@ -1490,7 +1490,9 @@ in just vterm, please do let me know :~)
 
 ** Version Control
 
-[[https://github.com/magit/magit][Magit]] is a Git client specifically for Emacs, and it's super powerful.
+[[https://github.com/magit/magit][Magit]] is a Git client specifically for Emacs, and it's super powerful. It's the centre of all my version control packages.
+
+*** Git Gutter with =diff-hl=
 
 Let's first make sure we're highlighting uncommitted changes with [[https://github.com/dgutov/diff-hl][diff-hl]]. It highlights added, deleted, and modified code segments by adding a coloured bar to the left-hand gutter of the buffer.
 
@@ -1499,6 +1501,8 @@ Let's first make sure we're highlighting uncommitted changes with [[https://gith
   :config
   (global-diff-hl-mode))
 #+end_src
+
+*** Magit
 
 Then configure Magit. I'll add hooks to have =diff-hl= update the gutter whenever Magit refreshes.
 
@@ -1513,6 +1517,8 @@ Then configure Magit. I'll add hooks to have =diff-hl= update the gutter wheneve
 		magit-auto-revert-mode t))
 #+end_src
 
+*** Magit TODOs
+
 I'll use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the project's TODOs directly in the Magit buffer.
 
 #+begin_src emacs-lisp
@@ -1522,11 +1528,34 @@ I'll use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the p
   (magit-todos-mode 1))
 #+end_src
 
+*** Magit Forge
+
 And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git forges (e.g., GitHub, and GitLab) directly from Magit.
 
 #+begin_src emacs-lisp
 (use-package forge
   :after magit)
+#+end_src
+
+*** Git Link
+
+[[https://github.com/sshaw/git-link/][git-link]] creates URL links to the current position in your buffer in the corresponding forge repo. Super handy for sending to others.
+
+#+begin_src emacs-lisp
+(use-package git-link
+  :defer t
+  :init
+  (setq git-link-use-commit t
+        git-link-open-in-browser t))
+#+end_src
+
+*** Git Timemachine
+
+[[https://codeberg.org/pidu/git-timemachine][Git Time Machine]] lets you step through different versions of a Git-controlled file directly in the current buffer, without even needing to hop over to the Magit status buffer.
+
+#+begin_src emacs-lisp
+(use-package git-timemachine
+  :defer t)
 #+end_src
 
 ** Auto-Saving
