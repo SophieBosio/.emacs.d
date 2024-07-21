@@ -1084,7 +1084,7 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
 		(emacs-lisp-docstring-fill-column t))
 	(fill-paragraph nil region)))
 ;; Handy key definition
-(define-key custom-bindings-map "\M-Q" 'unfill-paragraph)
+(define-key custom-bindings-map (kbd "C-c n q") 'unfill-paragraph)
 #+end_src
 
 *** Multiple Cursors
