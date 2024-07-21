@@ -2763,6 +2763,7 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
   (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
         lsp-ui-sideline-enable           nil   ;; No sideline
         lsp-ui-doc-enable                nil   ;; No childframes with info
+        lsp-lens-enable                  nil   ;; No lenses
 
         ;; Disable all mode line features, since I use a custom mode line
         lsp-modeline-code-actions-enable nil
