@@ -1133,7 +1133,7 @@ the buffer list. Killing a buffer with =C-x k= or marking several buffers in the
 buffer list to kill them is fine, but can be a bit cumbersome.
 
 I found this function in a [[https://superuser.com/questions/895920/how-can-i-close-all-buffers-in-emacs][Stack Exchange answer]]. It allows me to close the
-current buffer easily by pressing =C-k=. If I prefix it, by writing =C-u C-k=, then
+current buffer easily by pressing =C-c k=. If I prefix it, by writing =C-u C-c k=, then
 all "interesting" buffers are killed, leaving internal Emacs buffers intact.
 This cleans up all the buffers I've opened or used myself.
 
@@ -1155,7 +1155,7 @@ When called without a prefix argument, kill just the current buffer
     (t
       (kill-buffer (current-buffer)))))
 
-(define-key custom-bindings-map (kbd "C-k") 'custom-kill-buffer-fn)
+(define-key custom-bindings-map (kbd "C-c k") 'custom-kill-buffer-fn)
 #+end_src
 
 *** Opening, Closing, & Switching Windows
