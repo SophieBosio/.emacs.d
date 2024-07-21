@@ -843,7 +843,7 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 ** Text Display Modes
 *** Olivetti
 
-[[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c C-o= to activate/deactivate it on the fly.
+[[https://github.com/rnkn/olivetti][Olivetti]] is a minor mode for centering text. For convenience, I'll bind it to =C-c o= to activate/deactivate it on the fly.
 
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
@@ -1072,10 +1072,7 @@ symbol, word, sentence, paragraph). It's super handy!
 
 *** Filling/Unfilling
 
-In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks
-like a normal paragraph in Emacs (one line) is actually several lines with =\n=
-all over. This function removes those and makes the selected region one line
-again.
+In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks like a normal paragraph in Emacs (one line) is actually several lines with =\n= all over. This function removes those and makes the selected region one line again.
 
 #+begin_src emacs-lisp
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
@@ -1111,7 +1108,7 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 (use-package undo-fu
   :defer t
   :bind (:map custom-bindings-map
-              ("C-_"   . undo-fu-only-undo)
+              ("C-_" . undo-fu-only-undo)
               ("M-_" . undo-fu-only-redo)))
 #+end_src
 
@@ -2925,14 +2922,9 @@ mode for it and activate that mode. The below code does just that.
 
 * TODOs
 - [ ] Find prose font that scales well with TODO boxes and verbatim code
-- [ ] Check out [[https://github.com/alphapapa/org-quick-peek][org-quick-peek]]
-- [ ] Check out [[https://github.com/cpitclaudel/quick-peek][quick-peek]] (not on MELPA)
 - [ ] Check out [[https://github.com/oantolin/embark][embark]]
-- [ ] Check out [[https://github.com/rexim/org-cliplink][org-cliplink]]
-- [ ] Check out [[https://github.com/mohkale/consult-eglot/][consult-eglot]]
 - [ ] Check out [[https://github.com/otavioschwanck/harpoon.el][harpoon]]
 - [ ] Check out [[https://github.com/alphapapa/bufler.el][bufler]]
-- [X] Check out [[https://github.com/tarsius/paren-face][paren-face]]
 - [ ] Check out [[https://github.com/sshaw/git-link.git][git-link]] - seems very useful for work
 - [ ] Check out [[https://codeberg.org/pidu/git-timemachine][git-timemachine]]
 - [ ] Check out [[https://github.com/magnars/fold-this.el][fold-this]]
