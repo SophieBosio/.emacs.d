@@ -217,6 +217,13 @@ Famously, the Emacs garbage collector can impede startup times quite dramaticall
 
 ** Optimisations
 
+We can set the =file-name-handler-alist=, which is supposed to help startup times a little.
+
+#+begin_src emacs-lisp
+(setq file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+#+end_src
+
 I also get quite a lot of compilation warnings, especially from native compilation, but they are usually safe to ignore.
 
 #+begin_src emacs-lisp
@@ -265,12 +272,21 @@ and default directories explicitly:
 Set UFT-8 as preferred coding system.
 
 #+BEGIN_SRC emacs-lisp
-(set-language-environment "UTF-8")
+(set-language-environment    "UTF-8")
+(setq locale-coding-system   'utf-8)
+(prefer-coding-system        'utf-8)
+(set-default-coding-systems  'utf-8)
+(set-terminal-coding-system  'utf-8)
+(set-keyboard-coding-system  'utf-8)
+(set-terminal-coding-system  'utf-8)
+(set-keyboard-coding-system  'utf-8)
+(set-selection-coding-system 'utf-8)
 #+END_SRC
 
-My name and email address.
+Don't warn me when opening files unless over 50 MB.
 
 #+begin_src emacs-lisp
+(setq large-file-warning-threshold (* 50 1024 1024))
 #+end_src
 
 ** Package Sources
@@ -400,7 +416,11 @@ This wouldn't go into =early-init= anyways.
 
 #+begin_src emacs-lisp
 (setq inhibit-startup-message           t       ;; No startup message
+      inhibit-startup-echo-area-message t       ;; No startup message in echo area
+      inhibit-startup-screen            t       ;; No default startup screen
       initial-scratch-message           nil     ;; Empty scratch buffer
+      initial-buffer-choice             t       ;; *scratch* is default startup buffer
+      initial-major-mode                'fundamental-mode
       ring-bell-function                'ignore ;; No bell
       display-time-default-load-average nil     ;; Don't show me load time
       scroll-margin                     0       ;; Space between top/bottom
@@ -943,7 +963,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
       recentf-max-saved-items      1000      ;; Show more recent files
       use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
       save-interprogram-paste-before-kill t  ;; Save copies between programs
-      history-length 25                      ;; Only save the last 25 minibuffer prompts
+      history-length               25        ;; Only save the last 25 minibuffer prompts
       global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
 
