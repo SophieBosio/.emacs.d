@@ -41,7 +41,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#lexical-scoping][Lexical Scoping]]
   - [[#tangling][Tangling]]
 - [[#start-up][Start-Up]]
-  - [[#performance][Performance]]
+  - [[#garbage-collection][Garbage Collection]]
+  - [[#optimisations][Optimisations]]
   - [[#house-keeping][House-Keeping]]
   - [[#package-sources][Package Sources]]
   - [[#local-files][Local Files]]
@@ -199,7 +200,7 @@ To avoid doing this each time a change is made we can add a function to the =aft
    #+END_SRC
 
 * Start-Up
-** Performance
+** Garbage Collection
 
 Famously, the Emacs garbage collector can impede startup times quite dramatically. Therefore, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards. Luckily, there exists a package exactly for this purpose called the [[https://github.com/emacsmirror/gcmh][Garbage Collector Magic Hack]]-
 
@@ -214,11 +215,22 @@ Famously, the Emacs garbage collector can impede startup times quite dramaticall
   (gcmh-mode 1))
 #+END_SRC
 
+** Optimisations
+
 I also get quite a lot of compilation warnings, especially from native compilation, but they are usually safe to ignore.
 
 #+begin_src emacs-lisp
 (setq native-comp-async-report-warnings-errors 'silent) ;; native-comp warning
 (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+#+end_src
+
+Disable warnings about obsolete functions when compiling.
+
+#+begin_src emacs-lisp
+(eval-when-compile
+  (dolist (sym '(cl-flet lisp-complete-symbol))
+    (setplist sym (use-package-plist-delete
+                   (symbol-plist sym) 'byte-obsolete-info))))
 #+end_src
 
 This is an optimisation borrowed from Doom Emacs' =core.el=.
@@ -255,6 +267,11 @@ Set UFT-8 as preferred coding system.
 #+BEGIN_SRC emacs-lisp
 (set-language-environment "UTF-8")
 #+END_SRC
+
+My name and email address.
+
+#+begin_src emacs-lisp
+#+end_src
 
 ** Package Sources
 
