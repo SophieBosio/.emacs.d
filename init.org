@@ -23,10 +23,10 @@ called a "literate configuration" and there are lots of great blog posts out
 there with inspiration and tips!
 
 I've lifted a lot of code from other people's configurations, including:
-- [[https://github.com/rougier][Nicolas Rougier]] (especially his Org setup)
 - [[https://github.com/larstvei/dot-emacs/blob/master/init.org][Lars Tveito]]
 - [[https://github.com/jakebox/jake-emacs][Jacob Boxerman]]
 - [[https://github.com/purcell/emacs.d][Steve Purcell]]
+- [[https://github.com/rougier][Nicolas Rougier]] (especially his Org setup)
 
 I can heartily recommend checking those out.
 
@@ -108,6 +108,7 @@ This doubles as a memo to myself for when I need to set up a new machine.
 
 - [[https://www.mozilla.org/en-US/firefox/][Firefox Browser]]
 - [[https://github.com/BurntSushi/ripgrep][ripgrep]] search utility
+- [[https://github.com/ggreer/the_silver_searcher][ag (The Silver Searcher)]] search utility
 - [[https://tree-sitter.github.io/tree-sitter/][Tree-Sitter]] parser generator & incremental parsing library
 - [[https://github.com/AbiWord/enchant][Enchant]] spellchecker library
 - [[https://www.tug.org/interest.html#free][LaTeX]] type-setting system
@@ -1731,8 +1732,8 @@ Open links with Firefox by default.
   (setq elfeed-feeds
       '("http://nullprogram.com/feed/"
         "https://planet.emacslife.com/atom.xml"
-		"https://deniskyashif.com/index.xml"
-		"https://sophiebos.io/index.xml")))
+        "https://deniskyashif.com/index.xml"
+        "https://sophiebos.io/index.xml")))
 #+end_src
 
 ** Code Screenshots
