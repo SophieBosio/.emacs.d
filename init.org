@@ -1162,6 +1162,18 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
                ("C-M-<down>" . move-dup-duplicate-down))))
 #+end_src
 
+*** Join Lines
+
+From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], a keybinding to join the line below with the one above.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map
+            (kbd "M-j")
+            (lambda ()
+              (interactive)
+              (join-line -1)))
+#+end_src
+
 ** Managing Buffers & Windows
 *** Killing Buffers
 
