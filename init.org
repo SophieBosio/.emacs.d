@@ -1044,38 +1044,40 @@ Another thing that bothered me, was how the =backward-kill-word= command
 behind it until it had deleted a word. Additionally, this was automatically
 added to the kill ring. With this the help of some regexps, it behaves more like normal Ctrl-Backspace.
 
+The code is taken from [[https://emacs.stackexchange.com/a/30404][this]] and [[https://stackoverflow.com/a/12990359][this]] Stack Exchange/Overflow post.
+
 #+BEGIN_SRC emacs-lisp
-;; Delete a word, a character, or whitespace
-(defun custom/backward-delete ()
+(defun soph/delete-dont-kill (arg)
+  "Delete characters backward until encountering the beginning of a word.
+   With argument ARG, do this that many times. Don't add to kill ring."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
+
+(defun soph/backward-delete ()
+  "Delete a word, a character, or whitespace."
   (interactive)
   (cond
    ;; If you see a word, delete all of it
    ((looking-back (rx (char word)) 1)
-    (custom/delete-dont-kill 1))
+    (soph/delete-dont-kill 1))
    ;; If you see a single whitespace and a word, delete both together
    ((looking-back (rx (seq (char word) (= 1 blank))) 1)
-	(custom/delete-dont-kill 1))
+	(soph/delete-dont-kill 1))
    ;; If you see several whitespaces, delete them until the next word
    ((looking-back (rx (char blank)) 1)
     (delete-horizontal-space t))
    ;; If you see a single non-word character, delete that
    (t
     (backward-delete-char 1))))
-
-;; Delete a word without adding it to the kill ring
-(defun custom/delete-dont-kill (arg)
-  "Delete characters backward until encountering the beginning of a word.
-   With argument ARG, do this that many times.
-   Don't kill, just delete."
-  (interactive "p")
-  (delete-region (point) (progn (backward-word arg) (point))))
 #+END_SRC
 
 Let's bind this in my custom keybindings map.
 
 #+begin_src emacs-lisp
-(define-key custom-bindings-map [C-backspace] 'custom/backward-delete)
+(define-key custom-bindings-map [C-backspace] 'soph/backward-delete)
 #+end_src
+
+*** Browse Kill Ring
 
 Speaking of killing text, it's nice to be able to browse the kill ring.
 
@@ -1173,7 +1175,7 @@ all "interesting" buffers are killed, leaving internal Emacs buffers intact.
 This cleans up all the buffers I've opened or used myself.
 
 #+begin_src emacs-lisp
-(defun custom-kill-buffer-fn (&optional arg)
+(defun soph/kill-buffer (&optional arg)
 "When called with a prefix argument -- i.e., C-u -- kill all interesting
 buffers -- i.e., all buffers without a leading space in the buffer-name.
 When called without a prefix argument, kill just the current buffer
