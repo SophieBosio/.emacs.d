@@ -61,7 +61,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#text-display-modes][Text Display Modes]]
 - [[#interaction][Interaction]]
   - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
-  - [[#text-editing-preferences][Text Editing Preferences]]
+  - [[#preferences][Preferences]]
+  - [[#text-editing][Text Editing]]
   - [[#managing-buffers--windows][Managing Buffers & Windows]]
   - [[#project-management][Project Management]]
   - [[#search-utilies][Search Utilies]]
@@ -611,23 +612,9 @@ Having a thin cursor can make it hard to see where you are after switching buffe
 (use-package beacon
   :defer t
   :init  (beacon-mode 1)
-  :bind (:map custom-bindings-map ("C-;" . beacon-blink))
+  :bind (:map custom-bindings-map ("C-:" . beacon-blink))
   :config
   (setq beacon-blink-when-window-scrolls nil))
-#+end_src
-
-*** Highlighting Symbol Occurrences
-
-It's nice to instantly see all the occurrences of a symbol in a buffer without I-searching for it. Since highlighting the cursor is bound to =C-;=, I'll bind a function from [[https://github.com/nschum/highlight-symbol.el][highlight-symbol]] to highlight a symbol with =C-:=.
-
-*TODO:* Change the colour of the highlight to match Beacon.
-
-#+begin_src emacs-lisp
-(use-package highlight-symbol
-  :defer t
-  :bind (:map custom-bindings-map ("C-:" . highlight-symbol))
-  :config
-  (setq highlight-symbol-colors '("LightSteelBlue1")))
 #+end_src
 
 *** Delimiters (Parentheses etc.)
@@ -1009,7 +996,7 @@ command inside minibuffer." I'll add =ESC= as a keyboard shortcut to quit the mi
 (global-set-key (kbd "<escape>") 'soph/abort-minibuffer-if-active)
 #+end_src
 
-** Text Editing Preferences
+** Preferences
 *** Tabs & Indentation
 
 One of the things that drove me the most insane when I first downloaded Emacs,
@@ -1097,6 +1084,7 @@ Speaking of killing text, it's nice to be able to browse the kill ring.
   :defer t)
 #+end_src
 
+** Text Editing
 *** Selecting Regions
 
 [[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
@@ -1127,7 +1115,7 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
 
 *** Multiple Cursors
 
-Makes life so much easier!
+Makes life so much easier! I often use it to create several cursors directly above one another.
 
 #+begin_src emacs-lisp
 (use-package multiple-cursors
@@ -1135,6 +1123,15 @@ Makes life so much easier!
   :bind (:map custom-bindings-map
               ("M-n" . mc/mark-next-like-this)
 			  ("M-p" . mc/mark-previous-like-this)))
+#+end_src
+
+*** IEdit
+
+[[https://github.com/victorhge/iedit][iedit]] is similar to =multiple-cursors=, but they have slightly different use cases. IEdit will highlight all matching occurrences of a word/symbol and allow you to edit them simultaneously. Sometimes, I use it just to highlight matches in the buffer. The default binding for entering =iedit-mode= is =C-;=.
+
+#+begin_src emacs-lisp
+(use-package iedit
+  :defer t)
 #+end_src
 
 *** Undo/Redo
