@@ -2504,7 +2504,7 @@ I set up a Roam directory and added a simple configuration for navigating Roam n
     consult-org-roam-forward-links
     :preview-key "M-.")
    :bind
-   ;; Define some convenient keybindings as an addition
+   ;; Define some convenient Org Roam keybindings
    ("C-c n e" . consult-org-roam-file-find)
    ("C-c n b" . consult-org-roam-backlinks)
    ("C-c n l" . consult-org-roam-forward-links)
@@ -2671,7 +2671,7 @@ fairly good job of syntax highlighting my =.con=-files.
 
 *** Language-Specific Commenting
 
-I use =C-'= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
+I use =C-ø= to comment/uncomment lines with [[https://github.com/redguardtoo/evil-nerd-commenter][Evil Nerd Commenter]]. It automatically
 detects most programming languages and applies appropriate comment style.
 
 #+begin_src emacs-lisp
@@ -2987,8 +2987,6 @@ Switch to the other window  =C-x o= \to  =M-o=.
 #+begin_src emacs-lisp
 (define-key custom-bindings-map (kbd "M-o") 'other-window)
 #+end_src
-
-I also plan to use =win-switch= to get nicer macros for switching and managing windows.
 
 *** Activating the Keymap
 
