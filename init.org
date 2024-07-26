@@ -1306,7 +1306,8 @@ normal minibuffer.
   (setq vertico-posframe-width        90                      ;; Narrow frame
         vertico-posframe-height       vertico-count           ;; Default height
         vertico-posframe-parameters   '((left-fringe  . 12)   ;; Fringes
-                                        (right-fringe . 12))
+                                        (right-fringe . 12)
+                                        (undecorated  . nil)) ;; Rounded frame
         ;; Don't create posframe for these commands
         vertico-multiform-commands    '((consult-line    (:not posframe))
                                         (consult-ripgrep (:not posframe)))))
