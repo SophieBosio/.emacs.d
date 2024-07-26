@@ -63,6 +63,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
   - [[#preferences][Preferences]]
   - [[#text-editing][Text Editing]]
+  - [[#dired][Dired]]
   - [[#managing-buffers--windows][Managing Buffers & Windows]]
   - [[#project-management][Project Management]]
   - [[#search-utilies][Search Utilies]]
@@ -1172,6 +1173,24 @@ From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], 
             (lambda ()
               (interactive)
               (join-line -1)))
+#+end_src
+
+** Dired
+
+Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
+
+#+begin_src emacs-lisp
+(setq dired-use-ls-dired 'unspecified)
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(add-hook 'dired-mode-hook 'olivetti-mode)
+#+end_src
+
+[[https://github.com/purcell/diredfl/][diredfl]] adds extra font lock rules for dired to colour files differently depending on type.
+
+#+begin_src emacs-lisp
+(use-package diredfl
+  :defer t
+  :init  (diredfl-global-mode))
 #+end_src
 
 ** Managing Buffers & Windows
