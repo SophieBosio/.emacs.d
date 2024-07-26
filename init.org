@@ -803,7 +803,7 @@ We can even change the system theme from within Emacs using a [[https://github.c
 
 #+begin_src emacs-lisp
 (when (eq system-type 'darwin)
-  (define-key custom-bindings-map (kbd "C-M-t") 'dwim-shell-commands-macos-toggle-dark-mode))
+  (define-key custom-bindings-map (kbd "M-T") 'dwim-shell-commands-macos-toggle-dark-mode))
 #+end_src
 
 *** Conflict-Free Theme Changing
