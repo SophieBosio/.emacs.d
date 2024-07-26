@@ -1192,7 +1192,7 @@ When called without a prefix argument, kill just the current buffer
     (t
       (kill-buffer (current-buffer)))))
 
-(define-key custom-bindings-map (kbd "C-c k") 'custom-kill-buffer-fn)
+(define-key custom-bindings-map (kbd "C-c k") 'soph/kill-buffer)
 #+end_src
 
 *** Opening, Closing, & Switching Windows
