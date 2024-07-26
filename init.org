@@ -2820,7 +2820,8 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
   :defer t
   :bind (:map lsp-mode-map
               ("M-<return>" . lsp-execute-code-action)
-              ("C-M-."      . lsp-find-references))
+              ("C-M-."      . lsp-find-references)
+              ("C-c r"      . lsp-rename))
   :hook ((clojure-mode  . lsp)
          (clojurec-mode . lsp)
          (lsp-mode      . lsp-enable-which-key-integration))
