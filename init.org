@@ -117,7 +117,7 @@ This doubles as a memo to myself for when I need to set up a new machine.
 - [[https://github.com/AbiWord/enchant][Enchant]] spellchecker library & [[https://aspell.net/][GNU Aspell]]
 - [[https://www.tug.org/interest.html#free][LaTeX]] type-setting system
 
-Here are the programming languages and utils I set up. The configuration for other languages I have in here, like OCaml or Coq, shouldn't break anything if you don't have the software.
+Here are the programming languages and utils I set up. The configuration for other languages I have in here shouldn't break anything if you don't have the accompanying software.
 
 - [[https://docs.haskellstack.org/en/stable/][Stack]], [[https://www.haskell.org/cabal/][Cabal]], and [[https://github.com/haskell/haskell-language-server][hsl]] for Haskell - all of which you can install via [[https://www.haskell.org/ghcup/][GHCup]]
 - [[https://agda.readthedocs.io/][Agda]], for which you also need Haskell and the Haskell packages [[https://haskell-alex.readthedocs.io/en/][Alex]] and [[https://haskell-happy.readthedocs.io/en/][Happy]]
@@ -2907,25 +2907,6 @@ I'll also disable =corfu-mode= when CIDER is active, because otherwise the corfu
    :defer t
    :hook (inferior-python-mode . hide-mode-line-mode))
  #+end_src<
-
-*** Coq
-
- [[https://proofgeneral.github.io/][Proof General]] is a generic interface for proof assistants in Emacs. This is a
- simple setup to use it with Coq.
-
- #+begin_src emacs-lisp
- (use-package proof-general
-   :defer t)
- #+end_src
-
- As the [[https://coq.inria.fr/user-interfaces.html][Coq documentation]] suggests, I'll also add
- [[https://github.com/cpitclaudel/company-coq][company-coq]] for completions.
-
- #+begin_src emacs-lisp
- (use-package company-coq
-   :defer t
-   :hook (coq-mode . company-coq-mode))
- #+end_src
 
 *** Nix
 
