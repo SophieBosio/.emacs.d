@@ -1376,50 +1376,37 @@ that it can do.
 
 [[https://github.com/minad/corfu][corfu]] gives me text completion at point.
 
+I'll set it to start suggesting candidates automatically and quickly.
+
+By default, the completion's command for inserting a candidate is bound to =RET= and typically, when I press =RET=, I want to create a new line, so I'll unbind =RET= in the corfu map.
+
 #+begin_src emacs-lisp
 (use-package corfu
   :custom
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto-delay 0)           ;; No delay
-  (corfu-auto-prefix 2)          ;; Start when this many characters have been typed
-  (corfu-popupinfo-delay 0.5)    ;; Short delay
-  (corfu-preselect 'prompt)      ;; Preselect the prompt
+  (corfu-auto            t)       ;; Enable auto completion
+  (corfu-cycle           t)       ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto-delay      0)       ;; No delay
+  (corfu-auto-prefix     2)       ;; Start with this many characters typed
+  (corfu-popupinfo-delay 0.5)     ;; Short delay
+  (corfu-preselect       'prompt) ;; Preselect the prompt
+  :bind (:map corfu-map
+              ("RET" . nil))
   :init
   (global-corfu-mode))
 
 (use-package emacs
+  :bind ("C-<tab>" . 'corfu-insert-separator)
   :init
   ;; Hide commands in M-x which do not apply to the current mode.
   ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
   (setq read-extended-command-predicate
-        #'command-completion-default-include-p)
-  ;; Enable indentation+completion using the TAB key.
-  ;; `completion-at-point' is often bound to M-TAB.
-  (setq tab-always-indent 'complete))
+        #'command-completion-default-include-p))
 #+end_src
 
 =corfu= also uses some of [[https://github.com/minad/cape][cape]]'s functionalities, so let's add that, too.
 
 #+begin_src emacs-lisp
 (use-package cape
-  ;; Bind dedicated completion commands
-  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-  :bind (("C-c p p"  . completion-at-point) ;; capf
-         ("C-c p t"  . complete-tag)        ;; etags
-         ("C-c p d"  . cape-dabbrev)        ;; or dabbrev-completion
-         ("C-c p h"  . cape-history)
-         ("C-c p f"  . cape-file)
-         ("C-c p k"  . cape-keyword)
-         ("C-c p s"  . cape-symbol)
-         ("C-c p a"  . cape-abbrev)
-         ("C-c p l"  . cape-line)
-         ("C-c p w"  . cape-dict)
-         ("C-c p \\" . cape-tex)
-         ("C-c p _"  . cape-tex)
-         ("C-c p ^"  . cape-tex)
-         ("C-c p &"  . cape-sgml)
-         ("C-c p r"  . cape-rfc1345))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   ;; NOTE: The order matters!
