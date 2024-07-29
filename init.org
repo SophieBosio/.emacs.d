@@ -126,7 +126,7 @@ I use these fonts. They are used both in [[#visuals][Visuals]] > [[#fonts][Fonts
 
 - [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
 - [[https://fonts.google.com/specimen/Open+Sans][Open Sans]]
-- [[https://github.com/lemeb/a-better-ligaturizer/blob/master/output-fonts/RobotoMono.ttf][Roboto Mono with Ligatures]]
+- [[https://www.nerdfonts.com/font-downloads][Roboto Mono (Nerd Font)]]
 - Apple Emoji
 
 The rest of what you need *should* be downloaded by this configuration file. If you try it and find anything missing from this list, please let me know!
