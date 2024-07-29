@@ -113,7 +113,7 @@ This doubles as a memo to myself for when I need to set up a new machine.
 - [[https://github.com/BurntSushi/ripgrep][ripgrep]] search utility
 - [[https://github.com/ggreer/the_silver_searcher][ag (The Silver Searcher)]] search utility
 - [[https://tree-sitter.github.io/tree-sitter/][Tree-Sitter]] parser generator & incremental parsing library
-- [[https://github.com/AbiWord/enchant][Enchant]] spellchecker library
+- [[https://github.com/AbiWord/enchant][Enchant]] spellchecker library & [[https://aspell.net/][GNU Aspell]]
 - [[https://www.tug.org/interest.html#free][LaTeX]] type-setting system
 
 Here are the programming languages and utils I set up. The configuration for other languages I have in here, like OCaml or Coq, shouldn't break anything if you don't have the software.
