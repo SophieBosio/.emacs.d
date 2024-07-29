@@ -2769,7 +2769,7 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
 
  [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
 
-I'll also disable =corfu-mode= when CIDER is active, because otherwise the corfu completion pop-up overlaps CIDER's completions.
+I'll also disable =corfu-mode= when CIDER is active, because otherwise the corfu completion pop-up overlaps completions provided by =company-mode=, which I believe is the default backend for LSP-mode. I dont want to turn it off whenever LSP-mode is active, though, because some languages don't provide completions through LSP-mode and then corfu is better than nothing.
 
  #+begin_src emacs-lisp
  (use-package clojure-mode
