@@ -1135,7 +1135,9 @@ Makes life so much easier! I often use it to create several cursors directly abo
 
 #+begin_src emacs-lisp
 (use-package iedit
-  :defer t)
+  :defer t
+  :custom
+  (setq iedit-toggle-key-default (kbd "C-;")))
 #+end_src
 
 *** Undo/Redo
