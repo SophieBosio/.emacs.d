@@ -97,6 +97,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#eldoc][Eldoc]]
   - [[#http][HTTP]]
   - [[#programming-languages][Programming Languages]]
+  - [[#lsp-mode][LSP Mode]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 - [[#todos][TODOs]]
 
@@ -2810,29 +2811,6 @@ I'll also disable =corfu-mode= when CIDER is active, because otherwise the corfu
   :defer t)
 #+end_src
 
-[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have put in in the Clojure section because Clojure is the only language I've set up with LSP support so far. In the future, I might move this to its own section.
-
-#+begin_src emacs-lisp
-(use-package lsp-mode
-  :defer t
-  :bind (:map lsp-mode-map
-              ("M-<return>" . lsp-execute-code-action)
-              ("C-M-."      . lsp-find-references)
-              ("C-c r"      . lsp-rename))
-  :hook ((clojure-mode  . lsp)
-         (clojurec-mode . lsp)
-         (lsp-mode      . lsp-enable-which-key-integration))
-  :config
-  (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
-        lsp-ui-sideline-enable           nil   ;; No sideline
-        lsp-ui-doc-enable                nil   ;; No childframes with info
-        lsp-lens-enable                  nil   ;; No lenses
-
-        ;; Disable all mode line features, since I use a custom mode line
-        lsp-modeline-code-actions-enable nil
-        lsp-modeline-diagnostics-enable  nil))
-#+end_src
-
 *** Agda
 
  To install Agda, you need Haskell - stack or cabal - and a few other
@@ -2955,6 +2933,37 @@ I'll also disable =corfu-mode= when CIDER is active, because otherwise the corfu
  (use-package nix-mode
    :defer t)
  #+end_src
+
+** LSP Mode
+
+[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure and Haskell.
+
+I disable a few of the default features. If you want to know more about these and how to enable/disable other =lsp-mode= features, there's a handy guide on [[https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/][lsp-mode's website]].
+
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :defer t
+  :bind (:map lsp-mode-map
+              ("M-<return>" . lsp-execute-code-action)
+              ("C-M-."      . lsp-find-references)
+              ("C-c r"      . lsp-rename))
+  :hook ((clojure-mode  . lsp)
+         (clojurec-mode . lsp)
+         (lsp-mode      . lsp-enable-which-key-integration))
+  :config
+  (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
+        lsp-ui-sideline-enable           nil   ;; No sideline
+        lsp-ui-doc-enable                nil   ;; No childframes with info
+        lsp-lens-enable                  nil   ;; No lenses
+
+        ;; Disable all mode line features, since I use a custom mode line
+        lsp-modeline-code-actions-enable nil
+        lsp-modeline-diagnostics-enable  nil))
+
+(use-package lsp-haskell
+  :after lsp-mode
+  :hook (haskell-mode  . lsp))
+#+end_src
 
 * Activating Custom Keybindings
 *** Extra Keybindings
