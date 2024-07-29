@@ -2693,20 +2693,6 @@ names.
 (add-hook 'prog-mode-hook 'subword-mode)
 #+end_src
 
-*** WakaTime
-
-[[https://wakatime.com][WakaTime]] is an automatic time-tracking plugin.
-[[https://github.com/wakatime/wakatime-mode][wakatime-mode]] integrates it with Emacs.
-
-#+begin_src emacs-lisp
-(use-package wakatime-mode
-  :config
-  (when (eq system-type 'gnu/linux)
-	(setq wakatime-cli-path "~/.wakatime/wakatime-cli-linux-amd64")
-	(setq wakatime-api-key (auth-source-pick-first-password :host "wakatime"))
-	(global-wakatime-mode)))
-#+end_src
-
 *** Markdown
 
 Need-to-have for programmers.
