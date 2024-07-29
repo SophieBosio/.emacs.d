@@ -789,6 +789,9 @@ My favourite dark theme is =doom-nord=. I haven't been able to find any light th
 [[https://github.com/LionyxML/auto-dark-emacs][auto-dark-emacs]] is a package for switching themes with the system theme. It works both on Linux and on MacOS.
 
 #+begin_src emacs-lisp
+(use-package autothemer
+  :defer t)
+
 (use-package auto-dark
   :ensure t
   :config
