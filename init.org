@@ -2210,9 +2210,11 @@ I'll expand the list of default task states.
 #+begin_src emacs-lisp
 (setq org-todo-keywords
       '((sequence
-		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" ;; Needs further action
+         ;; Needs further action
+		 "TODO(t)" "WAIT(w)" "NEXT(n)" "PROG(p)" "QUESTION(q)"
 		 "|"
-		 "DONE(d)")))                            ;; Needs no action currently
+         ;; Needs no action currently
+		 "DONE(d)")))
 #+end_src
 
 *** Mark As Done
