@@ -2929,6 +2929,18 @@ I'll also disable =corfu-mode= when CIDER is active, because otherwise the corfu
 
 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure and Haskell.
 
+As far as I can tell, LSP-mode uses [[http://company-mode.github.io/][company-mode]] as its default completion backend, so I'll set some options for =company-mode=. Elsewhere, I use =corfu=, so I should probably consolidate these two eventually.
+
+#+begin_src emacs-lisp
+(use-package company
+  :defer t
+  :bind (:map company-active-map
+              ("TAB" . 'company-complete-selection))
+  :config
+  (setq company-minimum-prefix-length 2
+        company-idle-delay            0))
+#+end_src
+
 I disable a few of the default features. If you want to know more about these and how to enable/disable other =lsp-mode= features, there's a handy guide on [[https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/][lsp-mode's website]].
 
 #+begin_src emacs-lisp
