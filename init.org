@@ -649,13 +649,13 @@ distinguish them. Default behaviour is angle brackets, which would yield =name<f
 
 *** Highlight Long Lines
 
-Highlight lines over 100 characters long.
+Highlight lines over 120 characters long.
 
 #+begin_src emacs-lisp
 (setq my-whitespace-style '(face tabs lines-tail)
       whitespace-style my-whitespace-style
-      whitespace-line-column 100
-      fill-column 100
+      whitespace-line-column 120
+      fill-column 120
       whitespace-display-mappings
       '((space-mark 32 [183] [46])
         (newline-mark 10 [36 10])
