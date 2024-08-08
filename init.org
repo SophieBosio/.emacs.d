@@ -49,7 +49,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
 - [[#custom-keybindings][Custom Keybindings]]
   - [[#custom-keymap][Custom Keymap]]
   - [[#mac-os-modifier-keys][Mac OS Modifier Keys]]
-  - [[#dwim-shell-commands][DWIM Shell Commands]]
+  - [[#unbind-some-default-keys][Unbind Some Default Keys]]
 - [[#visuals][Visuals]]
   - [[#decluttering][Decluttering]]
   - [[#frames--windows][Frames & Windows]]
@@ -390,15 +390,14 @@ command   -> command (meta)
       mac-right-option-modifier  nil)
 #+end_src
 
-** DWIM Shell Commands
+** Unbind Some Default Keys
 
-[[https://github.com/xenodium/dwim-shell-command][DWIM Shell Commands]] ("Do What I Mean" shell commands) are a collection of command-line utilities integrated with Emacs. We'll load the optional package with pre-configured commands as well.
+Some of the default keybindings are annoying. For example, I never mean to press =C-x C-z=, which hides the current Emacs frame. I also don't like using =C-<wheel up/down>= to zoom, which I often do accidentally.
 
 #+begin_src emacs-lisp
-(use-package dwim-shell-command
-  :defer t)
-
-(require 'dwim-shell-commands)
+(global-unset-key (kbd "C-x C-z"))
+(global-unset-key (kbd "C-<wheel-up>"))
+(global-unset-key (kbd "C-<wheel-down>"))
 #+end_src
 
 * Visuals
@@ -1471,6 +1470,17 @@ On Mac, I ran into some trouble with my shell, so I specify the shell as a safeg
 (when (eq system-type 'darwin)
   (setq vterm-shell "/opt/homebrew/bin/fish"))
 #+end_src
+
+*** DWIM Shell Commands
+
+ [[https://github.com/xenodium/dwim-shell-command][DWIM Shell Commands]] ("Do What I Mean" shell commands) are a collection of command-line utilities integrated with Emacs. We'll load the optional package with pre-configured commands as well.
+
+ #+begin_src emacs-lisp
+ (use-package dwim-shell-command
+   :defer t
+   :config
+   (require 'dwim-shell-commands))
+ #+end_src
 
 *** vterm
 
