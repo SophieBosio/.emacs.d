@@ -1185,9 +1185,10 @@ From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], 
 Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
 
 #+begin_src emacs-lisp
-(setq dired-use-ls-dired 'unspecified)
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'dired-mode-hook 'olivetti-mode)
+(when (and (eq system-type 'darwin) (executable-find "gls"))
+    (setq dired-use-ls-dired nil))
 #+end_src
 
 [[https://github.com/purcell/diredfl/][diredfl]] adds extra font lock rules for dired to colour files differently depending on type.
