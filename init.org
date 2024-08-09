@@ -60,28 +60,39 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#themes][Themes]]
   - [[#mode-line][Mode Line]]
   - [[#text-display-modes][Text Display Modes]]
-- [[#interaction][Interaction]]
-  - [[#tweaking-default-behaviour][Tweaking Default Behaviour]]
-  - [[#preferences][Preferences]]
-  - [[#text-editing][Text Editing]]
-  - [[#dired][Dired]]
-  - [[#managing-buffers--windows][Managing Buffers & Windows]]
-  - [[#project-management][Project Management]]
-  - [[#search-utilies][Search Utilies]]
-  - [[#completion--search][Completion & Search]]
-  - [[#terminal-emulator][Terminal Emulator]]
-  - [[#version-control][Version Control]]
+- [[#general-editing][General Editing]]
+  - [[#built-in-options][Built-In Options]]
+  - [[#smoother-scrolling][Smoother Scrolling]]
+  - [[#tabs--indentation][Tabs & Indentation]]
+  - [[#deleting-instead-of-killing][Deleting Instead of Killing]]
+  - [[#browse-kill-ring][Browse Kill Ring]]
   - [[#auto-saving][Auto-Saving]]
+  - [[#text-editing-functions][Text Editing Functions]]
+- [[#buffers--navigation][Buffers & Navigation]]
+  - [[#killing-buffers][Killing Buffers]]
+  - [[#opening-closing--switching-windows][Opening, Closing, & Switching Windows]]
+  - [[#project-management][Project Management]]
+- [[#search--completion][Search & Completion]]
+  - [[#search-utilities][Search Utilities]]
+  - [[#vertico][Vertico]]
+  - [[#vertico-posframe][Vertico Posframe]]
+  - [[#consult][Consult]]
+  - [[#marginalia][Marginalia]]
+  - [[#corfu--cape][Corfu & Cape]]
+  - [[#orderless][Orderless]]
+- [[#packages][Packages]]
+  - [[#dired][Dired]]
+  - [[#terminal-emulator][Terminal Emulator]]
+  - [[#version-control-magit--friends][Version Control (Magit & Friends)]]
   - [[#trying-packages][Trying Packages]]
   - [[#snippets][Snippets]]
   - [[#better-help-buffers][Better Help Buffers]]
-  - [[#spelling][Spelling]]
+  - [[#jinx-spellchecker][Jinx Spellchecker]]
   - [[#latex][LaTeX]]
   - [[#pdf-tools][PDF Tools]]
   - [[#editor-config][Editor Config]]
   - [[#browser-preference][Browser Preference]]
   - [[#elfeed][Elfeed]]
-  - [[#code-screenshots][Code Screenshots]]
   - [[#config-profiling][Config Profiling]]
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
@@ -357,6 +368,13 @@ And load custom settings from =custom.el= and private settings from =private.el=
 #+end_src
 
 ** Terminal Setup
+
+Track current directory in shell.
+
+#+begin_src emacs-lisp
+(dirtrack-mode t)
+#+end_src
+
 *** Mac OS Environment Variables
 
 On Mac, the environment variables aren't synchronised automatically between the
@@ -661,6 +679,12 @@ in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d88350215
   :hook (prog-mode-hook . rainbow-delimiters-mode))
 #+end_src
 
+Also, please highlight matching parentheses/delimiters.
+
+#+begin_src emacs-lisp
+(show-paren-mode t) ;; Highlight matching parentheses
+#+end_src
+
 *** Line Numbers
 
 I usually only need line numbers in programming mode.
@@ -854,6 +878,14 @@ When changing themes interactively, as with =M-x load-theme=, the current custom
 #+end_src
 
 ** Mode Line
+*** Column Number
+
+Show current column number in mode line.
+
+#+begin_src emacs-lisp
+(column-number-mode      t) ;; Show current column number in mode line
+#+end_src
+
 *** Custom Mode Line
 
 Customising the default modeline is thankfully pretty easy. Note that I use the
@@ -957,24 +989,18 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
    (setq presentation-default-text-scale 2.5))
  #+end_src
 
-* Interaction
-** Tweaking Default Behaviour
-*** With modes
+* General Editing
+** Built-In Options
 
 #+BEGIN_SRC emacs-lisp
-(column-number-mode      t) ;; Show current column number in mode line
 (delete-selection-mode   t) ;; Replace selected text when yanking
-(dirtrack-mode           t) ;; Directory tracking in shell
 (global-so-long-mode     t) ;; Mitigate performance for long lines
 (global-visual-line-mode t) ;; Break lines instead of truncating them
 (global-auto-revert-mode t) ;; Revert buffers automatically when they change
 (recentf-mode            t) ;; Remember recently opened files
 (savehist-mode           t) ;; Remember minibuffer prompt history
 (save-place-mode         t) ;; Remember last cursor location in file
-(show-paren-mode         t) ;; Highlight matching parentheses
 #+END_SRC
-
-*** With =setq=
 
 #+BEGIN_SRC emacs-lisp
 (setq auto-revert-interval         1         ;; Refresh buffers fast
@@ -989,14 +1015,12 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
       global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
 
-*** With =setq-default=
-
 #+BEGIN_SRC emacs-lisp
 (setq-default tab-width              4  ;; Smaller tabs
               frame-resize-pixelwise t) ;; Fine-grained frame resize
 #+END_SRC
 
-*** Smoother Scrolling
+** Smoother Scrolling
 
 I want scrolling to be a *lot* slower than it is by default.
 
@@ -1012,27 +1036,7 @@ I want scrolling to be a *lot* slower than it is by default.
       mac-mouse-wheel-smooth-scroll    nil)
 #+end_src
 
-*** Don't Trap Me in the Minibuffer
-
-And finally, don't trap me in the minibuffer! I don't want to get "attempted
-command inside minibuffer." I'll add =ESC= as a keyboard shortcut to quit the minibuffer from any other buffer.
-
-#+begin_src emacs-lisp
-(setq minibuffer-prompt-properties
-	  '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
-(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-(defun soph/abort-minibuffer-if-active ()
-  "Abort the minibuffer if it is active."
-  (interactive)
-  (when (active-minibuffer-window)
-    (abort-recursive-edit)))
-
-(global-set-key (kbd "<escape>") 'soph/abort-minibuffer-if-active)
-#+end_src
-
-** Preferences
-*** Tabs & Indentation
+** Tabs & Indentation
 
 One of the things that drove me the most insane when I first downloaded Emacs,
 was the way it deals with indentation.
@@ -1072,7 +1076,7 @@ And finally, make backspace remove the whole tab instead of just deleting one sp
 (setq backward-delete-char-untabify-method 'hungry)
 #+end_src
 
-*** Deleting Instead of Killing
+** Deleting Instead of Killing
 
 Another thing that bothered me, was how the =backward-kill-word= command
 (C-delete/backspace) would delete not only trailing backspaces, but everything
@@ -1112,7 +1116,7 @@ Let's bind this in my custom keybindings map.
 (define-key custom-bindings-map [C-backspace] 'soph/backward-delete)
 #+end_src
 
-*** Browse Kill Ring
+** Browse Kill Ring
 
 Speaking of killing text, it's nice to be able to browse the kill ring.
 
@@ -1121,7 +1125,41 @@ Speaking of killing text, it's nice to be able to browse the kill ring.
   :defer t)
 #+end_src
 
-** Text Editing
+** Auto-Saving
+
+To avoid clutter, let's put all the auto-saved files into one and the same directory.
+
+#+BEGIN_SRC emacs-lisp
+(defvar emacs-autosave-directory
+  (concat user-emacs-directory "autosaves/")
+  "This variable dictates where to put auto saves. It is set to a
+  directory called autosaves located wherever your .emacs.d/ is
+  located.")
+
+;; Sets all files to be backed up and auto saved in a single directory.
+(setq backup-directory-alist
+      `((".*" . ,emacs-autosave-directory))
+      auto-save-file-name-transforms
+      `((".*" ,emacs-autosave-directory t)))
+#+END_SRC
+
+I prefer having my files save automatically. Any changes I don't want, I just
+don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all
+buffers, not just the ones I have open.
+
+But since saving this file - the =init.org=-file - triggers recompilation of
+=init.el=, it's really annoying if this file is autosaved when I write to it.
+Therefore, I'll disable automatic saving for this file in particular.
+
+#+BEGIN_SRC emacs-lisp
+(use-package auto-save-buffers-enhanced
+  :ensure t
+  :config
+  (auto-save-buffers-enhanced t)
+  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
+#+END_SRC
+
+** Text Editing Functions
 *** Selecting Regions
 
 [[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
@@ -1211,27 +1249,8 @@ From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], 
               (join-line -1)))
 #+end_src
 
-** Dired
-
-Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
-
-#+begin_src emacs-lisp
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(add-hook 'dired-mode-hook 'olivetti-mode)
-(when (and (eq system-type 'darwin) (executable-find "gls"))
-    (setq dired-use-ls-dired nil))
-#+end_src
-
-[[https://github.com/purcell/diredfl/][diredfl]] adds extra font lock rules for dired to colour files differently depending on type.
-
-#+begin_src emacs-lisp
-(use-package diredfl
-  :defer t
-  :init  (diredfl-global-mode))
-#+end_src
-
-** Managing Buffers & Windows
-*** Killing Buffers
+* Buffers & Navigation
+** Killing Buffers
 
 Sometimes, I'm putting some work away and I don't want those files to show up in
 the buffer list. Killing a buffer with =C-x k= or marking several buffers in the
@@ -1263,7 +1282,7 @@ When called without a prefix argument, kill just the current buffer
 (define-key custom-bindings-map (kbd "C-c k") 'soph/kill-buffer)
 #+end_src
 
-*** Opening, Closing, & Switching Windows
+** Opening, Closing, & Switching Windows
 
 Opening, switching and deleting windows becomes super easy with [[https://github.com/dimitri/switch-window][switch-window]].
 
@@ -1309,7 +1328,18 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (projectile-mode))
 #+end_src
 
-** Search Utilies
+* Search & Completion
+
+For completions and search, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other packages that play well together:
+
+- [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
+- [[https://github.com/minad/consult][consult]]
+- [[https://github.com/minad/marginalia][marginalia]]
+- [[https://github.com/minad/corfu][corfu]]
+- [[https://github.com/minad/cape][cape]]
+- [[https://github.com/oantolin/orderless][orderless]]
+
+** Search Utilities
 
 Projectile also comes with a ton of built-in functionality to search in your projects. Other packages I use also depend on search utilities.
 
@@ -1329,19 +1359,14 @@ I use both [[https://github.com/BurntSushi/ripgrep][ripgrep]] and [[https://gith
   :defer t)
 #+end_src
 
-** Completion & Search
+I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
 
-For completions and search, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other packages that play well together:
+#+BEGIN_SRC emacs-lisp
+(setq grep-command "rg -nS --no-heading "
+      grep-use-null-device nil)
+#+END_SRC
 
-- [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
-- [[https://github.com/minad/consult][consult]]
-- [[https://github.com/minad/marginalia][marginalia]]
-- [[https://github.com/minad/corfu][corfu]]
-- [[https://github.com/minad/cape][cape]]
-- [[https://github.com/oantolin/orderless][orderless]]
-- [[https://github.com/BurntSushi/ripgrep][ripgrep]]
-
-*** Vertico
+** Vertico
 
 [[https://github.com/minad/vertico][Vertico]] is heart of this completion UI!
 
@@ -1357,7 +1382,7 @@ For completions and search, I use [[https://github.com/minad/vertico][Vertico]] 
         completion-ignore-case                t)) ; Ignore case in completion)
 #+end_src
 
-*** Vertico Posframe
+** Vertico Posframe
 
 [[https://github.com/tumashu/vertico-posframe][vertico-posframe]] makes Vertico appear in a small child frame, instead of as a
 traditional minibuffer. I like to have mine in the middle of the frame, with small fringes on either side.
@@ -1381,7 +1406,7 @@ normal minibuffer.
                                         (consult-ripgrep (:not posframe)))))
 #+end_src
 
-*** Consult
+** Consult
 
 [[https://github.com/minad/consult][Consult]] provides a /ton/ of search, navigation, and completion functionality. I
 would definitely recommend looking at the documentation to learn more about all
@@ -1396,7 +1421,7 @@ that it can do.
               ("M-g g" . consult-goto-line)))
 #+end_src
 
-*** Marginalia
+** Marginalia
 
 [[https://github.com/minad/marginalia][Marginalia]] gives me annotations in the minibuffer.
 
@@ -1406,7 +1431,7 @@ that it can do.
   (marginalia-mode 1))
 #+end_src
 
-*** Corfu & Cape
+** Corfu & Cape
 
 [[https://github.com/minad/corfu][corfu]] gives me text completion at point.
 
@@ -1459,7 +1484,7 @@ By default, the completion's command for inserting a candidate is bound to =RET=
 )
 #+end_src
 
-*** Orderless
+** Orderless
 
 And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
 regexes, in any order. Let's use it together with Corfu.
@@ -1473,14 +1498,25 @@ regexes, in any order. Let's use it together with Corfu.
         orderless-component-separator "[ |]"))
 #+end_src
 
-*** Ripgrep
+* Packages
+** Dired
 
-I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
+Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
 
-#+BEGIN_SRC emacs-lisp
-(setq grep-command "rg -nS --no-heading "
-      grep-use-null-device nil)
-#+END_SRC
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(add-hook 'dired-mode-hook 'olivetti-mode)
+(when (and (eq system-type 'darwin) (executable-find "gls"))
+    (setq dired-use-ls-dired nil))
+#+end_src
+
+[[https://github.com/purcell/diredfl/][diredfl]] adds extra font lock rules for dired to colour files differently depending on type.
+
+#+begin_src emacs-lisp
+(use-package diredfl
+  :defer t
+  :init  (diredfl-global-mode))
+#+end_src
 
 ** Terminal Emulator
 *** vterm
@@ -1543,7 +1579,7 @@ in just vterm, please do let me know :~)
     (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
 #+end_src
 
-** Version Control
+** Version Control (Magit & Friends)
 
 [[https://github.com/magit/magit][Magit]] is a Git client specifically for Emacs, and it's super powerful. It's the centre of all my version control packages.
 
@@ -1613,40 +1649,6 @@ And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git 
   :defer t)
 #+end_src
 
-** Auto-Saving
-
-To avoid clutter, let's put all the auto-saved files into one and the same directory.
-
-#+BEGIN_SRC emacs-lisp
-(defvar emacs-autosave-directory
-  (concat user-emacs-directory "autosaves/")
-  "This variable dictates where to put auto saves. It is set to a
-  directory called autosaves located wherever your .emacs.d/ is
-  located.")
-
-;; Sets all files to be backed up and auto saved in a single directory.
-(setq backup-directory-alist
-      `((".*" . ,emacs-autosave-directory))
-      auto-save-file-name-transforms
-      `((".*" ,emacs-autosave-directory t)))
-#+END_SRC
-
-I prefer having my files save automatically. Any changes I don't want, I just
-don't commit to git. I use =auto-save-buffers-enhanced= to automatically save all
-buffers, not just the ones I have open.
-
-But since saving this file - the =init.org=-file - triggers recompilation of
-=init.el=, it's really annoying if this file is autosaved when I write to it.
-Therefore, I'll disable automatic saving for this file in particular.
-
-#+BEGIN_SRC emacs-lisp
-(use-package auto-save-buffers-enhanced
-  :ensure t
-  :config
-  (auto-save-buffers-enhanced t)
-  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
-#+END_SRC
-
 ** Trying Packages
 
 Lars Tveito's [[https://github.com/larstvei/Try][Try]] package lets you try out packages and only save them
@@ -1701,7 +1703,7 @@ to enter a command, it will show you where you can go from there.
   (which-key-mode))
 #+end_src
 
-** Spelling
+** Jinx Spellchecker
 
 [[https://github.com/minad/jinx][Jinx]] is a =libenchant=-powered spellchecker with a super nice UI. I'm
 trying it out instead of Flyspell, which I used before.
@@ -1788,16 +1790,6 @@ Open links with Firefox by default.
         "https://planet.emacslife.com/atom.xml"
         "https://deniskyashif.com/index.xml"
         "https://sophiebos.io/index.xml")))
-#+end_src
-
-** Code Screenshots
-
-Sometimes, you want to take a screenshot of your buffer to share or use in a
-presentation. [[https://github.com/tecosaur/screenshot][screenshot]] is a great and convenient package that captures the
-selected region and presents it nicely -- no cropping needed and perfect for code screenshots!
-
-#+begin_src emacs-lisp :tangle no
-(require 'screenshot)
 #+end_src
 
 ** Config Profiling
