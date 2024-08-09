@@ -46,6 +46,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#house-keeping][House-Keeping]]
   - [[#package-sources][Package Sources]]
   - [[#local-files][Local Files]]
+  - [[#terminal-setup][Terminal Setup]]
 - [[#custom-keybindings][Custom Keybindings]]
   - [[#custom-keymap][Custom Keymap]]
   - [[#mac-os-modifier-keys][Mac OS Modifier Keys]]
@@ -355,6 +356,37 @@ And load custom settings from =custom.el= and private settings from =private.el=
      (server-start))))
 #+end_src
 
+** Terminal Setup
+*** Mac OS Environment Variables
+
+On Mac, the environment variables aren't synchronised automatically between the
+shell and Emacs.
+[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] fixes that.
+
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :config
+  (exec-path-from-shell-initialize))
+#+end_src
+
+On Mac, I ran into some trouble with my shell, so I specify the shell as a safeguard against random errors.
+
+#+begin_src emacs-lisp
+(when (eq system-type 'darwin)
+  (setq vterm-shell "/opt/homebrew/bin/fish"))
+#+end_src
+
+*** DWIM Shell Commands
+
+ [[https://github.com/xenodium/dwim-shell-command][DWIM Shell Commands]] ("Do What I Mean" shell commands) are a collection of command-line utilities integrated with Emacs. We'll load the optional package with pre-configured commands as well.
+
+ #+begin_src emacs-lisp
+ (use-package dwim-shell-command
+   :defer t
+   :config
+   (require 'dwim-shell-commands))
+ #+end_src
 * Custom Keybindings
 ** Custom Keymap
 
@@ -1451,37 +1483,6 @@ I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
 #+END_SRC
 
 ** Terminal Emulator
-*** Mac OS Environment Variables
-
-On Mac, the environment variables aren't synchronised automatically between the
-shell and Emacs.
-[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] fixes that.
-
-#+begin_src emacs-lisp
-(use-package exec-path-from-shell
-  :if (memq window-system '(mac ns))
-  :config
-  (exec-path-from-shell-initialize))
-#+end_src
-
-On Mac, I ran into some trouble with my shell, so I specify the shell as a safeguard against random errors.
-
-#+begin_src emacs-lisp
-(when (eq system-type 'darwin)
-  (setq vterm-shell "/opt/homebrew/bin/fish"))
-#+end_src
-
-*** DWIM Shell Commands
-
- [[https://github.com/xenodium/dwim-shell-command][DWIM Shell Commands]] ("Do What I Mean" shell commands) are a collection of command-line utilities integrated with Emacs. We'll load the optional package with pre-configured commands as well.
-
- #+begin_src emacs-lisp
- (use-package dwim-shell-command
-   :defer t
-   :config
-   (require 'dwim-shell-commands))
- #+end_src
-
 *** vterm
 
 I like [[https://github.com/akermu/emacs-libvterm][vterm]] and usually just use that. I don't want it to double check with me
@@ -3014,3 +3015,4 @@ mode for it and activate that mode. The below code does just that.
 - [ ] Check out [[https://github.com/alphapapa/bufler.el][bufler]]
 - [ ] Check out [[https://github.com/magnars/fold-this.el][fold-this]]
 - [ ] Configure Magit [[https://github.com/magit/forge][Forge]]
+
