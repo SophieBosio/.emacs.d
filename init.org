@@ -1877,6 +1877,21 @@ Increase the size of LaTeX previews in Org.
 (plist-put org-format-latex-options :scale 1.35)
 #+end_src
 
+I've been struggling a little to get LaTeX previews to work on my work Mac. I symlinked my LaTeX =texbin= directory to =/usr/local/bin=, and it still didn't work. Eventually I found [[https://emacs.stackexchange.com/a/80170][this]] Stack Exchange post that correctly diagnosed the issue.
+
+#+begin_summary Explanation
+The error said =[...] Please Adjust 'dvipng' part of 'org-preview-latex-process-alist'.=
+
+The issue is caused by wrong expansion of the relative file path =%f= in the variable =org-preview-latex-process-alist=. Changing it to =%F= resolves the issue.
+#+end_summary
+
+#+begin_src emacs-lisp
+(let ((png (cdr (assoc 'dvipng org-preview-latex-process-alist))))
+    (plist-put png :latex-compiler '("latex -interaction nonstopmode -output-directory %o %F"))
+    (plist-put png :image-converter '("dvipng -D %D -T tight -o %O %F"))
+    (plist-put png :transparent-image-converter '("dvipng -D %D -T tight -bg Transparent -o %O %F")))
+#+end_src
+
 *** Folded Startup
 
 *Note:* We are still in the =:config= section of the =use-package= declaration for Org
@@ -1968,25 +1983,7 @@ for some reason, it seems the header bullet in Org mode are affected by this.
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 #+end_src
 
-*** LaTeX Previews
-
-I've been struggling a little to get LaTeX previews to work on my work Mac. I symlinked my LaTeX =texbin= directory to =/usr/local/bin=, and it still didn't work. Eventually I found [[https://emacs.stackexchange.com/a/80170][this]] Stack Exchange post that correctly diagnosed the issue.
-
-#+begin_aside Explanation
-The error said =[...] Please Adjust 'dvipng' part of 'org-preview-latex-process-alist'.=
-
-The issue is caused by wrong expansion of the relative file path =%f= in the variable =org-preview-latex-process-alist=. Changing it to =%F= resolves the issue.
-#+end_aside
-
-#+BEGIN_SRC emacs-lisp
-(use-package emacs
-  :after org
-  :config
-  (let ((png (cdr (assoc 'dvipng org-preview-latex-process-alist))))
-    (plist-put png :latex-compiler '("latex -interaction nonstopmode -output-directory %o %F"))
-    (plist-put png :image-converter '("dvipng -D %D -T tight -o %O %F"))
-    (plist-put png :transparent-image-converter '("dvipng -D %D -T tight -bg Transparent -o %O %F"))))
-#+END_SRC
+*** LaTeX Fragtog
 
 [[https://github.com/io12/org-fragtog][org-fragtog]] works like org-appear, but for LaTeX fragments: It toggles LaTeX
 previews on and off automatically, depending on the cursor position. If you move the
