@@ -80,7 +80,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#marginalia][Marginalia]]
   - [[#corfu--cape][Corfu & Cape]]
   - [[#orderless][Orderless]]
-- [[#packages][Packages]]
+- [[#misc-packages][Misc. Packages]]
   - [[#dired][Dired]]
   - [[#terminal-emulator][Terminal Emulator]]
   - [[#version-control-magit--friends][Version Control (Magit & Friends)]]
@@ -1498,7 +1498,7 @@ regexes, in any order. Let's use it together with Corfu.
         orderless-component-separator "[ |]"))
 #+end_src
 
-* Packages
+* Misc. Packages
 ** Dired
 
 Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
