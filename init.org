@@ -2159,7 +2159,7 @@ B's Emacs setup]].
 				  ; Roam tags
 				  ("#+filetags:"  . "📎")
 				  (":wip:"        . "🏗️")
-				  (":ct:"         . "") ; Category Theory
+				  (":ct:"         . "➡️") ; Category Theory
 				  )))
   (prettify-symbols-mode))
 
