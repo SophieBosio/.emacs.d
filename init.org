@@ -1753,12 +1753,15 @@ want it to take up less than half the screen.
 
 ** PDF Tools
 
-[[https://github.com/vedang/pdf-tools][PDF Tools]] is an improved version of the built-in DocView for viewing PDFs.
+[[https://github.com/vedang/pdf-tools][PDF Tools]] is an improved version of the built-in DocView for viewing PDFs. It has extensive features, but does not play well with =consult=, so I'll rebind =C-s= to =isearch-forward=.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
   :defer t
-  :init (pdf-loader-install))
+  :init (pdf-loader-install)
+  :bind (:map pdf-view-mode-map
+              ("C-s"   . isearch-forward)
+              ("C-M-s" . pdf-occur)))
 #+end_src
 
 ** Editor Config
