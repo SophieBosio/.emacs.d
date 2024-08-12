@@ -442,12 +442,19 @@ command   -> command (meta)
 
 ** Unbind Some Default Keys
 
-Some of the default keybindings are annoying. For example, I never mean to press =C-x C-z=, which hides the current Emacs frame. I also don't like using =C-<wheel up/down>= to zoom, which I often do accidentally.
+Some of the default keybindings are annoying, so let's unbind them.
+
+I never mean to press =C-x C-z=, which hides the current Emacs frame.
+
+I also don't like using =C-<wheel up/down>= to zoom, which I often do accidentally.
+
+Finally, I often press =C-x C-b= when I only mean to press =C-x b=. If I want to open the list of all buffers, I'll call it with =M-x list-buffers=.
 
 #+begin_src emacs-lisp
 (global-unset-key (kbd "C-x C-z"))
 (global-unset-key (kbd "C-<wheel-up>"))
 (global-unset-key (kbd "C-<wheel-down>"))
+(global-unset-key (kbd "C-x C-b"))
 #+end_src
 
 * Visuals
