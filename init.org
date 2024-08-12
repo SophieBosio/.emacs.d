@@ -1375,10 +1375,18 @@ I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
 
 ** Vertico
 
-[[https://github.com/minad/vertico][Vertico]] is heart of this completion UI!
+[[https://github.com/minad/vertico][Vertico]] is heart of this completion UI! I'll use the function from [[http://whattheemacsd.com/setup-ido.el-02.html][this What the .emacs.d!? post]] which lets me type =~= at the Vertico prompt to go directly to the home directory. For use with Vertico, I add a call to =delete-minibuffer-contents= so that old path is cleared before starting the new file path (starting at =~/=).
 
 #+begin_src emacs-lisp
+(defun soph/take-me-home ()
+  (interactive)
+  (if (looking-back "/" nil)
+      (progn (call-interactively 'delete-minibuffer-contents) (insert "~/"))
+    (call-interactively 'self-insert-command)))
+
 (use-package vertico
+  :defer t
+  :bind (:map vertico-map ("~" . soph/take-me-home))
   :config
   (vertico-mode)
   (vertico-multiform-mode)
