@@ -1386,7 +1386,7 @@ I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
         vertico-count                         28  ; Show more candidates
         read-file-name-completion-ignore-case t   ; Ignore case of file names
         read-buffer-completion-ignore-case    t   ; Ignore case in buffer completion
-        completion-ignore-case                t)) ; Ignore case in completion)
+        completion-ignore-case                t)) ; Ignore case in completion
 #+end_src
 
 ** Vertico Posframe
