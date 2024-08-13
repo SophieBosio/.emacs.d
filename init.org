@@ -402,8 +402,7 @@ On Mac, I ran into some trouble with my shell, so I specify the shell as a safeg
  #+begin_src emacs-lisp
  (use-package dwim-shell-command
    :defer t
-   :config
-   (require 'dwim-shell-commands))
+   :init (require 'dwim-shell-commands))
  #+end_src
 * Custom Keybindings
 ** Custom Keymap
