@@ -2760,11 +2760,19 @@ Need-to-have for programmers.
 
 ** HTTP
 
-[[https://github.com/pashky/restclient.el][restclient.el]] lets you run HTTP requests from a static, plain-text query file.
+[[https://github.com/pashky/restclient.el][restclient.el]] lets you run HTTP requests from a static, plain-text query file. As of April 17 2024, it is unfortunately archived.
 
 #+begin_src emacs-lisp
 (use-package restclient
   :defer t)
+#+end_src
+
+[[https://github.com/federicotdn/verb][verb]] is a package built on the same concept: Write queries in Org mode, send HTTP requests, and view the results pretty-printed in a new buffer.
+
+#+begin_src emacs-lisp
+(use-package verb
+  :after org
+  :bind (:map org-mode-map ("C-c C-r" . verb-command-map)))
 #+end_src
 
 ** Programming Languages
