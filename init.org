@@ -1767,9 +1767,23 @@ want it to take up less than half the screen.
 (use-package pdf-tools
   :defer t
   :init (pdf-loader-install)
+  :hook ((pdf-view-mode . (lambda () (auto-revert-mode -1)))
+         (pdf-view-mode . (lambda () (corfu-mode -1)))
+         (pdf-view-mode . (lambda () (company-mode -1))))
   :bind (:map pdf-view-mode-map
               ("C-s"   . isearch-forward)
               ("C-M-s" . pdf-occur)))
+#+end_src
+
+Warn me when a PDF has been opened with the default DocView mode instead of PDF Tools' PDF View mode.
+
+#+begin_src emacs-lisp
+(use-package doc-view
+  :hook (doc-view-mode . (lambda ()
+                           (display-warning
+                            emacs
+                            "Oops, using DocView instead of PDF Tools!"
+                            :warning))))
 #+end_src
 
 ** Editor Config
