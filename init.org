@@ -794,10 +794,21 @@ of the box with the ligatures defined on the package's page,
 
 *** Zoom
 
-The default zoom step is a little much on my Linux (Gnome 46) laptop, so let's decrease it a little.
+The default zoom step is a little much on my Linux (Gnome 46) laptop, so let's decrease it a little from its default value of 1.2.
 
 #+begin_src emacs-lisp
 (setq text-scale-mode-step 1.1)
+#+end_src
+
+Beyond that, I often want to scale *all* the text in the UI when I change text size. Purcell's [[https://github.com/purcell/default-text-scale][default-text-scale]] does that, so I'll rebind the standard =C-x C-+=, =C-x C--= and =C-x C-0= to the =default-text-scale= functions.
+
+#+begin_src emacs-lisp
+(use-package default-text-scale
+  :defer t
+  :bind (:map custom-bindings-map
+              ("C-x C-+" . default-text-scale-increase)
+              ("C-x C--" . default-text-scale-decrease)
+              ("C-x C-0" . default-text-scale-reset)))
 #+end_src
 
 ** Icons & Emojis
