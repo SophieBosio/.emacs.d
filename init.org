@@ -1038,6 +1038,9 @@ I want scrolling to be a *lot* slower than it is by default.
       ;; Hold shift to scroll faster and meta to scroll very fast
       mouse-wheel-scroll-amount        '(1 ((shift) . 3) ((meta) . 6)))
 
+;; (Native) smooooooth scrolling
+(setq pixel-scroll-precision-mode t)
+
 (setq mac-redisplay-dont-reset-vscroll t
       mac-mouse-wheel-smooth-scroll    nil)
 #+end_src
