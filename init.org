@@ -70,6 +70,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#text-editing-functions][Text Editing Functions]]
 - [[#buffers--navigation][Buffers & Navigation]]
   - [[#killing-buffers][Killing Buffers]]
+  - [[#kill-buffer-and-its-associated-file][Kill Buffer and its Associated File]]
+  - [[#renaming-buffer-and-its-associated-file][Renaming Buffer and its Associated File]]
   - [[#opening-closing--switching-windows][Opening, Closing, & Switching Windows]]
   - [[#project-management][Project Management]]
 - [[#search--completion][Search & Completion]]
@@ -1284,6 +1286,48 @@ When called without a prefix argument, kill just the current buffer
       (kill-buffer (current-buffer)))))
 
 (define-key custom-bindings-map (kbd "C-c k") 'soph/kill-buffer)
+#+end_src
+
+** Kill Buffer and its Associated File
+
+This function is from the blog [[http://whattheemacsd.com/file-defuns.el-02.html][What the .emacs.d!?]]. It deletes the file opened in your buffer and kills the buffer.
+
+#+begin_src emacs-lisp
+(defun delete-current-buffer-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (ido-kill-buffer)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
+#+end_src
+
+** Renaming Buffer and its Associated File
+
+This function is also from [[http://whattheemacsd.com/file-defuns.el-01.html][What the .emacs.d!?]]. It renames the current buffer and its associated file, all in one go.
+
+#+begin_src emacs-lisp
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
 #+end_src
 
 ** Opening, Closing, & Switching Windows
