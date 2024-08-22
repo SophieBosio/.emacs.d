@@ -832,7 +832,7 @@ don't use it, though, so I won't activate the global mode.
 
 ** Themes
 
-I really like the =doom-themes= package.
+I really like the =doom-themes= package, in particular their port of the [[https://www.nordtheme.com/][Nord theme]].
 
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
