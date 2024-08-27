@@ -3177,6 +3177,7 @@ I disable a few of the default features. If you want to know more about these an
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :defer t
+  :init (setq lsp-use-plists t)
   :bind (:map lsp-mode-map
               ("M-<return>" . lsp-execute-code-action)
               ("C-M-."      . lsp-find-references)
