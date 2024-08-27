@@ -110,6 +110,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
 - [[#programming][Programming]]
   - [[#preferences--extras][Preferences & Extras]]
   - [[#flycheck][Flycheck]]
+  - [[#code-formatting][Code Formatting]]
   - [[#eldoc][Eldoc]]
   - [[#http][HTTP]]
   - [[#tree-sitter][Tree-Sitter]]
@@ -452,6 +453,7 @@ On Mac, I ran into some trouble with my shell, so I specify the shell as a safeg
    :defer t
    :init (require 'dwim-shell-commands))
  #+end_src
+
 * Custom Keybindings
 ** Custom Keymap
 
@@ -2882,6 +2884,24 @@ Need-to-have for programmers.
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
+#+end_src
+
+** Code Formatting
+
+[[https://github.com/radian-software/apheleia][Apheleia]] is a package for automatically formatting code. It's possible to configure it with several backends, depending on what formatting tools and languages you're interested in. For now, I have it set up with [[https://prettier.io/][Prettier]] (JavaScript/TypeScript).
+
+#+begin_src emacs-lisp
+(use-package apheleia
+  :defer t
+  :defines
+  apheleia-formatters
+  apheleia-mode-alist
+  :functions
+  apheleia-global-mode
+  :config
+  (setf (alist-get 'prettier-json apheleia-formatters)
+        '("prettier" "--stdin-filepath" filepath))
+  (apheleia-global-mode +1))
 #+end_src
 
 ** Eldoc
