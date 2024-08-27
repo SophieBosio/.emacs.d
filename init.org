@@ -1590,7 +1590,9 @@ By default, the completion's command for inserting a candidate is bound to =RET=
   :bind (:map corfu-map
               ("RET" . nil))
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+  (corfu-history-mode)
+  (corfu-popupinfo-mode)) ;; Popup completion info
 
 (use-package emacs
   :bind ("C-<tab>" . 'corfu-insert-separator)
