@@ -896,9 +896,14 @@ I also have a custom light theme I'm working on called South. Let's add the path
 
 My favourite dark theme is =doom-nord=. I haven't been able to find any light themes I really love, so I made South to act as Nord's bright counterpart. I'll set these two as my default dark and light themes respectively, and load the dark theme by default.
 
+I'll also define a default accent colour, which is used in packages like =eval-sexp-fu=, or wherever I need to define a popping colour outside the theme itself.
+
 #+begin_src emacs-lisp
 (defvar soph/default-dark-theme  'doom-nord)
 (defvar soph/default-light-theme 'south)
+
+(defvar soph/default-dark-accent-colour  "SkyBlue4")
+(defvar soph/default-light-accent-colour "SlateGray1")
 
 (load-theme soph/default-dark-theme t)
 #+end_src
@@ -913,6 +918,20 @@ My favourite dark theme is =doom-nord=. I haven't been able to find any light th
 
 (use-package auto-dark
   :ensure t
+  :hook ((auto-dark-dark-mode
+          .
+          (lambda ()
+            (custom-set-faces
+             `(eval-sexp-fu-flash
+               ((t (:background
+                    ,soph/default-dark-accent-colour)))))))
+         (auto-dark-light-mode
+          .
+          (lambda ()
+            (custom-set-faces
+             `(eval-sexp-fu-flash
+               ((t (:background
+                    ,soph/default-light-accent-colour))))))))
   :config
   (setq auto-dark-dark-theme               soph/default-dark-theme
         auto-dark-light-theme              soph/default-light-theme
@@ -3045,11 +3064,14 @@ I'll also disable =corfu-mode= when CIDER is active, because otherwise the corfu
 	:hook (clojure-mode . clj-refactor-mode))
  #+end_src
 
-[[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions.
+[[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the eval flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
 
 #+begin_src emacs-lisp
+(use-package eval-sexp-fu
+  :after cider)
+
 (use-package cider-eval-sexp-fu
-  :defer t)
+  :after cider)
 #+end_src
 
 *** Agda
