@@ -41,6 +41,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#lexical-scoping][Lexical Scoping]]
   - [[#tangling][Tangling]]
 - [[#start-up][Start-Up]]
+  - [[#early-init][Early Init]]
   - [[#garbage-collection][Garbage Collection]]
   - [[#optimisations][Optimisations]]
   - [[#house-keeping][House-Keeping]]
@@ -219,14 +220,58 @@ To avoid doing this each time a change is made we can add a function to the =aft
    #+END_SRC
 
 * Start-Up
+** Early Init
+
+Emacs 27 introduced =early-init.el=, which is like =init.el= but ran before that, and before the UI and packages are initialised. I've taken code snippets from other configs ([[https://github.com/ogdenwebb/snug-emacs/blob/main/early-init.el][this]] and [[https://github.com/mnewt/dotemacs/blob/master/early-init.el][this]] one) to put in my =early-init.el= and the blocks in this section tangle to =early-init.el= instead of =init.el=.
+
+#+begin_src emacs-lisp :tangle early-init.el
+;; Defer garbage collection
+(setq gc-cons-percentage 0.6)
+
+;; Change default max size for reading processes
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file.
+(setq load-prefer-newer 'noninteractive)
+
+;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
+(setq default-frame-alist
+      '((vertical-scroll-bars . nil)
+        (menu-bar-lines . 0)
+        (tool-bar-lines . 0)))
+
+;; Resizing the Emacs frame can be a terribly expensive part of changing the
+;; font. By inhibiting this, we easily halve startup times with fonts that are
+;; larger than the system default.
+(setq frame-inhibit-implied-resize t
+      frame-resize-pixelwise       t)
+
+;; Ignore X resources; its settings would be redundant with the other settings
+;; in this file and can conflict with later config (particularly where the
+;; cursor color is concerned).
+(advice-add #'x-apply-session-resources :override #'ignore)
+
+;; Unset `file-name-handler-alist' too (temporarily). Every file opened and
+;; loaded by Emacs will run through this list to check for a proper handler for
+;; the file, but during startup, it won’t need any of them.
+(defvar file-name-handler-alist-old file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq file-name-handler-alist file-name-handler-alist-old)))
+
+;; For LSP mode, use plists for deserialization
+;; For more info, see https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
+(setenv "LSP_USE_PLISTS" "true")
+#+end_src
+
 ** Garbage Collection
 
 Famously, the Emacs garbage collector can impede startup times quite dramatically. Therefore, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards. Luckily, there exists a package exactly for this purpose called the [[https://github.com/emacsmirror/gcmh][Garbage Collector Magic Hack]]-
 
 #+BEGIN_SRC emacs-lisp
-(setq gc-cons-percentage      0.6)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
-
 (use-package gcmh
   :config
   (setq gcmh-idle-delay 5
