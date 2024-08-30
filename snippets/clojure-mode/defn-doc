@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: defn-doc
+# key: defn-doc
+# --
+(defn $1
+  "$2"$>
+  [$3]$>
+  $0)$>
