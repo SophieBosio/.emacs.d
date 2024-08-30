@@ -45,7 +45,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#garbage-collection][Garbage Collection]]
   - [[#optimisations][Optimisations]]
   - [[#house-keeping][House-Keeping]]
-  - [[#package-sources][Package Sources]]
+  - [[#package-manager--package-sources][Package Manager & Package Sources]]
   - [[#local-files][Local Files]]
   - [[#terminal-setup][Terminal Setup]]
 - [[#custom-keybindings][Custom Keybindings]]
@@ -354,7 +354,7 @@ Don't warn me when opening files unless over 50 MB.
 (setq large-file-warning-threshold (* 50 1024 1024))
 #+end_src
 
-** Package Sources
+** Package Manager & Package Sources
 
 To manage downloaded packages, Emacs comes with =package.el= installed. In
 addition, I want to use =use-package=, so let's make sure we have those loaded.
