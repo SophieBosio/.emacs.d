@@ -3230,6 +3230,7 @@ I disable a few of the default features. If you want to know more about these an
          (clojurec-mode . lsp)
          (lsp-mode      . lsp-enable-which-key-integration))
   :config
+  ;; Visuals
   (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
         lsp-ui-sideline-enable           nil   ;; No sideline
         lsp-ui-doc-enable                nil   ;; No childframes with info
@@ -3237,7 +3238,13 @@ I disable a few of the default features. If you want to know more about these an
 
         ;; Disable all mode line features, since I use a custom mode line
         lsp-modeline-code-actions-enable nil
-        lsp-modeline-diagnostics-enable  nil))
+        lsp-modeline-diagnostics-enable  nil
+
+        ;; Don't raise the echo area to show docs
+        lsp-signature-doc-lines 1)
+  ;; Settings
+  (setq  lsp-completion-provider  :none     ;; Using Corfu as completion provider
+         lsp-diagnostics-provider :flycheck))
 
 (use-package lsp-haskell
   :after lsp-mode
