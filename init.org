@@ -1574,8 +1574,6 @@ I often press =C-x C-b= when I only mean to press =C-x b=. If I want to open the
 
 [[https://github.com/minad/corfu][corfu]] gives me text completion at point.
 
-I'll set it to start suggesting candidates automatically and quickly.
-
 By default, the completion's command for inserting a candidate is bound to =RET= and typically, when I press =RET=, I want to create a new line, so I'll unbind =RET= in the corfu map.
 
 #+begin_src emacs-lisp
@@ -1586,21 +1584,15 @@ By default, the completion's command for inserting a candidate is bound to =RET=
   (corfu-auto-delay      0)       ;; No delay
   (corfu-auto-prefix     2)       ;; Start with this many characters typed
   (corfu-popupinfo-delay 0.5)     ;; Short delay
-  (corfu-preselect       'prompt) ;; Preselect the prompt
+  (corfu-preselect       'valid)  ;; Select first candidate if valid
+  (corfu-preview-current t)
   :bind (:map corfu-map
               ("RET" . nil))
+  :hook (corfu-mode . corfu-popupinfo-mode)
   :init
   (global-corfu-mode)
   (corfu-history-mode)
   (corfu-popupinfo-mode)) ;; Popup completion info
-
-(use-package emacs
-  :bind ("C-<tab>" . 'corfu-insert-separator)
-  :init
-  ;; Hide commands in M-x which do not apply to the current mode.
-  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-  (setq read-extended-command-predicate
-        #'command-completion-default-include-p))
 #+end_src
 
 =corfu= also uses some of [[https://github.com/minad/cape][cape]]'s functionalities, so let's add that, too.
@@ -1611,17 +1603,12 @@ By default, the completion's command for inserting a candidate is bound to =RET=
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   ;; NOTE: The order matters!
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-history)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-history)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-tex)
-  (add-to-list 'completion-at-point-functions #'cape-dict)
-  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;;(add-to-list 'completion-at-point-functions #'cape-line)
 )
 #+end_src
 
@@ -3228,8 +3215,7 @@ I disable a few of the default features. If you want to know more about these an
         ;; Don't raise the echo area to show docs
         lsp-signature-doc-lines 1)
   ;; Settings
-  (setq  lsp-completion-provider  :none     ;; Using Corfu as completion provider
-         lsp-diagnostics-provider :flycheck))
+  (setq lsp-diagnostics-provider :flycheck))
 
 (use-package lsp-haskell
   :after lsp-mode
