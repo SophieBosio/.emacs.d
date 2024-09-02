@@ -2887,10 +2887,15 @@ Need-to-have for programmers.
   apheleia-mode-alist
   :functions
   apheleia-global-mode
+  :hook ((typescript-mode    . apheleia-mode)
+         (javascript-mode    . apheleia-mode)
+         (typescript-ts-mode . apheleia-mode)
+         (tide-mode          . apheleia-mode))
   :config
   (setf (alist-get 'prettier-json apheleia-formatters)
         '("prettier" "--stdin-filepath" filepath))
-  (apheleia-global-mode +1))
+  ;; (apheleia-global-mode +1)
+)
 #+end_src
 
 ** Eldoc
