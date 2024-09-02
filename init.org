@@ -2992,7 +2992,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
 ** Programming Languages
 *** Emacs Lisp
 
-The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]], [[https://github.com/magnars/s.el][s]], and [[https://github.com/rejeep/f.el][f]].
+First, we need the holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]] (lists), [[https://github.com/magnars/s.el][s]] (strings), and [[https://github.com/rejeep/f.el][f]] (files).
 
 #+begin_src emacs-lisp
 (use-package dash
@@ -3003,6 +3003,15 @@ The holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]
 
 (use-package f
   :defer t)
+#+end_src
+
+Second, let's take a page out of CIDER's (a Clojure package) book and enhance evaluation of Emacs Lisp by adding [[https://github.com/xiongtx/eros][Eros]] (Evaluation Result OverlayS).
+
+#+begin_src emacs-lisp
+(use-package eros
+  :defer t
+  :config
+  (eros-mode 1))
 #+end_src
 
 *** Haskell
