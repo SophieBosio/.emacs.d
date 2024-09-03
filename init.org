@@ -114,6 +114,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#eldoc][Eldoc]]
   - [[#http][HTTP]]
   - [[#tree-sitter][Tree-Sitter]]
+  - [[#paredit][ParEdit]]
   - [[#programming-languages][Programming Languages]]
   - [[#lsp-mode][LSP Mode]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -2996,6 +2997,15 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
+** ParEdit
+
+ [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
+
+#+begin_src emacs-lisp
+(use-package paredit
+  :defer t)
+#+end_src
+
 ** Programming Languages
 *** Emacs Lisp
 
@@ -3024,6 +3034,13 @@ Next, let's take a page out of CIDER's (a Clojure package) book and enhance eval
               ("C-c C-c" . eros-eval-defun))
   :config
   (eros-mode 1))
+#+end_src
+
+And finally, I need ParEdit!
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :hook (emacs-lisp-mode . paredit-mode))
 #+end_src
 
 *** Haskell
@@ -3055,9 +3072,7 @@ Next, let's take a page out of CIDER's (a Clojure package) book and enhance eval
  [[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
  built-in support for firing up a REPL and looking up documentation and source
  code, but it also has very Emacs-like shortcuts for expected actions, such as
- =C-x C-e= to evaluate the s-exp at point.
-
- [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
+ =C-x C-e= to evaluate the s-expression at point. And of course, we need ParEdit.
 
  #+begin_src emacs-lisp
  (use-package clojure-mode
