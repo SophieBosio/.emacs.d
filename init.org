@@ -112,7 +112,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#flycheck][Flycheck]]
   - [[#code-formatting][Code Formatting]]
   - [[#eldoc][Eldoc]]
-  - [[#http][HTTP]]
+  - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
   - [[#paredit][ParEdit]]
   - [[#programming-languages][Programming Languages]]
@@ -2912,7 +2912,7 @@ Need-to-have for programmers.
   (global-eldoc-mode))
 #+end_src
 
-** HTTP
+** HTTP Requests
 
 [[https://github.com/pashky/restclient.el][restclient.el]] lets you run HTTP requests from a static, plain-text query file. As of April 17 2024, it is unfortunately archived.
 
@@ -3106,7 +3106,7 @@ And finally, I need ParEdit!
 	:hook (clojure-mode . clj-refactor-mode))
  #+end_src
 
-[[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the eval flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
+[[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
 
 #+begin_src emacs-lisp
 (use-package eval-sexp-fu
