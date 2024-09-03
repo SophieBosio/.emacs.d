@@ -1585,9 +1585,11 @@ By default, the completion's command for inserting a candidate is bound to =RET=
   (corfu-auto-prefix     2)       ;; Start with this many characters typed
   (corfu-popupinfo-delay 0.5)     ;; Short delay
   (corfu-preselect       'valid)  ;; Select first candidate if valid
-  (corfu-preview-current t)
+  (corfu-preview-current t)       ;; Preview selected candidate
+  (corfu-separator       ?_)      ;; Custom orderless separator
   :bind (:map corfu-map
-              ("RET" . nil))
+              ("RET"   . nil)
+              ("S-SPC" . corfu-insert-separator))
   :hook (corfu-mode . corfu-popupinfo-mode)
   :init
   (global-corfu-mode)
