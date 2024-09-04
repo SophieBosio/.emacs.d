@@ -3074,6 +3074,8 @@ And finally, I need ParEdit!
  code, but it also has very Emacs-like shortcuts for expected actions, such as
  =C-x C-e= to evaluate the s-expression at point. And of course, we need ParEdit.
 
+I also use LSP mode for Clojure.
+
  #+begin_src emacs-lisp
  (use-package clojure-mode
    :defer t
@@ -3220,6 +3222,71 @@ And finally, I need ParEdit!
    :defer t)
  #+end_src
 
+*** JavaScript/TypeScript
+
+I use TypeScript at work sometimes, but I don't know a lot about it. Luckily, my colleagues [[https://github.com/mbezjak/dotfiles/blob/6e80e47920f0a5143b7ef89d8d9b1e644b5a20aa/emacs.d/lisp/init.el#L536-L582][Miro]] and [[https://github.com/slipset/emacsd/blob/8f31789dbb516ddd7486acb55f9ea48401267df3/init.el#L135-L167][Erik]] have JS/TS setups in their Emacs configs, so I could just steal from people who know what they're doing.
+
+In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier, and the TypeScript tree-sitter grammar installed.
+
+#+begin_src emacs-lisp
+(use-package typescript-mode
+  :defer t
+  :config
+  (setq typescript-indent-level 2))
+
+(use-package tide
+  :after (typescript-mode flycheck)
+  :hook ((typescript-mode    . tide-setup)
+         (typescript-mode    . tide-setup)
+         (typescript-ts-mode . tide-hl-identifier-mode)
+         (before-save        . tide-format-before-save)))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1))
+
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :interpreter "node")
+
+(use-package xref-js2
+  :after js2-mode
+  :config
+  (define-key js2-mode-map (kbd "M-.") nil)
+  (add-hook 'js2-mode-hook
+            (lambda () (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  (setq xref-js2-search-program 'rg)
+  (define-key js2-mode-map (kbd "M-.") 'xref-find-definitions)
+  (define-key js2-mode-map (kbd "M-,") 'xref-pop-marker-stack))
+
+(use-package web-mode
+  :defer t
+  :mode "\\.tsx\\'"
+  :hook (web-mode . (lambda ()
+                      (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                        (setup-tide-mode))))
+  :config
+  (flycheck-add-mode 'typescript-tslint 'web-mode))
+
+(use-package rjsx-mode
+  :defer t
+  :mode "components\\/.*\\.js\\'")
+
+(use-package prettier
+  :after tide-mode
+  :hook ((tide-mode . prettier-mode))
+  :init
+  (setenv "NODE_PATH" "/usr/lib/node_modules"))
+
+;; Requires js-beautify
+(use-package web-beautify
+  :defer t)
+#+end_src
+
 ** LSP Mode
 
 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure and Haskell.
@@ -3234,9 +3301,11 @@ I disable a few of the default features. If you want to know more about these an
               ("M-<return>" . lsp-execute-code-action)
               ("C-M-."      . lsp-find-references)
               ("C-c r"      . lsp-rename))
-  :hook ((clojure-mode  . lsp)
-         (clojurec-mode . lsp)
-         (lsp-mode      . lsp-enable-which-key-integration))
+  :hook ((clojure-mode       . lsp)
+         (clojurec-mode      . lsp)
+         (lsp-mode           . lsp-enable-which-key-integration)
+         (typescript-mode    . lsp)
+         (typescript-ts-mode . lsp))
   :config
   ;; Visuals
   (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
