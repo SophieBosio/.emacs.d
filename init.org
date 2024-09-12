@@ -93,6 +93,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#jinx-spellchecker][Jinx Spellchecker]]
   - [[#latex][LaTeX]]
   - [[#pdf-tools][PDF Tools]]
+  - [[#epubs][EPUBs]]
   - [[#editor-config][Editor Config]]
   - [[#browser-preference][Browser Preference]]
   - [[#elfeed][Elfeed]]
@@ -1900,6 +1901,17 @@ Warn me when a PDF has been opened with the default DocView mode instead of PDF 
                             emacs
                             "Oops, using DocView instead of PDF Tools!"
                             :warning))))
+#+end_src
+
+** EPUBs
+
+[[https://depp.brause.cc/nov.el/][nov.el]] is a package for reading EPUBs (an e-book format) directly in Emacs.
+
+#+begin_src emacs-lisp
+(use-package nov
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 #+end_src
 
 ** Editor Config
