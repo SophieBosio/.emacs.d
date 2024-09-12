@@ -3105,7 +3105,9 @@ And finally, I need ParEdit!
  code, but it also has very Emacs-like shortcuts for expected actions, such as
  =C-x C-e= to evaluate the s-expression at point. And of course, we need ParEdit.
 
-I also use LSP mode for Clojure.
+There's a very handy function called =cider-selector= which lets you type a key to select one of CIDER's buffers, such as the =*cider-error*= and =*cider-scratch*= buffers. But it's bound to the kind of clunky =C-c M-s=, so let's rebind it to the more ergonomic =C-c s=.
+
+Note that I also use LSP mode for Clojure.
 
  #+begin_src emacs-lisp
  (use-package clojure-mode
@@ -3119,7 +3121,9 @@ I also use LSP mode for Clojure.
           (cider-repl-mode . paredit-mode)
           (clojure-mode    . paredit-mode)
           (clojure-mode    . whitespace-mode))
-   :bind (:map cider-repl-mode-map ("C-l" . cider-repl-clear-buffer))
+   :bind (:map cider-repl-mode-map
+               ("C-l"   . cider-repl-clear-buffer)
+               ("C-c s" . cider-selector))
    :config
    (setq cider-repl-display-help-banner nil))
  #+end_src
