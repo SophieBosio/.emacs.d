@@ -1187,7 +1187,7 @@ Therefore, I'll disable automatic saving for this file in particular.
 #+END_SRC
 
 ** Text Editing Functions
-*** Selecting Regions
+*** Expand Region
 
 [[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
 symbol, word, sentence, paragraph). It's super handy!
@@ -1195,7 +1195,9 @@ symbol, word, sentence, paragraph). It's super handy!
 #+begin_src emacs-lisp
 (use-package expand-region
   :defer t
-  :bind (:map custom-bindings-map ("C-+" . er/expand-region)))
+  :bind (:map custom-bindings-map
+              ("C-+" . er/expand-region)
+              ("M-'" . er/expand-region)))
 #+end_src
 
 *** Filling/Unfilling
