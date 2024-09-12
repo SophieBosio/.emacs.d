@@ -1319,8 +1319,10 @@ When called without a prefix argument, kill just the current buffer
 
 This function is from the blog [[http://whattheemacsd.com/file-defuns.el-02.html][What the .emacs.d!?]]. It deletes the file opened in your buffer and kills the buffer.
 
+To be clear, it is not my function. But I still prefix it with =soph= so that I can find custom functions easily.
+
 #+begin_src emacs-lisp
-(defun delete-current-buffer-file ()
+(defun soph/delete-current-buffer-file ()
   "Removes file connected to current buffer and kills buffer."
   (interactive)
   (let ((filename (buffer-file-name))
@@ -1338,8 +1340,10 @@ This function is from the blog [[http://whattheemacsd.com/file-defuns.el-02.html
 
 This function is also from [[http://whattheemacsd.com/file-defuns.el-01.html][What the .emacs.d!?]]. It renames the current buffer and its associated file, all in one go.
 
+To be clear, it is not my function. But I still prefix it with =soph= so that I can find custom functions easily.
+
 #+begin_src emacs-lisp
-(defun rename-current-buffer-file ()
+(defun soph/rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
   (let ((name (buffer-name))
