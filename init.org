@@ -3342,20 +3342,18 @@ I disable a few of the default features. If you want to know more about these an
          (typescript-mode    . lsp)
          (typescript-ts-mode . lsp))
   :config
-  ;; Visuals
+  (setq lsp-diagnostics-provider :flycheck)
+        ;; Disable visual features
   (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
         lsp-ui-sideline-enable           nil   ;; No sideline
-        lsp-ui-doc-enable                nil   ;; No childframes with info
         lsp-lens-enable                  nil   ;; No lenses
 
         ;; Disable all mode line features, since I use a custom mode line
         lsp-modeline-code-actions-enable nil
         lsp-modeline-diagnostics-enable  nil
 
-        ;; Don't raise the echo area to show docs
-        lsp-signature-doc-lines 1)
-  ;; Settings
-  (setq lsp-diagnostics-provider :flycheck))
+        ;; Limit raising of the echo area to show docs
+        lsp-signature-doc-lines 3))
 
 (use-package lsp-haskell
   :after lsp-mode
