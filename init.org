@@ -1276,6 +1276,12 @@ From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], 
               (join-line -1)))
 #+end_src
 
+*** Kill Whole Line
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-S-k") 'kill-whole-line)
+#+end_src
+
 * Buffers & Navigation
 ** Killing Buffers
 
