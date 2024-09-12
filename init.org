@@ -76,6 +76,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#splitting-windows][Splitting Windows]]
   - [[#opening-closing--switching-windows][Opening, Closing, & Switching Windows]]
   - [[#project-management][Project Management]]
+  - [[#dired][Dired]]
 - [[#search--completion][Search & Completion]]
   - [[#search-utilities][Search Utilities]]
   - [[#vertico][Vertico]]
@@ -85,7 +86,6 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#corfu--cape][Corfu & Cape]]
   - [[#orderless][Orderless]]
 - [[#misc-packages][Misc. Packages]]
-  - [[#dired][Dired]]
   - [[#terminal-emulator][Terminal Emulator]]
   - [[#version-control-magit--friends][Version Control (Magit & Friends)]]
   - [[#trying-packages][Trying Packages]]
@@ -1459,6 +1459,33 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (projectile-mode))
 #+end_src
 
+** Dired
+
+Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
+
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(when (and (eq system-type 'darwin) (executable-find "gls"))
+    (setq dired-use-ls-dired nil))
+#+end_src
+
+Speaking of default keybindings, I always forget them. Casual Dired is fantastic for forgetful people like me. Seeing the different options also helps me learn new and useful keybindings.
+
+#+begin_src emacs-lisp
+
+(use-package casual-dired
+  :after dired
+  :bind (:map dired-mode-map ("C-o" . casual-dired-tmenu)))
+#+end_src
+
+From [[https://stackoverflow.com/a/55235833][this StackOverflow post]].
+
+#+begin_src emacs-lisp
+(put 'dired-find-alternate-file 'disabled nil) ; disables warning
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+(define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
+#+end_src
+
 * Search & Completion
 
 For completions and search, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other packages that play well together:
@@ -1632,25 +1659,6 @@ regexes, in any order. Let's use it together with Corfu.
 #+end_src
 
 * Misc. Packages
-** Dired
-
-Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
-
-#+begin_src emacs-lisp
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(add-hook 'dired-mode-hook 'olivetti-mode)
-(when (and (eq system-type 'darwin) (executable-find "gls"))
-    (setq dired-use-ls-dired nil))
-#+end_src
-
-[[https://github.com/purcell/diredfl/][diredfl]] adds extra font lock rules for dired to colour files differently depending on type.
-
-#+begin_src emacs-lisp
-(use-package diredfl
-  :defer t
-  :init  (diredfl-global-mode))
-#+end_src
-
 ** Terminal Emulator
 *** vterm
 
