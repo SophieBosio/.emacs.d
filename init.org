@@ -82,6 +82,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#vertico][Vertico]]
   - [[#vertico-posframe][Vertico Posframe]]
   - [[#consult][Consult]]
+  - [[#imenu-list][Imenu List]]
   - [[#marginalia][Marginalia]]
   - [[#corfu--cape][Corfu & Cape]]
   - [[#orderless][Orderless]]
@@ -1597,7 +1598,19 @@ I often press =C-x C-b= when I only mean to press =C-x b=. If I want to open the
               ("C-M-s"   . consult-ripgrep)
               ("C-x b"   . consult-buffer)
               ("C-x C-b" . consult-buffer)
-              ("M-g g"   . consult-goto-line)))
+              ("M-g g"   . consult-goto-line)
+              ("M-g t"   . consult-imenu)))
+#+end_src
+
+** Imenu List
+
+[[https://www.emacswiki.org/emacs/ImenuMode][Imenu]] is a built-in Emacs utility that gives you a minibuffer of the symbols in the current buffer and let's you jump to it. [[https://github.com/bmag/imenu-list][imenu-list]] is a nice package that gives you a new buffer with a navigable list of the functions, vars, etc. in your buffer, allowing you to quickly get an overview or jump to definition.
+
+#+begin_src emacs-lisp
+(use-package imenu-list
+  :defer t
+  :bind (:map custom-bindings-map
+              ("M-g i" . imenu-list-smart-toggle)))
 #+end_src
 
 ** Marginalia
