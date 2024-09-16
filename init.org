@@ -117,7 +117,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#eldoc][Eldoc]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#paredit][ParEdit]]
+  - [[#lispy][Lispy]]
   - [[#programming-languages][Programming Languages]]
   - [[#lsp-mode][LSP Mode]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -3041,13 +3041,81 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
-** ParEdit
+** Lispy
 
- [[https://www.emacswiki.org/emacs/ParEdit][ParEdit]] will protect your parentheses and keep you sane.
+[[https://github.com/abo-abo/lispy][lispy]] is a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]]. Lispy is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mosly use those and invent my own bindings for the functions Paredit doesn't have.
 
 #+begin_src emacs-lisp
-(use-package paredit
-  :defer t)
+(use-package lispy
+  :defer t
+  :init
+  (setcdr lispy-mode-map nil)
+  :bind (:map lispy-mode-map
+
+         ;; Basic editing
+         ("("  . lispy-parens)
+         (")"  . lispy-right-nostring)
+         ("["  . lispy-brackets)
+         ("]"  . lispy-close-square)
+         ("{"  . lispy-braces)
+         ("}"  . lispy-close-curly)
+         ("\"" . lispy-quptes)
+         (";"  . lispy-comment)
+
+         ;; Slurping & barfing
+         ("C-<right>"   . lispy-forward-slurp-sexp)
+         ("C-<left>"    . lispy-forward-barf-sexp)
+         ("C-M-<right>" . lispy-forward-slurp-sexp)
+         ("C-M-<left>"  . lispy-forward-barf-sexp)
+         ("C-<right>"   . lispy-forward-slurp-sexp)
+         ("C-<left>"    . lispy-forward-barf-sexp)
+         ("C-)"         . lispy-forward-slurp-sexp)
+         ("C-("         . lispy-backward-slurp-sexp)
+         ("C-}"         . lispy-forward-barf-sexp)
+         ("C-{"         . lispy-backward-barf-sexp)
+
+         ;; LISP-friendly Emacs commands
+         ("C-a"        . lispy-move-beginning-of-line)
+         ("C-e"        . lispy-move-end-of-line)
+         ("C-k"        . lispy-kill)
+         ("M-d"        . lispy-kill-word)
+         ("C-j"        . lispy-newline-and-indent)
+         ("C-<return>" . lispy-alt-line)
+         ("DEL"        . lispy-backward-delete)
+
+         ;; Navigating sexpressions
+         ("C-f"   . lispy-forward)
+         ("C-b"   . lispy-backward)
+         ("C-M-f" . lispy-forward)
+         ("C-M-b" . lispy-backward)
+         ("C-n"   . lispy-forward)
+         ("C-p"   . lispy-backward)
+         ("C-M-n" . lispy-right)
+         ("C-M-p" . lispy-left)
+         ("C-M-d" . lispy-down)
+         ("C-M-u" . lispy-up)
+         ("C-M-a" . lispy-beginning-of-defun)
+
+         ;; Moving sexpressions
+         ("C-M-<up>"   . lispy-move-up)
+         ("C-M-<down>" . lispy-move-down)
+         ("M-c"        . lispy-clone)
+         ("TAB"        . lispy-indent-adjust-parens)
+         ("<backtab>"  . lispy-dedent-adjust-parens)
+
+         ;; Manipulating sexpressions
+         ("M-<up>"   . lispy-splice-sexp-killing-backward)
+         ("M-<down>" . 'lispy-splice-sexp-killing-forward)
+         ("M-s"      . lispy-splice)
+         ("M-r"      . lispy-raise-sexp)
+         ("M-S"      . lispy-split)
+         ("M-J"      . lispy-join)
+         ("M-?"      . lispy-convolute)
+
+         ;; Misc.
+         ("M-\"" . lispy-meta-doublequote)
+         ("M-)"  . lispy-close-round-and-newline)
+         ("M-("  . lispy-wrap-round)))
 #+end_src
 
 ** Programming Languages
