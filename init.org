@@ -103,8 +103,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
   - [[#general-interaction][General Interaction]]
-  - [[#tasks][Tasks]]
   - [[#agenda][Agenda]]
+  - [[#tasks][Tasks]]
   - [[#babel][Babel]]
   - [[#roam][Roam]]
   - [[#hugo][Hugo]]
@@ -2395,6 +2395,126 @@ Don't insert a blank newline before new entries (e.g., list bullets and section 
                                    (plain-list-item . nil)))
 #+end_src
 
+** Agenda
+
+First, some regular agenda settings.
+
+I want to open my agenda on the current day, not on any specific weekday.
+
+I also don't want to have a divider line separating my different agenda blocks. This is because I sometimes use packages like Olivetti to center the agenda, which makes the divider line wrap around and take up multiple lines.
+
+Similarly, I right-align my tags, so they also end up shifted around and often on a new line. =org-agenda-remove-tags= doesn't remove them, but for some reason it disables the right-alignment in the agenda, which is perfect.
+
+#+begin_src emacs-lisp
+(setq org-agenda-start-on-weekday nil
+      org-agenda-block-separator  nil
+      org-agenda-remove-tags      t)
+#+end_src
+
+*** Super Agenda
+
+[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
+navigate.
+
+#+begin_src emacs-lisp
+(use-package org-super-agenda
+  :after org
+  :config
+  (setq org-super-agenda-header-prefix "\n❯ ")
+  ;; Hide the thin width char glyph
+  (add-hook 'org-agenda-mode-hook
+            #'(lambda () (setq-local nobreak-char-display nil)))
+  (org-super-agenda-mode))
+#+end_src
+
+*** Org QL
+
+[[https://github.com/alphapapa/org-ql][org-ql]] is a query language for Org mode. It's super powerful and doesn't really belong in the Agenda section of my config, but for now, I only use it to find things and to set up a pretty calendar view.
+
+One of the things I want to find regularly, is a list of all my TODOs marked with the custom state =QUESTION=. Usually, this is stuff that I want to bring up in my next meeting with someone, so it's handy to be able to pull up all the questions I have. =org-ql= is perfect for that.
+
+#+begin_src emacs-lisp :tangle no
+(use-package org-ql
+  :after org
+  :config
+  (add-to-list 'org-ql-views
+             '("Questions" :buffers-files org-agenda-files :query
+               (and
+                (not
+                 (done))
+                (todo "QUESTION"))
+               :sort
+               (todo priority date)
+               :super-groups org-super-agenda-groups :title "Agenda-like")))
+#+end_src
+*** Agenda Views
+
+With Super Agenda and Org QL, we can now define some display groups for the agenda, to show us exactly the info we want.
+
+We'll set up some groups with the Super Agenda syntax.
+
+#+begin_src emacs-lisp
+;; Delete default agenda commands
+(setq org-agenda-custom-commands nil)
+
+(defvar regular-view-groups
+  '((:name "Scheduled"
+     :scheduled t
+     :order 1)
+	(:name "Deadlines"
+     :deadline t
+     :order 2)))
+#+end_src
+
+Now I'll set up commands to open the day view with =C-c a d= and extended three-day view with =C-c a e=. Notice that I'm first setting some options for the built-in agenda, and then defining a block with Super Agenda groups and Org QL queries.
+
+#+begin_src emacs-lisp
+(add-to-list 'org-agenda-custom-commands
+	  '("d" "Day View"
+		 ((agenda "" ((org-agenda-overriding-header "Day View")
+                      (org-agenda-span 'day)
+                      (org-super-agenda-groups regular-view-groups)))
+		  (org-ql-block '(todo "PROG") ((org-ql-block-header "\n❯ In Progress")))
+		  (org-ql-block '(todo "NEXT") ((org-ql-block-header "\n❯ Next Up")))
+          (org-ql-block '(todo "WAIT") ((org-ql-block-header "\n❯ Waiting")))
+		  (org-ql-block '(priority "A") ((org-ql-block-header "\n❯ Important"))))))
+
+
+(add-to-list 'org-agenda-custom-commands
+		'("e" "Three-Day View"
+               ((agenda "" ((org-agenda-span 3)
+                            (org-agenda-start-on-weekday nil)
+                            (org-deadline-warning-days 0))))))
+#+end_src
+
+*** Displaying Scheduled & Deadline Items
+
+Don't show me deadlines or scheduled items if they are done.
+
+#+begin_src emacs-lisp
+(setq org-agenda-skip-deadline-if-done  t
+	  org-agenda-skip-scheduled-if-done t)
+#+end_src
+
+Modify dealine leader text.
+
+#+begin_src emacs-lisp
+(setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
+#+end_src
+
+*** Startup with Agenda View
+
+I used to have a nice dashboard as a welcome screen, but when I open Emacs, I usually just open a recently opened buffer with =C-x b= or I open a project with =C-c p p=. It's more useful to me to immediately get an overview of  my tasks so I can jump right into it. The below hook runs my custom agenda function to open a day view, and deletes other windows so I don't see the agenda *and* the scratch buffer.
+
+#+begin_src emacs-lisp
+(defun soph/show-day-agenda ()
+  (progn (org-agenda nil "d")
+		 (delete-other-windows)
+		 (olivetti-mode)))
+
+(add-hook 'emacs-startup-hook 'soph/show-day-agenda)
+#+end_src
+
 ** Tasks
 *** Task Priorities
 
@@ -2527,115 +2647,6 @@ Instead, I can use it as the leader key combination to jump to a register.
 
 #+begin_src emacs-lisp
 (define-key custom-bindings-map (kbd "C-r") 'jump-to-register)
-#+end_src
-
-** Agenda
-
-First, some regular agenda settings.
-
-I want to open my agenda on the current day, not on any specific weekday.
-
-I also don't want to have a divider line separating my different agenda blocks. This is because I sometimes use packages like Olivetti to center the agenda, which makes the divider line wrap around and take up multiple lines.
-
-Similarly, I right-align my tags, so they also end up shifted around and often on a new line. =org-agenda-remove-tags= doesn't remove them, but for some reason it disables the right-alignment in the agenda, which is perfect.
-
-#+begin_src emacs-lisp
-(setq org-agenda-start-on-weekday nil
-      org-agenda-block-separator  nil
-      org-agenda-remove-tags      t)
-#+end_src
-
-*** Super Agenda
-
-[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] lets you group agenda items into sections, so it's easier to
-navigate.
-
-#+begin_src emacs-lisp
-(use-package org-super-agenda
-  :after org
-  :config
-  (setq org-super-agenda-header-prefix "\n❯ ")
-  ;; Hide the thin width char glyph
-  (add-hook 'org-agenda-mode-hook
-            #'(lambda () (setq-local nobreak-char-display nil)))
-  (org-super-agenda-mode))
-#+end_src
-
-*** Org QL
-
-[[https://github.com/alphapapa/org-ql][org-ql]] is a query language for Org mode. It's super powerful and doesn't really belong in the Agenda section of my config, but for now, I only use it to find things and to set up a pretty calendar view.
-
-#+begin_src emacs-lisp
-(use-package org-ql
-  :defer t)
-#+end_src
-
-*** Agenda Views
-
-With Super Agenda and Org QL, we can now define some display groups for the agenda, to show us exactly the info we want.
-
-We'll set up some groups with the Super Agenda syntax.
-
-#+begin_src emacs-lisp
-;; Delete default agenda commands
-(setq org-agenda-custom-commands nil)
-
-(defvar regular-view-groups
-  '((:name "Scheduled"
-     :scheduled t
-     :order 1)
-	(:name "Deadlines"
-     :deadline t
-     :order 2)))
-#+end_src
-
-Now I'll set up commands to open the day view with =C-c a d= and extended three-day view with =C-c a e=. Notice that I'm first setting some options for the built-in agenda, and then defining a block with Super Agenda groups and Org QL queries.
-
-#+begin_src emacs-lisp
-(add-to-list 'org-agenda-custom-commands
-	  '("d" "Day View"
-		 ((agenda "" ((org-agenda-overriding-header "Day View")
-                      (org-agenda-span 'day)
-                      (org-super-agenda-groups regular-view-groups)))
-		  (org-ql-block '(todo "PROG") ((org-ql-block-header "\n❯ In Progress")))
-		  (org-ql-block '(todo "NEXT") ((org-ql-block-header "\n❯ Next Up")))
-          (org-ql-block '(todo "WAIT") ((org-ql-block-header "\n❯ Waiting")))
-		  (org-ql-block '(priority "A") ((org-ql-block-header "\n❯ Important"))))))
-
-
-(add-to-list 'org-agenda-custom-commands
-		'("e" "Three-Day View"
-               ((agenda "" ((org-agenda-span 3)
-                            (org-agenda-start-on-weekday nil)
-                            (org-deadline-warning-days 0))))))
-#+end_src
-
-*** Displaying Scheduled & Deadline Items
-
-Don't show me deadlines or scheduled items if they are done.
-
-#+begin_src emacs-lisp
-(setq org-agenda-skip-deadline-if-done  t
-	  org-agenda-skip-scheduled-if-done t)
-#+end_src
-
-Modify dealine leader text.
-
-#+begin_src emacs-lisp
-(setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
-#+end_src
-
-*** Startup with Agenda View
-
-I used to have a nice dashboard as a welcome screen, but when I open Emacs, I usually just open a recently opened buffer with =C-x b= or I open a project with =C-c p p=. It's more useful to me to immediately get an overview of  my tasks so I can jump right into it. The below hook runs my custom agenda function to open a day view, and deletes other windows so I don't see the agenda *and* the scratch buffer.
-
-#+begin_src emacs-lisp
-(defun soph/show-day-agenda ()
-  (progn (org-agenda nil "d")
-		 (delete-other-windows)
-		 (olivetti-mode)))
-
-(add-hook 'emacs-startup-hook 'soph/show-day-agenda)
 #+end_src
 
 ** Babel
