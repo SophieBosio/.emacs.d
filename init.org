@@ -1639,10 +1639,10 @@ By default, the completion's command for inserting a candidate is bound to =RET=
   (corfu-popupinfo-delay 0.5)     ;; Short delay
   (corfu-preselect       'valid)  ;; Select first candidate if valid
   (corfu-preview-current t)       ;; Preview selected candidate
-  (corfu-separator       ?_)      ;; Custom orderless separator
+  (corfu-separator       "[ |]")  ;; Custom orderless separator
   :bind (:map corfu-map
               ("RET"   . nil)
-              ("S-SPC" . corfu-insert-separator))
+              ("C-S-SPC" . corfu-insert-separator))
   :hook (corfu-mode . corfu-popupinfo-mode)
   :init
   (global-corfu-mode)
