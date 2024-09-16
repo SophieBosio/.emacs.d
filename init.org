@@ -3054,7 +3054,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
 
 ** Lispy
 
-[[https://github.com/abo-abo/lispy][lispy]] is a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]]. Lispy is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mosly use those and invent my own bindings for the functions Paredit doesn't have.
+[[https://github.com/abo-abo/lispy][lispy]] is a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]]. Lispy is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mostly use those and invent my own bindings for the functions Paredit doesn't have.
 
 #+begin_src emacs-lisp
 (use-package lispy
@@ -3159,11 +3159,11 @@ Next, let's take a page out of CIDER's (a Clojure package) book and enhance eval
   (eros-mode 1))
 #+end_src
 
-And finally, I need ParEdit!
+And finally, I need to edit parens safely. Let's hook in =lispy=!
 
 #+begin_src emacs-lisp
 (use-package emacs
-  :hook (emacs-lisp-mode . paredit-mode))
+  :hook (emacs-lisp-mode . lispy-mode))
 #+end_src
 
 *** Haskell
@@ -3209,9 +3209,9 @@ Note that I also use LSP mode for Clojure.
 
  (use-package cider
    :defer t
-   :hook ((cider-mode      . paredit-mode)
-          (cider-repl-mode . paredit-mode)
-          (clojure-mode    . paredit-mode)
+   :hook ((cider-mode      . lispy-mode)
+          (cider-repl-mode . lispy-mode)
+          (clojure-mode    . lispy-mode)
           (clojure-mode    . whitespace-mode))
    :bind (:map cider-repl-mode-map
                ("C-l"   . cider-repl-clear-buffer)
