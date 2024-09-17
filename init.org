@@ -1829,6 +1829,26 @@ And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git 
   :after magit)
 #+end_src
 
+*** Blamer
+
+[[https://github.com/Artawower/blamer.el][Blamer]] is a Git blame plugin, inspired by VS Code's GitLens Plugin, which gives you blame info to the right of the selected line(s) as an overlay. You can also pop the info out into a pos-frame, which works pretty well for reading PR discussions. I find this slightly more ergonomic than Magit's =magit-blame-addition=.
+
+#+begin_src emacs-lisp
+(use-package blamer
+  :after magit
+  :bind (("C-c g i" . blamer-show-commit-info)
+         ("C-c g b" . blamer-show-posframe-commit-info))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 20)
+  :custom-face
+  (blamer-face ((t :foreground "#7aa2cf"
+                    :background nil
+                    :height 140
+                    :italic t))))
+#+end_src
+
 *** Git Link
 
 [[https://github.com/sshaw/git-link/][git-link]] creates URL links to the current position in your buffer in the corresponding forge repo. Super handy for sending to others.
