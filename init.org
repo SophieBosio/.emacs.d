@@ -1219,14 +1219,16 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
 
 *** Multiple Cursors
 
-Makes life so much easier! I often use it to create several cursors directly above one another.
+[[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] makes life so much easier! I often use it to create several cursors directly above one another. I'll trust myself to wield this power responsibly and set the variable =mc/always-run-for-all= to =t=, which disables the default behaviour prompting the user for confirmation when trying to do certain things with the multiple cursors.
 
 #+begin_src emacs-lisp
 (use-package multiple-cursors
   :defer t
   :bind (:map custom-bindings-map
               ("M-n" . mc/mark-next-like-this)
-			  ("M-p" . mc/mark-previous-like-this)))
+              ("M-p" . mc/mark-previous-like-this))
+  :config
+  (setq mc/always-run-for-all t))
 #+end_src
 
 *** IEdit
