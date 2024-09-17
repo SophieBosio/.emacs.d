@@ -876,12 +876,12 @@ I'll also define a default accent colour, which is used in packages like =eval-s
              `(eval-sexp-fu-flash
                ((t (:background
                     ,soph/default-light-accent-colour))))))))
-  :config
-  (setq auto-dark-dark-themes '(soph/default-dark-theme soph/default-light-theme))
-  (setq auto-dark-polling-interval-seconds 5
-        auto-dark-allow-osascript          nil
-        auto-dark-allow-powershell         nil)
-  (auto-dark-mode t))
+  :custom
+  (auto-dark-themes                   `((,soph/default-dark-theme) (,soph/default-light-theme)))
+  (auto-dark-polling-interval-seconds 5)
+  (auto-dark-allow-osascript          nil)
+  (auto-dark-allow-powershell         nil)
+  :init (auto-dark-mode t))
 #+end_src
 
 We can even change the system theme from within Emacs using a [[https://github.com/xenodium/dwim-shell-command/][dwim-shell-command]] for Mac OS. The Gnome extension [[https://nightthemeswitcher.romainvigier.fr/][Night Theme Switcher]] takes care of things on my Linux machine.
