@@ -117,7 +117,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#eldoc][Eldoc]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#lispy][Lispy]]
+  - [[#lispy--paredit][LISPY + Paredit]]
   - [[#programming-languages][Programming Languages]]
   - [[#lsp-mode][LSP Mode]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -3052,14 +3052,24 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
-** Lispy
+** LISPY + Paredit
 
-[[https://github.com/abo-abo/lispy][lispy]] is a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]]. Lispy is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mostly use those and invent my own bindings for the functions Paredit doesn't have.
+[[https://github.com/abo-abo/lispy][lispy]] is (almost) a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]]. Lispy is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mostly use those and invent my own bindings for the functions Paredit doesn't have. I also use a few of Paredit's functions that I prefer over their =lispy= equivalents.
 
 #+begin_src emacs-lisp
-(use-package lispy
+(use-package paredit
   :defer t
-  :init
+  :commands
+  paredit-forward
+  paredit-backward
+  paredit-forward-up
+  paredit-forward-down
+  paredit-backward-up
+  paredit-backward-down)
+
+(use-package lispy
+  :after paredit
+  :config
   (setcdr lispy-mode-map nil)
   :bind (:map lispy-mode-map
 
@@ -3070,7 +3080,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("]"  . lispy-close-square)
          ("{"  . lispy-braces)
          ("}"  . lispy-close-curly)
-         ("\"" . lispy-quptes)
+         ("\"" . lispy-quotes)
          (";"  . lispy-comment)
 
          ;; Slurping & barfing
@@ -3095,16 +3105,16 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("DEL"        . lispy-backward-delete)
 
          ;; Navigating sexpressions
-         ("C-f"   . lispy-forward)
-         ("C-b"   . lispy-backward)
-         ("C-M-f" . lispy-forward)
-         ("C-M-b" . lispy-backward)
-         ("C-n"   . lispy-forward)
-         ("C-p"   . lispy-backward)
-         ("C-M-n" . lispy-right)
-         ("C-M-p" . lispy-left)
-         ("C-M-d" . lispy-down)
-         ("C-M-u" . lispy-up)
+         ("C-f"   . paredit-forward)
+         ("C-b"   . paredit-backward)
+         ("C-M-f" . paredit-forward)
+         ("C-M-b" . paredit-backward)
+         ("C-n"   . lispy-right)
+         ("C-p"   . lispy-left)
+         ("C-M-n" . paredit-forward-up)
+         ("C-M-p" . paredit-backward-down)
+         ("C-M-d" . paredit-forward-down)
+         ("C-M-u" . paredit-backward-up)
          ("C-M-a" . lispy-beginning-of-defun)
 
          ;; Moving sexpressions
