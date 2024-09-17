@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: deftype
-# key: deft
+# key: <deft
 # --
 (deftype
   ^{"$1"}$>

@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # -*- coding: utf-8 -*-
 # name: map lambda
-# key: maplambda
+# key: <maplambda
 # --
 (map #($1) $2)$>

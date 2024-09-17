@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: debug
+# key: <debug
+# --
+(println "$1" (util/pp $0))

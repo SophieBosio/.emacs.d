@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: defrecord
-# key: defr
+# key: <defr
 # --
 (defrecord
   ^{"$1"}$>

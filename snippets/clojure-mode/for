@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: for
-# key: for
+# key: <for
 # --
 (for [$1 $2]
   $3)$>

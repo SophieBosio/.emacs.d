@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # key: opts
-# name: opts
+# name: <opts
 # --
 {:keys [$1]$>
  :or {$2}$>

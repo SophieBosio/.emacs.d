@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: def
-# key: df
+# key: <def
 # --
 (def $0)

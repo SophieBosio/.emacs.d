@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: fn
-# key: fn
+# key: <fn
 # --
 (fn [$1]
   $0)$>

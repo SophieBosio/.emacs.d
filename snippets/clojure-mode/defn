@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: defn
-# key: defn
+# key: <defn
 # --
 (defn $1 [$3]$>
   $0)$>
