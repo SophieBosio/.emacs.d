@@ -877,9 +877,8 @@ I'll also define a default accent colour, which is used in packages like =eval-s
                ((t (:background
                     ,soph/default-light-accent-colour))))))))
   :config
-  (setq auto-dark-dark-theme               soph/default-dark-theme
-        auto-dark-light-theme              soph/default-light-theme
-        auto-dark-polling-interval-seconds 5
+  (setq auto-dark-dark-themes '(soph/default-dark-theme soph/default-light-theme))
+  (setq auto-dark-polling-interval-seconds 5
         auto-dark-allow-osascript          nil
         auto-dark-allow-powershell         nil)
   (auto-dark-mode t))
