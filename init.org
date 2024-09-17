@@ -1217,13 +1217,18 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
 (define-key custom-bindings-map (kbd "C-c n q") 'unfill-paragraph)
 #+end_src
 
-*** Multiple Cursors
+*** Multiple Cursors & Symbol Overlay
 
 [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] makes life so much easier! I often use it to create several cursors directly above one another. I'll trust myself to wield this power responsibly and set the variable =mc/always-run-for-all= to =t=, which disables the default behaviour prompting the user for confirmation when trying to do certain things with the multiple cursors.
 
 #+begin_src emacs-lisp
 (use-package multiple-cursors
   :defer t
+  :functions
+  mc/remove-fake-cursors
+  mc/save-excursion
+  mc/create-fake-cursor-at-point
+  mc/maybe-multiple-cursors-mode
   :bind (:map custom-bindings-map
               ("M-n" . mc/mark-next-like-this)
               ("M-p" . mc/mark-previous-like-this))
@@ -1231,15 +1236,46 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
   (setq mc/always-run-for-all t))
 #+end_src
 
-*** IEdit
-
-[[https://github.com/victorhge/iedit][iedit]] is similar to =multiple-cursors=, but they have slightly different use cases. IEdit will highlight all matching occurrences of a word/symbol and allow you to edit them simultaneously. Sometimes, I use it just to highlight matches in the buffer. The default binding for entering =iedit-mode= is =C-;=.
+[[https://github.com/wolray/symbol-overlay][symbol-overlay]] highlights all occurrences of the symbol at point and allows to jump between them.
 
 #+begin_src emacs-lisp
-(use-package iedit
+(use-package symbol-overlay
   :defer t
-  :config
-  (setq iedit-toggle-key-default (kbd "C-;")))
+  :functions
+  symbol-overlay-put
+  symbol-overlay-mode
+  :hook (prog-mode . symbol-overlay-mode)
+  :bind (:map custom-bindings-map
+              ("M-M" . symbol-overlay-put)
+              ("M-N" . symbol-overlay-jump-next)
+              ("M-P" . symbol-overlay-jump-previous)))
+#+end_src
+
+[[https://xenodium.com/its-all-up-for-grabs-and-it-compounds/][In his blog post]], Alvaro Ramirez (AKA Xenodium) demonstrates one of the best things in Emacs: Seeing things that are almost the way you want them and tweaking them with Elisp so they become that. He takes multiple-cursors and symbol-overlay and combines them. and Ramirez wrote a function that lets symbol-overlay communicate to multiple-cursors that this is where you should give me cursors. Edit all the things at once!  I think it's great, so let's use it and bind it to =C-;=.
+
+#+begin_src emacs-lisp
+(defun ar/mc-mark-all-symbol-overlays ()
+  "Mark all symbol overlays using multiple cursors."
+  (interactive)
+  (mc/remove-fake-cursors)
+  (when-let* ((overlays (symbol-overlay-get-list 0))
+              (point (point))
+              (point-overlay (seq-find
+                              (lambda (overlay)
+                                (and (<= (overlay-start overlay) point)
+                                     (<= point (overlay-end overlay))))
+                              overlays))
+              (offset (- point (overlay-start point-overlay))))
+    (setq deactivate-mark t)
+    (mapc (lambda (overlay)
+            (unless (eq overlay point-overlay)
+              (mc/save-excursion
+               (goto-char (+ (overlay-start overlay) offset))
+               (mc/create-fake-cursor-at-point))))
+          overlays)
+    (mc/maybe-multiple-cursors-mode)))
+
+(define-key custom-bindings-map (kbd "C-;") 'ar/mc-mark-all-symbol-overlays)
 #+end_src
 
 *** Undo/Redo
