@@ -3137,12 +3137,12 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          (";"  . lispy-comment)
 
          ;; Slurping & barfing
-         ("C-<right>"   . lispy-forward-slurp-sexp)
-         ("C-<left>"    . lispy-forward-barf-sexp)
-         ("C-M-<right>" . lispy-forward-slurp-sexp)
-         ("C-M-<left>"  . lispy-forward-barf-sexp)
-         ("C-<right>"   . lispy-forward-slurp-sexp)
-         ("C-<left>"    . lispy-forward-barf-sexp)
+         ("C-<right>"   . paredit-forward-slurp-sexp)
+         ("C-<left>"    . paredit-forward-barf-sexp)
+         ("C-M-<right>" . paredit-forward-slurp-sexp)
+         ("C-M-<left>"  . paredit-forward-barf-sexp)
+         ("C-<right>"   . paredit-forward-slurp-sexp)
+         ("C-<left>"    . paredit-forward-barf-sexp)
          ("C-)"         . lispy-forward-slurp-sexp)
          ("C-("         . lispy-backward-slurp-sexp)
          ("C-}"         . lispy-forward-barf-sexp)
