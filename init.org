@@ -3489,15 +3489,15 @@ I disable a few of the default features. If you want to know more about these an
 (use-package lsp-mode
   :defer t
   :init (setq lsp-use-plists t)
-  :bind (:map lsp-mode-map
-              ("M-<return>" . lsp-execute-code-action)
-              ("C-M-."      . lsp-find-references)
-              ("C-c r"      . lsp-rename))
   :hook ((clojure-mode       . lsp)
          (clojurec-mode      . lsp)
          (lsp-mode           . lsp-enable-which-key-integration)
          (typescript-mode    . lsp)
          (typescript-ts-mode . lsp))
+  :bind (:map lsp-mode-map
+              ("M-<return>" . lsp-execute-code-action)
+              ("C-M-."      . lsp-find-references)
+              ("C-c r"      . lsp-rename))
   :config
   (setq lsp-diagnostics-provider :flycheck)
         ;; Disable visual features
