@@ -847,7 +847,7 @@ I'll also define a default accent colour, which is used in packages like =eval-s
 (defvar soph/default-light-theme 'south)
 
 (defvar soph/default-dark-accent-colour  "SkyBlue4")
-(defvar soph/default-light-accent-colour "SlateGray1")
+(defvar soph/default-light-accent-colour "#CEE4F5")
 
 (load-theme soph/default-dark-theme t)
 #+end_src
