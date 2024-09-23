@@ -836,6 +836,12 @@ I also have a custom light theme I'm working on called South. Let's add the path
 (setq custom-theme-directory "~/Dropbox/projects/south-theme/")
 #+end_src
 
+And I don't want Emacs to ask me before changing to one of the themes I've used before.
+
+#+begin_src emacs-lisp
+(setq custom-safe-themes t)
+#+end_src
+
 *** Default Dark & Light Themes
 
 My favourite dark theme is =doom-nord=. I haven't been able to find any light themes I really love, so I made South to act as Nord's bright counterpart. I'll set these two as my default dark and light themes respectively, and load the dark theme by default.
