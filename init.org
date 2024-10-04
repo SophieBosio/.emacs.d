@@ -69,6 +69,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#browse-kill-ring][Browse Kill Ring]]
   - [[#auto-saving][Auto-Saving]]
   - [[#text-editing-functions][Text Editing Functions]]
+  - [[#crux][CRUX]]
 - [[#buffers--navigation][Buffers & Navigation]]
   - [[#killing-buffers][Killing Buffers]]
   - [[#kill-buffer-and-its-associated-file][Kill Buffer and its Associated File]]
@@ -1324,6 +1325,18 @@ From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], 
 
 #+begin_src emacs-lisp
 (define-key custom-bindings-map (kbd "C-S-k") 'kill-whole-line)
+#+end_src
+
+** CRUX
+
+[[https://github.com/bbatsov/crux][CRUX]] is a Collection of Ridiculously Useful eXtensions for Emacs. It has a whole bunch of commands and I'd recommend looking into all the things it supports.
+
+#+begin_src emacs-lisp :tangle no
+(use-package crux
+  :defer t
+  :bind (:custom-bindings-map
+         (("C-S-<return>" . crux-smart-open-line-above)
+          ("S-<return>"   . crux-smart-open-line))))
 #+end_src
 
 * Buffers & Navigation
