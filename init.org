@@ -3197,8 +3197,6 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("C-M-<up>"   . lispy-move-up)
          ("C-M-<down>" . lispy-move-down)
          ("M-c"        . lispy-clone)
-         ("TAB"        . lispy-indent-adjust-parens)
-         ("<backtab>"  . lispy-dedent-adjust-parens)
 
          ;; Manipulating sexpressions
          ("M-<up>"   . lispy-splice-sexp-killing-backward)
