@@ -1858,11 +1858,13 @@ And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git 
   :custom
   (blamer-idle-time 0.3)
   (blamer-min-offset 20)
+  (blamer-datetime-formatter "[%s]")
+  (blamer-commit-formatter " ● %s")
   :custom-face
   (blamer-face ((t :foreground "#7aa2cf"
                     :background nil
-                    :height 140
-                    :italic t))))
+                    :height 0.9
+                    :italic nil))))
 #+end_src
 
 *** Git Link
