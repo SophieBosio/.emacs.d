@@ -3178,7 +3178,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("M-d"        . lispy-kill-word)
          ("C-j"        . lispy-newline-and-indent)
          ("C-<return>" . lispy-alt-line)
-         ("DEL"        . lispy-backward-delete)
+         ("DEL"        . paredit-backward-delete)
 
          ;; Navigating sexpressions
          ("C-f"   . paredit-forward)
