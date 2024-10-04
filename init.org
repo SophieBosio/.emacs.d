@@ -3156,8 +3156,8 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("]"  . lispy-close-square)
          ("{"  . lispy-braces)
          ("}"  . lispy-close-curly)
-         ("\"" . lispy-quotes)
          (";"  . lispy-comment)
+         ("\"" . paredit-doublequote)
 
          ;; Slurping & barfing
          ("C-<right>"   . paredit-forward-slurp-sexp)
