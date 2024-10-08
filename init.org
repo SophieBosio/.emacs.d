@@ -1199,12 +1199,13 @@ Therefore, I'll disable automatic saving for this file in particular.
 [[https://github.com/magnars/expand-region.el][expand-region]] expand the region (selected text) with semantic units (e.g.,
 symbol, word, sentence, paragraph). It's super handy!
 
+=M-e= is bound to =forward-sentence=. I don't use that binding, but you might want to bind this to a different key combo if you do.
+
 #+begin_src emacs-lisp
 (use-package expand-region
   :defer t
   :bind (:map custom-bindings-map
-              ("C-+" . er/expand-region)
-              ("M-'" . er/expand-region)))
+              ("M-e" . er/expand-region)))
 #+end_src
 
 *** Filling/Unfilling
