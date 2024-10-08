@@ -3297,7 +3297,7 @@ There's a very handy function called =cider-selector= which lets you type a key 
 
 Note that I also use LSP mode for Clojure.
 
- #+begin_src emacs-lisp
+#+begin_src emacs-lisp
  (use-package clojure-mode
    :defer t
    :config
@@ -3313,23 +3313,24 @@ Note that I also use LSP mode for Clojure.
                ("C-l"   . cider-repl-clear-buffer)
                ("C-c s" . cider-selector))
    :config
-   (setq cider-repl-display-help-banner nil))
- #+end_src
+   (setq cider-repl-display-help-banner        nil
+         clojure-toplevel-inside-comment-form  t))
+#+end_src
 
  [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
 
- #+begin_src emacs-lisp
- (use-package flycheck-clj-kondo
-   :ensure t)
- #+end_src
+#+begin_src emacs-lisp
+(use-package flycheck-clj-kondo
+  :ensure t)
+#+end_src
 
  [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
 
- #+begin_src emacs-lisp
-  (use-package clj-refactor
-	:after clojure-mode
-	:hook (clojure-mode . clj-refactor-mode))
- #+end_src
+#+begin_src emacs-lisp
+ (use-package clj-refactor
+   :after clojure-mode
+   :hook (clojure-mode . clj-refactor-mode))
+#+end_src
 
 [[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
 
