@@ -3291,30 +3291,38 @@ And finally, I need to edit parens safely. Let's hook in =lispy=!
  [[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
  built-in support for firing up a REPL and looking up documentation and source
  code, but it also has very Emacs-like shortcuts for expected actions, such as
- =C-x C-e= to evaluate the s-expression at point. And of course, we need ParEdit.
+ =C-x C-e= to evaluate the s-expression at point. And of course, we need Lispy/ParEdit.
 
 There's a very handy function called =cider-selector= which lets you type a key to select one of CIDER's buffers, such as the =*cider-error*= and =*cider-scratch*= buffers. But it's bound to the kind of clunky =C-c M-s=, so let's rebind it to the more ergonomic =C-c s=.
+
+Prefix any of the selector commands with =4= to open the buffer in a new window instead of the current one.
+
+The =e= selector is bound to the most recently used Emacs Lisp buffer, but I'd rather bind it to the most recent =*cider-result*=  buffer. We can redefine this with the =def-cider-selector-method= macro. Then =C-c s 4 e= opens the most recent result buffer in a new window.
 
 Note that I also use LSP mode for Clojure.
 
 #+begin_src emacs-lisp
- (use-package clojure-mode
-   :defer t
-   :config
-   (require 'flycheck-clj-kondo))
+(use-package clojure-mode
+  :defer t
+  :config
+  (require 'flycheck-clj-kondo))
 
- (use-package cider
-   :defer t
-   :hook ((cider-mode      . lispy-mode)
-          (cider-repl-mode . lispy-mode)
-          (clojure-mode    . lispy-mode)
-          (clojure-mode    . whitespace-mode))
-   :bind (:map cider-repl-mode-map
-               ("C-l"   . cider-repl-clear-buffer)
-               ("C-c s" . cider-selector))
-   :config
-   (setq cider-repl-display-help-banner        nil
-         clojure-toplevel-inside-comment-form  t))
+(use-package cider
+  :defer t
+  :hook ((cider-mode      . lispy-mode)
+         (cider-repl-mode . lispy-mode)
+         (clojure-mode    . lispy-mode)
+         (clojure-mode    . whitespace-mode))
+  :bind (:map cider-repl-mode-map
+              ("C-l"   . cider-repl-clear-buffer))
+  :bind (:map cider-mode-map
+              ("C-c s" . cider-selector))
+  :config
+  (setq cider-repl-display-help-banner        nil
+        clojure-toplevel-inside-comment-form  t)
+  (def-cider-selector-method ?e
+                             "CIDER result buffer."
+                             cider-result-buffer))
 #+end_src
 
  [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
