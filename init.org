@@ -1527,16 +1527,27 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
 
 Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
 
+I'll also bind a few convenience keys, namely =C= followed by an arrow to move into a directory/open a file or move up a directory.
+
+The last line is a setting for MacOS telling it to use =gls= when using dired.
+
 #+begin_src emacs-lisp
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(when (and (eq system-type 'darwin) (executable-find "gls"))
-    (setq dired-use-ls-dired nil))
+(use-package dired
+  :ensure nil
+  :hook (dired-mode . dired-hide-details-mode)
+  :bind (:map dired-mode-map
+              ("C-<right>" . dired-find-alternate-file)
+              ("C-<left>"  . dired-up-directory)
+              ("C-<down>"  . dired-find-alternate-file)
+              ("C-<up>"    . dired-up-directory))
+  :config
+  (when (and (eq system-type 'darwin) (executable-find "gls"))
+    (setq dired-use-ls-dired nil)))
 #+end_src
 
 Speaking of default keybindings, I always forget them. Casual Dired is fantastic for forgetful people like me. Seeing the different options also helps me learn new and useful keybindings.
 
 #+begin_src emacs-lisp
-
 (use-package casual-dired
   :after dired
   :bind (:map dired-mode-map ("C-o" . casual-dired-tmenu)))
