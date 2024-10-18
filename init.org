@@ -2591,19 +2591,6 @@ Modify dealine leader text.
 (setq org-agenda-deadline-leaders '("Deadline:  " "In %2d d.: " "%2d d. ago: "))
 #+end_src
 
-*** Startup with Agenda View
-
-I used to have a nice dashboard as a welcome screen, but when I open Emacs, I usually just open a recently opened buffer with =C-x b= or I open a project with =C-c p p=. It's more useful to me to immediately get an overview of  my tasks so I can jump right into it. The below hook runs my custom agenda function to open a day view, and deletes other windows so I don't see the agenda *and* the scratch buffer.
-
-#+begin_src emacs-lisp
-(defun soph/show-day-agenda ()
-  (progn (org-agenda nil "d")
-		 (delete-other-windows)
-		 (olivetti-mode)))
-
-(add-hook 'emacs-startup-hook 'soph/show-day-agenda)
-#+end_src
-
 ** Tasks
 *** Task Priorities
 
