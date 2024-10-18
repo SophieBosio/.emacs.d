@@ -2660,7 +2660,6 @@ The first step is to set the relevant directories.
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Dropbox/org/")
 (add-to-list 'org-agenda-files "inbox.org")
-(add-to-list 'org-agenda-files "thesis.org")
 #+END_SRC
 
 Set the archive location to a unified archive.
@@ -2674,9 +2673,6 @@ Then to set up the relevant capture templates, with accompanying keybindings.
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates
        `(("i" "Inbox" entry  (file "inbox.org")
-        ,(concat "* TODO %?\n"
-                 "/Entered on/ %U"))
-		 ("t" "Thesis" entry  (file "thesis.org")
         ,(concat "* TODO %?\n"
                  "/Entered on/ %U"))))
 (defun org-capture-inbox ()
