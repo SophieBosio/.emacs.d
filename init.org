@@ -3299,7 +3299,7 @@ There's a very handy function called =cider-selector= which lets you type a key 
 
 Prefix any of the selector commands with =4= to open the buffer in a new window instead of the current one.
 
-The =e= selector is bound to the most recently used Emacs Lisp buffer, but I'd rather bind it to the most recent =*cider-result*=  buffer. We can redefine this with the =def-cider-selector-method= macro. Then =C-c s 4 e= opens the most recent result buffer in a new window.
+The =e= selector is bound to the most recently used Emacs Lisp buffer, but I'd rather bind it to the most recent =*cider-result*=  buffer. We can redefine this with the =def-cider-selector-method= macro. (Edit: For some reason, I can't get this to work. Seems to have with loading the fn def. Please let me know if you know how to do it properly!)
 
 Note that I also use LSP mode for Clojure.
 
@@ -3320,11 +3320,12 @@ Note that I also use LSP mode for Clojure.
   :bind (:map cider-mode-map
               ("C-c s" . cider-selector))
   :config
-  (setq cider-repl-display-help-banner        nil
-        clojure-toplevel-inside-comment-form  t)
-  (def-cider-selector-method ?e
-                             "CIDER result buffer."
-                             cider-result-buffer))
+  (setq cider-repl-display-help-banner       nil
+        clojure-toplevel-inside-comment-form t)
+  ; (def-cider-selector-method ?e
+  ;   "CIDER result buffer."
+  ;   cider-result-buffer)
+  )
 #+end_src
 
  [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
