@@ -1527,7 +1527,7 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
 
 Emacs's default file manager is nice, but contains a bit more info than I usually need. =dired-hide-details-mode= does what it says on the tin, and I can easily activate/deactivate it on the fly with the default keybinding, =(=.
 
-I'll also bind a few convenience keys, namely =C= followed by an arrow to move into a directory/open a file or move up a directory.
+I'll also bind a few convenience keys. =C-= followed by an arrow moves into a directory/open a file or move up a directory. And lowercase =c= creates/touches a new file and prompts for a name.
 
 The last line is a setting for MacOS telling it to use =gls= when using dired.
 
@@ -1539,7 +1539,8 @@ The last line is a setting for MacOS telling it to use =gls= when using dired.
               ("C-<right>" . dired-find-alternate-file)
               ("C-<left>"  . dired-up-directory)
               ("C-<down>"  . dired-find-alternate-file)
-              ("C-<up>"    . dired-up-directory))
+              ("C-<up>"    . dired-up-directory)
+              ("c"         . dired-create-empty-file))
   :config
   (when (and (eq system-type 'darwin) (executable-find "gls"))
     (setq dired-use-ls-dired nil)))
