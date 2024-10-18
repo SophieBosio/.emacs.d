@@ -3524,7 +3524,7 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
 
 ** LSP Mode
 
-[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure and Haskell.
+[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure, TypeScript, and Haskell.
 
 I disable a few of the default features. If you want to know more about these and how to enable/disable other =lsp-mode= features, there's a handy guide on [[https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/][lsp-mode's website]].
 
@@ -3532,11 +3532,13 @@ I disable a few of the default features. If you want to know more about these an
 (use-package lsp-mode
   :defer t
   :init (setq lsp-use-plists t)
-  :hook ((clojure-mode       . lsp)
-         (clojurec-mode      . lsp)
-         (lsp-mode           . lsp-enable-which-key-integration)
-         (typescript-mode    . lsp)
-         (typescript-ts-mode . lsp))
+  :hook ((clojure-mode          . lsp)
+         (clojurec-mode         . lsp)
+         (lsp-mode              . lsp-enable-which-key-integration)
+         (typescript-mode       . lsp)
+         (typescript-ts-mode    . lsp)
+         (haskell-mode          . lsp)
+         (haskell-literate-mode . lsp))
   :bind (:map lsp-mode-map
               ("M-<return>" . lsp-execute-code-action)
               ("C-M-."      . lsp-find-references)
@@ -3557,7 +3559,8 @@ I disable a few of the default features. If you want to know more about these an
 
 (use-package lsp-haskell
   :after lsp-mode
-  :hook (haskell-mode  . lsp))
+  :config
+  (setq lsp-haskell-language-server-path "~/.ghcup/bin/"))
 #+end_src
 
 * Activating Custom Keybindings
