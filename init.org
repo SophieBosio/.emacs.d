@@ -2707,7 +2707,6 @@ up registers for my GTD files.
 
 #+begin_src emacs-lisp
 (set-register ?i (cons 'file (concat org-directory "inbox.org")))
-(set-register ?t (cons 'file (concat org-directory "thesis.org")))
 (set-register ?r (cons 'file (concat org-directory "roam/20240128135100-roam.org")))
 (set-register ?p (cons 'file (concat org-directory "projects.org")))
 (set-register ?c (cons 'file "~/Documents/playground/clj-playground/src/clj_playground/playground.clj"))
