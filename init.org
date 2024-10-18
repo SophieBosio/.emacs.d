@@ -1869,14 +1869,15 @@ And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git 
          ("C-c g b" . blamer-show-posframe-commit-info))
   :defer 20
   :custom
-  (blamer-idle-time 0.3)
-  (blamer-min-offset 20)
-  (blamer-datetime-formatter "[%s]")
-  (blamer-commit-formatter " ● %s")
+  (blamer-idle-time                 0.3)
+  (blamer-min-offset                4)
+  (blamer-max-commit-message-length 100)
+  (blamer-datetime-formatter        "[%s]")
+  (blamer-commit-formatter          " ● %s")
   :custom-face
   (blamer-face ((t :foreground "#7aa2cf"
                     :background nil
-                    :height 0.9
+                    :height 1
                     :italic nil))))
 #+end_src
 
