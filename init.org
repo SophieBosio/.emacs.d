@@ -2032,6 +2032,15 @@ Warn me when a PDF has been opened with the default DocView mode instead of PDF 
                             :warning))))
 #+end_src
 
+[[https://github.com/nicolaisingh/saveplace-pdf-view][saveplace-pdf-view]] is a great package that remembers where in your PDFs you last left off, down to the scroll position and zoom amount.
+
+#+begin_src emacs-lisp
+(use-package pdf-view-restore
+  :after pdf-tools
+  :config
+  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+#+end_src
+
 ** EPUBs
 
 [[https://depp.brause.cc/nov.el/][nov.el]] is a package for reading EPUBs (an e-book format) directly in Emacs.
