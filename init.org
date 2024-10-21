@@ -121,6 +121,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#lispy--paredit][LISPY + Paredit]]
   - [[#programming-languages][Programming Languages]]
   - [[#lsp-mode][LSP Mode]]
+- [[#dashboard][Dashboard]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 - [[#todos][TODOs]]
 
@@ -3550,6 +3551,22 @@ I disable a few of the default features. If you want to know more about these an
   :after lsp-mode
   :config
   (setq lsp-haskell-language-server-path "~/.ghcup/bin/"))
+#+end_src
+
+* Dashboard
+
+[[https://github.com/emacs-dashboard/emacs-dashboard][emacs-dashboard]] is a configurable greeting screen.
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :config
+  (setq dashboard-vertically-center-content t
+        dashboard-center-content            t
+        dashboard-page-separator            "\n\n\n")
+  (setq dashboard-items '((registers . 10)
+                          (projects  . 5)
+                          (recents   . 10)))
+  (dashboard-setup-startup-hook))
 #+end_src
 
 * Activating Custom Keybindings
