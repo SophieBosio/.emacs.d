@@ -863,6 +863,10 @@ I'll also define a default accent colour, which is used in packages like =eval-s
 
 [[https://github.com/LionyxML/auto-dark-emacs][auto-dark-emacs]] is a package for switching themes with the system theme. It works both on Linux and on MacOS.
 
+In the hook, I'll set the colour of the =eval-sexp-fu= flash to the =default-{dark/light}-accent-colour=.
+
+For some reason, my light themes leave some fragments that disappear when I load the theme twice, so I'll do that too.
+
 #+begin_src emacs-lisp
 (use-package autothemer
   :defer t)
@@ -872,6 +876,7 @@ I'll also define a default accent colour, which is used in packages like =eval-s
   :hook ((auto-dark-dark-mode
           .
           (lambda ()
+            (interactive)
             (custom-set-faces
              `(eval-sexp-fu-flash
                ((t (:background
@@ -879,15 +884,17 @@ I'll also define a default accent colour, which is used in packages like =eval-s
          (auto-dark-light-mode
           .
           (lambda ()
-            (custom-set-faces
-             `(eval-sexp-fu-flash
-               ((t (:background
-                    ,soph/default-light-accent-colour))))))))
+            (interactive)
+            (progn
+              (custom-set-faces
+               `(eval-sexp-fu-flash
+                 ((t (:background
+                      ,soph/default-light-accent-colour)))))
+              `(load-theme ,soph/default-light-theme t)))))
   :custom
   (auto-dark-themes                   `((,soph/default-dark-theme) (,soph/default-light-theme)))
   (auto-dark-polling-interval-seconds 5)
-  (auto-dark-allow-osascript          nil)
-  (auto-dark-allow-powershell         nil)
+  (auto-dark-allow-osascript          t)
   :init (auto-dark-mode t))
 #+end_src
 
