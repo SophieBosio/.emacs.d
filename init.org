@@ -1555,14 +1555,6 @@ The last line is a setting for MacOS telling it to use =gls= when using dired.
     (setq dired-use-ls-dired nil)))
 #+end_src
 
-Speaking of default keybindings, I always forget them. Casual Dired is fantastic for forgetful people like me. Seeing the different options also helps me learn new and useful keybindings.
-
-#+begin_src emacs-lisp
-(use-package casual-dired
-  :after dired
-  :bind (:map dired-mode-map ("C-o" . casual-dired-tmenu)))
-#+end_src
-
 From [[https://stackoverflow.com/a/55235833][this StackOverflow post]].
 
 #+begin_src emacs-lisp
