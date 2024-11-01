@@ -314,7 +314,7 @@ Disable warnings about obsolete functions when compiling.
 This is an optimisation borrowed from Doom Emacs' =core.el=.
 
 #+begin_src emacs-lisp
-(setq idle-update-delay 1.0)
+(setq which-func-update-delay 1.0)
 #+end_src
 
 Fix IO bugs.
@@ -911,9 +911,10 @@ We can even change the system theme from within Emacs using a [[https://github.c
 When changing themes interactively, as with =M-x load-theme=, the current custom theme is not disabled and this causes some weird issues. For example, the borders around posframes disappear. [[https://github.com/larstvei/dot-emacs?tab=readme-ov-file#advice][This snippet]] from Lars' config advises =load-theme= to always disable the currently enabled themes before switching.
 
 #+begin_src emacs-lisp
-(defadvice load-theme
-    (before disable-before-load (theme &optional no-confirm no-enable) activate)
+(defun disable-custom-themes (theme &optional no-confirm no-enable)
   (mapc 'disable-theme custom-enabled-themes))
+
+(advice-add 'load-theme :before #'disable-custom-themes)
 #+end_src
 
 ** Mode Line
@@ -1149,7 +1150,7 @@ The code is taken from [[https://emacs.stackexchange.com/a/30404][this]] and [[h
     (delete-horizontal-space t))
    ;; If you see a single non-word character, delete that
    (t
-    (backward-delete-char 1))))
+    (backward-delete-char-untabify 1))))
 #+END_SRC
 
 Let's bind this in my custom keybindings map.
@@ -1803,8 +1804,11 @@ in just vterm, please do let me know :~)
 
   :config
   ;; Don't query about killing vterm buffers, just kill it
-  (defadvice vterm (after kill-with-no-query nil activate)
-    (set-process-query-on-exit-flag (get-buffer-process ad-return-value) nil)))
+  (defun my-vterm-kill-with-no-query (&rest _)
+    "Set process query on exit flag to nil for vterm buffer."
+    (set-process-query-on-exit-flag (get-buffer-process (current-buffer)) nil))
+
+  (advice-add 'vterm :after #'my-vterm-kill-with-no-query))
 #+end_src
 
 ** Version Control (Magit & Friends)
