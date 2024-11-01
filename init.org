@@ -3517,9 +3517,8 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
 (use-package tide
   :after (typescript-mode flycheck)
   :hook ((typescript-mode    . tide-setup)
-         (typescript-mode    . tide-setup)
-         (typescript-ts-mode . tide-hl-identifier-mode)
-         (before-save        . tide-format-before-save)))
+         (tsx-ts-mode        . tide-setup)
+         (typescript-ts-mode . tide-hl-identifier-mode)))
 
 (defun setup-tide-mode ()
   (interactive)
@@ -3545,28 +3544,20 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
 
 (use-package web-mode
   :defer t
-  :mode "\\.tsx\\'"
-  :hook (web-mode . (lambda ()
-                      (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                        (setup-tide-mode))))
+  :mode (("\\.js\\'" . web-mode)
+         ("\\.jsx\\'" .  web-mode)
+         ("\\.ts\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode)
+         ("\\.html\\'" . web-mode))
   :config
-  (flycheck-add-mode 'typescript-tslint 'web-mode))
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (setq web-mode-markup-indent-offset 2
+        web-mode-code-indent-offset   2
+        web-mode-css-indent-offset    2))
 
 (use-package rjsx-mode
   :defer t
   :mode "components\\/.*\\.js\\'")
-
-(use-package prettier
-  :after tide-mode
-  :hook ((tide-mode . prettier-mode))
-  :init
-  (setenv "NODE_PATH" "/usr/lib/node_modules"))
-
-;; Requires js-beautify
-(use-package web-beautify
-  :defer t)
-#+end_src
-
 #+end_src
 
 * Dashboard
