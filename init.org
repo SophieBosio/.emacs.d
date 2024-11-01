@@ -1340,12 +1340,13 @@ From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], 
 
 [[https://github.com/bbatsov/crux][CRUX]] is a Collection of Ridiculously Useful eXtensions for Emacs. It has a whole bunch of commands and I'd recommend looking into all the things it supports.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (use-package crux
   :defer t
-  :bind (:custom-bindings-map
-         (("C-S-<return>" . crux-smart-open-line-above)
-          ("S-<return>"   . crux-smart-open-line))))
+  :bind (:map custom-bindings-map
+         ("C-S-<return>" . crux-smart-open-line-above)
+         ("C-<return>"   . crux-smart-open-line)
+         ("M-S-<down>"   . crux-duplicate-current-line-or-region)))
 #+end_src
 
 * Buffers & Navigation
