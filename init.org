@@ -68,6 +68,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#deleting-instead-of-killing][Deleting Instead of Killing]]
   - [[#browse-kill-ring][Browse Kill Ring]]
   - [[#auto-saving][Auto-Saving]]
+  - [[#move-where-i-mean][Move Where I Mean]]
   - [[#text-editing-functions][Text Editing Functions]]
   - [[#crux][CRUX]]
 - [[#buffers--navigation][Buffers & Navigation]]
@@ -1201,6 +1202,17 @@ Therefore, I'll disable automatic saving for this file in particular.
   (auto-save-buffers-enhanced t)
   (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
 #+END_SRC
+
+** Move Where I Mean
+
+[[https://github.com/alezost/mwim.el][mwim]] (Move Where I Mean) takes semantics and indentation into account. This lets us rebind =C-a= and =C-e= to move to the beginning and end of a line while respecting indentation. I.e., don't move to the actual beginning of the line, but to indentation.
+
+#+begin_src emacs-lisp
+(use-package mwim
+  :ensure t
+  :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
+         ([remap move-end-of-line]       . mwim-end-of-code-or-line)))
+#+end_src
 
 ** Text Editing Functions
 *** Expand Region
