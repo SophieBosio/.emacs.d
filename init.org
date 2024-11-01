@@ -1692,9 +1692,7 @@ I often press =C-x C-b= when I only mean to press =C-x b=. If I want to open the
 
 ** Corfu & Cape
 
-[[https://github.com/minad/corfu][corfu]] gives me text completion at point.
-
-By default, the completion's command for inserting a candidate is bound to =RET= and typically, when I press =RET=, I want to create a new line, so I'll unbind =RET= in the corfu map.
+[[https://github.com/minad/corfu][corfu]] gives me text completion at point. It builds on the built-in =completion-at-point= functions. This works very well generally and is really fast.
 
 #+begin_src emacs-lisp
 (use-package corfu
@@ -1708,7 +1706,6 @@ By default, the completion's command for inserting a candidate is bound to =RET=
   (corfu-preview-current t)       ;; Preview selected candidate
   (corfu-separator       "[ |]")  ;; Custom orderless separator
   :bind (:map corfu-map
-              ("RET"   . nil)
               ("C-S-SPC" . corfu-insert-separator))
   :hook (corfu-mode . corfu-popupinfo-mode)
   :init
