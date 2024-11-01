@@ -3006,10 +3006,15 @@ Need-to-have for programmers.
 
 [[https://github.com/flycheck/flycheck][Flycheck]] is an on-the-fly syntax checker.
 
+I'll turn off the error messages in the echo area, because they overlap with useful info from LSP mode. I can still see the error, either by hovering over it with the mouse or by pressing =C-c ! e= to explain the error at point. I'll bind it to =C-c ! != as well.
+
 #+begin_src emacs-lisp
 (use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+  :defer t
+  :init (global-flycheck-mode)
+  :bind (:map flycheck-mode-map
+              ("C-c ! !" . flycheck-explain-error-at-point))
+  :config (setq flycheck-display-errors-function #'ignore))
 #+end_src
 
 ** Code Formatting
