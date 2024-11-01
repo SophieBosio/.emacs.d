@@ -3184,8 +3184,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("C-e"        . lispy-move-end-of-line)
          ("C-k"        . lispy-kill)
          ("M-d"        . lispy-kill-word)
-         ("C-j"        . lispy-newline-and-indent)
-         ("C-<return>" . lispy-alt-line)
+         ("C-<return>" . lispy-newline-and-indent)
          ("DEL"        . paredit-backward-delete)
 
          ;; Navigating sexpressions
@@ -3200,6 +3199,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("C-M-d" . paredit-forward-down)
          ("C-M-u" . paredit-backward-up)
          ("C-M-a" . lispy-beginning-of-defun)
+         ("M-d"   . lispy-different) ; Toggle between beginning and start of sexp
 
          ;; Moving sexpressions
          ("C-M-<up>"   . lispy-move-up)
