@@ -119,8 +119,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
   - [[#lispy--paredit][LISPY + Paredit]]
+  - [[#lsp][LSP]]
   - [[#programming-languages][Programming Languages]]
-  - [[#lsp-mode][LSP Mode]]
 - [[#dashboard][Dashboard]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 - [[#todos][TODOs]]
@@ -3221,6 +3221,42 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("M-("  . lispy-wrap-round)))
 #+end_src
 
+** LSP
+
+[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure and TypeScript.
+
+I disable a few of the default features. If you want to know more about these and how to enable/disable other =lsp-mode= features, there's a handy guide on [[https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/][lsp-mode's website]].
+
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :defer t
+  :init (setq lsp-use-plists t)
+  :hook ((clojure-mode          . lsp)
+         (clojurec-mode         . lsp)
+         (lsp-mode              . lsp-enable-which-key-integration)
+         (typescript-mode       . lsp)
+         (typescript-ts-mode    . lsp))
+  :bind (:map lsp-mode-map
+              ("M-<return>" . lsp-execute-code-action)
+              ("C-M-."      . lsp-find-references)
+              ("M-?"        . lsp-find-references)
+              ("C-c r"      . lsp-rename))
+  :config
+  (setq lsp-diagnostics-provider :flycheck)
+  (setq lsp-completion-provider  :none)       ;; I use corfu
+        ;; Disable visual features
+  (setq lsp-headerline-breadcrumb-enable nil  ;; No breadcrumbs
+        lsp-ui-sideline-enable           nil  ;; No sideline
+        lsp-lens-enable                  nil  ;; No lenses
+
+        ;; Disable all mode line features, since I use a custom mode line
+        lsp-modeline-code-actions-enable nil
+        lsp-modeline-diagnostics-enable  nil
+
+        ;; Limit raising of the echo area to show docs
+        lsp-signature-doc-lines 3))
+#+end_src
+
 ** Programming Languages
 *** Emacs Lisp
 
@@ -3516,45 +3552,6 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
   :defer t)
 #+end_src
 
-** LSP Mode
-
-[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure, TypeScript, and Haskell.
-
-I disable a few of the default features. If you want to know more about these and how to enable/disable other =lsp-mode= features, there's a handy guide on [[https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/][lsp-mode's website]].
-
-#+begin_src emacs-lisp
-(use-package lsp-mode
-  :defer t
-  :init (setq lsp-use-plists t)
-  :hook ((clojure-mode          . lsp)
-         (clojurec-mode         . lsp)
-         (lsp-mode              . lsp-enable-which-key-integration)
-         (typescript-mode       . lsp)
-         (typescript-ts-mode    . lsp)
-         (haskell-mode          . lsp)
-         (haskell-literate-mode . lsp))
-  :bind (:map lsp-mode-map
-              ("M-<return>" . lsp-execute-code-action)
-              ("C-M-."      . lsp-find-references)
-              ("C-c r"      . lsp-rename))
-  :config
-  (setq lsp-diagnostics-provider :flycheck)
-        ;; Disable visual features
-  (setq lsp-headerline-breadcrumb-enable nil   ;; No breadcrumbs
-        lsp-ui-sideline-enable           nil   ;; No sideline
-        lsp-lens-enable                  nil   ;; No lenses
-
-        ;; Disable all mode line features, since I use a custom mode line
-        lsp-modeline-code-actions-enable nil
-        lsp-modeline-diagnostics-enable  nil
-
-        ;; Limit raising of the echo area to show docs
-        lsp-signature-doc-lines 3))
-
-(use-package lsp-haskell
-  :after lsp-mode
-  :config
-  (setq lsp-haskell-language-server-path "~/.ghcup/bin/"))
 #+end_src
 
 * Dashboard
