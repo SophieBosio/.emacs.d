@@ -926,7 +926,7 @@ When changing themes interactively, as with =M-x load-theme=, the current custom
 Show current column number in mode line.
 
 #+begin_src emacs-lisp
-(column-number-mode      t) ;; Show current column number in mode line
+(column-number-mode t) ;; Show current column number in mode line
 #+end_src
 
 *** Custom Mode Line
@@ -941,6 +941,10 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 
 It has this shape:
 =[ lambda <filename> <git branch name>                <LSP code actions> LLLL:CCCC ]=
+
+Here's a screenshot of a small window where the mode line shows well. The number and a little star icon in the bottom right to tell me how many LSP code actions are available at point.
+
+[[./images/mode-line-screenshot.png]]
 
 #+begin_src emacs-lisp
 (defvar lsp-modeline--code-actions-string nil)
