@@ -879,10 +879,12 @@ For some reason, my light themes leave some fragments that disappear when I load
           .
           (lambda ()
             (interactive)
-            (custom-set-faces
-             `(eval-sexp-fu-flash
-               ((t (:background
-                    ,soph/default-dark-accent-colour)))))))
+            (progn
+              (custom-set-faces
+               `(eval-sexp-fu-flash
+                 ((t (:background
+                      ,soph/default-dark-accent-colour)))))
+              `(load-theme ,soph/default-dark-theme t))))
          (auto-dark-light-mode
           .
           (lambda ()
