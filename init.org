@@ -3260,17 +3260,22 @@ I disable a few of the default features. If you want to know more about these an
   :config
   (setq lsp-diagnostics-provider :flycheck)
   (setq lsp-completion-provider  :none)       ;; I use corfu
-        ;; Disable visual features
+  ;; Disable visual features
   (setq lsp-headerline-breadcrumb-enable nil  ;; No breadcrumbs
-        lsp-ui-sideline-enable           nil  ;; No sideline
         lsp-lens-enable                  nil  ;; No lenses
 
-        ;; Disable all mode line features, since I use a custom mode line
-        lsp-modeline-code-actions-enable nil
-        lsp-modeline-diagnostics-enable  nil
+        ;; Enable code actions in the mode line
+        lsp-modeline-code-actions-enable t
+        lsp-modeline-code-action-fallback-icon "✦"
 
         ;; Limit raising of the echo area to show docs
-        lsp-signature-doc-lines 3))
+        lsp-signature-doc-lines 3)
+
+  (with-eval-after-load 'lsp-modeline
+    (set-face-attribute 'lsp-modeline-code-actions-preferred-face nil
+                        :inherit font-lock-comment-face)
+    (set-face-attribute 'lsp-modeline-code-actions-face nil
+                        :inherit font-lock-comment-face)))
 #+end_src
 
 ** Programming Languages
