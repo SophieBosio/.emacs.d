@@ -1220,8 +1220,9 @@ Therefore, I'll disable automatic saving for this file in particular.
 #+begin_src emacs-lisp
 (use-package mwim
   :ensure t
-  :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
-         ([remap move-end-of-line]       . mwim-end-of-code-or-line)))
+  :bind (:map custom-bindings-map
+              ("C-a" . mwim-beginning-of-code-or-line)
+              ("C-e" . mwim-end-of-code-or-line)))
 #+end_src
 
 ** Text Editing Functions
