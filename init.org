@@ -3207,10 +3207,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
          ("C-{"         . lispy-backward-barf-sexp)
 
          ;; LISP-friendly Emacs commands
-         ("C-a"        . lispy-move-beginning-of-line)
-         ("C-e"        . lispy-move-end-of-line)
          ("C-k"        . lispy-kill)
-         ("M-d"        . lispy-kill-word)
          ("C-<return>" . lispy-newline-and-indent)
          ("DEL"        . paredit-backward-delete)
 
