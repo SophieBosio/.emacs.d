@@ -929,7 +929,7 @@ Show current column number in mode line.
 
 *** Custom Mode Line
 
-Customising the default modeline is thankfully pretty easy. Note that I use the
+Customising the default mode line is thankfully pretty easy. Note that I use the
 [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] package for the VC branch symbol in the code below. I've also
 borrowed some code from [[https://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html][this blog post]] by Amit Patel on writing a custom mode
 line.
@@ -937,7 +937,12 @@ line.
 This mode line is heavily inspired by Nicolas Rougier's [[https://github.com/rougier/nano-modeline][Nano Modeline]] and he
 even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comment/kdx3aam/?context=3][how to add vertical padding]] to it.
 
+It has this shape:
+=[ lambda <filename> <git branch name>                <LSP code actions> LLLL:CCCC ]=
+
 #+begin_src emacs-lisp
+(defvar lsp-modeline--code-actions-string nil)
+
 (setq-default mode-line-format
   '("%e"
 	(:propertize " " display (raise +0.4)) ;; Top padding
@@ -959,7 +964,12 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 			 " " 'display
 			 `((space :align-to
 					  (-  (+ right right-fringe right-margin)
-						 ,(+ 2 (string-width "%4l:3%c")))))))
+						 ,(+ 3
+                             (string-width (or lsp-modeline--code-actions-string ""))
+                             (string-width "%4l:3%c")))))))
+
+    ;; LSP code actions
+    (:eval (or lsp-modeline--code-actions-string ""))
 	
 	;; Line and column numbers
 	(:propertize "%4l:%c" face mode-line-buffer-id)))
