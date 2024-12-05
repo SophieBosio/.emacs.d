@@ -79,15 +79,16 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#opening-closing--switching-windows][Opening, Closing, & Switching Windows]]
   - [[#project-management][Project Management]]
   - [[#dired][Dired]]
-- [[#search--completion][Search & Completion]]
-  - [[#search-utilities][Search Utilities]]
+- [[#completion][Completion]]
   - [[#vertico][Vertico]]
   - [[#vertico-posframe][Vertico Posframe]]
+  - [[#orderless][Orderless]]
+  - [[#company][Company]]
+- [[#search][Search]]
+  - [[#search-utilities][Search Utilities]]
   - [[#consult][Consult]]
   - [[#imenu-list][Imenu List]]
   - [[#marginalia][Marginalia]]
-  - [[#corfu--cape][Corfu & Cape]]
-  - [[#orderless][Orderless]]
 - [[#misc-packages][Misc. Packages]]
   - [[#terminal-emulator][Terminal Emulator]]
   - [[#version-control-magit--friends][Version Control (Magit & Friends)]]
@@ -1593,47 +1594,17 @@ From [[https://stackoverflow.com/a/55235833][this StackOverflow post]].
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 #+end_src
 
-* Search & Completion
+* Completion
 
-For completions and search, I use [[https://github.com/minad/vertico][Vertico]] and a suite of other packages that play well together:
+Emacs distinguishes between two different kinds of completion: complete-at-point  (text/code autocomlete) and completing-read (completion of Emacs commands, file names, etc.).
 
-- [[https://github.com/tumashu/vertico-posframe][vertico-posframe]]
-- [[https://github.com/minad/consult][consult]]
-- [[https://github.com/minad/marginalia][marginalia]]
-- [[https://github.com/minad/corfu][corfu]]
-- [[https://github.com/minad/cape][cape]]
-- [[https://github.com/oantolin/orderless][orderless]]
-
-** Search Utilities
-
-Projectile also comes with a ton of built-in functionality to search in your projects. Other packages I use also depend on search utilities.
-
-I use both [[https://github.com/BurntSushi/ripgrep][ripgrep]] and [[https://github.com/ggreer/the_silver_searcher][ag]] (The Silver Searcher). [[https://github.com/mhayashi1120/Emacs-wgrep][wgrep]] also comes in handy sometimes. I'll install all the corresponding Emacs packages.
-
-#+begin_src emacs-lisp
-(use-package ripgrep
-  :defer t)
-
-(use-package rg
-  :defer t)
-
-(use-package ag
-  :defer t)
-
-(use-package wgrep
-  :defer t)
-#+end_src
-
-I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
-
-#+BEGIN_SRC emacs-lisp
-(setq grep-command "rg -nS --no-heading "
-      grep-use-null-device nil)
-#+END_SRC
+For completing-read, I use [[https://github.com/minad/vertico][Vertico]] and for completion-at-point at use [[https://company-mode.github.io/][Company]]. I also use a few complimentary packages that enhance the experience.
 
 ** Vertico
 
-[[https://github.com/minad/vertico][Vertico]] is heart of this completion UI! I'll use the function from [[http://whattheemacsd.com/setup-ido.el-02.html][this What the .emacs.d!? post]] which lets me type =~= at the Vertico prompt to go directly to the home directory. For use with Vertico, I add a call to =delete-minibuffer-contents= so that old path is cleared before starting the new file path (starting at =~/=).
+[[https://github.com/minad/vertico][Vertico]] is heart of this completion UI!
+
+I'll use the function from [[http://whattheemacsd.com/setup-ido.el-02.html][this What the .emacs.d!? post]] which lets me type =~= at the Vertico prompt to go directly to the home directory. For use with Vertico, I add a call to =delete-minibuffer-contents= so that old path is cleared before starting the new file path (starting at =~/=).
 
 #+begin_src emacs-lisp
 (defun soph/take-me-home ()
@@ -1684,6 +1655,64 @@ The rounded frame corners (putting =(undecorated . nil)= in the =vertico-posfram
 
 [[./images/vertico-posframe-screenshot.png]]
 
+** Orderless
+
+And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
+regexes, in any order.
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic partial-completion)
+        completion-category-overrides '((file (styles basic partial-completion)))
+        orderless-component-separator "[ |]"))
+#+end_src
+
+** Company
+
+[[https://company-mode.github.io/][Company]] (COMPlete ANYthing) is a battle-tested completion package that works really well with LSP-mode.
+
+#+begin_src emacs-lisp
+(use-package company
+  :config
+  (setq company-idle-delay                 0.0
+        company-minimum-prefix-length      2
+        company-tooltip-align-annotations  t
+        company-tooltip-annotation-padding 1
+        company-tooltip-margin             1
+        company-detect-icons-margin        'company-dot-icons-margin)
+  (global-company-mode t))
+#+end_src
+
+* Search
+** Search Utilities
+
+Projectile also comes with a ton of built-in functionality to search in your projects. Other packages I use also depend on search utilities.
+
+I use both [[https://github.com/BurntSushi/ripgrep][ripgrep]] and [[https://github.com/ggreer/the_silver_searcher][ag]] (The Silver Searcher). [[https://github.com/mhayashi1120/Emacs-wgrep][wgrep]] also comes in handy sometimes. I'll install all the corresponding Emacs packages.
+
+#+begin_src emacs-lisp
+(use-package ripgrep
+  :defer t)
+
+(use-package rg
+  :defer t)
+
+(use-package ag
+  :defer t)
+
+(use-package wgrep
+  :defer t)
+#+end_src
+
+I want to use [[https://github.com/BurntSushi/ripgrep][ripgrep]] as =grep=.
+
+#+BEGIN_SRC emacs-lisp
+(setq grep-command "rg -nS --no-heading "
+      grep-use-null-device nil)
+#+END_SRC
+
 ** Consult
 
 [[https://github.com/minad/consult][Consult]] provides a /ton/ of search, navigation, and completion functionality. I
@@ -1722,61 +1751,6 @@ I often press =C-x C-b= when I only mean to press =C-x b=. If I want to open the
 (use-package marginalia
   :init 
   (marginalia-mode 1))
-#+end_src
-
-** Corfu & Cape
-
-[[https://github.com/minad/corfu][corfu]] gives me text completion at point. It builds on the built-in =completion-at-point= functions. This works very well generally and is really fast.
-
-#+begin_src emacs-lisp
-(use-package corfu
-  :custom
-  (corfu-auto            t)       ;; Enable auto completion
-  (corfu-cycle           t)       ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto-delay      0)       ;; No delay
-  (corfu-auto-prefix     2)       ;; Start with this many characters typed
-  (corfu-popupinfo-delay 0.5)     ;; Short delay
-  (corfu-preselect       'valid)  ;; Select first candidate if valid
-  (corfu-preview-current t)       ;; Preview selected candidate
-  (corfu-separator       "[ |]")  ;; Custom orderless separator
-  :bind (:map corfu-map
-              ("C-S-SPC" . corfu-insert-separator))
-  :hook (corfu-mode . corfu-popupinfo-mode)
-  :init
-  (global-corfu-mode)
-  (corfu-history-mode)
-  (corfu-popupinfo-mode)) ;; Popup completion info
-#+end_src
-
-=corfu= also uses some of [[https://github.com/minad/cape][cape]]'s functionalities, so let's add that, too.
-
-#+begin_src emacs-lisp
-(use-package cape
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  ;; NOTE: The order matters!
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-dict)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-history)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-tex)
-)
-#+end_src
-
-** Orderless
-
-And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
-regexes, in any order. Let's use it together with Corfu.
-
-#+begin_src emacs-lisp
-(use-package orderless
-  :ensure t
-  :config
-  (setq completion-styles '(orderless basic partial-completion)
-        completion-category-overrides '((file (styles basic partial-completion)))
-        orderless-component-separator "[ |]"))
 #+end_src
 
 * Misc. Packages
