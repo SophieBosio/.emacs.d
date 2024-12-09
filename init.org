@@ -3116,7 +3116,8 @@ I'll turn off the error messages in the echo area, because they overlap with use
 #+begin_src emacs-lisp
 (use-package verb
   :after org
-  :bind (:map org-mode-map ("C-c C-r" . verb-command-map)))
+  :config
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 #+end_src
 
 ** Tree-Sitter
