@@ -1757,7 +1757,8 @@ I often press =C-x C-b= when I only mean to press =C-x b=. If I want to open the
               ("C-x b"   . consult-buffer)
               ("C-x C-b" . consult-buffer)
               ("M-g g"   . consult-goto-line)
-              ("M-g t"   . consult-imenu)))
+              ("M-g t"   . consult-imenu)
+              ("M-g a"   . consult-imenu-multi)))
 #+end_src
 
 ** Imenu List
