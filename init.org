@@ -231,7 +231,12 @@ To avoid doing this each time a change is made we can add a function to the =aft
 * Start-Up
 ** Early Init
 
-Emacs 27 introduced =early-init.el=, which is like =init.el= but ran before that, and before the UI and packages are initialised. I've taken code snippets from other configs ([[https://github.com/ogdenwebb/snug-emacs/blob/main/early-init.el][this]] and [[https://github.com/mnewt/dotemacs/blob/master/early-init.el][this]] one) to put in my =early-init.el= and the blocks in this section tangle to =early-init.el= instead of =init.el=.
+Emacs 27 introduced =early-init.el=, which is like =init.el= but ran before that, and before the UI and packages are initialised. I've taken code snippets from other configs to put in my =early-init.el= and the blocks in this section tangle to =early-init.el= instead of =init.el=.
+
+In particular, the code below is a combination of code from:
+- [[https://github.com/ogdenwebb/snug-emacs/blob/main/early-init.el][ogdenwebb's snug-emacs]]
+- [[https://github.com/mnewt/dotemacs/blob/master/early-init.el][mnewt's dotemacsl]]
+- [[https://github.com/jamescherti/minimal-emacs.d/blob/main/early-init.el][jamescherti's minimal emacs]]
 
 #+begin_src emacs-lisp :tangle early-init.el
 ;; Defer garbage collection
@@ -240,16 +245,19 @@ Emacs 27 introduced =early-init.el=, which is like =init.el= but ran before that
 ;; Change default max size for reading processes
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
-;; In noninteractive sessions, prioritize non-byte-compiled source files to
-;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
-;; to skip the mtime checks on every *.elc file.
-(setq load-prefer-newer 'noninteractive)
+(set-language-environment "UTF-8")
+
+;; Set-language-environment sets default-input-method, which is unwanted.
+(setq default-input-method nil)
+
+;; Prefer loading newer compiled files
+(setq load-prefer-newer t)
 
 ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
 (setq default-frame-alist
       '((vertical-scroll-bars . nil)
-        (menu-bar-lines . 0)
-        (tool-bar-lines . 0)))
+        (menu-bar-lines       . 0)
+        (tool-bar-lines       . 0)))
 
 ;; Resizing the Emacs frame can be a terribly expensive part of changing the
 ;; font. By inhibiting this, we easily halve startup times with fonts that are
@@ -257,10 +265,22 @@ Emacs 27 introduced =early-init.el=, which is like =init.el= but ran before that
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise       t)
 
+;; Font compacting can be very resource-intensive, especially when rendering
+;; icon fonts on Windows. This will increase memory usage.
+(setq inhibit-compacting-font-caches t)
+
 ;; Ignore X resources; its settings would be redundant with the other settings
 ;; in this file and can conflict with later config (particularly where the
 ;; cursor color is concerned).
 (advice-add #'x-apply-session-resources :override #'ignore)
+
+;; A second, case-insensitive pass over `auto-mode-alist' is time wasted.
+;; No second pass of case-insensitive search over auto-mode-alist.
+(setq auto-mode-case-fold nil)
+
+;; Disable bidirectional text scanning for a modest performance boost.
+(setq-default bidi-display-reordering  'left-to-right
+              bidi-paragraph-direction 'left-to-right)
 
 ;; Unset `file-name-handler-alist' too (temporarily). Every file opened and
 ;; loaded by Emacs will run through this list to check for a proper handler for
@@ -274,6 +294,21 @@ Emacs 27 introduced =early-init.el=, which is like =init.el= but ran before that
 ;; For LSP mode, use plists for deserialization
 ;; For more info, see https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
 (setenv "LSP_USE_PLISTS" "true")
+
+;; Remove "For information about GNU Emacs..." message at startup
+(advice-add #'display-startup-echo-area-message :override #'ignore)
+
+;; Suppress the vanilla startup screen completely. Even if disabled with
+;; `inhibit-startup-screen', it would still initialize anyway.
+(advice-add #'display-startup-screen :override #'ignore)
+
+;; Shave seconds off startup time by starting the scratch buffer in
+;; `fundamental-mode'
+(setq initial-major-mode 'fundamental-mode
+      initial-scratch-message nil)
+
+;; Disable startup screens and messages
+(setq inhibit-splash-screen t)
 #+end_src
 
 ** Garbage Collection
