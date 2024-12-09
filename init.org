@@ -120,10 +120,9 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#eldoc][Eldoc]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#lispy--paredit][LISPY + Paredit]]
+  - [[#matching-delimiters][Matching Delimiters]]
   - [[#lsp][LSP]]
   - [[#programming-languages][Programming Languages]]
-- [[#dashboard][Dashboard]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 - [[#todos][TODOs]]
 
@@ -2367,8 +2366,7 @@ SVG graphics. I use it for dates, progress bars, and citations.
 				  (svg-lib-tag value nil
 					:stroke 0 :margin 0)) :ascent 'center)))
   (setq svg-tag-tags
-      `(
-        ;; Org tags
+      `(;; Org tags
         ;; (":\\([A-Za-z0-9]+\\)" . ((lambda (tag) (svg-tag-make tag))))
         ;; (":\\([A-Za-z0-9]+[ \-]\\)" . ((lambda (tag) tag)))
         
@@ -2418,12 +2416,10 @@ SVG graphics. I use it for dates, progress bars, and citations.
              (svg-tag-make tag :beg 1 :end -1 :margin 0 :face 'org-date))))
          (,(format "\\(\\[%s \\)%s\\]" date-re day-time-re) .
           ((lambda (tag)
-             (svg-tag-make tag :beg 1 :inverse nil
-						       :crop-right t :margin 0 :face 'org-date))))
+             (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0 :face 'org-date))))
          (,(format "\\[%s \\(%s\\]\\)" date-re day-time-re) .
           ((lambda (tag)
-             (svg-tag-make tag :end -1 :inverse t
-						       :crop-left t :margin 0 :face 'org-date)))))))
+             (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0 :face 'org-date)))))))
 
 (add-hook 'org-mode-hook 'svg-tag-mode)
 #+end_src
@@ -2447,6 +2443,7 @@ B's Emacs setup]].
 				  ; Org headers
 				  ("#+title:"  . "")
 				  ("#+author:" . "")
+                  ("#+date:"   . "")
 				  ; Checkboxes
 				  ("[ ]" . "")
 				  ("[X]" . "")
@@ -2481,6 +2478,8 @@ B's Emacs setup]].
 				  ("#+filetags:"  . "📎")
 				  (":wip:"        . "🏗️")
 				  (":ct:"         . "➡️") ; Category Theory
+                  ; ETC
+                  (":verb:"       . "🌐") ; HTTP Requests in Org mode
 				  )))
   (prettify-symbols-mode))
 
