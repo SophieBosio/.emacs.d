@@ -703,7 +703,7 @@ Having a thin cursor can make it hard to see where you are after switching buffe
   (setq beacon-blink-when-window-scrolls nil))
 #+end_src
 
-*** Delimiters (Parentheses etc.)
+*** Styling Delimiters
 
 When coding, I want my delimiters (parentheses, brackets, etc.) to be colourised
 in pairs. [[https://github.com/Fanael/rainbow-delimiters/tree/7919681b0d883502155d5b26e791fec15da6aeca][rainbow-delimiters]] does exactly that.
@@ -1151,12 +1151,6 @@ use tabs, I don't want to mess with other people's code, so I've used this
 
 (setq-default indent-tabs-mode nil)
 (infer-indentation-style)
-#+end_src
-
-I want to disable electric indent mode.
-
-#+begin_src emacs-lisp
-(electric-indent-mode -1)
 #+end_src
 
 Set backtab to =indent-rigidly-left=. Then I can easily unindent regions that use
@@ -2509,6 +2503,15 @@ font-lock and the display property.
 #+end_src
 
 ** General Interaction
+
+*** Disable Electric Indent Mode
+
+The built-in electric indent mode is great - just not for Org mode.
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'(lambda () (electric-indent-local-mode -1)))
+#+end_src
+
 *** Opening Links
 
 By default, when opening an Org-link, the current window is split into two. I'd like for the new window to replace the current one. To do this, we need to edit =org-link-frame-setup= and change the default cons =(file . find-file-other-window)= to =(file . find-file)=.
