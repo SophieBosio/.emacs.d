@@ -3249,8 +3249,8 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ;; Navigating sexpressions
          ("C-f"   . paredit-forward)
          ("C-b"   . paredit-backward)
-         ("C-M-f" . paredit-forward)
-         ("C-M-b" . paredit-backward)
+         ("C-M-f" . paredit-forward-up)
+         ("C-M-b" . paredit-backward-up)
          ("C-n"   . lispy-right)
          ("C-p"   . lispy-left)
          ("C-M-n" . paredit-forward-up)
