@@ -3651,6 +3651,20 @@ Switch to the other window  =C-x o= \to  =M-o=.
 (define-key custom-bindings-map (kbd "M-o") 'other-window)
 #+end_src
 
+I also have both =C-x b= and =C-x C-b= bound to =consult-buffer=.
+Sometimes, though, it's nice to have a dedicated =*Ibuffer*= window. Let's bind it to =C-c b=.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-c b") 'ibuffer)
+#+end_src
+
+In my lispy+paredit keybindings, I have =C-f= and =C-b= bound to =forward-= and =backward-sexp=, respectively. That's because I use the arrow keys when I want to move one char at a time, and the bindings =C-f/-b= are so much more ergonomic to use than =C-M-f/-b=. So let's do that everywhere!
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-f") 'forward-sexp)
+(define-key custom-bindings-map (kbd "C-b") 'backward-sexp)
+#+end_src
+
 *** Activating the Keymap
 
 Throughout the configuration, I've added bindings to my custom-bindings-map.
