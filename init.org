@@ -3591,6 +3591,24 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1))
 
+(use-package web-mode
+  :defer t
+  :mode (("\\.js\\'"   . web-mode)
+         ("\\.jsx\\'"  . web-mode)
+         ("\\.ts\\'"   . web-mode)
+         ("\\.tsx\\'"  . web-mode)
+         ("\\.html\\'" . web-mode))
+  :hook (web-mode . setup-tide-mode)
+  :config
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (setq web-mode-markup-indent-offset 2
+        web-mode-code-indent-offset   2
+        web-mode-css-indent-offset    2))
+
+(use-package rjsx-mode
+  :defer t
+  :mode "components\\/.*\\.js\\'")
+
 (use-package js2-mode
   :mode "\\.js\\'"
   :interpreter "node")
@@ -3604,39 +3622,6 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
   (setq xref-js2-search-program 'rg)
   (define-key js2-mode-map (kbd "M-.") 'xref-find-definitions)
   (define-key js2-mode-map (kbd "M-,") 'xref-pop-marker-stack))
-
-(use-package web-mode
-  :defer t
-  :mode (("\\.js\\'" . web-mode)
-         ("\\.jsx\\'" .  web-mode)
-         ("\\.ts\\'" . web-mode)
-         ("\\.tsx\\'" . web-mode)
-         ("\\.html\\'" . web-mode))
-  :config
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
-  (setq web-mode-markup-indent-offset 2
-        web-mode-code-indent-offset   2
-        web-mode-css-indent-offset    2))
-
-(use-package rjsx-mode
-  :defer t
-  :mode "components\\/.*\\.js\\'")
-#+end_src
-
-* Dashboard
-
-[[https://github.com/emacs-dashboard/emacs-dashboard][emacs-dashboard]] is a configurable greeting screen.
-
-#+begin_src emacs-lisp
-(use-package dashboard
-  :config
-  (setq dashboard-vertically-center-content t
-        dashboard-center-content            t
-        dashboard-page-separator            "\n\n\n")
-  (setq dashboard-items '((registers . 10)
-                          (projects  . 5)
-                          (recents   . 10)))
-  (dashboard-setup-startup-hook))
 #+end_src
 
 * Activating Custom Keybindings
