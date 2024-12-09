@@ -3455,11 +3455,14 @@ Note that I also use LSP mode for Clojure.
 #+end_src
 
  [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
+It can auto-insert the namespace of new files, but LSP mode already does that, so let's disable it.
 
 #+begin_src emacs-lisp
- (use-package clj-refactor
-   :after clojure-mode
-   :hook (clojure-mode . clj-refactor-mode))
+(use-package clj-refactor
+  :after clojure-mode
+  :hook (clojure-mode . clj-refactor-mode)
+  :config
+  (setq cljr-add-ns-to-blank-clj-files nil))
 #+end_src
 
 [[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
