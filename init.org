@@ -3243,15 +3243,14 @@ I disable a few of the default features. If you want to know more about these an
          (clojurec-mode         . lsp)
          (lsp-mode              . lsp-enable-which-key-integration)
          (typescript-mode       . lsp)
-         (typescript-ts-mode    . lsp))
+         (typescript-ts-mode    . lsp)
+         (web-mode              . lsp))
   :bind (:map lsp-mode-map
               ("M-<return>" . lsp-execute-code-action)
               ("C-M-."      . lsp-find-references)
-              ("M-?"        . lsp-find-references)
               ("C-c r"      . lsp-rename))
   :config
   (setq lsp-diagnostics-provider :flycheck)
-  (setq lsp-completion-provider  :none)       ;; I use corfu
   ;; Disable visual features
   (setq lsp-headerline-breadcrumb-enable nil  ;; No breadcrumbs
         lsp-lens-enable                  nil  ;; No lenses
