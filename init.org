@@ -2745,7 +2745,9 @@ single, lower-case letter.
 (define-key custom-bindings-map (kbd "C-c l") 'org-store-link)
 (define-key custom-bindings-map (kbd "C-c a") 'org-agenda)
 (define-key custom-bindings-map (kbd "C-c c") 'org-capture)
-(define-key custom-bindings-map (kbd "C-c t") 'org-todo)
+
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-c t") 'org-todo))
 #+END_SRC
 
 For whatever reason, I've had an issue with clocking in, where the default
@@ -3416,6 +3418,15 @@ Note that I also use LSP mode for Clojure.
   :config
   (require 'flycheck-clj-kondo))
 
+(defun soph/cider-eval-and-test-ns ()
+  "Evaluate the current namespace, then run all tests associated with it."
+  (interactive)
+  (cider-eval-buffer)
+  ;; Get the current namespace
+  (let ((ns (cider-current-ns)))
+    (when ns
+      (cider-test-run-ns-tests ns))))
+
 (use-package cider
   :defer t
   :hook ((cider-mode      . lispy-mode)
@@ -3425,7 +3436,8 @@ Note that I also use LSP mode for Clojure.
   :bind (:map cider-repl-mode-map
               ("C-l"   . cider-repl-clear-buffer))
   :bind (:map cider-mode-map
-              ("C-c s" . cider-selector))
+              ("C-c s" . cider-selector)
+              ("C-c t" . soph/cider-eval-and-test-ns))
   :config
   (setq cider-repl-display-help-banner       nil
         clojure-toplevel-inside-comment-form t)
