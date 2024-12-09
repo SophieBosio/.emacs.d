@@ -3185,9 +3185,21 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
-** LISPY + Paredit
+** Matching Delimiters
+*** Electric Pair Mode
 
-[[https://github.com/abo-abo/lispy][lispy]] is (almost) a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]]. Lispy is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mostly use those and invent my own bindings for the functions Paredit doesn't have. I also use a few of Paredit's functions that I prefer over their =lispy= equivalents.
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html][electric-pair-mode]] is a built-in Emacs mode that will try to insert matching delimiters automatically. It's pretty handy.
+
+#+begin_src emacs-lisp
+(electric-pair-mode 1)
+#+end_src
+
+*** lipsy/Paredit
+[[https://github.com/abo-abo/lispy][lispy]] is (almost) a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]].
+
+Both are a lot more powerful than =eletric-pair-mode=, because they allow you to manipulate, select, and navigate forms semantically (by symbols or delimiters). So I want to use this rather than =electric-pair-mode= when editing LISPs.
+
+=lispy= is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mostly use those and invent my own bindings for the functions Paredit doesn't have. I also use a few of Paredit's functions that I prefer over their =lispy= equivalents.
 
 #+begin_src emacs-lisp
 (use-package paredit
@@ -3202,6 +3214,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
 
 (use-package lispy
   :after paredit
+  :hook (lispy-mode . (lambda () (electric-pair-local-mode -1)))
   :config
   (setcdr lispy-mode-map nil)
   :bind (:map lispy-mode-map
