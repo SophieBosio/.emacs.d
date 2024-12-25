@@ -3461,6 +3461,23 @@ And finally, I need to edit parens safely. Let's hook in =lispy=!
 
 *** Clojure
 
+=clojure-mode= is where it all starts.
+
+It has some great refactoring features under a sparse mode map called =clojure-refactor-map=, but they're a little finicky to access with the prefix combination =C-c C-r= folowed by a final command on the form =C-...=. Because I don't use any of these =C-...= combinations for other things, I prefer to bind them on the top-level of the =clojure-mode-map= so I can skip the prefix combo.
+
+#+begin_src emacs-lisp
+(use-package clojure-mode
+  :defer t
+  :bind (:map clojure-mode-map
+              ("C-(" . clojure-convert-collection-to-list)
+              ("C-'" . clojure-convert-collection-to-quoted-list)
+              ;; ("C-[" . clojure-convert-collection-to-vector)
+              ("C-{" . clojure-convert-collection-to-map)
+              ("C-#" . clojure-convert-collection-to-set))
+  :config
+  (require 'flycheck-clj-kondo))
+#+end_src
+
  [[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
  built-in support for firing up a REPL and looking up documentation and source
  code, but it also has very Emacs-like shortcuts for expected actions, such as
@@ -3475,11 +3492,6 @@ The =e= selector is bound to the most recently used Emacs Lisp buffer, but I'd r
 Note that I also use LSP mode for Clojure.
 
 #+begin_src emacs-lisp
-(use-package clojure-mode
-  :defer t
-  :config
-  (require 'flycheck-clj-kondo))
-
 (defun soph/cider-eval-and-test-ns ()
   "Evaluate the current namespace, then run all tests associated with it."
   (interactive)
