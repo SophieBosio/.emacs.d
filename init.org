@@ -3529,6 +3529,14 @@ Note that I also use LSP mode for Clojure.
   :ensure t)
 #+end_src
 
+[[https://github.com/didibus/anakondo][anakondo]] uses clj-kondo to provide buffer- and project-local Clojure completions without first needing to jack in with CIDER.
+
+#+begin_src emacs-lisp
+(use-package anakondo
+  :ensure t
+  :commands anakondo-minor-mode)
+#+end_src
+
  [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
 It can auto-insert the namespace of new files, but LSP mode already does that, so let's disable it.
 
