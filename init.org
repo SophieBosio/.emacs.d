@@ -1872,6 +1872,9 @@ Then configure Magit. I'll add hooks to have =diff-hl= update the gutter wheneve
 #+begin_src emacs-lisp
 (use-package magit
   :defer t
+  :bind (:map magit-mode-map
+              ("C-M-f" . magit-section-forward)
+              ("C-M-b" . magit-section-backward))
   :hook
   ((magit-pre-refresh  . diff-hl-magit-pre-refresh)
    (magit-post-refresh . diff-hl-magit-post-refresh))
