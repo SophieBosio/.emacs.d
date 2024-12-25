@@ -3246,10 +3246,6 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ("C-M-<left>"  . paredit-forward-barf-sexp)
          ("C-<right>"   . paredit-forward-slurp-sexp)
          ("C-<left>"    . paredit-forward-barf-sexp)
-         ("C-)"         . lispy-forward-slurp-sexp)
-         ("C-("         . lispy-backward-slurp-sexp)
-         ("C-}"         . lispy-forward-barf-sexp)
-         ("C-{"         . lispy-backward-barf-sexp)
 
          ;; LISP-friendly Emacs commands
          ("C-k"        . lispy-kill)
@@ -3261,8 +3257,6 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ("C-b"   . paredit-backward)
          ("C-M-f" . paredit-forward-up)
          ("C-M-b" . paredit-backward-up)
-         ("C-n"   . lispy-right)
-         ("C-p"   . lispy-left)
          ("C-M-n" . paredit-forward-up)
          ("C-M-p" . paredit-backward-down)
          ("C-M-d" . paredit-forward-down)
