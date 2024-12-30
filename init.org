@@ -677,7 +677,11 @@ On GNOME, I can't get a transparent/native title bar. But I can remove the text 
 #+begin_src emacs-lisp
 (when (eq system-type 'gnu/linux)
   ; don't show buffer name in title bar
-  (setq frame-title-format nil))
+  (setq frame-title-format nil)
+  ; no title bar
+  (add-to-list 'default-frame-alist '(undecorated . t))
+  ; add small border to enable drag/resize
+  (add-to-list 'default-frame-alist '(drag-internal-border . 1)))
 #+end_src
 
 ** Programming-Specific Visuals
