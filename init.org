@@ -443,18 +443,23 @@ I'll initialise the list of Org agenda files to an empty list. There are used fo
 (setq org-agenda-files '())
 #+end_src
 
-And load custom settings from =custom.el= and private settings from =private.el= if they exist.
+And add custom settings from =custom.el= and private settings from =private.el= if they exist. Append them to =init.el= to make sure that all necessary packages have already been loaded by the time they're added.
 
 #+begin_src emacs-lisp
 (add-hook
  'after-init-hook
  (lambda ()
-   (let ((private-file (concat user-emacs-directory "private.el"))
+   (let ((init-file (concat user-emacs-directory "init.el"))
+         (private-file (concat user-emacs-directory "private.el"))
 		 (custom-file (concat user-emacs-directory "custom.el")))
      (when (file-exists-p private-file)
-       (load-file private-file))
+       (with-temp-buffer
+         (insert-file-contents private-file)
+         (append-to-file (point-min) (point-max) init-file)))
      (when custom-file
-       (load-file custom-file))
+       (with-temp-buffer
+         (insert-file-contents custom-file)
+         (append-to-file (point-min) (point-max) init-file)))
      (server-start))))
 #+end_src
 
