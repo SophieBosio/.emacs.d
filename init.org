@@ -571,7 +571,6 @@ This wouldn't go into =early-init= anyways.
 (setq inhibit-startup-message           t       ;; No startup message
       inhibit-startup-echo-area-message t       ;; No startup message in echo area
       inhibit-startup-screen            t       ;; No default startup screen
-      initial-scratch-message           nil     ;; Empty scratch buffer
       initial-buffer-choice             t       ;; *scratch* is default startup buffer
       initial-major-mode                'fundamental-mode
       ring-bell-function                'ignore ;; No bell
@@ -1115,8 +1114,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(setq-default tab-width              4  ;; Smaller tabs
-              frame-resize-pixelwise t) ;; Fine-grained frame resize
+(setq-default tab-width 4)  ;; Smaller tabs
 #+END_SRC
 
 ** Smoother Scrolling
