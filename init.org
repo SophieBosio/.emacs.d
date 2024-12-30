@@ -770,7 +770,7 @@ has great ligature support.
 I have Open Sans configured as my variable-pitch font.
 
 #+begin_src emacs-lisp
-(defvar soph/font-height 102)
+(defvar soph/font-height 115)
 
 (when (eq system-type 'darwin)
   (setq soph/font-height 130))
