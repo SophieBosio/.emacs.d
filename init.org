@@ -3245,8 +3245,6 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ;; Slurping & barfing
          ("C-<right>"   . paredit-forward-slurp-sexp)
          ("C-<left>"    . paredit-forward-barf-sexp)
-         ("C-M-<right>" . paredit-forward-slurp-sexp)
-         ("C-M-<left>"  . paredit-forward-barf-sexp)
          ("C-<right>"   . paredit-forward-slurp-sexp)
          ("C-<left>"    . paredit-forward-barf-sexp)
 
@@ -3748,6 +3746,13 @@ In my lispy+paredit keybindings, I have =C-f= and =C-b= bound to =forward-= and 
 #+begin_src emacs-lisp
 (define-key custom-bindings-map (kbd "C-f") 'forward-sexp)
 (define-key custom-bindings-map (kbd "C-b") 'backward-sexp)
+#+end_src
+
+=C-x <left>/<right>= is a little cumbersome to press, but I love being able to easily switch to previous/next buffer, so let's rebind these handy functions.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-M-<left>")  'previous-buffer)
+(define-key custom-bindings-map (kbd "C-M-<right>") 'next-buffer)
 #+end_src
 
 *** Activating the Keymap
