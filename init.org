@@ -2769,7 +2769,7 @@ up registers for my GTD files.
 (set-register ?i (cons 'file (concat org-directory "inbox.org")))
 (set-register ?r (cons 'file (concat org-directory "roam/20240128135100-roam.org")))
 (set-register ?p (cons 'file (concat org-directory "projects.org")))
-(set-register ?c (cons 'file "~/Documents/playground/clj-playground/src/clj_playground/playground.clj"))
+(set-register ?c (cons 'file "~/Dropbox/playground/clj-playground/src/clj_playground/playground.clj"))
 (set-register ?b (cons 'file "~/Dropbox/projects/blog/org-content/all-posts.org"))
 #+end_src
 
