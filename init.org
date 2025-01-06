@@ -3317,7 +3317,8 @@ I disable a few of the default features. If you want to know more about these an
 
         ;; Limit raising of the echo area to show docs
         lsp-signature-doc-lines 3)
-  (setq lsp-file-watch-threshold 1500)
+  (setq lsp-file-watch-threshold  1500)
+  (setq lsp-format-buffer-on-save nil)
 
   (with-eval-after-load 'lsp-modeline
     (set-face-attribute 'lsp-modeline-code-actions-preferred-face nil
