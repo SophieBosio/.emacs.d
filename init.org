@@ -3272,7 +3272,7 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
 
          ;; Manipulating sexpressions
          ("M-<up>"   . lispy-splice-sexp-killing-backward)
-         ("M-<down>" . 'lispy-splice-sexp-killing-forward)
+         ("M-<down>" . lispy-splice-sexp-killing-forward)
          ("M-s"      . lispy-splice)
          ("M-r"      . lispy-raise-sexp)
          ("M-S"      . lispy-split)
