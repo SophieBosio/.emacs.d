@@ -3757,9 +3757,7 @@ mode for it and activate that mode. The below code does just that.
 #+end_src
 
 * TODOs
-- [ ]  Find prose font that scales well with TODO boxes and verbatim code
 - [ ]  Figure out nice way to search PDFs via pdf-tools (nicer than ISearch, preferrably something consult-related)
-- [ ]  Check out [[https://github.com/gregsexton/origami.el][origami]]
 - [ ]  Check out [[https://github.com/oantolin/embark][embark]]
 - [ ]  Check out [[https://github.com/otavioschwanck/harpoon.el][harpoon]]
 - [ ]  Check out [[https://github.com/alphapapa/bufler.el][bufler]]
@@ -3769,4 +3767,3 @@ mode for it and activate that mode. The below code does just that.
 - [ ]  Check out [[https://github.com/emacscollective/no-littering][no-littering]]
 - [ ]  Check out [[https://github.com/ISouthRain/emsg-blame][emsg-blame]]
 - [ ]  Check out [[https://github.com/gilbertw1/better-jumper][better-jumper]]
-- [X]  Check out [[https://github.com/bbatsov/crux][CRUX]]
