@@ -1883,17 +1883,6 @@ Then configure Magit. I'll add hooks to have =diff-hl= update the gutter wheneve
 		magit-auto-revert-mode t))
 #+end_src
 
-*** Magit TODOs
-
-I'll use [[https://github.com/alphapapa/magit-todos][magit-todos]] to show the project's TODOs directly in the Magit buffer.
-
-#+begin_src emacs-lisp
-(use-package magit-todos
-  :after magit
-  :config
-  (magit-todos-mode 1))
-#+end_src
-
 *** Magit Forge
 
 And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git forges (e.g., GitHub, and GitLab) directly from Magit.
