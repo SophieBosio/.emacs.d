@@ -1239,12 +1239,16 @@ But since saving this file - the =init.org=-file - triggers recompilation of
 =init.el=, it's really annoying if this file is autosaved when I write to it.
 Therefore, I'll disable automatic saving for this file in particular.
 
+Normally, I have auto-saving on for programming, but it's super annoying when writing JS/TS because it keeps reformatting my code as I type. So let's turn it off and save manually instead.
+
 #+BEGIN_SRC emacs-lisp
 (use-package auto-save-buffers-enhanced
   :ensure t
   :config
   (auto-save-buffers-enhanced t)
-  (setq auto-save-buffers-enhanced-exclude-regexps '("init.org")))
+  (setq auto-save-buffers-enhanced-exclude-regexps
+        '("init.org"
+          "\\(\\.js\\|\\.ts\\|\\.jsx\\|\\.tsx\\|\\.html\\)$")))
 #+END_SRC
 
 ** Move Where I Mean
