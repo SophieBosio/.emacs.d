@@ -1273,7 +1273,8 @@ symbol, word, sentence, paragraph). It's super handy!
 (use-package expand-region
   :defer t
   :bind (:map custom-bindings-map
-              ("M-q" . er/expand-region)))
+              ("M-q" . er/expand-region)
+              ("M-'" . er/contract-region)))
 #+end_src
 
 *** Filling/Unfilling
