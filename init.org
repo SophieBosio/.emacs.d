@@ -3657,11 +3657,6 @@ I use TypeScript at work sometimes, but I don't know a lot about it. Luckily, my
 In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier, and the TypeScript tree-sitter grammar installed.
 
 #+begin_src emacs-lisp
-(use-package typescript-mode
-  :defer t
-  :config
-  (setq typescript-indent-level 2))
-
 (use-package tide
   :after (typescript-mode flycheck)
   :hook ((typescript-mode    . tide-setup)
@@ -3676,13 +3671,19 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1))
 
+(use-package typescript-mode
+  :defer t
+  :mode (("\\.js\\'"   . typescript-mode)
+         ("\\.jsx\\'"  . typescript-mode)
+         ("\\.ts\\'"   . typescript-mode)
+         ("\\.tsx\\'"  . typescript-mode))
+  :hook (typescript-mode . setup-tide-mode)
+  :config
+  (setq typescript-indent-level 2))
+
 (use-package web-mode
   :defer t
-  :mode (("\\.js\\'"   . web-mode)
-         ("\\.jsx\\'"  . web-mode)
-         ("\\.ts\\'"   . web-mode)
-         ("\\.tsx\\'"  . web-mode)
-         ("\\.html\\'" . web-mode))
+  :mode ("\\.html\\'" . web-mode)
   :hook (web-mode . setup-tide-mode)
   :config
   (flycheck-add-mode 'typescript-tslint 'web-mode)
@@ -3696,7 +3697,9 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
 
 (use-package js2-mode
   :mode "\\.js\\'"
-  :interpreter "node")
+  :interpreter "node"
+  :config
+  (setq js2-basic-offset 2))
 
 (use-package xref-js2
   :after js2-mode
@@ -3707,6 +3710,14 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
   (setq xref-js2-search-program 'rg)
   (define-key js2-mode-map (kbd "M-.") 'xref-find-definitions)
   (define-key js2-mode-map (kbd "M-,") 'xref-pop-marker-stack))
+
+(use-package import-js
+  :ensure t
+  :hook ((js-mode . run-import-js)
+         (typescript-mode . run-import-js))
+  :config
+  (defun run-import-js ()
+    (add-hook 'after-save-hook 'import-js-fix nil t)))
 #+end_src
 
 * Activating Custom Keybindings
