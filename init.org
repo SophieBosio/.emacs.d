@@ -3392,7 +3392,7 @@ First, we need the holy trinity of Elisp libraries: [[https://github.com/magnars
   :defer t)
 #+end_src
 
-Next, let's take a page out of CIDER's (a Clojure package) book and enhance evaluation of Emacs Lisp by adding [[https://github.com/xiongtx/eros][Eros]] (Evaluation Result OverlayS). Also, I'm so used to =C-c C-c= for CIDER, so let's bind =eros-eval-defun= to that in addition to the default =C-M-x=.
+Next, let's take a page out of CIDER's book and enhance evaluation of Emacs Lisp by adding [[https://github.com/xiongtx/eros][Eros]] (Evaluation Result OverlayS). Also, I'm so used to the CIDER bindings, so let's bind some CIDER-like bindings for elisp as well.
 
 #+begin_src emacs-lisp
 (use-package eros
@@ -3401,7 +3401,8 @@ Next, let's take a page out of CIDER's (a Clojure package) book and enhance eval
   eros-mode
   eros-eval-defun
   :bind (:map emacs-lisp-mode-map
-              ("C-c C-c" . eros-eval-defun))
+              ("C-c C-c" . eros-eval-defun)
+              ("C-c C-k" . eval-buffer))
   :config
   (eros-mode 1))
 #+end_src
