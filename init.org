@@ -1387,7 +1387,15 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 
 *** Join Lines
 
-From [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], a keybinding to join the line below with the one above.
+The normal =join-line= joins the current line with the line above it.
+
+=C-j= is normally bound to =electric-newline-and-maybe-indent= but I use =electric-indent-mode= so I have that behaviour when creating newlines by default, so I feel okay rebinding it.
+
+#+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-j") 'join-line)
+#+end_src
+
+In [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], Magnar shows that passing =-1= as the argument to =join-line= changes which line you join with which. This joins the current line with the one /below/ it instead of the one above.
 
 #+begin_src emacs-lisp
 (define-key custom-bindings-map
