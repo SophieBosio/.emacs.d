@@ -435,10 +435,12 @@ I have a folder with extensions that have been downloaded manually. I'll add the
   (normal-top-level-add-subdirs-to-load-path))
 #+END_SRC
 
-I'll initialise the list of Org agenda files to an empty list. There are used for task management and for my calendar, and I'll add to the list both in =private.el= and in the Org section [[#tasks][Tasks]].
+I'll initialise some lists to an empty list. I'll add to the lists both in =private.el= and further down in this file, so it's important that the variable already exists.
 
 #+begin_src emacs-lisp
 (setq org-agenda-files '())
+(setq register-alist '())
+(setq projectile-project-search-path '())
 #+end_src
 
 And add custom settings from =custom.el= and private settings from =private.el= if they exist.
@@ -1605,7 +1607,8 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
               ("C-c p" . projectile-command-map)
               ("C-p"   . projectile-command-map))
   :config
-  (setq projectile-project-search-path '("~/Dropbox/projects/"))
+  (add-to-list 'projectile-project-search-path "~/Dropbox/projects/")
+  (add-to-list 'projectile-project-search-path "~/Dropbox/playground/")
   (projectile-mode))
 #+end_src
 
