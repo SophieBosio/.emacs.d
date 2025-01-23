@@ -3513,7 +3513,8 @@ Note that I also use LSP mode for Clojure.
               ("C-c t" . soph/cider-eval-and-test-ns))
   :config
   (setq cider-repl-display-help-banner       nil
-        clojure-toplevel-inside-comment-form t)
+        clojure-toplevel-inside-comment-form t
+        cider-download-java-sources          t)
   ; (def-cider-selector-method ?e
   ;   "CIDER result buffer."
   ;   cider-result-buffer)
