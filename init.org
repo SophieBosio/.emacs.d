@@ -3251,11 +3251,13 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ("C-b"   . paredit-backward)
          ("C-M-f" . paredit-forward-up)
          ("C-M-b" . paredit-backward-up)
-         ("C-M-n" . paredit-forward-up)
+
+         ("C-M-n" . paredit-forward-down)
          ("C-M-p" . paredit-backward-down)
          ("C-M-d" . paredit-forward-down)
          ("C-M-u" . paredit-backward-up)
-         ("C-M-a" . lispy-beginning-of-defun)
+
+         ("M-a"   . lispy-beginning-of-defun)
          ("M-d"   . lispy-different) ; Toggle between beginning and start of sexp
 
          ;; Moving sexpressions
@@ -3567,7 +3569,7 @@ It can auto-insert the namespace of new files, but LSP mode already does that, s
 
 *** OCaml
 
- OCaml requires some setup for =ocp-indent=,
+ OCaml s some setup for =ocp-indent=,
 
  #+begin_src emacs-lisp :tangle no
  (use-package ocp-indent
@@ -3785,3 +3787,4 @@ mode for it and activate that mode. The below code does just that.
 - [ ]  Check out [[https://github.com/emacscollective/no-littering][no-littering]]
 - [ ]  Check out [[https://github.com/ISouthRain/emsg-blame][emsg-blame]]
 - [ ]  Check out [[https://github.com/gilbertw1/better-jumper][better-jumper]]
+- [ ]  Check out [[https://github.com/projectional-haskell/structured-haskell-mode][Structured Haskell Mode]]
