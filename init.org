@@ -78,6 +78,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#splitting-windows][Splitting Windows]]
   - [[#opening-closing--switching-windows][Opening, Closing, & Switching Windows]]
   - [[#project-management][Project Management]]
+  - [[#ibuffer][IBuffer]]
   - [[#dired][Dired]]
 - [[#completion][Completion]]
   - [[#vertico][Vertico]]
@@ -1610,6 +1611,58 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (add-to-list 'projectile-project-search-path "~/Dropbox/projects/")
   (add-to-list 'projectile-project-search-path "~/Dropbox/playground/")
   (projectile-mode))
+#+end_src
+
+** IBuffer
+
+=ibuffer= is built-in to Emacs. It shows a list of open buffers and lets you perform lots of useful actions, like sorting and killing buffers.
+
+I was inspired by [[https://tech.tonyballantyne.com/2020/09/26/ibuffer-changed-my-life/][this blog post]] by Tony Ballantyne to tidy up the default =ibuffer= view.
+
+I'd like to tidy it up a bit by organising the buffers by major mode.
+
+#+begin_src emacs-lisp
+(setq ibuffer-saved-filter-groups
+      '(("default"
+         ("Programming"   (predicate . (derived-mode-p 'prog-mode)))
+         ("Clojure/CIDER" (or (name  . "clojure")
+                              (name  . "cider")
+                              (name  . "nrepl")))
+         ("Org"           (mode . org-mode))
+         ("Dired"         (mode . dired-mode))
+         ("Magit"         (name . "magit")))))
+
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+#+end_src
+
+ I also exclude certain system buffers.
+
+#+begin_src emacs-lisp
+(setq ibuffer-never-show-predicates
+      '(;; System buffers
+        "^\\*Messages\\*$"
+        "^\\*scratch\\*$"
+        "^\\*Completions\\*$"
+        "^\\*Help\\*$"
+        "^\\*Apropos\\*$"
+        "^\\*info\\*$"
+        "^\\*Async-native-compile-log\\*$"
+
+        ;; LSP Buffers
+        "^\\*lsp-log\\*$"
+        "^\\*clojure-lsp\\*$"
+        "^\\*clojure-lsp::stderr\\*$"
+        "^\\*ts-ls\\*$"
+        "^\\*ts-ls::stderr\\*$"))
+#+end_src
+
+And finally, I'll remove some columns I don't use.
+
+#+begin_src emacs-lisp
+(setq ibuffer-formats
+      '((mark " " (name 60 -1 :left))))
 #+end_src
 
 ** Dired
