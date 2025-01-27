@@ -119,6 +119,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#flycheck][Flycheck]]
   - [[#code-formatting][Code Formatting]]
   - [[#eldoc][Eldoc]]
+  - [[#xref][xref]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
   - [[#matching-delimiters][Matching Delimiters]]
@@ -1423,7 +1424,6 @@ In [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], Ma
   :defer t
   :bind (:map custom-bindings-map
          ("C-S-<return>" . crux-smart-open-line-above)
-         ("C-<return>"   . crux-smart-open-line)
          ("M-S-<down>"   . crux-duplicate-current-line-or-region)))
 #+end_src
 
@@ -1582,7 +1582,7 @@ I often need to switch back and forth between the current and the last opened bu
 
 #+begin_src emacs-lisp
 (fset 'quick-switch-buffer [?\C-x ?b return])
-(define-key custom-bindings-map (kbd "C-.") 'quick-switch-buffer)
+(define-key custom-bindings-map (kbd "C-<return>") 'quick-switch-buffer)
 #+end_src
 
 And [[https://www.emacswiki.org/emacs/TransposeFrame][Transpose
@@ -3156,6 +3156,21 @@ I'll turn off the error messages in the echo area, because they overlap with use
   :defer t
   :config
   (global-eldoc-mode))
+#+end_src
+
+** xref
+
+=xref= is Emacs' built-in cross-reference system. It allows you to follow references and builds a reference stack. For each reference you jump to, a new item is added to the stack, and you can go back to where you were before by popping it off the stack. It's super neat.
+
+[[https://github.com/brett-lempereur/consult-xref-stack][consult-xref-stack]] is a package that enhances =xref= with a searchable list of the references you've navigated through. Even neater!
+
+#+begin_src emacs-lisp
+(use-package consult-xref-stack
+  :vc
+  (:url "https://github.com/brett-lempereur/consult-xref-stack" :branch "main")
+  :bind (:map custom-bindings-map
+              ("C-," . consult-xref-stack-backward)
+              ("C-." . consult-xref-stack-forward)))
 #+end_src
 
 ** HTTP Requests
