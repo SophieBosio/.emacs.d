@@ -3311,7 +3311,6 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
 
          ;; LISP-friendly Emacs commands
          ("C-k"        . lispy-kill)
-         ("C-<return>" . lispy-newline-and-indent)
          ("DEL"        . paredit-backward-delete)
 
          ;; Navigating sexpressions
