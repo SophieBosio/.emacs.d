@@ -1945,6 +1945,8 @@ Then configure Magit. I'll add hooks to have =diff-hl= update the gutter wheneve
   :bind (:map magit-mode-map
               ("C-M-f" . magit-section-forward)
               ("C-M-b" . magit-section-backward))
+  :bind (:map custom-bindings-map
+              ("M-g b" . magit-blame-addition))
   :hook
   ((magit-pre-refresh  . diff-hl-magit-pre-refresh)
    (magit-post-refresh . diff-hl-magit-post-refresh))
@@ -3830,6 +3832,12 @@ In my lispy+paredit keybindings, I have =C-f= and =C-b= bound to =forward-= and 
 (define-key custom-bindings-map (kbd "C-M-<left>")  'previous-buffer)
 (define-key custom-bindings-map (kbd "C-M-<right>") 'next-buffer)
 #+end_src
+
+I haven't bound super to anything on my work's Mac, so the default =s-u= for reverting buffers doesn't work very well for me. I'll add another binding so I can keep using only control and meta.
+
+ #+begin_src emacs-lisp
+(define-key custom-bindings-map (kbd "C-c u") 'revert-buffer)
+ #+end_src
 
 *** Activating the Keymap
 
