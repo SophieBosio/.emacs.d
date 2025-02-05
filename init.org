@@ -3643,7 +3643,8 @@ It can auto-insert the namespace of new files, but LSP mode already does that, s
   :after clojure-mode
   :hook (clojure-mode . clj-refactor-mode)
   :config
-  (setq cljr-add-ns-to-blank-clj-files nil))
+  (setq cljr-add-ns-to-blank-clj-files nil)
+  (cljr-add-keybindings-with-prefix "C-c <C-m>"))
 #+end_src
 
 [[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
