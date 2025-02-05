@@ -312,6 +312,22 @@ In particular, the code below is a combination of code from:
 (setq inhibit-splash-screen t)
 #+end_src
 
+From [[https://emacsnotes.wordpress.com/2022/09/11/three-bonus-keys-c-i-c-m-and-c-for-your-gui-emacs-all-with-zero-headache/][this blog post]] on the blog Emacs Notes, I've also lifted this piece of code that goes into =early-init.el=. Normally, the three keys =C-i=, =C-m= and =C-[= are reserved in GUI Emacs to match expected behaviour in terminal Emacs, and terminal applications generally. They're bound to =TAB=, =RET= and =ESC=, respectively.
+
+But we can unlock them by giving the keys explicit names in =early-init.el= and using the new, named keys in our config if we surround the keybinding with chevrons. So, below I've called =C-i= by the "name" =C-i=. But since it's a name and not a literal key, I need to write =<C-i>= when I want to use the key to define a binding.
+
+#+begin_src emacs-lisp :tangle early-init.el
+(add-hook
+ 'after-make-frame-functions
+ (defun setup-blah-keys (frame)
+   (with-selected-frame frame
+     (when (display-graphic-p) ; don't remove this condition, if you want
+                               ; terminal Emacs to be usable
+       (define-key input-decode-map (kbd "C-i") [C-i])
+       (define-key input-decode-map (kbd "C-[") [C-lsb]) ; left square bracket
+       (define-key input-decode-map (kbd "C-m") [C-m])))))
+#+end_src
+
 ** Garbage Collection
 
 Famously, the Emacs garbage collector can impede startup times quite dramatically. Therefore, a common tweak is to disable the garbage collector during initialisation, and then resetting it afterwards. Luckily, there exists a package exactly for this purpose called the [[https://github.com/emacsmirror/gcmh][Garbage Collector Magic Hack]]-
