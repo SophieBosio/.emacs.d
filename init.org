@@ -3553,11 +3553,11 @@ It has some great refactoring features under a sparse mode map called =clojure-r
 (use-package clojure-mode
   :defer t
   :bind (:map clojure-mode-map
-              ("C-(" . clojure-convert-collection-to-list)
-              ("C-'" . clojure-convert-collection-to-quoted-list)
-              ;; ("C-[" . clojure-convert-collection-to-vector)
-              ("C-{" . clojure-convert-collection-to-map)
-              ("C-#" . clojure-convert-collection-to-set))
+              ("C-("     . clojure-convert-collection-to-list)
+              ("C-'"     . clojure-convert-collection-to-quoted-list)
+              ("<C-lsb>" . clojure-convert-collection-to-vector)
+              ("C-{"     . clojure-convert-collection-to-map)
+              ("C-#"     . clojure-convert-collection-to-set))
   :config
   (require 'flycheck-clj-kondo))
 #+end_src
