@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: destructure-keys
+# key: <dk
+# --
+{:keys [$0]}
