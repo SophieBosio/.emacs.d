@@ -123,7 +123,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#xref][xref]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#matching-delimiters][Matching Delimiters]]
+  - [[#delimiters][Delimiters]]
   - [[#lsp][LSP]]
   - [[#programming-languages][Programming Languages]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -3291,7 +3291,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
-** Matching Delimiters
+** Delimiters
 *** Electric Pair Mode
 
 [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html][electric-pair-mode]] is a built-in Emacs mode that will try to insert matching delimiters automatically. It's pretty handy.
