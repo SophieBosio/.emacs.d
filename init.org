@@ -3132,6 +3132,24 @@ names.
 (add-hook 'prog-mode-hook 'subword-mode)
 #+end_src
 
+*** Highlight TODOs
+
+It's nice to highlight TODOs in the code. [[https://github.com/tarsius/hl-todo][hl-todo]] does just that and lets you specify the faces to use for different TODO keywords. Let's activate it in =prog-mode=.
+
+#+begin_src emacs-lisp
+(use-package hl-todo
+    :hook (prog-mode . hl-todo-mode)
+    :config
+    (setq hl-todo-highlight-punctuation ":"
+          hl-todo-keyword-faces
+          `(("TODO"       warning bold)
+            ("FIXME"      error bold)
+            ("HACK"       font-lock-constant-face bold)
+            ("REVIEW"     font-lock-keyword-face bold)
+            ("NOTE"       success bold)
+            ("DEPRECATED" font-lock-doc-face bold))))
+#+end_src
+
 *** Markdown
 
 Need-to-have for programmers.
