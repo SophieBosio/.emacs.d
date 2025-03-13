@@ -3500,82 +3500,6 @@ There's also a nice mode for language-aware folding called [[https://github.com/
 #+end_src
 
 ** Programming Languages
-*** Emacs Lisp
-
-First, we need the holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]] (lists), [[https://github.com/magnars/s.el][s]] (strings), and [[https://github.com/rejeep/f.el][f]] (files).
-
-#+begin_src emacs-lisp
-(use-package dash
-  :defer t)
-
-(use-package s
-  :defer t)
-
-(use-package f
-  :defer t)
-#+end_src
-
-Next, let's take a page out of CIDER's book and enhance evaluation of Emacs Lisp by adding [[https://github.com/xiongtx/eros][Eros]] (Evaluation Result OverlayS). Also, I'm so used to the CIDER bindings, so let's bind some CIDER-like bindings for elisp as well.
-
-#+begin_src emacs-lisp
-(use-package eros
-  :defer t
-  :functions
-  eros-mode
-  eros-eval-defun
-  :bind (:map emacs-lisp-mode-map
-              ("C-c C-c" . eros-eval-defun)
-              ("C-c C-k" . eval-buffer))
-  :config
-  (eros-mode 1))
-#+end_src
-
-And finally, I need to edit parens safely. Let's hook in =lispy=!
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :hook (emacs-lisp-mode . lispy-mode))
-#+end_src
-
-*** Haskell
-
- For Haskell, I think the regular =haskell-mode= is nice. I'll add =haskell-doc-mode=
- which uses eldoc consistently throughout.
-
- I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
- look up functions and packages. I've set it up according to the GitHub docs, so
- that =C-c h= opens a prompt and querying the database opens a help buffer inside
- Emacs with the results.
-
- #+BEGIN_SRC emacs-lisp
- (use-package haskell-mode
-   :defer t
-   :hook (haskell-mode . haskell-doc-mode)
-   :config
-   (setq haskell-hoogle-command                  "hoogle"
-         haskell-compile-stack-build-command     "stack build"
-         haskell-compile-stack-build-alt-command "stack build --pedantic"
-         haskell-compile-command                 "stack build")
-   :bind (:map haskell-mode-map
-               ("C-c C-h" . haskell-hoogle)
-               ("C-c C-c" . haskell-compile)))
- #+END_SRC
-
-[[https://github.com/jyp/dante][Dante]] is a an environment for interactive Haskell development. [[https://github.com/jyp/attrap][attrap]] is a package from the same author that ATempts To Repair At Point. I'll bind the function to fix the thing at point to =C-c C-f= for "please, FIX!"
-
-#+begin_src emacs-lisp
-(use-package dante
-  :after haskell-mode
-  :hook ((haskell-mode . flycheck-mode)
-         (haskell-mode . dante-mode))
-  :config
-  (flycheck-add-next-checker 'haskell-dante '(info . haskell-hlint)))
-
-(use-package attrap
-  :defer t
-  :bind ("C-c C-f" . attrap-attrap))
-#+end_src
-
 *** Clojure
 
 =clojure-mode= is where it all starts.
@@ -3674,6 +3598,82 @@ It can auto-insert the namespace of new files, but LSP mode already does that, s
 
 (use-package cider-eval-sexp-fu
   :after cider)
+#+end_src
+
+*** Emacs Lisp
+
+First, we need the holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]] (lists), [[https://github.com/magnars/s.el][s]] (strings), and [[https://github.com/rejeep/f.el][f]] (files).
+
+#+begin_src emacs-lisp
+(use-package dash
+  :defer t)
+
+(use-package s
+  :defer t)
+
+(use-package f
+  :defer t)
+#+end_src
+
+Next, let's take a page out of CIDER's book and enhance evaluation of Emacs Lisp by adding [[https://github.com/xiongtx/eros][Eros]] (Evaluation Result OverlayS). Also, I'm so used to the CIDER bindings, so let's bind some CIDER-like bindings for elisp as well.
+
+#+begin_src emacs-lisp
+(use-package eros
+  :defer t
+  :functions
+  eros-mode
+  eros-eval-defun
+  :bind (:map emacs-lisp-mode-map
+              ("C-c C-c" . eros-eval-defun)
+              ("C-c C-k" . eval-buffer))
+  :config
+  (eros-mode 1))
+#+end_src
+
+And finally, I need to edit parens safely. Let's hook in =lispy=!
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :hook (emacs-lisp-mode . lispy-mode))
+#+end_src
+
+*** Haskell
+
+ For Haskell, I think the regular =haskell-mode= is nice. I'll add =haskell-doc-mode=
+ which uses eldoc consistently throughout.
+
+ I also want to use the tool [[https://github.com/ndmitchell/hoogle][Hoogle]] from directly within Emacs to quickly
+ look up functions and packages. I've set it up according to the GitHub docs, so
+ that =C-c h= opens a prompt and querying the database opens a help buffer inside
+ Emacs with the results.
+
+ #+BEGIN_SRC emacs-lisp
+ (use-package haskell-mode
+   :defer t
+   :hook (haskell-mode . haskell-doc-mode)
+   :config
+   (setq haskell-hoogle-command                  "hoogle"
+         haskell-compile-stack-build-command     "stack build"
+         haskell-compile-stack-build-alt-command "stack build --pedantic"
+         haskell-compile-command                 "stack build")
+   :bind (:map haskell-mode-map
+               ("C-c C-h" . haskell-hoogle)
+               ("C-c C-c" . haskell-compile)))
+ #+END_SRC
+
+[[https://github.com/jyp/dante][Dante]] is a an environment for interactive Haskell development. [[https://github.com/jyp/attrap][attrap]] is a package from the same author that ATempts To Repair At Point. I'll bind the function to fix the thing at point to =C-c C-f= for "please, FIX!"
+
+#+begin_src emacs-lisp
+(use-package dante
+  :after haskell-mode
+  :hook ((haskell-mode . flycheck-mode)
+         (haskell-mode . dante-mode))
+  :config
+  (flycheck-add-next-checker 'haskell-dante '(info . haskell-hlint)))
+
+(use-package attrap
+  :defer t
+  :bind ("C-c C-f" . attrap-attrap))
 #+end_src
 
 *** Agda
