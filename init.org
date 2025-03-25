@@ -2770,7 +2770,7 @@ I'll expand the list of default task states.
 (setq org-todo-keywords
       '((sequence
          ;; Needs further action
-		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" "QUESTION(q)"
+		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" "QSTN(q) DROP(x)"
 		 "|"
          ;; Needs no action currently
 		 "DONE(d)")))
