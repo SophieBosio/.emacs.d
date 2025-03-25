@@ -3600,6 +3600,25 @@ It can auto-insert the namespace of new files, but LSP mode already does that, s
   :after cider)
 #+end_src
 
+[[https://github.com/djblue/portal][Portal]] is a tool for debugging Clojure code. In Clojure, you can "tap" variables, which lets you have a look at their concrete values during execution. Portal lets you tap out stuff to a nice UI where you can collapse and inspect the values. It creates a log of nicely printed stuff.
+
+To use Portal, I have a dev profile called =portal= in my =project.clj= and all I need to do is to jack in with this profile, require Portal, and then go. Let's pull in these snippets borrowed from my colleague [[https://github.com/falcowinkler][Falco Winkler]]. The first lets you interactively choose which profile to jack in with. The second is hardcoded to jack in with the =portal= profile.
+
+#+begin_src emacs-lisp
+(defun cider-jack-in-with-profile ()
+  (interactive)
+  (letrec ((profile (read-string "Enter profile names (,separated): "))
+           (lein-params (concat "with-profile +" profile " repl :headless")))
+    (message "lein-params set to: %s" lein-params)
+    (set-variable 'cider-lein-parameters lein-params)
+    (cider-jack-in '())))
+
+(defun cider-jack-in-with-portal-profile ()
+  (interactive)
+  (set-variable 'cider-lein-parameters "with-profile +portal repl :headless")
+  (cider-jack-in '()))
+#+end_src
+
 *** Emacs Lisp
 
 First, we need the holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]] (lists), [[https://github.com/magnars/s.el][s]] (strings), and [[https://github.com/rejeep/f.el][f]] (files).
