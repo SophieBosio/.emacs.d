@@ -794,7 +794,7 @@ I have Open Sans configured as my variable-pitch font.
 (defvar soph/font-height 115)
 
 (when (eq system-type 'darwin)
-  (setq soph/font-height 130))
+  (setq soph/font-height 120))
 
 (when (member "Fragment Mono" (font-family-list))
   (set-face-attribute 'default nil :font "Fragment Mono" :height soph/font-height)
