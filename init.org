@@ -1811,7 +1811,7 @@ regexes, in any order.
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
             :rev :newest
             :branch "main")
-  :hook (prog-mode . copilot-mode)
+  ; :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("C-<tab>" . copilot-accept-completion))
   :config (setq copilot-indent-offset-warning-disable t))
