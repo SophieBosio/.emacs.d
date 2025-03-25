@@ -1350,7 +1350,7 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
   symbol-overlay-mode
   :hook (prog-mode . symbol-overlay-mode)
   :bind (:map custom-bindings-map
-              ("M-M" . symbol-overlay-put)
+              ("C-;" . symbol-overlay-put)
               ("M-N" . symbol-overlay-jump-next)
               ("M-P" . symbol-overlay-jump-previous)))
 #+end_src
@@ -1379,7 +1379,7 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
           overlays)
     (mc/maybe-multiple-cursors-mode)))
 
-(define-key custom-bindings-map (kbd "C-;") 'ar/mc-mark-all-symbol-overlays)
+(define-key custom-bindings-map (kbd "C-M-;") 'ar/mc-mark-all-symbol-overlays)
 #+end_src
 
 *** Undo/Redo
