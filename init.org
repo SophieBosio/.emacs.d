@@ -2245,9 +2245,6 @@ parenthesis open, to include some options from the "Visuals" section inside the
 ** Visuals
 *** Text Centring
 
-*Note:* We are still in the =:config= section of the =use-package= declaration for Org
-mode.
-
 I always want to center the text and enable linebreaks in Org. I've added
 a hook to activate =olivetti-mode=, and =visual-fill-mode=
 is always on.
@@ -2276,6 +2273,16 @@ Set the sizes and fonts for the various headings.
   '(outline-8          ((t (:height 1.1))))
   '(outline-9          ((t (:height 1.1)))))
 #+END_src
+
+*** Indentation
+
+*Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
+
+I prefer the text under a heading to be flush to the left side of the screen, instead of being indented to "correspond" to the level of its parent heading. So let's turn off =org-indent-mode= globally.
+
+#+begin_src emacs-lisp
+(org-indent-mode -1)
+#+end_src
 
 *** LaTeX Previews
 
