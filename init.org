@@ -3181,6 +3181,44 @@ I'll turn off the error messages in the echo area, because they overlap with use
   :config (setq flycheck-display-errors-function #'ignore))
 #+end_src
 
+By default, Flycheck uses double arrows in the fringe to indicate an error, warning, or info point. I want to change it to a dot. This [[https://emacs.stackexchange.com/a/36373][StackExchange post]] shows just how we can do it - by defining a new bitmap and redefining the faces.
+
+#+begin_src emacs-lisp
+(define-fringe-bitmap 'flycheck-fringe-bitmap-ball
+    (vector #b000000000
+            #b001111000
+            #b011111100
+            #b011111100
+            #b011111100
+            #b011111100
+            #b001111000
+            #b000000000))
+
+(flycheck-define-error-level 'error
+  :severity 100
+  :compilation-level 2
+  :overlay-category 'flycheck-error-overlay
+  :fringe-bitmap 'flycheck-fringe-bitmap-ball
+  :fringe-face 'flycheck-fringe-error
+  :error-list-face 'flycheck-error-list-error)
+
+(flycheck-define-error-level 'warning
+  :severity 100
+  :compilation-level 2
+  :overlay-category 'flycheck-warning-overlay
+  :fringe-bitmap 'flycheck-fringe-bitmap-ball
+  :fringe-face 'flycheck-fringe-warning
+  :warning-list-face 'flycheck-warning-list-error)
+
+(flycheck-define-error-level 'info
+  :severity 100
+  :compilation-level 2
+  :overlay-category 'flycheck-info-overlay
+  :fringe-bitmap 'flycheck-fringe-bitmap-ball
+  :fringe-face 'flycheck-fringe-info
+  :info-list-face 'flycheck-info-list-error)
+#+end_src
+
 ** Code Formatting
 
 [[https://github.com/radian-software/apheleia][Apheleia]] is a package for automatically formatting code. It's possible to configure it with several backends, depending on what formatting tools and languages you're interested in. For now, I have it set up with [[https://prettier.io/][Prettier]] (JavaScript/TypeScript).
