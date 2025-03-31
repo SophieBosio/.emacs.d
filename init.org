@@ -2431,11 +2431,13 @@ checkboxes for TODOs.
   (setq org-superstar-leading-bullet " ")
   (setq org-superstar-headline-bullets-list '("◆" "◇" "•" "⚬" "●" "○"))
   (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
-  (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
-                                          ("PROG"  . 9744)
-                                          ("NEXT"  . 9744)
-                                          ("WAIT"  . 9744)
-                                          ("DONE"  . 9745)))
+  (setq org-superstar-todo-bullet-alist '(("TODO"     . 9744)
+                                          ("PROG"     . 9744)
+                                          ("NEXT"     . 9744)
+                                          ("WAIT"     . 9744)
+                                          ("DROP"     . 9744)
+                                          ("QUESTION" . 9744)
+                                          ("DONE"     . 9745)))
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
@@ -2724,7 +2726,7 @@ Now I'll set up commands to open the day view with =C-c a d= and extended three-
                       (org-super-agenda-groups regular-view-groups)))
 		  (org-ql-block '(todo "PROG") ((org-ql-block-header "\n❯ In Progress")))
 		  (org-ql-block '(todo "NEXT") ((org-ql-block-header "\n❯ Next Up")))
-          (org-ql-block '(todo "WAIT") ((org-ql-block-header "\n❯ Waiting")))
+          (org-ql-block '(todo "WAIT") ((org-ql-block-header "\n❯ Backlog")))
 		  (org-ql-block '(priority "A") ((org-ql-block-header "\n❯ Important"))))))
 
 
@@ -2777,7 +2779,7 @@ I'll expand the list of default task states.
 (setq org-todo-keywords
       '((sequence
          ;; Needs further action
-		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" "QSTN(q) DROP(x)"
+		 "TODO(t)" "PROG(p)" "NEXT(n)" "WAIT(w)" "QUESTION(q) DROP(x)"
 		 "|"
          ;; Needs no action currently
 		 "DONE(d)")))
@@ -2802,6 +2804,10 @@ function that I'll bind to =C-c d=.
            (org-todo "DONE"))
 		  ((looking-at "\*+ PROG")
            (org-todo "DONE"))
+		  ((looking-at "\*+ DROP")
+           (org-todo "DONE"))
+		  ((looking-at "\*+ DROP")
+           (org-todo "QUESTION"))
 		  ((looking-at "\*+ DONE")
            (org-todo "DONE"))
           (t (message "Undefined TODO state.")))))
