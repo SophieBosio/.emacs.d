@@ -1739,7 +1739,7 @@ I'll use the function from [[http://whattheemacsd.com/setup-ido.el-02.html][this
   (vertico-mode)
   (vertico-multiform-mode)
   (setq read-extended-command-predicate       'command-completion-default-include-p
-        vertico-count                         30  ; Show more candidates
+        vertico-count                         32  ; Show more candidates
         read-file-name-completion-ignore-case t   ; Ignore case of file names
         read-buffer-completion-ignore-case    t   ; Ignore case in buffer completion
         completion-ignore-case                t)) ; Ignore case in completion
