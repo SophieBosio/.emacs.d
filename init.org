@@ -1091,18 +1091,6 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
    :defer t)
  #+end_src
 
-*** Presentation Mode
-
- For presenting (e.g., code or Org mode buffers), it's useful to increase the
- font size, without necessarily increasing the size of everything else.
-
- #+begin_src emacs-lisp
- (use-package presentation
-   :defer t
-   :config
-   (setq presentation-default-text-scale 2.5))
- #+end_src
-
 * General Editing
 ** Built-In Options
 
