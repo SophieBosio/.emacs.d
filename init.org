@@ -1387,8 +1387,9 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 #+begin_src emacs-lisp
 (use-package move-dup
   :bind (:map custom-bindings-map
-              (("C-M-<up>"   . move-dup-move-lines-up)
-               ("C-M-<down>" . move-dup-move-lines-down))))
+              (("C-M-<up>"    . move-dup-move-lines-up)
+               ("C-M-<down>"  . move-dup-move-lines-down)
+               ("M-W"         . move-dup-duplicate-down))))
 #+end_src
 
 *** Join Lines
