@@ -3027,6 +3027,14 @@ names.
 (add-hook 'prog-mode-hook 'subword-mode)
 #+end_src
 
+*** Electric Pair Mode
+
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html][electric-pair-mode]] is a built-in Emacs mode that will try to insert matching delimiters automatically. It's pretty handy.
+
+#+begin_src emacs-lisp
+(electric-pair-mode 1)
+#+end_src
+
 *** Highlight TODOs
 
 It's nice to highlight TODOs in the code. [[https://github.com/tarsius/hl-todo][hl-todo]] does just that and lets you specify the faces to use for different TODO keywords. Let's activate it in =prog-mode=.
@@ -3205,14 +3213,6 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
 #+end_src
 
 ** Delimiters
-*** Electric Pair Mode
-
-[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html][electric-pair-mode]] is a built-in Emacs mode that will try to insert matching delimiters automatically. It's pretty handy.
-
-#+begin_src emacs-lisp
-(electric-pair-mode 1)
-#+end_src
-
 *** lipsy/Paredit
 [[https://github.com/abo-abo/lispy][lispy]] is (almost) a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]].
 
