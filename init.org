@@ -3494,7 +3494,7 @@ I call =cljr-clean-ns= to clean up my imports so often that it deserves its own 
               ("C-M-c" . cljr-clean-ns))
   :config
   (setq cljr-add-ns-to-blank-clj-files nil)
-  (cljr-add-keybindings-with-prefix "C-c <C-m>"))
+  (cljr-add-keybindings-with-prefix "C-<return>"))
 #+end_src
 
 [[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
