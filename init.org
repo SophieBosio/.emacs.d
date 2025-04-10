@@ -1056,7 +1056,6 @@ Here's a screenshot of a small window where the mode line shows well. The number
 #+BEGIN_SRC emacs-lisp
 (use-package olivetti
   :defer t
-  :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
   :config
   (setq olivetti-style t))
 #+END_SRC
