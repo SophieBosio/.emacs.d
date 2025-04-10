@@ -120,7 +120,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#xref][xref]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#delimiters][Delimiters]]
+  - [[#structural-editing][Structural Editing]]
   - [[#lsp][LSP]]
   - [[#programming-languages][Programming Languages]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -3212,9 +3212,10 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
-** Delimiters
+** Structural Editing
 *** lipsy/Paredit
-[[https://github.com/abo-abo/lispy][lispy]] is (almost) a superset of the famous LISP-editing package [[https://www.emacswiki.org/emacs/ParEdit][Paredit]].
+
+[[https://github.com/abo-abo/lispy][lispy]] is (almost) a superset of the famous [[https://www.emacswiki.org/emacs/ParEdit][Paredit]], which is a structural editing package for LISPs.
 
 Both are a lot more powerful than =eletric-pair-mode=, because they allow you to manipulate, select, and navigate forms semantically (by symbols or delimiters). So I want to use this rather than =electric-pair-mode= when editing LISPs.
 
