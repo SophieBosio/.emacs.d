@@ -1133,7 +1133,8 @@ I want scrolling to be a *lot* slower than it is by default.
       mouse-wheel-scroll-amount        '(1 ((shift) . 3) ((meta) . 6)))
 
 ;; (Native) smooooooth scrolling
-(setq pixel-scroll-precision-mode t)
+(pixel-scroll-mode)
+(pixel-scroll-precision-mode)
 
 (setq mac-redisplay-dont-reset-vscroll t
       mac-mouse-wheel-smooth-scroll    nil)
