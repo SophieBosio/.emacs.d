@@ -1389,6 +1389,8 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
   :bind (:map custom-bindings-map
               (("C-M-<up>"    . move-dup-move-lines-up)
                ("C-M-<down>"  . move-dup-move-lines-down)
+               ("C-M-<left>"  . move-dup-move-lines-up)
+               ("C-M-<right>" . move-dup-move-lines-down)
                ("M-W"         . move-dup-duplicate-down))))
 #+end_src
 
@@ -3802,13 +3804,6 @@ In my lispy+paredit keybindings, I have =C-f= and =C-b= bound to =forward-= and 
 #+begin_src emacs-lisp
 (define-key custom-bindings-map (kbd "C-f") 'forward-sexp)
 (define-key custom-bindings-map (kbd "C-b") 'backward-sexp)
-#+end_src
-
-=C-x <left>/<right>= is a little cumbersome to press, but I love being able to easily switch to previous/next buffer, so let's rebind these handy functions.
-
-#+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-M-<left>")  'previous-buffer)
-(define-key custom-bindings-map (kbd "C-M-<right>") 'next-buffer)
 #+end_src
 
 I haven't bound super to anything on my work's Mac, so the default =s-u= for reverting buffers doesn't work very well for me. I'll add another binding so I can keep using only control and meta.
