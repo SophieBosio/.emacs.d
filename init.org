@@ -2143,12 +2143,12 @@ Set the sizes and fonts for the various headings.
   '(org-document-title ((t (:height 1.6))))
   '(outline-1          ((t (:height 1.25))))
   '(outline-2          ((t (:height 1.2))))
-  '(outline-3          ((t (:height 1.15))))
-  '(outline-4          ((t (:height 1.1))))
-  '(outline-5          ((t (:height 1.1))))
-  '(outline-6          ((t (:height 1.1))))
-  '(outline-8          ((t (:height 1.1))))
-  '(outline-9          ((t (:height 1.1)))))
+  '(outline-3          ((t (:height 1.2))))
+  '(outline-4          ((t (:height 1.2))))
+  '(outline-5          ((t (:height 1.2))))
+  '(outline-6          ((t (:height 1.2))))
+  '(outline-8          ((t (:height 1.2))))
+  '(outline-9          ((t (:height 1.2)))))
 #+END_src
 
 *** Indentation
