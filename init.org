@@ -1713,6 +1713,18 @@ The rounded frame corners (putting =(undecorated . nil)= in the =vertico-posfram
 
 [[./images/vertico-posframe-screenshot.png]]
 
+On Linux, however, this trick doesn't work unless your OS can create rounded windows. Luckily, there's a new, experimental package called Nova that adds SVG frames with fake rounded corners. This looks really nice and works even on Linux. On Mac, I still prefer the native MacOS look.
+
+#+begin_src emacs-lisp
+(when (eq system-type 'gnu/linux)
+  (use-package nova
+    :vc (:url "https://github.com/thisisran/nova"
+              :rev :newest
+              :branch "main")
+    :config (nova-vertico-mode t)))
+#+end_src
+
+
 ** Orderless
 
 And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
