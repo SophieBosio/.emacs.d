@@ -1566,6 +1566,7 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   :config
   (add-to-list 'projectile-project-search-path "~/Dropbox/projects/")
   (add-to-list 'projectile-project-search-path "~/Dropbox/playground/")
+  :init
   (projectile-mode))
 #+end_src
 
