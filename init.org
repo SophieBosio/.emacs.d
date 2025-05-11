@@ -81,8 +81,8 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
 - [[#completion][Completion]]
   - [[#vertico][Vertico]]
   - [[#vertico-posframe][Vertico Posframe]]
+  - [[#corfu][Corfu]]
   - [[#orderless][Orderless]]
-  - [[#company][Company]]
   - [[#copilot][Copilot]]
 - [[#search][Search]]
   - [[#search-utilities][Search Utilities]]
@@ -1724,35 +1724,40 @@ On Linux, however, this trick doesn't work unless your OS can create rounded win
     :config (nova-vertico-mode t)))
 #+end_src
 
+** Corfu
+
+[[https://github.com/minad/corfu][Corfu]] is a completion framework that provides text completion (like in-buffer auto-completion) via pop-up childframes.
+
+It integrates with =Orderless=, the package below this, to provide fuzzy completions.
+
+#+begin_src emacs-lisp
+(use-package corfu
+  :defer t
+  :custom
+  (corfu-auto          t)
+  (corfu-auto-delay    0.1)
+  (corfu-auto-prefix   1)
+  (corfu-cycle         t)
+  (corfu-quit-no-match 'separator)
+  :bind (:map corfu-map
+              (" " . corfu-insert-separator)) ;; Option + Space on Norwegian Mac
+  :init
+  (global-corfu-mode))
+
+(setq tab-always-indent 'complete)
+#+end_src
 
 ** Orderless
 
-And [[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
-regexes, in any order.
+[[https://github.com/oantolin/orderless][Orderless]] is a package for a completion /style/, that matches multiple
+regexes, in any order. It gives you fuzzy completions, which are super nice for typing things out faster.
 
 #+begin_src emacs-lisp
 (use-package orderless
   :ensure t
   :config
   (setq completion-styles '(orderless basic partial-completion)
-        completion-category-overrides '((file (styles basic partial-completion)))
-        orderless-component-separator "[ |]"))
-#+end_src
-
-** Company
-
-[[https://company-mode.github.io/][Company]] (COMPlete ANYthing) is a battle-tested completion package that works really well with LSP-mode.
-
-#+begin_src emacs-lisp
-(use-package company
-  :config
-  (setq company-idle-delay                 0.0
-        company-minimum-prefix-length      2
-        company-tooltip-align-annotations  t
-        company-tooltip-annotation-padding 1
-        company-tooltip-margin             1
-        company-detect-icons-margin        'company-dot-icons-margin)
-  (global-company-mode t))
+        completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
 
 ** Copilot
@@ -3336,7 +3341,8 @@ I disable a few of the default features. If you want to know more about these an
               ("C-M-."      . lsp-find-references)
               ("C-c r"      . lsp-rename))
   :config
-  (setq lsp-diagnostics-provider :flycheck)
+  (setq lsp-diagnostics-provider :flycheck
+        lsp-completion-provider  :none)       ;; I use corfu
   ;; Disable visual features
   (setq lsp-headerline-breadcrumb-enable nil  ;; No breadcrumbs
         lsp-lens-enable                  nil  ;; No lenses
