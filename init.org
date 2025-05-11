@@ -3164,18 +3164,12 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
 #+begin_src emacs-lisp
 (use-package treesit
   :ensure nil
-  :mode (("\\.tsx\\'" . tsx-ts-mode)
-         ("\\.js\\'"  . typescript-ts-mode)
-         ("\\.mjs\\'" . typescript-ts-mode)
+  :mode (("\\.mjs\\'" . typescript-ts-mode)
          ("\\.mts\\'" . typescript-ts-mode)
          ("\\.cjs\\'" . typescript-ts-mode)
-         ("\\.ts\\'"  . typescript-ts-mode)
-         ("\\.jsx\\'" . tsx-ts-mode)
          ("\\.json\\'" .  json-ts-mode)
          ("\\.Dockerfile\\'" . dockerfile-ts-mode)
-         ("\\.prisma\\'" . prisma-ts-mode)
-         ;; More modes defined here...
-         )
+         ("\\.prisma\\'" . prisma-ts-mode))
   :preface
   (defun os/setup-install-grammars ()
     "Install Tree-sitter grammars if they are absent."
@@ -3740,7 +3734,8 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
          ("\\.ts\\'"   . typescript-mode)
          ("\\.jsx\\'"  . tsx-ts-mode)
          ("\\.tsx\\'"  . tsx-ts-mode))
-  :hook (typescript-mode . combobulate-mode)
+  :hook ((typescript-mode . combobulate-mode)
+         (tsx-ts-mode     . combobulate-mode))
   :config
   (setq typescript-indent-level 2))
 
