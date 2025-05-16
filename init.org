@@ -888,11 +888,13 @@ I really like the =doom-themes= package, in particular their port of the [[https
         doom-themes-enable-italic t)) ; if nil, italics is universally disabled
 #+END_SRC
 
-I also have a custom light theme I'm working on called South. Let's add the path to that so I can load it.
+I also have a custom light theme I'm working on called South. Let's pull it down from GitHub.
 
 #+begin_src emacs-lisp
-(setq custom-theme-directory "~/Dropbox/projects/south-theme/")
-(load (concat custom-theme-directory "south-theme.el"))
+(use-package south-theme
+  :vc (:url "https://github.com/SophieBosio/south"
+       :rev :newest
+       :branch "main"))
 #+end_src
 
 And I don't want Emacs to ask me before changing to one of the themes I've used before.
