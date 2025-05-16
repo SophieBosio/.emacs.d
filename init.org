@@ -3814,3 +3814,4 @@ mode for it and activate that mode. The below code does just that.
 - [ ]  Check out [[https://github.com/ISouthRain/emsg-blame][emsg-blame]]
 - [ ]  Check out [[https://github.com/gilbertw1/better-jumper][better-jumper]]
 - [ ]  Check out [[https://github.com/projectional-haskell/structured-haskell-mode][Structured Haskell Mode]]
+- [ ]  Check out [[https://github.com/casouri/eldoc-box#prettify-typescript-error-message][eldoc-box]] (especially for TS/JS errors)
