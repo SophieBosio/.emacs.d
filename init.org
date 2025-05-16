@@ -3606,16 +3606,9 @@ And finally, I need to edit parens safely. Let's hook in =lispy=!
                ("C-c C-c" . haskell-compile)))
  #+END_SRC
 
-[[https://github.com/jyp/dante][Dante]] is a an environment for interactive Haskell development. [[https://github.com/jyp/attrap][attrap]] is a package from the same author that ATempts To Repair At Point. I'll bind the function to fix the thing at point to =C-c C-f= for "please, FIX!"
+[[https://github.com/jyp/attrap][attrap]] is a package that ATempts To Repair At Point. I'll bind the function to fix the thing at point to =C-c C-f= for "please, FIX!"
 
 #+begin_src emacs-lisp
-(use-package dante
-  :after haskell-mode
-  :hook ((haskell-mode . flycheck-mode)
-         (haskell-mode . dante-mode))
-  :config
-  (flycheck-add-next-checker 'haskell-dante '(info . haskell-hlint)))
-
 (use-package attrap
   :defer t
   :bind ("C-c C-f" . attrap-attrap))
