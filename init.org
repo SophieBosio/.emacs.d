@@ -2714,6 +2714,25 @@ function that I'll bind to =C-c d=.
 (define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
 #+end_src
 
+*** Hide DONE Tasks
+
+[[https://github.com/vapniks/hide-lines.git][hide-lines]] is a package that allows us to hide lines in a buffer based on a regexp. I use it to optionally hide elements from my org task files. Sometimes, I'm not ready to archive the task yet, but I want to be able to temporarily hide the tasks marked as "DONE".
+
+#+begin_src emacs-lisp
+(use-package hide-lines
+  :vc (:url "https://github.com/vapniks/hide-lines.git"
+       :branch "master"
+       :rev :newest))
+
+(defun hide-done-tasks ()
+  (interactive)
+  (hide-lines-matching "* DONE"))
+
+(defun show-done-tasks ()
+  (interactive)
+  (hide-lines-show-all))
+#+end_src
+
 *** "Get Things Done" Setup
 
 I'm trying out the Get Things Done method by David Allen, using Nicolas
