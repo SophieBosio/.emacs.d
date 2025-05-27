@@ -3331,11 +3331,13 @@ It uses tree-sitter under the hood and is extensible. Beware that I've customise
 
 #+begin_src emacs-lisp
 (use-package combobulate
-   :custom (combobulate-key-prefix "C-c o")
-   :load-path "~/.emacs.d/local-lisp/combobulate"
-   :bind (:map combobulate-key-map
-               ("M-a" . combobulate-navigate-beginning-of-defun)
-               ("M-e" . combobulate-navigate-end-of-defun)))
+  :vc (:url "https://github.com/mickeynp/combobulate"
+            :rev :newest
+            :branch "main")
+  :custom (combobulate-key-prefix "C-c o")
+  :bind (:map combobulate-key-map
+              ("M-a" . combobulate-navigate-beginning-of-defun)
+              ("M-e" . combobulate-navigate-end-of-defun)))
 #+end_src
 
 ** LSP
