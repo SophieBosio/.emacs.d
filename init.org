@@ -3337,6 +3337,7 @@ I disable a few of the default features. If you want to know more about these an
          (clojurec-mode         . lsp)
          (lsp-mode              . lsp-enable-which-key-integration)
          (typescript-mode       . lsp)
+         (tsx-ts-mode           . lsp)
          (typescript-ts-mode    . lsp)
          (web-mode              . lsp))
   :bind (:map lsp-mode-map
