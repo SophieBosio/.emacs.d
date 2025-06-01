@@ -38,7 +38,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#prerequisites][Prerequisites]]
   - [[#initel-code][=init.el= Code]]
   - [[#git-tracking--practicalities][Git Tracking & Practicalities]]
-  - [[#lexical-scoping][Lexical Scoping]]
+  - [[#lexical-binding][Lexical Binding]]
   - [[#tangling][Tangling]]
 - [[#start-up][Start-Up]]
   - [[#early-init][Early Init]]
@@ -198,7 +198,7 @@ If you do want to start tracking the file again, you can use:
 git update-index --no-assume-unchanged init.el
 #+END_SRC
 
-** Lexical Scoping
+** Lexical Binding
 
 First, I want lexical scoping for the =init=-file, so I will add that to the top of the file.
 
