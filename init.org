@@ -383,6 +383,12 @@ Prevent Emacs from freezing when updating ELPA.
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+end_src
 
+Make sure we're using the correct native compilation cache.
+
+#+begin_src emacs-lisp
+(setq native-comp-eln-load-path '("~/.emacs.d/eln-cache/"))
+#+end_src
+
 ** House-Keeping
 
 Then I want to do some house keeping. First, let's set the Emacs user
