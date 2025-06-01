@@ -239,6 +239,8 @@ In particular, the code below is a combination of code from:
 - [[https://github.com/jamescherti/minimal-emacs.d/blob/main/early-init.el][jamescherti's minimal emacs]]
 
 #+begin_src emacs-lisp :tangle early-init.el
+;;; -*- lexical-binding: t -*-
+
 ;; Defer garbage collection
 (setq gc-cons-percentage 0.6)
 
