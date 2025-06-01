@@ -2445,55 +2445,55 @@ B's Emacs setup]].
 #+begin_src emacs-lisp
 (defun soph/prettify-symbols-setup ()
   "Beautify keywords"
+  (interactive)
   (setq prettify-symbols-alist
-		(mapcan (lambda (x) (list x (cons (upcase (car x)) (cdr x))))
+		(mapcan (lambda (x)
+                  (when (and (consp x) (stringp (car x)))
+                    (list x (cons (upcase (car x)) (cdr x)))))
 				'(; Greek symbols
 				  ("lambda" . ?λ)
 				  ("delta"  . ?Δ)
 				  ("gamma"  . ?Γ)
 				  ("phi"    . ?φ)
 				  ("psi"    . ?ψ)
-				  ; Org headers
-				  ("#+title:"  . "")
-				  ("#+author:" . "")
-                  ("#+date:"   . "")
-				  ; Checkboxes
-				  ("[ ]" . "")
-				  ("[X]" . "")
-				  ("[-]" . "")
-				  ; Blocks
-				  ("#+begin_src"   . "") ; 
-				  ("#+end_src"     . "")
-				  ("#+begin_QUOTE" . "‟")
-				  ("#+begin_QUOTE" . "”")
-				  ; Drawers
-				  ;    ⚙️
-				  (":properties:" . "")
-				  ; Agenda scheduling
-				  ("SCHEDULED:"   . "🕘")
-				  ("DEADLINE:"    . "⏰")
-				  ; Agenda tags  
-				  (":@projects:"  . "☕")
-				  (":work:"       . "🚀")
-				  (":@inbox:"     . "✉️")
-				  (":goal:"       . "🎯")
-				  (":task:"       . "📋")
-				  (":@thesis:"    . "📝")
-				  (":thesis:"     . "📝")
-				  (":uio:"        . "🏛️")
-				  (":emacs:"      . "")
-				  (":learn:"      . "🌱")
-				  (":code:"       . "💻")
-				  (":fix:"        . "🛠️")
-				  (":bug:"        . "🚩")
-				  (":read:"       . "📚")
-				  ; Roam tags
-				  ("#+filetags:"  . "📎")
-				  (":wip:"        . "🏗️")
-				  (":ct:"         . "➡️") ; Category Theory
-                  ; ETC
-                  (":verb:"       . "🌐") ; HTTP Requests in Org mode
-				  )))
+                  ; Org headers
+				  ("#+title:"  . ? )
+				  ("#+author:" . ? )
+                  ("#+date:"   . ? )                
+                  ; Checkboxes
+				  ("[ ]" . ?)
+				  ("[X]" . ?)
+				  ("[-]" . ?)
+                  ; Blocks
+				  ("#+begin_src"   . ?) ; 
+				  ("#+end_src"     . ?)
+				  ("#+begin_QUOTE" . ?‟)
+				  ("#+end_QUOTE"   . ?”)
+                  ; Drawers
+				  (":properties:" . ?)
+                  ; Agenda scheduling
+				  ("SCHEDULED:"   . ?🕘)
+				  ("DEADLINE:"    . ?⏰)
+                  ; Agenda tags  
+				  (":@projects:"  . ?☕)
+				  (":work:"       . ?🚀)
+				  (":@inbox:"     . ?✉)
+				  (":goal:"       . ?🎯)
+				  (":task:"       . ?📋)
+				  (":@thesis:"    . ?📝)
+				  (":thesis:"     . ?📝)
+				  (":emacs:"      . ?)
+				  (":learn:"      . ?🌱)
+				  (":code:"       . ?💻)
+				  (":fix:"        . ?🛠)
+				  (":bug:"        . ?🚩)
+				  (":read:"       . ?📚)
+                  ; Roam tags
+				  ("#+filetags:"  . ?📎)
+				  (":wip:"        . ?🏗)
+				  (":ct:"         . ?➡)    ; Category Theory
+                  (":verb:"       . ?🌐) ; HTTP Requests in Org mode
+                  )))
   (prettify-symbols-mode))
 
 (add-hook 'org-mode-hook        #'soph/prettify-symbols-setup)
