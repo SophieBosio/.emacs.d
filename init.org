@@ -46,6 +46,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#optimisations][Optimisations]]
   - [[#house-keeping][House-Keeping]]
   - [[#package-manager--package-sources][Package Manager & Package Sources]]
+  - [[#gpg-keys][GPG Keys]]
   - [[#local-files][Local Files]]
   - [[#terminal-setup][Terminal Setup]]
 - [[#custom-keybindings][Custom Keybindings]]
@@ -438,6 +439,14 @@ Next, I'll set up my package sources. These are very common and well-maintained 
         ("MELPA Stable" . 5)
         ("nongnu"       . 0)))
 (package-initialize)
+#+END_SRC
+
+** GPG Keys
+
+I want to use the standard GPG keyring for Emacs as well.
+
+#+BEGIN_SRC emacs-lisp
+(setq package-gnupghome-dir "~/.gnupg")
 #+END_SRC
 
 ** Local Files
