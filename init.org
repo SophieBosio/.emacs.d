@@ -3837,7 +3837,6 @@ mode for it and activate that mode. The below code does just that.
 - [ ]  Check out [[https://github.com/oantolin/embark][embark]]
 - [ ]  Check out [[https://github.com/otavioschwanck/harpoon.el][harpoon]]
 - [ ]  Check out [[https://github.com/alphapapa/bufler.el][bufler]]
-- [ ]  Check out [[https://github.com/magnars/fold-this.el][fold-this]]
 - [ ]  Configure Magit [[https://github.com/magit/forge][Forge]]
 - [ ]  Check out [[https://github.com/kickingvegas/casual-suite][casual-suite]] (especially for IBuffer and Dired)
 - [ ]  Check out [[https://github.com/emacscollective/no-littering][no-littering]]
