@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: org-ctx
-# key: <oc
-# --
-(ardoq.operations/org-ctx "${1:ardoqbundlesproduction}" "admin@ardoq.com")$0
