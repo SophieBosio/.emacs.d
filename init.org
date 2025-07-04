@@ -3392,7 +3392,7 @@ I disable a few of the default features. If you want to know more about these an
                         :inherit font-lock-comment-face)))
 #+end_src
 
-[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] is an extension of the UI capabilities of =lsp-mode=. I especially like that I can get a list of references with preview of each reference with =lsp-ui-peek=.
+[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] is an extension of the UI capabilities of =lsp-mode=.
 
 #+begin_src emacs-lisp
 (use-package lsp-ui
@@ -3400,6 +3400,16 @@ I disable a few of the default features. If you want to know more about these an
   :config
   (setq lsp-ui-sideline-enable nil
         lsp-ui-doc-enable      nil))
+#+end_src
+
+Similarly, there's [[https://github.com/emacs-lsp/lsp-treemacs][lsp-treemacs]] which I use to display a pretty list of references and a function's incoming call hierarchy. As a tree, of course!
+
+#+begin_src emacs-lisp
+(use-package lsp-treemacs
+  :after lsp-mode
+  :bind (:map lsp-mode-map
+              ("C-c ." . lsp-treemacs-references)
+              ("C-c :" . lsp-treemacs-call-hierarchy)))
 #+end_src
 
 There's also a nice mode for language-aware folding called [[https://github.com/gregsexton/origami.el][Origami]]. Then there's the LSP-backed [[https://github.com/emacs-lsp/lsp-origami/][lsp-origami]].
