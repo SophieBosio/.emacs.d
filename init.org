@@ -2335,9 +2335,9 @@ checkboxes for TODOs.
 (use-package org-superstar
   :after org
   :config
-  (setq org-superstar-leading-bullet " ")
-  (setq org-superstar-headline-bullets-list '("◆" "◇" "•" "⚬" "●" "○"))
-  (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
+  (setq org-superstar-leading-bullet "")
+  (setq org-superstar-headline-bullets-list '("")) ;; Hide bullets
+  (setq org-superstar-special-todo-items t)        ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO"     . 9744)
                                           ("PROG"     . 9744)
                                           ("NEXT"     . 9744)
