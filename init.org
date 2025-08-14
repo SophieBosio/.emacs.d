@@ -3331,23 +3331,6 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ("M-("  . lispy-wrap-round)))
 #+end_src
 
-*** Combobulate
-
-For other languages besides LISPs, like for JavaScript/TypeScript and Python, Paredit/lispy won't cut it. But once you go structural, you never want to go back. Luckily for us, there's a generalised structural editing package for Emacs called [[https://github.com/mickeynp/combobulate][Combobulate]].
-
-It uses tree-sitter under the hood and is extensible. Beware that I've customised it quite heavily to feel more like my Paredit/lispy setup.
-
-#+begin_src emacs-lisp
-(use-package combobulate
-  :vc (:url "https://github.com/mickeynp/combobulate"
-            :rev :newest
-            :branch "main")
-  :custom (combobulate-key-prefix "C-c o")
-  :bind (:map combobulate-key-map
-              ("M-a" . combobulate-navigate-beginning-of-defun)
-              ("M-e" . combobulate-navigate-end-of-defun)))
-#+end_src
-
 ** LSP
 
 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure and TypeScript.
