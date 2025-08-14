@@ -3136,6 +3136,7 @@ I'll turn off the error messages in the echo area, because they overlap with use
   :hook ((typescript-mode    . apheleia-mode)
          (javascript-mode    . apheleia-mode)
          (typescript-ts-mode . apheleia-mode)
+         (tsx-mode           . apheleia-mode)
          (tide-mode          . apheleia-mode))
   :config
   (setf (alist-get 'prettier-json apheleia-formatters)
@@ -3748,15 +3749,13 @@ I use TypeScript at work sometimes, but I don't know a lot about it. Luckily, my
 In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier, and the TypeScript tree-sitter grammar installed.
 
 #+begin_src emacs-lisp
-(use-package typescript-mode
+(use-package tsx-mode
   :defer t
-  :mode (("\\.js\\'"   . typescript-mode)
-         ("\\.ts\\'"   . typescript-mode)
-         ("\\.jsx\\'"  . tsx-ts-mode)
-         ("\\.tsx\\'"  . tsx-ts-mode))
-  :hook ((typescript-mode . combobulate-mode)
-         (tsx-ts-mode     . combobulate-mode))
+  :vc (:url "https://github.com/orzechowskid/tsx-mode.el"
+       :rev :newest
+       :branch "emacs30")
   :config
+  (add-to-list 'auto-mode-alist '("\\.[jt]s[x]?\\'" . tsx-mode))
   (setq typescript-indent-level 2))
 
 (use-package rjsx-mode
