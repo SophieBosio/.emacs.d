@@ -2464,6 +2464,8 @@ B's Emacs setup]].
 				  ("[ ]" . ?)
 				  ("[X]" . ?)
 				  ("[-]" . ?)
+                  ; Misc
+                  ("->" . ?➜)
                   ; Blocks
 				  ("#+begin_src"   . ?) ; 
 				  ("#+end_src"     . ?)
