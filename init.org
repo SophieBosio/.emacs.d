@@ -3527,17 +3527,13 @@ Note that I also use LSP mode for Clojure.
  [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
 It can auto-insert the namespace of new files, but LSP mode already does that, so let's disable it.
 
-I call =cljr-clean-ns= to clean up my imports so often that it deserves its own keybinding.
-
 #+begin_src emacs-lisp
 (use-package clj-refactor
   :after clojure-mode
   :hook (clojure-mode . clj-refactor-mode)
-  :bind (:map cider-mode-map
-              ("C-M-c" . cljr-clean-ns))
   :config
   (setq cljr-add-ns-to-blank-clj-files nil)
-  (cljr-add-keybindings-with-prefix "C-<return>"))
+  (cljr-add-keybindings-with-prefix "C-z"))
 #+end_src
 
 [[https://github.com/clojure-emacs/cider-eval-sexp-fu][cider-eval-sexp-fu]] provides small improvements on the default way CIDER evaluates sexpressions. Note that the colour of the flash is changed when switching themes in [[#themes][Themes]], via a hook in =auto-dark=.
