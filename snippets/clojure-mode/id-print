@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: id-print
+# key: <id-print
+# --
+(fn [x] (println x) x)
