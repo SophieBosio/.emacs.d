@@ -336,8 +336,6 @@ Famously, the Emacs garbage collector can impede startup times quite dramaticall
 #+BEGIN_SRC emacs-lisp
 (use-package gcmh
   :config
-  (setq gcmh-idle-delay 5
-        gcmh-high-cons-threshold (* 20 1024 1024))
   (gcmh-mode 1))
 #+END_SRC
 
