@@ -261,6 +261,9 @@ In particular, the code below is a combination of code from:
         (menu-bar-lines       . 0)
         (tool-bar-lines       . 0)))
 
+(setq default-frame-scroll-bars 'right)
+(setq scroll-bar-mode nil)
+
 ;; Resizing the Emacs frame can be a terribly expensive part of changing the
 ;; font. By inhibiting this, we easily halve startup times with fonts that are
 ;; larger than the system default.
@@ -283,6 +286,21 @@ In particular, the code below is a combination of code from:
 ;; Disable bidirectional text scanning for a modest performance boost.
 (setq-default bidi-display-reordering  'left-to-right
               bidi-paragraph-direction 'left-to-right)
+
+;; Give up some bidirectional functionality for slightly faster re-display.
+(setq bidi-inhibit-bpa t)
+
+;; In PGTK, this timeout introduces latency. Reducing it from the default 0.1
+;; improves responsiveness of childframes and related packages.
+(when (boundp 'pgtk-wait-for-event-timeout)
+  (setq pgtk-wait-for-event-timeout 0.001))
+
+;; Disable warnings from the legacy advice API. They aren't useful.
+(setq ad-redefinition-action 'accept)
+
+;; Font compacting can be very resource-intensive, especially when rendering
+;; icon fonts on Windows. This will increase memory usage.
+(setq inhibit-compacting-font-caches t)
 
 ;; Unset `file-name-handler-alist' too (temporarily). Every file opened and
 ;; loaded by Emacs will run through this list to check for a proper handler for
