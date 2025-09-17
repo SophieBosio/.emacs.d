@@ -370,13 +370,6 @@ This is an optimisation borrowed from Doom Emacs' =core.el=.
 (setq which-func-update-delay 1.0)
 #+end_src
 
-Fix IO bugs.
-
-#+begin_src emacs-lisp
-(setq process-adaptive-read-buffering nil)
-(setq read-process-output-max (* 4 1024 1024))
-#+end_src
-
 Prevent Emacs from freezing when updating ELPA.
 
 #+begin_src emacs-lisp
