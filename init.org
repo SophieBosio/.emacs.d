@@ -417,6 +417,24 @@ Don't warn me when opening files unless over 50 MB.
 (setq large-file-warning-threshold (* 50 1024 1024))
 #+end_src
 
+From [[https://github.com/jamescherti/minimal-emacs.d/blob/8d975e882026f1433086e6dcf86c1b9acaac61a1/init.el#L159-L173][minimal-emacs.d]], don't create tons of lockfiles or backup files.
+
+#+begin_src emacs-lisp
+(setq create-lockfiles nil)
+(setq make-backup-files nil)
+
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "backup" user-emacs-directory))))
+(setq tramp-backup-directory-alist backup-directory-alist)
+
+(setq backup-by-copying-when-linked t)
+(setq backup-by-copying             t) ; Backup by copying rather renaming
+(setq delete-old-versions           t) ; Delete excess backup versions silently
+(setq version-control               t) ; Use version numbers for backup files
+(setq kept-new-versions             5)
+(setq kept-old-versions             5)
+#+end_src
+
 ** Package Manager & Package Sources
 
 To manage downloaded packages, Emacs comes with =package.el= installed. In
