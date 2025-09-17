@@ -64,7 +64,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#text-display-modes][Text Display Modes]]
 - [[#general-editing][General Editing]]
   - [[#built-in-options][Built-In Options]]
-  - [[#smoother-scrolling][Smoother Scrolling]]
+  - [[#scrolling][Scrolling]]
   - [[#tabs--indentation][Tabs & Indentation]]
   - [[#deleting-instead-of-killing][Deleting Instead of Killing]]
   - [[#browse-kill-ring][Browse Kill Ring]]
@@ -1159,7 +1159,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 (setq-default tab-width 4)  ;; Smaller tabs
 #+END_SRC
 
-** Smoother Scrolling
+** Scrolling
 
 I want scrolling to be a *lot* slower than it is by default.
 
@@ -1170,8 +1170,11 @@ I want scrolling to be a *lot* slower than it is by default.
       ;; Scroll 1 line at a time, instead of default 5
       ;; Hold shift to scroll faster and meta to scroll very fast
       mouse-wheel-scroll-amount        '(1 ((shift) . 3) ((meta) . 6)))
+#+end_src
 
-;; (Native) smooooooth scrolling
+And I want it to be smooth!
+
+#+begin_src emacs-lisp
 (pixel-scroll-mode)
 (pixel-scroll-precision-mode)
 
