@@ -2282,8 +2282,7 @@ insert special characters LaTeX-style by using a leading backslash (e.g., =\alph
 write the greek letter alpha) and display ellipses in a condensed way.
 
 #+begin_src emacs-lisp
-  (setq org-adapt-indentation t
-        org-hide-leading-stars t
+  (setq org-hide-leading-stars t
         org-pretty-entities t
         org-ellipsis "  ·")
 #+end_src
