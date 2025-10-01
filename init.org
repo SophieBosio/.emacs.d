@@ -3280,8 +3280,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   ;; that this does *not* extend to hooks! Make sure you migrate them
   ;; also
   (dolist (mapping
-           '((Css-mode . css-ts-mode)
-             (typescript-mode . typescript-ts-mode)
+           '((typescript-mode . typescript-ts-mode)
              (js-mode . typescript-ts-mode)
              (js2-mode . typescript-ts-mode)
              (css-mode . css-ts-mode)
