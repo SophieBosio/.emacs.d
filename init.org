@@ -477,13 +477,6 @@ First, let's set the Emacs user and default directories explicitly:
  (setq kept-old-versions             5)
  #+end_src
 
- Also from [[https://github.com/jamescherti/minimal-emacs.d/blob/8d975e882026f1433086e6dcf86c1b9acaac61a1/init.el#L316-L319][minimal-emacs.d]], don't render cursors or regions in non-focused windows.
-
- #+begin_src emacs-lisp
- (setq-default cursor-in-non-selected-windows nil)
- (setq highlight-nonselected-windows nil)
- #+end_src
-
 ** GPG Keys
 
 I want to use the standard GPG keyring for Emacs as well.
@@ -626,8 +619,7 @@ strange compilation warnings (optimiser says there's too much on the stack).
 (dolist (mode
          '(tool-bar-mode       ;; Remove toolbar
            scroll-bar-mode     ;; Remove scollbars
-           menu-bar-mode       ;; Remove menu bar
-           blink-cursor-mode)) ;; Solid cursor, not blinking
+           menu-bar-mode))     ;; Remove menu bar
   (funcall mode 0))
 #+end_src
 
@@ -759,11 +751,19 @@ On GNOME, I can't get a transparent/native title bar. But I can remove the text 
 ** Programming-Specific Visuals
 *** Cursor
 
-I prefer a bar cursor over a block cursor.
+I prefer a non-blinking bar cursor (over a block cursor).
 
 #+begin_src emacs-lisp
+(blink-cursor-mode        0)
 (setq-default cursor-type 'bar)
 #+end_src
+
+Also, don't render cursors or regions in non-focused windows.
+
+ #+begin_src emacs-lisp
+ (setq-default cursor-in-non-selected-windows nil)
+ (setq highlight-nonselected-windows          nil)
+ #+end_src
 
 Having a thin cursor can make it hard to see where you are after switching buffers or jumping around. [[https://github.com/Malabarba/beacon][Beacon]] highlights your cursor temporarily, which immediately answers the question "Woah, where am I now?"
 
