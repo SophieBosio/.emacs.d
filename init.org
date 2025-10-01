@@ -44,8 +44,9 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#early-init][Early Init]]
   - [[#garbage-collection][Garbage Collection]]
   - [[#optimisations][Optimisations]]
-  - [[#house-keeping][House-Keeping]]
   - [[#package-manager--package-sources][Package Manager & Package Sources]]
+- [[#housekeeping][Housekeeping]]
+  - [[#built-in-options][Built-in Options]]
   - [[#gpg-keys][GPG Keys]]
   - [[#local-files][Local Files]]
   - [[#terminal-setup][Terminal Setup]]
@@ -63,7 +64,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#mode-line][Mode Line]]
   - [[#text-display-modes][Text Display Modes]]
 - [[#general-editing][General Editing]]
-  - [[#built-in-options][Built-In Options]]
+  - [[#built-in-options-1][Built-In Options]]
   - [[#scrolling][Scrolling]]
   - [[#tabs--indentation][Tabs & Indentation]]
   - [[#deleting-instead-of-killing][Deleting Instead of Killing]]
@@ -226,7 +227,7 @@ To avoid doing this each time a change is made we can add a function to the =aft
          (byte-compile-file (concat user-emacs-directory "init.el")))))
 
    (add-hook 'after-save-hook 'tangle-init)
-   #+END_SRC
+#+END_SRC
 
 * Start-Up
 ** Early Init
@@ -400,59 +401,6 @@ Make sure we're using the correct native compilation cache.
 (setq native-comp-eln-load-path '("~/.emacs.d/eln-cache/"))
 #+end_src
 
-** House-Keeping
-
-Then I want to do some house keeping. First, let's set the Emacs user
-and default directories explicitly:
-
-#+BEGIN_SRC emacs-lisp
-(setq user-emacs-directory "~/.emacs.d/")
-(setq default-directory "~/")
-#+END_SRC
-
-Set UFT-8 as preferred coding system.
-
-#+BEGIN_SRC emacs-lisp
-(set-language-environment    "UTF-8")
-(setq locale-coding-system   'utf-8)
-(prefer-coding-system        'utf-8)
-(set-default-coding-systems  'utf-8)
-(set-terminal-coding-system  'utf-8)
-(set-keyboard-coding-system  'utf-8)
-(set-selection-coding-system 'utf-8)
-#+END_SRC
-
-Don't warn me when opening files unless over 50 MB.
-
-#+begin_src emacs-lisp
-(setq large-file-warning-threshold (* 50 1024 1024))
-#+end_src
-
-From [[https://github.com/jamescherti/minimal-emacs.d/blob/8d975e882026f1433086e6dcf86c1b9acaac61a1/init.el#L159-L173][minimal-emacs.d]], don't create tons of lockfiles or backup files.
-
-#+begin_src emacs-lisp
-(setq create-lockfiles nil)
-(setq make-backup-files nil)
-
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name "backup" user-emacs-directory))))
-(setq tramp-backup-directory-alist backup-directory-alist)
-
-(setq backup-by-copying-when-linked t)
-(setq backup-by-copying             t) ; Backup by copying rather renaming
-(setq delete-old-versions           t) ; Delete excess backup versions silently
-(setq version-control               t) ; Use version numbers for backup files
-(setq kept-new-versions             5)
-(setq kept-old-versions             5)
-#+end_src
-
-Also from [[https://github.com/jamescherti/minimal-emacs.d/blob/8d975e882026f1433086e6dcf86c1b9acaac61a1/init.el#L316-L319][minimal-emacs.d]], don't render cursors or regions in non-focused windows.
-
-#+begin_src emacs-lisp
-(setq-default cursor-in-non-selected-windows nil)
-(setq highlight-nonselected-windows nil)
-#+end_src
-
 ** Package Manager & Package Sources
 
 To manage downloaded packages, Emacs comes with =package.el= installed. In
@@ -482,6 +430,59 @@ Next, I'll set up my package sources. These are very common and well-maintained 
         ("nongnu"       . 0)))
 (package-initialize)
 #+END_SRC
+
+* Housekeeping
+** Built-in Options
+
+First, let's set the Emacs user and default directories explicitly:
+
+ #+BEGIN_SRC emacs-lisp
+ (setq user-emacs-directory "~/.emacs.d/")
+ (setq default-directory "~/")
+ #+END_SRC
+
+ Set UFT-8 as preferred coding system.
+
+ #+BEGIN_SRC emacs-lisp
+ (set-language-environment    "UTF-8")
+ (setq locale-coding-system   'utf-8)
+ (prefer-coding-system        'utf-8)
+ (set-default-coding-systems  'utf-8)
+ (set-terminal-coding-system  'utf-8)
+ (set-keyboard-coding-system  'utf-8)
+ (set-selection-coding-system 'utf-8)
+ #+END_SRC
+
+ Don't warn me when opening files unless over 50 MB.
+
+ #+begin_src emacs-lisp
+ (setq large-file-warning-threshold (* 50 1024 1024))
+ #+end_src
+
+ From [[https://github.com/jamescherti/minimal-emacs.d/blob/8d975e882026f1433086e6dcf86c1b9acaac61a1/init.el#L159-L173][minimal-emacs.d]], don't create tons of lockfiles or backup files.
+
+ #+begin_src emacs-lisp
+ (setq create-lockfiles nil)
+ (setq make-backup-files nil)
+
+ (setq backup-directory-alist
+       `(("." . ,(expand-file-name "backup" user-emacs-directory))))
+ (setq tramp-backup-directory-alist backup-directory-alist)
+
+ (setq backup-by-copying-when-linked t)
+ (setq backup-by-copying             t) ; Backup by copying rather renaming
+ (setq delete-old-versions           t) ; Delete excess backup versions silently
+ (setq version-control               t) ; Use version numbers for backup files
+ (setq kept-new-versions             5)
+ (setq kept-old-versions             5)
+ #+end_src
+
+ Also from [[https://github.com/jamescherti/minimal-emacs.d/blob/8d975e882026f1433086e6dcf86c1b9acaac61a1/init.el#L316-L319][minimal-emacs.d]], don't render cursors or regions in non-focused windows.
+
+ #+begin_src emacs-lisp
+ (setq-default cursor-in-non-selected-windows nil)
+ (setq highlight-nonselected-windows nil)
+ #+end_src
 
 ** GPG Keys
 
@@ -516,8 +517,7 @@ And add custom settings from =custom.el= and private settings from =private.el= 
 (add-hook
  'after-init-hook
  (lambda ()
-   (let ((init-file (concat user-emacs-directory "init.el"))
-         (private-file (concat user-emacs-directory "private.el"))
+   (let ((private-file (concat user-emacs-directory "private.el"))
 		 (custom-file (concat user-emacs-directory "custom.el")))
      (when (file-exists-p private-file)
        (load-file private-file))
