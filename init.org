@@ -3785,15 +3785,6 @@ I use TypeScript at work sometimes, but I don't know a lot about it. Luckily, my
 In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier, and the TypeScript tree-sitter grammar installed.
 
 #+begin_src emacs-lisp
-(use-package tsx-mode
-  :defer t
-  :vc (:url "https://github.com/orzechowskid/tsx-mode.el"
-       :rev :newest
-       :branch "emacs30")
-  :config
-  (add-to-list 'auto-mode-alist '("\\.[jt]s[x]?\\'" . tsx-mode))
-  (setq typescript-indent-level 2))
-
 (use-package rjsx-mode
   :defer t
   :mode "components\\/.*\\.js\\'")
