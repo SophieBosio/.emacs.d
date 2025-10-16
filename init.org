@@ -85,7 +85,6 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#vertico-posframe][Vertico Posframe]]
   - [[#corfu][Corfu]]
   - [[#orderless][Orderless]]
-  - [[#copilot][Copilot]]
 - [[#search][Search]]
   - [[#search-utilities][Search Utilities]]
   - [[#consult][Consult]]
@@ -1816,19 +1815,6 @@ regexes, in any order. It gives you fuzzy completions, which are super nice for 
   :config
   (setq completion-styles '(orderless basic partial-completion)
         completion-category-overrides '((file (styles basic partial-completion)))))
-#+end_src
-
-** Copilot
-
-#+begin_src emacs-lisp
-(use-package copilot
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main")
-  ; :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("C-<tab>" . copilot-accept-completion))
-  :config (setq copilot-indent-offset-warning-disable t))
 #+end_src
 
 * Search
