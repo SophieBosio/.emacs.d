@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: id-def
-# key: <id-def
+# key: <id
 # --
 (fn [x] (def x x) x)
