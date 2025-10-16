@@ -800,6 +800,12 @@ I usually only need line numbers in programming mode.
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 
+Also, set the default line number width to 3. This prevents the fringe "jumping" when switching from 2-digit line numbers to 3. I could set it to 4, but I don't want that much space taken up by default, since not all files will be 1000+ lines, while many files are 100+ lines.
+
+#+begin_src emacs-lisp
+(setq-default display-line-numbers-width 3)
+#+end_src
+
 *** Uniquify Buffers
 
 When opening the files =foo/bar/name= and =baz/bar/name=, use forward slashes to
