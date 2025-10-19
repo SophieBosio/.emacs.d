@@ -3763,13 +3763,6 @@ And finally, I need to edit parens safely. Let's hook in =lispy=!
    :hook (inferior-python-mode . hide-mode-line-mode))
  #+end_src<
 
-*** Nix
-
- #+begin_src emacs-lisp
- (use-package nix-mode
-   :defer t)
- #+end_src
-
 *** JavaScript/TypeScript
 
 I use TypeScript at work sometimes, but I don't know a lot about it. Luckily, my colleagues [[https://github.com/mbezjak/dotfiles/blob/6e80e47920f0a5143b7ef89d8d9b1e644b5a20aa/emacs.d/lisp/init.el#L536-L582][Miro]] and [[https://github.com/slipset/emacsd/blob/8f31789dbb516ddd7486acb55f9ea48401267df3/init.el#L135-L167][Erik]] have JS/TS setups in their Emacs configs, so I could just steal from people who know what they're doing.
