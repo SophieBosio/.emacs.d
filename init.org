@@ -3634,6 +3634,16 @@ And finally, I need to edit parens safely. Let's hook in =lispy=!
   :hook (emacs-lisp-mode . lispy-mode))
 #+end_src
 
+*** Scheme
+
+Your favourite flavour of Scheme is probably supported by a version of [[https://github.com/emacsmirror/geiser][Geiser]].
+This is for the MIT/GNU flavour:
+
+#+begin_src emacs-lisp
+(use-package geiser-mit
+  :defer t)
+#+end_src
+
 *** Haskell
 
  For Haskell, I think the regular =haskell-mode= is nice. I'll add =haskell-doc-mode=
