@@ -3497,18 +3497,23 @@ It has some great refactoring features under a sparse mode map called =clojure-r
   (require 'flycheck-clj-kondo))
 #+end_src
 
- [[https://github.com/clojure-emacs/cider][CIDER]] adds support for interactive Clojure programming in Emacs. It's provides
- built-in support for firing up a REPL and looking up documentation and source
- code, but it also has very Emacs-like shortcuts for expected actions, such as
- =C-x C-e= to evaluate the s-expression at point. And of course, we need Lispy/ParEdit.
+Next, we need [[https://github.com/clojure-emacs/cider][CIDER]], the Clojure Interactive Development Environment that Rocks!
 
-There's a very handy function called =cider-selector= which lets you type a key to select one of CIDER's buffers, such as the =*cider-error*= and =*cider-scratch*= buffers. But it's bound to the kind of clunky =C-c M-s=, so let's rebind it to the more ergonomic =C-c s=.
+In addition to refactoring keybindings, there are some more keybindings I'd like to add to =cider-mode=..
+
+*cider-selector:*
+There's a very handy built-in function called =cider-selector= which lets you type a key to select one of CIDER's buffers, such as the =*cider-error*= and =*cider-scratch*= buffers. But it's bound to the kind of clunky =C-c M-s=, so let's rebind it to the more ergonomic =C-c s=.
 
 Prefix any of the selector commands with =4= to open the buffer in a new window instead of the current one.
 
-The =e= selector is bound to the most recently used Emacs Lisp buffer, but I'd rather bind it to the most recent =*cider-result*=  buffer. We can redefine this with the =def-cider-selector-method= macro. (Edit: For some reason, I can't get this to work. Seems to have with loading the fn def. Please let me know if you know how to do it properly!)
+*Eval buffer and run all tests in namespace:*
+Evaluate the whole namespace and run all its tests in one go!
 
-Note that I also use LSP mode for Clojure.
+*Eval and copy to clipboard:*
+The wonderful team at the Norwegian Food Authority are Emacs hackers after my own heart. They have some really nice functions for evaluating an sexp after point or top-level form at point and copying it to the clipboard. I want this enhanced experience too!
+
+*Eval def:*
+If you've ever def'ed something, you'll know that to pretty print it, you need to either pretty print the form itself, or evaluate the symbol that you def'ed and pretty print its value. In other words, you need to move your cursor to the appropriate place. Again the Norwegian Food Authority team have a handy little function for pretty printing from anywhere within the =def= form!
 
 #+begin_src emacs-lisp
 (defun soph/cider-eval-and-test-ns ()
@@ -3520,6 +3525,57 @@ Note that I also use LSP mode for Clojure.
     (when ns
       (cider-test-run-ns-tests ns))))
 
+;; From https://github.com/magnars/emacsd-reboot/blob/28dcd6e8b0d4f94bcb874fe2c8c3a1f6de4b1bb3/packages/setup-cider.el#L113-L124
+(defun soph/cider-eval-to-clipboard ()
+  "Evaluate the Clojure form at point and put the result on the clipboard."
+  (interactive)
+  (let ((form (cider-last-sexp)))
+    (cider-nrepl-request:eval
+     form
+     (lambda (response)
+       (when (nrepl-dict-get response "value")
+         (let ((result (nrepl-dict-get response "value")))
+           (kill-new result)
+           (message "Result copied to clipboard: %s" result))))
+     (cider-current-ns))))
+
+;; From https://github.com/magnars/emacsd-reboot/blob/28dcd6e8b0d4f94bcb874fe2c8c3a1f6de4b1bb3/packages/setup-cider.el#L126-L136
+(defun soph/cider-eval-defun-to-clipboard ()
+  "Evaluate the current top-level form and copy the result to the clipboard."
+  (interactive)
+  (cider-nrepl-request:eval
+   (cider-defun-at-point)
+   (lambda (response)
+     (when (nrepl-dict-get response "value")
+      (let ((result (nrepl-dict-get response "value")))
+        (kill-new result)
+        (message "Result copied to clipboard: %s" result))))
+   (cider-current-ns)))
+
+;; From https://github.com/magnars/emacsd-reboot/blob/e863bb13aab4d284d1648bd6b266c1b6f77109e9/packages/setup-clojure-mode.el#L158-L166
+(defun soph/cider-eval-def-symbol ()
+  "Evaluate and pretty-print the value of the symbol of the def at point."
+  (interactive)
+  (save-excursion
+    (beginning-of-defun)
+    (paredit-forward-down)
+    (when (looking-at "def\\(\\w*\\)")
+      (paredit-forward 2)
+      (cider-pprint-eval-last-sexp))))
+#+end_src
+
+And now, finally, to assembly!
+
+CIDER adds support for interactive Clojure programming in Emacs. It provides
+ built-in support for firing up a REPL and looking up documentation and source
+ code, but it also has very Emacs-like shortcuts for expected actions, such as
+ =C-x C-e= to evaluate the s-expression at point.
+
+Of course, we need Lispy/ParEdit, so let's add that, as well as keybindings for the functions we defined above.
+
+Note that I also use LSP mode for Clojure.
+
+#+begin_src emacs-lisp
 (use-package cider
   :defer t
   :hook ((cider-mode      . lispy-mode)
@@ -3529,8 +3585,11 @@ Note that I also use LSP mode for Clojure.
   :bind (:map cider-repl-mode-map
               ("C-l"   . cider-repl-clear-buffer))
   :bind (:map cider-mode-map
-              ("C-c s" . cider-selector)
-              ("C-c t" . soph/cider-eval-and-test-ns))
+              ("C-c s"     . cider-selector)
+              ("C-c t"     . soph/cider-eval-and-test-ns)
+              ("C-c C-w"   . soph/cider-eval-to-clipboard)
+              ("C-c C-M-w" . soph/cider-eval-defun-to-clipboard)
+              ("C-c d"     . soph/cider-eval-def-symbol))
   :config
   (setq cider-repl-display-help-banner       nil
         clojure-toplevel-inside-comment-form t
