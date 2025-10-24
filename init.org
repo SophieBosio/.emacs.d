@@ -2751,8 +2751,6 @@ function that I'll bind to =C-c d=.
 		  ((looking-at "\*+ DONE")
            (org-todo "DONE"))
           (t (message "Undefined TODO state.")))))
-
-(define-key custom-bindings-map (kbd "C-c d") 'org-mark-as-done)
 #+end_src
 
 *** Hide DONE Tasks
@@ -2816,7 +2814,8 @@ single, lower-case letter.
 (define-key custom-bindings-map (kbd "C-c c") 'org-capture)
 
 (with-eval-after-load 'org
-  (define-key org-mode-map (kbd "C-c t") 'org-todo))
+  (define-key org-mode-map (kbd "C-c t") 'org-todo)
+  (define-key org-mode-map (kbd "C-c d") 'org-mark-as-done))
 #+END_SRC
 
 For whatever reason, I've had an issue with clocking in, where the default
