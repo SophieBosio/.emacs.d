@@ -3361,6 +3361,32 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ("M-("  . lispy-wrap-round)))
 #+end_src
 
+*** Puni
+
+[[https://github.com/AmaiKinono/puni][Puni]] is another structural editing package that is language agnostic. I'm testing it out for non-LISPs.
+
+It doesn't have a lot of default keybindings. I want to mimic my Franken-paredit-lispy setup as closely as possible, so I'll bind a bunch.
+
+#+begin_src emacs-lisp
+(use-package puni
+  :defer t
+  :bind (:map puni-mode-map
+              ("C-f"       . puni-forward-sexp)
+              ("C-b"       . puni-backward-sexp)
+              ("C-<left>"  . puni-slurp)
+              ("C-<right>" . puni-barf)
+              ("C-M-u"     . puni-up-list)
+              ("M-s"       . puni-splice)
+              ("M-r"       . puni-raise)
+              ("C-M-t"     . puni-transpose)
+              ("M-S"       . puni-split)
+              ("M-?"       . puni-convolute)
+              ("C-("       . puni-wrap-round)
+              ("<C-lsb>"   . puni-wrap-square)
+              ("C-{"       . puni-wrap-curly)
+              ("C-<"       . puni-wrap-angle)))
+#+end_src
+
 ** LSP
 
 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] is an Emacs client for the Language Server Protocol (LSP). I have LSP mode setup for Clojure and TypeScript.
@@ -3836,6 +3862,8 @@ I use TypeScript at work sometimes, but I don't know a lot about it. Luckily, my
 In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier, and the TypeScript tree-sitter grammar installed.
 
 #+begin_src emacs-lisp
+(add-hook 'tsx-ts-mode 'puni-mode)
+
 (use-package rjsx-mode
   :defer t
   :mode "components\\/.*\\.js\\'")
