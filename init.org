@@ -3322,8 +3322,6 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ;; Slurping & barfing
          ("C-<right>"   . paredit-forward-slurp-sexp)
          ("C-<left>"    . paredit-forward-barf-sexp)
-         ("C-<right>"   . paredit-forward-slurp-sexp)
-         ("C-<left>"    . paredit-forward-barf-sexp)
 
          ;; LISP-friendly Emacs commands
          ("C-k"        . lispy-kill)
