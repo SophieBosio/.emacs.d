@@ -3353,7 +3353,7 @@ Both are a lot more powerful than =eletric-pair-mode=, because they allow you to
          ("M-r"      . lispy-raise-sexp)
          ("M-S"      . lispy-split)
          ("M-J"      . lispy-join)
-         ("M-?"      . lispy-convolute)
+         ("M-?"      . paredit-convolute-sexp)
 
          ;; Misc.
          ("M-\"" . lispy-meta-doublequote)
