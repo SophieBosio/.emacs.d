@@ -1402,7 +1402,7 @@ In Emacs, paragraphs can be padded by a bunch of newlines, meaning a what looks 
   :bind (:map custom-bindings-map
               ("C-;" . symbol-overlay-put)
               ("M-N" . symbol-overlay-jump-next)
-              ("M-P" . symbol-overlay-jump-previous)))
+              ("M-P" . symbol-overlay-jump-prev)))
 #+end_src
 
 [[https://xenodium.com/its-all-up-for-grabs-and-it-compounds/][In his blog post]], Alvaro Ramirez (AKA Xenodium) demonstrates one of the best things in Emacs: Seeing things that are almost the way you want them and tweaking them with Elisp so they become that. He takes multiple-cursors and symbol-overlay and combines them. and Ramirez wrote a function that lets symbol-overlay communicate to multiple-cursors that this is where you should give me cursors. Edit all the things at once!  I think it's great, so let's use it and bind it to =C-;=.
