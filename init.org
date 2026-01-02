@@ -1921,7 +1921,9 @@ Then configure Magit. I'll add hooks to have =diff-hl= update the gutter wheneve
   (setq magit-mode-quit-window 'magit-restore-window-configuration
 		magit-auto-revert-mode t)
   ; Remove tags from status buffer headings to speed up refresh slightly
-  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header))
+  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+  ; Remove the "Head", "Merge", and "Push" status headers for even more speed!
+  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers))
 #+end_src
 
 *** Magit Forge
