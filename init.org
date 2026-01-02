@@ -78,6 +78,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#splitting-windows][Splitting Windows]]
   - [[#opening-closing--switching-windows][Opening, Closing, & Switching Windows]]
   - [[#projectile][Projectile]]
+  - [[#javelin][Javelin]]
   - [[#ibuffer][IBuffer]]
   - [[#dired][Dired]]
 - [[#completion][Completion]]
@@ -1634,6 +1635,21 @@ my projects in a specific folder, so I'll set Projectile to check that path spec
   (setq projectile-create-missing-test-files t)
   :init
   (projectile-mode))
+#+end_src
+
+** Javelin
+
+[[https://github.com/DamianB-BitFlipper/javelin.el][Javelin]] is inspired by ThePrimeagen's [[https://github.com/ThePrimeagen/harpoon][Harpoon]] for NeoVim.
+
+It gives you the ability to bookmark files and buffers, scoped to projects and even Git branches.
+
+By default, =M-<number>= will assign a buffer to that binding if not already bookmarked, and jump to the bookmark if already bound.
+
+#+begin_src emacs-lisp
+(use-package javelin
+  :ensure t
+  :config
+  (global-javelin-minor-mode 1))
 #+end_src
 
 ** IBuffer
