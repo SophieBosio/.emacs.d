@@ -3903,6 +3903,26 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
   (define-key js2-mode-map (kbd "M-,") 'xref-pop-marker-stack))
 #+end_src
 
+It's also nice to have the same keybindings for running tests in TypeScript as I already do in Clojure via CIDER. [[https://github.com/rymndhng/jest-test-mode][jest-test-mode]] comes with CIDER-style bindings out of the box. From the project's README:
+
+| Binding     | Action                                                           |
+|-------------+------------------------------------------------------------------|
+| =C-c C-t n=   | Runs tests in the current buffer.                                |
+| =C-c C-t p=   | Runs all tests in the project.                                   |
+| =C-c C-t t=   | Runs the it/test/describe block at the current point.            |
+| =C-c C-t a=   | Re-runs the previous test command.                               |
+| =C-c C-t d n= | Runs tests in the current buffer with node debugger.             |
+| =C-c C-t d t= | Runs the describe block at the current point with node debugger. |
+| =C-c C-t d a= | Re-runs the previous test command with node debugger.            |
+
+
+#+begin_src emacs-lisp
+(use-package jest-test-mode
+  :defer t
+  :commands jest-test-mode
+  :hook (typescript-mode js-mode typescript-tsx-mode))
+#+end_src
+
 * Activating Custom Keybindings
 *** Extra Keybindings
 
