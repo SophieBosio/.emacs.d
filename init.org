@@ -117,7 +117,6 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
 - [[#programming][Programming]]
   - [[#preferences--extras][Preferences & Extras]]
   - [[#flycheck][Flycheck]]
-  - [[#code-formatting][Code Formatting]]
   - [[#eldoc][Eldoc]]
   - [[#xref][xref]]
   - [[#http-requests][HTTP Requests]]
@@ -3169,30 +3168,6 @@ I'll turn off the error messages in the echo area, because they overlap with use
   :bind (:map flycheck-mode-map
               ("C-c ! !" . flycheck-explain-error-at-point))
   :config (setq flycheck-display-errors-function #'ignore))
-#+end_src
-
-** Code Formatting
-
-[[https://github.com/radian-software/apheleia][Apheleia]] is a package for automatically formatting code. It's possible to configure it with several backends, depending on what formatting tools and languages you're interested in. For now, I have it set up with [[https://prettier.io/][Prettier]] (JavaScript/TypeScript).
-
-#+begin_src emacs-lisp
-(use-package apheleia
-  :defer t
-  :defines
-  apheleia-formatters
-  apheleia-mode-alist
-  :functions
-  apheleia-global-mode
-  :hook ((typescript-mode    . apheleia-mode)
-         (javascript-mode    . apheleia-mode)
-         (typescript-ts-mode . apheleia-mode)
-         (tsx-mode           . apheleia-mode)
-         (tide-mode          . apheleia-mode))
-  :config
-  (setf (alist-get 'prettier-json apheleia-formatters)
-        '("prettier" "--stdin-filepath" filepath))
-  ;; (apheleia-global-mode +1)
-)
 #+end_src
 
 ** Eldoc
