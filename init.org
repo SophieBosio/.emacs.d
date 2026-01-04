@@ -3305,30 +3305,6 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
          (tsx-ts-mode        . smartparens-mode)
          (smartparens-mode   . (lambda () (electric-pair-local-mode -1))))
   :config
-*** Puni
-
-[[https://github.com/AmaiKinono/puni][Puni]] is another structural editing package that is language agnostic. I'm testing it out for non-LISPs.
-
-It doesn't have a lot of default keybindings. I want to mimic my Franken-paredit-lispy setup as closely as possible, so I'll bind a bunch.
-
-#+begin_src emacs-lisp
-(use-package puni
-  :defer t
-  :bind (:map puni-mode-map
-              ("C-f"       . puni-forward-sexp)
-              ("C-b"       . puni-backward-sexp)
-              ("C-<left>"  . puni-slurp)
-              ("C-<right>" . puni-barf)
-              ("C-M-u"     . puni-up-list)
-              ("M-s"       . puni-splice)
-              ("M-r"       . puni-raise)
-              ("C-M-t"     . puni-transpose)
-              ("M-S"       . puni-split)
-              ("M-?"       . puni-convolute)
-              ("C-("       . puni-wrap-round)
-              ("<C-lsb>"   . puni-wrap-square)
-              ("C-{"       . puni-wrap-curly)
-              ("C-<"       . puni-wrap-angle)))
   (require 'smartparens-config)
   ;; Don't highlight delimiters when created
   (setq sp-highlight-pair-overlay     nil
@@ -3847,8 +3823,6 @@ I use TypeScript at work sometimes, but I don't know a lot about it. Luckily, my
 In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier, and the TypeScript tree-sitter grammar installed.
 
 #+begin_src emacs-lisp
-(add-hook 'tsx-ts-mode 'puni-mode)
-
 (use-package rjsx-mode
   :defer t
   :mode "components\\/.*\\.js\\'")
