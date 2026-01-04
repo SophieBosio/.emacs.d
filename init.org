@@ -1452,10 +1452,8 @@ The default "undo until you can redo" behaviour of Emacs still trips me up.
 #+begin_src emacs-lisp
 (use-package move-dup
   :bind (:map custom-bindings-map
-              (("C-M-<up>"    . move-dup-move-lines-up)
-               ("C-M-<down>"  . move-dup-move-lines-down)
-               ("C-M-<left>"  . move-dup-move-lines-up)
-               ("C-M-<right>" . move-dup-move-lines-down)
+              (("C-S-<up>"    . move-dup-move-lines-up)
+               ("C-S-<down>"  . move-dup-move-lines-down)
                ("M-W"         . move-dup-duplicate-down))))
 #+end_src
 
@@ -1482,7 +1480,7 @@ In [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], Ma
 *** Kill Whole Line
 
 #+begin_src emacs-lisp
-(define-key custom-bindings-map (kbd "C-S-k") 'kill-whole-line)
+(define-key global-map (kbd "C-S-k") 'kill-whole-line)
 #+end_src
 
 ** CRUX
