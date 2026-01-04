@@ -121,7 +121,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#xref][xref]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#structural-editing][Structural Editing]]
+  - [[#structural-editing---smartparens][Structural Editing - Smartparens]]
   - [[#lsp][LSP]]
   - [[#programming-languages][Programming Languages]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -3275,85 +3275,38 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
-** Structural Editing
-*** lipsy/Paredit
+** Structural Editing - Smartparens
 
-[[https://github.com/abo-abo/lispy][lispy]] is (almost) a superset of the famous [[https://www.emacswiki.org/emacs/ParEdit][Paredit]], which is a structural editing package for LISPs.
+[[https://github.com/Fuco1/smartparens][Smartparens]] is a structural editing package that supports many languages out of the box. I've previously used [[https://www.emacswiki.org/emacs/ParEdit][Paredit]] and [[https://github.com/abo-abo/lispy][lispy]], but neither worked particularly well for TypeScript/JavaScript, which I use at work. Once you get used to structural editing, you just can't (or at least don't want to!) live without it, so I'm trying out Smartparens instead.
 
-Both are a lot more powerful than =eletric-pair-mode=, because they allow you to manipulate, select, and navigate forms semantically (by symbols or delimiters). So I want to use this rather than =electric-pair-mode= when editing LISPs.
+It's a lot more powerful than =eletric-pair-mode=, because it allows you to manipulate, select, and navigate forms semantically (by symbols or delimiters).
 
-=lispy= is a semi-modal editing package, which makes single letters into commands when your cursor is at an actionable position in your code. I'm not wild about mixing modal and non-modal editing, and I think Paredit's bindings are pretty good, so I mostly use those and invent my own bindings for the functions Paredit doesn't have. I also use a few of Paredit's functions that I prefer over their =lispy= equivalents.
+However, I did have just a few functions from lispy that I don't want to live without, namely:
+- =lispy-different= - Switch between the opening and closing delimiters
+- =lispy-move-up= - Move sexp up down, while keeping delimiters balanced
+- =lispy-move-down= - Move sexp down a line, while keeping delimiters balanced
+
+It's a bit insane to pull in lispy just for these functions, but I've really grown attached to these functions and it's my config, so welcome to the wild west!
 
 #+begin_src emacs-lisp
-(use-package paredit
-  :defer t
-  :commands
-  paredit-forward
-  paredit-backward
-  paredit-forward-up
-  paredit-forward-down
-  paredit-backward-up
-  paredit-backward-down)
-
 (use-package lispy
-  :after paredit
-  :hook (lispy-mode . (lambda () (electric-pair-local-mode -1)))
+  :defer t
   :config
   (setcdr lispy-mode-map nil)
-  :bind (:map lispy-mode-map
+  :commands
+  lispy-different
+  lispy-move-up
+  lispy-mode-down)
 
-         ;; Basic editing
-         ("("  . lispy-parens)
-         (")"  . lispy-right-nostring)
-         ("["  . lispy-brackets)
-         ("]"  . lispy-close-square)
-         ("{"  . lispy-braces)
-         ("}"  . lispy-close-curly)
-         (";"  . lispy-comment)
-         ("\"" . paredit-doublequote)
-
-         ;; Slurping & barfing
-         ("C-<right>"   . paredit-forward-slurp-sexp)
-         ("C-<left>"    . paredit-forward-barf-sexp)
-
-         ;; LISP-friendly Emacs commands
-         ("C-k"        . lispy-kill)
-         ("DEL"        . paredit-backward-delete)
-
-         ;; Navigating sexpressions
-         ("C-f"   . paredit-forward)
-         ("C-b"   . paredit-backward)
-         ("C-M-f" . paredit-forward-up)
-         ("C-M-b" . paredit-backward-up)
-
-         ("C-M-n" . paredit-forward-down)
-         ("C-M-p" . paredit-backward-down)
-         ("C-M-d" . paredit-forward-down)
-         ("C-M-u" . paredit-backward-up)
-
-         ("M-a"   . lispy-beginning-of-defun)
-         ("M-d"   . lispy-different) ; Toggle between beginning and start of sexp
-
-         ;; Moving sexpressions
-         ("C-M-<up>"   . lispy-move-up)
-         ("C-M-<down>" . lispy-move-down)
-         ("M-c"        . lispy-clone)
-
-         ;; Manipulating sexpressions
-         ("M-<up>"   . lispy-splice-sexp-killing-backward)
-         ("M-<down>" . lispy-splice-sexp-killing-forward)
-         ("M-s"      . lispy-splice)
-         ("M-r"      . lispy-raise-sexp)
-         ("M-S"      . lispy-split)
-         ("M-J"      . lispy-join)
-         ("M-?"      . paredit-convolute-sexp)
-
-         ;; Misc.
-         ("M-\"" . lispy-meta-doublequote)
-         ("M-)"  . lispy-close-round-and-newline)
-         ("M-("  . lispy-wrap-round)))
-#+end_src
-
+(use-package smartparens
+  :hook ((emacs-lisp-mode    . smartparens-mode)
+         (cider-mode         . smartparens-mode)
+         (cider-repl-mode    . smartparens-mode)
+         (clojure-mode       . smartparens-mode)
+         (typescript-ts-mode . smartparens-mode)
+         (tsx-ts-mode        . smartparens-mode)
+         (smartparens-mode   . (lambda () (electric-pair-local-mode -1))))
+  :config
 *** Puni
 
 [[https://github.com/AmaiKinono/puni][Puni]] is another structural editing package that is language agnostic. I'm testing it out for non-LISPs.
@@ -3378,6 +3331,47 @@ It doesn't have a lot of default keybindings. I want to mimic my Franken-paredit
               ("<C-lsb>"   . puni-wrap-square)
               ("C-{"       . puni-wrap-curly)
               ("C-<"       . puni-wrap-angle)))
+  (require 'smartparens-config)
+  ;; Don't highlight delimiters when created
+  (setq sp-highlight-pair-overlay     nil
+        sp-highlight-wrap-overlay     nil
+        sp-highlight-wrap-tag-overlay nil)
+  :bind (:map smartparens-mode-map
+
+              ;; Navigating
+              ("C-f"         . sp-forward-sexp)
+              ("C-b"         . sp-backward-sexp)
+              ("M-A"         . sp-beginning-of-sexp)
+              ("M-E"         . sp-end-of-sexp)
+              ("C-M-f"       . sp-up-sexp)
+              ("C-M-b"       . sp-backward-up-sexp)
+
+              ;; Slurping & barfing
+              ("C-<right>"   . sp-forward-slurp-sexp)
+              ("C-<left>"    . sp-forward-barf-sexp)
+              ("C-M-<right>" . sp-backward-barf-sexp)
+              ("C-M-<left>"  . sp-backward-slurp-sexp)
+
+              ;; Manipulating
+              ("M-c"         . sp-clone-sexp)
+              ("C-k"         . sp-kill-sexp)
+              ("C-S-k"       . sp-kill-whole-line)
+              ("M-s"         . sp-splice-sexp)
+              ("M-r"         . sp-raise-sexp)
+              ("M-<up>"      . sp-splice-sexp-killing-backward)
+              ("M-<down>"    . sp-splice-sexp-killing-forward)
+              ("C-M-t"       . sp-transpose-sexp)
+              ("M-?"         . sp-convolute-sexp)
+              ("M-S"         . sp-split-sexp)
+              ("M-J"         . sp-join-sexp)
+
+              ;; Inserting characters
+              (";"           . sp-comment)
+
+              ;; Functions from lispy
+              ("M-d"         . lispy-different)
+              ("C-M-<up>"    . lispy-move-up)
+              ("C-M-<down>"  . lispy-move-down)))
 #+end_src
 
 ** LSP
