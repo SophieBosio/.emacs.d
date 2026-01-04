@@ -3297,13 +3297,10 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   lispy-mode-down)
 
 (use-package smartparens
-  :hook ((emacs-lisp-mode    . smartparens-mode)
-         (cider-mode         . smartparens-mode)
-         (cider-repl-mode    . smartparens-mode)
-         (clojure-mode       . smartparens-mode)
-         (typescript-ts-mode . smartparens-mode)
-         (tsx-ts-mode        . smartparens-mode)
-         (smartparens-mode   . (lambda () (electric-pair-local-mode -1))))
+  :hook ((prog-mode        . smartparens-mode)
+         (text-mode        . smartparens-mode)
+         (markdown-mode    . smartparens-mode)
+         (smartparens-mode . (lambda () (electric-pair-local-mode -1))))
   :config
   (require 'smartparens-config)
   ;; Don't highlight delimiters when created
