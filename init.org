@@ -3875,6 +3875,18 @@ It's also nice to have the same keybindings for running tests in TypeScript as I
   :hook (typescript-ts-mode typescript-mode typescript-tsx-mode js-mode))
 #+end_src
 
+It's also nice to have a small util for typechecking:
+
+#+begin_src emacs-lisp
+(defun run-typescript-check ()
+  (interactive)
+  (compile "pnpm check-types"))
+
+(add-hook 'typescript-ts-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c C-t c") 'run-typescript-check)))
+#+end_src
+
 * Activating Custom Keybindings
 *** Extra Keybindings
 
