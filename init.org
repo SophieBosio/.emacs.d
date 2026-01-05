@@ -3281,6 +3281,7 @@ It's a lot more powerful than =eletric-pair-mode=, because it allows you to mani
 
 However, I did have just a few functions from lispy that I don't want to live without, namely:
 - =lispy-different= - Switch between the opening and closing delimiters
+- =lispy-clone= - Clone the current sexp on and paste it on the line below (sp has this as well, but I like the behaviour of lispy's version better)
 - =lispy-move-up= - Move sexp up down, while keeping delimiters balanced
 - =lispy-move-down= - Move sexp down a line, while keeping delimiters balanced
 
@@ -3293,6 +3294,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   (setcdr lispy-mode-map nil)
   :commands
   lispy-different
+  lispy-clone
   lispy-move-up
   lispy-mode-down)
 
@@ -3324,7 +3326,6 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ("C-M-<left>"  . sp-backward-slurp-sexp)
 
               ;; Manipulating
-              ("M-c"         . sp-clone-sexp)
               ("C-k"         . sp-kill-sexp)
               ("C-S-k"       . sp-kill-whole-line)
               ("M-s"         . sp-splice-sexp)
@@ -3341,6 +3342,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
 
               ;; Functions from lispy
               ("M-d"         . lispy-different)
+              ("M-c"         . lispy-clone)
               ("C-M-<up>"    . lispy-move-up)
               ("C-M-<down>"  . lispy-move-down)))
 #+end_src
