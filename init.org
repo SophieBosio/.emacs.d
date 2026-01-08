@@ -1480,7 +1480,7 @@ In [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], Ma
 *** Kill Whole Line
 
 #+begin_src emacs-lisp
-(define-key global-map (kbd "C-S-k") 'kill-whole-line)
+(define-key custom-bindings-map (kbd "C-S-k") 'kill-whole-line)
 #+end_src
 
 ** CRUX
@@ -3329,7 +3329,6 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
 
               ;; Manipulating
               ("C-k"         . sp-kill-sexp)
-              ("C-S-k"       . sp-kill-whole-line)
               ("M-s"         . sp-splice-sexp)
               ("M-r"         . sp-raise-sexp)
               ("M-<up>"      . sp-splice-sexp-killing-backward)
