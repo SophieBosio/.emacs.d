@@ -121,7 +121,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#xref][xref]]
   - [[#http-requests][HTTP Requests]]
   - [[#tree-sitter][Tree-Sitter]]
-  - [[#structural-editing---smartparens][Structural Editing - Smartparens]]
+  - [[#structural-editing][Structural Editing]]
   - [[#lsp][LSP]]
   - [[#programming-languages][Programming Languages]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
@@ -3294,7 +3294,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
   (os/setup-install-grammars))
 #+end_src
 
-** Structural Editing - Smartparens
+** Structural Editing
 
 [[https://github.com/Fuco1/smartparens][Smartparens]] is a structural editing package that supports many languages out of the box. I've previously used [[https://www.emacswiki.org/emacs/ParEdit][Paredit]] and [[https://github.com/abo-abo/lispy][lispy]], but neither worked particularly well for TypeScript/JavaScript, which I use at work. Once you get used to structural editing, you just can't (or at least don't want to!) live without it, so I'm trying out Smartparens instead.
 
@@ -3303,9 +3303,9 @@ It's a lot more powerful than =eletric-pair-mode=, because it allows you to mani
 However, I did have just a few functions from lispy that I don't want to live without, namely:
 - =lispy-different= - Switch between the opening and closing delimiters
 - =lispy-clone= - Clone the current sexp on and paste it on the line below (sp has this as well, but I like the behaviour of lispy's version better)
-- =lispy-comment= - Again, the sp version exists, but I think lispy's better
 - =lispy-move-up= - Move sexp up down, while keeping delimiters balanced
 - =lispy-move-down= - Move sexp down a line, while keeping delimiters balanced
+- + some functions to insert special characters, like semicolons for comments and different delimiters
 
 It's a bit insane to pull in lispy just for these functions, but I've really grown attached to these functions and it's my config, so welcome to the wild west!
 
@@ -3316,10 +3316,16 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   (setcdr lispy-mode-map nil)
   :commands
   lispy-different
-  lispy-clone
   lispy-comment
   lispy-move-up
-  lispy-mode-down)
+  lispy-mode-down
+  lispy-clone
+  lispy-parens
+  lispy-right-nostring
+  lispy-brackets
+  lispy-close-square
+  lispy-braces
+  lispy-close-curly)
 
 (use-package smartparens
   :hook ((prog-mode        . smartparens-mode)
@@ -3359,12 +3365,23 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ("M-S"         . sp-split-sexp)
               ("M-J"         . sp-join-sexp)
 
-              ;; Functions from lispy
+              ;; --- Functions from lispy ---
+              ;; Navigating
               ("M-d"         . lispy-different)
-              ("M-c"         . lispy-clone)
-              (";"           . lispy-comment)
               ("C-M-<up>"    . lispy-move-up)
-              ("C-M-<down>"  . lispy-move-down)))
+              ("C-M-<down>"  . lispy-move-down)
+
+              ;; Manipulating
+              ("M-c"         . lispy-clone)
+
+              ;; Inserting special characters
+              (";"           . lispy-comment)
+              ("("           . lispy-parens)
+              (")"           . lispy-right-nostring)
+              ("["           . lispy-brackets)
+              ("]"           . lispy-close-square))
+              ("{"           . lispy-braces)
+              ("}"           . lispy-close-curly))
 #+end_src
 
 ** LSP
