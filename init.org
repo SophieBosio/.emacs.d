@@ -2031,12 +2031,11 @@ Roam-notes, and other sequences often used.
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
   :bind (:map custom-bindings-map
-			  ("C-h f" . #'helpful-function)
-			  ("C-h v" . #'helpful-variable)
-			  ("C-h k" . #'helpful-key)
-			  ("C-h x" . #'helpful-command)
-			  ("C-h d" . #'helpful-at-point)
-			  ("C-h c" . #'helpful-callable)))
+			  ("C-h f" . helpful-callable) ; helpful-function++
+			  ("C-h v" . helpful-variable)
+			  ("C-h k" . helpful-key)
+			  ("C-h x" . helpful-command)
+			  ("C-h h" . helpful-at-point)))
 #+END_SRC
 
 [[https://github.com/justbur/emacs-which-key][which-key]] shows you available keybindings in the minibuffer. When you've started
