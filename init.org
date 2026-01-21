@@ -3372,7 +3372,6 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ("M-c"         . lispy-clone)
 
               ;; Inserting special characters
-              (";"           . lispy-comment)
               ("("           . lispy-parens)
               (")"           . lispy-right-nostring)
               ("["           . lispy-brackets)
@@ -3509,7 +3508,8 @@ It has some great refactoring features under a sparse mode map called =clojure-r
               ("C-'"     . clojure-convert-collection-to-quoted-list)
               ("<C-lsb>" . clojure-convert-collection-to-vector)
               ("C-{"     . clojure-convert-collection-to-map)
-              ("C-#"     . clojure-convert-collection-to-set))
+              ("C-#"     . clojure-convert-collection-to-set)
+              (";"       . lispy-comment))
   :config
   (require 'flycheck-clj-kondo))
 #+end_src
@@ -3707,7 +3707,9 @@ And finally, I need to edit parens safely. Let's hook in =lispy=!
 
 #+begin_src emacs-lisp
 (use-package emacs
-  :hook (emacs-lisp-mode . lispy-mode))
+  :hook (emacs-lisp-mode . lispy-mode)
+  :bind (:map emacs-lisp-mode-map
+              (";" . lispy-comment)))
 #+end_src
 
 *** Scheme
