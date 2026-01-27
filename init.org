@@ -3516,7 +3516,7 @@ It has some great refactoring features under a sparse mode map called =clojure-r
 
 Next, we need [[https://github.com/clojure-emacs/cider][CIDER]], the Clojure Interactive Development Environment that Rocks!
 
-In addition to refactoring keybindings, there are some more keybindings I'd like to add to =cider-mode=..
+In addition to refactoring keybindings, there are some more keybindings I'd like to add to =cider-mode=.
 
 *cider-selector:*
 There's a very handy built-in function called =cider-selector= which lets you type a key to select one of CIDER's buffers, such as the =*cider-error*= and =*cider-scratch*= buffers. But it's bound to the kind of clunky =C-c M-s=, so let's rebind it to the more ergonomic =C-c s=.
