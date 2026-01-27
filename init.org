@@ -3067,8 +3067,9 @@ See `org-capture-templates' for more information."
   :after org
   :bind
   (:map org-mode-map
-        (("s-t" . org-download-screenshot)
-         ("s-y" . org-download-clipboard))))
+        (("s-t"   . org-download-screenshot)
+         ("s-y"   . org-download-clipboard)
+         ("C-M-y" . org-download-clipboard))))
 #+end_src
 
 *** TOC in Org Files
