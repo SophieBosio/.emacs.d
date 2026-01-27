@@ -3072,6 +3072,14 @@ See `org-capture-templates' for more information."
          ("C-M-y" . org-download-clipboard))))
 #+end_src
 
+*** Display inline images by default
+
+This option displays inline images in Org mode by default when opening a file. The default setting is to not do so.
+
+#+begin_src emacs-lisp
+(setq org-startup-with-inline-images t)
+#+end_src
+
 *** TOC in Org Files
 
 [[https://github.com/snosov1/toc-org][toc-org]] creates nice, Markdown compatible tables of content for your Org files.
