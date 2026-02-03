@@ -3175,7 +3175,7 @@ I'll turn off the error messages in the echo area, because they overlap with use
 (use-package flycheck
   :defer t
   :init (global-flycheck-mode)
-  :bind (:map flycheck-mode-map
+  :bind (:map custom-bindings-map
               ("M-- -"    . flycheck-explain-error-at-point)
               ("M-- M--"  . flycheck-explain-error-at-point)
               ("M-- ?"    . flycheck-describe-checker)
