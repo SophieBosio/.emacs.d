@@ -3839,7 +3839,7 @@ This is for the MIT/GNU flavour:
    :interpreter ("python3" . python-mode)
    :defer t
    :config
-   (setq python-shell-interpreter "python3.11")
+   (setq python-shell-interpreter "python3.14")
    (add-hook 'python-mode
 			 (lambda () (setq forward-sexp-function nil))))
  #+end_src
