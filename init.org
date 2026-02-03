@@ -3340,6 +3340,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
          (smartparens-mode . (lambda () (electric-pair-local-mode -1))))
   :config
   (require 'smartparens-config)
+  (setq smartparens-strict-mode t)
   ;; Don't highlight delimiters when created
   (setq sp-highlight-pair-overlay     nil
         sp-highlight-wrap-overlay     nil
