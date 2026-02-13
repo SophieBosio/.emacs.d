@@ -1645,10 +1645,11 @@ By default, =M-<number>= will assign a buffer to that binding if not already boo
 #+begin_src emacs-lisp
 (use-package javelin
   :ensure t
-  :config
-  (global-javelin-minor-mode 1)
   :bind (:map javelin-minor-mode-map
-              ("M-+" . javelin-toggle-quick-menu)))
+              ("M--" . nil)
+              ("M-+" . javelin-toggle-quick-menu))
+  :init
+  (global-javelin-minor-mode))
 #+end_src
 
 ** IBuffer
