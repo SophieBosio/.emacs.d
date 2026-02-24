@@ -1001,7 +1001,7 @@ For some reason, my light themes leave some fragments that disappear when I load
                `(eval-sexp-fu-flash
                  ((t (:background
                       ,soph/default-dark-accent-colour)))))
-              `(load-theme ,soph/default-dark-theme t))))
+              (load-theme soph/default-dark-theme t))))
          (auto-dark-light-mode
           .
           (lambda ()
@@ -1011,7 +1011,7 @@ For some reason, my light themes leave some fragments that disappear when I load
                `(eval-sexp-fu-flash
                  ((t (:background
                       ,soph/default-light-accent-colour)))))
-              `(load-theme ,soph/default-light-theme t)))))
+              (load-theme soph/default-light-theme t)))))
   :custom
   (auto-dark-themes                   `((,soph/default-dark-theme) (,soph/default-light-theme)))
   (auto-dark-polling-interval-seconds 5)
