@@ -1050,15 +1050,62 @@ This mode line is heavily inspired by Nicolas Rougier's [[https://github.com/rou
 even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comment/kdx3aam/?context=3][how to add vertical padding]] to it.
 
 It has this shape:
-=[ lambda <filename> <git branch name>                <LSP code actions> LLLL:CCCC ]=
+=[ lambda <filename> <git branch name>               <Flycheck errors> LLLL:CCCC ]=
 
-Here's a screenshot of a small window where the mode line shows well. The number and a little star icon in the bottom right to tell me how many LSP code actions are available at point.
+Here's a screenshot of a small window where the mode line shows well. Flycheck errors are reported per type. If there are no errors, a simple =-= is displayed instead.
 
 [[./images/mode-line-screenshot.png]]
+First, a variable to hold the Flycheck mode line string and a function to calculate it.
 
 #+begin_src emacs-lisp
-(defvar lsp-modeline--code-actions-string nil)
+(defvar soph/flycheck-mode-line-string nil
+  "String showing current Flycheck error counts.")
 
+(defun soph/update-flycheck-modeline ()
+  "Update the Flycheck modeline string with current error counts."
+  (setq soph/flycheck-mode-line-string
+        (if (and (bound-and-true-p flycheck-mode)
+                 flycheck-current-errors)
+            (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
+                   (errors 0)
+                   (warnings 0)
+                   (infos 0)
+                   (parts '()))
+              ;; Count error types, both native Flycheck errors and ones from lsp-mode
+              (dolist (item error-counts)
+                (let ((level (symbol-name (car item)))
+                      (count (cdr item)))
+                  (cond
+                   ((or (eq (car item) 'error)
+                        (string-prefix-p "lsp-flycheck-error" level))
+                    (setq errors (+ errors count)))
+                   ((or (eq (car item) 'warning)
+                        (string-prefix-p "lsp-flycheck-warning" level))
+                    (setq warnings (+ warnings count)))
+                   ((or (eq (car item) 'info)
+                        (string-prefix-p "lsp-flycheck-info" level))
+                    (setq infos (+ infos count))))))
+              (when (> infos 0)
+                (push (propertize (format "%d" infos) 'face 'flycheck-fringe-info)
+                      parts))
+              (when (> warnings 0)
+                (push (propertize (format "%d" warnings) 'face 'flycheck-fringe-warning)
+                      parts))
+              (when (> errors 0)
+                (push (propertize (format "‍%d" errors) 'face 'flycheck-fringe-error)
+                      parts))
+              (if parts
+                  (concat (propertize "✱ " 'face 'font-lock-comment-face)
+                          (string-join (nreverse parts) (propertize " / " 'face 'font-lock-comment-face))
+                          (propertize " ✱ " 'face 'font-lock-comment-face))
+                (propertize " - " 'face 'font-lock-comment-face)))
+          (propertize " - " 'face 'font-lock-comment-face)))
+  (force-mode-line-update))
+#+end_src
+
+And then the mode line definition itself:
+
+#+begin_src emacs-lisp
 (setq-default mode-line-format
   '("%e"
 	(:propertize " " display (raise +0.4)) ;; Top padding
@@ -1083,11 +1130,11 @@ Here's a screenshot of a small window where the mode line shows well. The number
 			 `((space :align-to
 					  (-  (+ right right-fringe right-margin)
 						 ,(+ 3
-                             (string-width (or lsp-modeline--code-actions-string ""))
+                             (string-width (or soph/flycheck-mode-line-string ""))
                              (string-width "%4l:3%c")))))))
 
-    ;; LSP code actions
-    (:eval (or lsp-modeline--code-actions-string ""))
+    ;; Flycheck error counts
+    (:eval (or soph/flycheck-mode-line-string ""))
 	
 	;; Line and column numbers
 	(:propertize "%4l:%c" face mode-line-buffer-id)))
