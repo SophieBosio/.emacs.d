@@ -3235,7 +3235,18 @@ I'll turn off the error messages in the echo area, because they overlap with use
               ("M-- s"    . flycheck-select-checker)
               ("M-- v"    . flycheck-verify-setup)
               ("M-- x"    . flycheck-disable-checker))
-  :config (setq flycheck-display-errors-function #'ignore))
+  :config
+  (setq flycheck-display-errors-function #'ignore)
+  (add-hook 'flycheck-after-syntax-check-hook #'soph/update-flycheck-modeline)
+  (add-hook 'flycheck-mode-hook #'soph/update-flycheck-modeline)
+  (add-hook 'after-save-hook
+            (lambda ()
+              (when (bound-and-true-p flycheck-mode)
+                (flycheck-buffer))))
+  (add-hook 'window-buffer-change-functions
+            (lambda (_)
+              (when (bound-and-true-p flycheck-mode)
+                (flycheck-buffer)))))
 #+end_src
 
 ** Eldoc
