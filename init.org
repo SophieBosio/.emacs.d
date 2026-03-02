@@ -359,13 +359,6 @@ Famously, the Emacs garbage collector can impede startup times quite dramaticall
 
 ** Optimisations
 
-We can set the =file-name-handler-alist=, which is supposed to help startup times a little.
-
-#+begin_src emacs-lisp
-(setq file-name-handler-alist-original file-name-handler-alist)
-(setq file-name-handler-alist nil)
-#+end_src
-
 I also get quite a lot of compilation warnings, especially from native compilation, but they are usually safe to ignore.
 
 #+begin_src emacs-lisp
