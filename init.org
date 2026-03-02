@@ -3379,9 +3379,9 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ("("           . lispy-parens)
               (")"           . lispy-right-nostring)
               ("["           . lispy-brackets)
-              ("]"           . lispy-close-square))
+              ("]"           . lispy-close-square)
               ("{"           . lispy-braces)
-              ("}"           . lispy-close-curly))
+              ("}"           . lispy-close-curly)))
 #+end_src
 
 ** LSP
