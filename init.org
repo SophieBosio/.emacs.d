@@ -3360,7 +3360,7 @@ I don't really use tree-sitter a lot, so this is just a configuration I saw floa
 
 It's a lot more powerful than =eletric-pair-mode=, because it allows you to manipulate, select, and navigate forms semantically (by symbols or delimiters).
 
-However, I did have just a few functions from lispy that I don't want to live without, namely:
+However, I did have just a few functions from lispy that I don't want to live without, among them:
 - =lispy-different= - Switch between the opening and closing delimiters
 - =lispy-clone= - Clone the current sexp on and paste it on the line below (sp has this as well, but I like the behaviour of lispy's version better)
 - =lispy-move-up= - Move sexp up down, while keeping delimiters balanced
@@ -3380,6 +3380,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   lispy-move-up
   lispy-mode-down
   lispy-clone
+  lispy-kill
   lispy-parens
   lispy-right-nostring
   lispy-brackets
@@ -3414,7 +3415,6 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ("C-M-<left>"  . sp-backward-slurp-sexp)
 
               ;; Manipulating
-              ("C-k"         . sp-kill-sexp)
               ("M-s"         . sp-splice-sexp)
               ("M-r"         . sp-raise-sexp)
               ("M-<up>"      . sp-splice-sexp-killing-backward)
@@ -3432,6 +3432,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
 
               ;; Manipulating
               ("M-c"         . lispy-clone)
+              ("C-k"         . lispy-kill)
 
               ;; Inserting special characters
               ("("           . lispy-parens)
