@@ -3562,22 +3562,27 @@ There's also a nice mode for language-aware folding called [[https://github.com/
 ** Programming Languages
 *** Clojure
 
-=clojure-mode= is where it all starts.
+I've switched to [[https://github.com/clojure-emacs/clojure-ts-mode][clojure-ts-mode]], which is near feature parity with the original [[https://github.com/clojure-emacs/clojure-mode][clojure-mode]] that I used before.
 
-It has some great refactoring features under a sparse mode map called =clojure-refactor-map=, but they're a little finicky to access with the prefix combination =C-c C-r= folowed by a final command on the form =C-...=. Because I don't use any of these =C-...= combinations for other things, I prefer to bind them on the top-level of the =clojure-mode-map= so I can skip the prefix combo.
+It has some great [[https://github.com/clojure-emacs/clojure-ts-mode?tab=readme-ov-file#refactoring-support][refactoring features]] under a specific mode map called =clojure-ts-refactor-map=, but they're a little finicky to access with the prefix combination =C-c C-r= folowed by a final command on the form =C-...=.
+
+But luckily, there's a variable called =clojure-ts-refactor-map-prefix= to set this prefix. I've also set a few top-level ones directly in =clojure-ts-mode-map=.
 
 #+begin_src emacs-lisp
-(use-package clojure-mode
+(use-package clojure-ts-mode
   :defer t
-  :bind (:map clojure-mode-map
-              ("C-("     . clojure-convert-collection-to-list)
-              ("C-'"     . clojure-convert-collection-to-quoted-list)
-              ("<C-lsb>" . clojure-convert-collection-to-vector)
-              ("C-{"     . clojure-convert-collection-to-map)
-              ("C-#"     . clojure-convert-collection-to-set)
-              (";"       . lispy-comment))
-  :config
-  (require 'flycheck-clj-kondo))
+  :hook ((clojure-ts-mode . whitespace-mode)
+         ;; I think the font locking (syntax highlighting) of numbers in clojure-ts-mode
+         ;; is ugly, so let's ignore it:
+         (clojure-ts-mode . (lambda ()
+                              (face-remap-add-relative 'font-lock-number-face 'default))))
+  :bind (:map clojure-ts-mode-map
+              ("C-("     . clojure-ts-convert-collection-to-list)
+              ("C-'"     . clojure-ts-convert-collection-to-quoted-list)
+              ("<C-lsb>" . clojure-ts-convert-collection-to-vector)
+              ("C-{"     . clojure-ts-convert-collection-to-map)
+              ("C-#"     . clojure-ts-convert-collection-to-set)
+              (";"       . lispy-comment)))
 #+end_src
 
 Next, we need [[https://github.com/clojure-emacs/cider][CIDER]], the Clojure Interactive Development Environment that Rocks!
