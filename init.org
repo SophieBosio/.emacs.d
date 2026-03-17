@@ -3663,10 +3663,6 @@ Note that I also use LSP mode for Clojure.
 #+begin_src emacs-lisp
 (use-package cider
   :defer t
-  :hook ((cider-mode      . lispy-mode)
-         (cider-repl-mode . lispy-mode)
-         (clojure-ts-mode . lispy-mode)
-         (clojure-ts-mode . whitespace-mode))
   :bind (:map cider-repl-mode-map
               ("C-l"   . cider-repl-clear-buffer))
   :bind (:map cider-mode-map
