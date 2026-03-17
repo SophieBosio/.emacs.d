@@ -3654,10 +3654,7 @@ If you've ever def'ed something, you'll know that to pretty print it, you need t
 
 And now, finally, to assembly!
 
-CIDER adds support for interactive Clojure programming in Emacs. It provides
- built-in support for firing up a REPL and looking up documentation and source
- code, but it also has very Emacs-like shortcuts for expected actions, such as
- =C-x C-e= to evaluate the s-expression at point.
+CIDER adds support for interactive Clojure programming in Emacs. It provides built-in support for firing up a REPL and looking up documentation and source code, but it also has very Emacs-like shortcuts for expected actions, such as =C-x C-e= to evaluate the s-expression at point.
 
 Of course, we need Lispy/ParEdit, so let's add that, as well as keybindings for the functions we defined above.
 
