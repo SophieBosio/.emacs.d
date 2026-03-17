@@ -3456,7 +3456,7 @@ I disable a few of the default features. If you want to know more about these an
 (use-package lsp-mode
   :defer t
   :init (setq lsp-use-plists t)
-  :hook ((clojure-mode          . lsp)
+  :hook ((clojure-ts-mode       . lsp)
          (clojurec-mode         . lsp)
          (lsp-mode              . lsp-enable-which-key-integration)
          (typescript-mode       . lsp)
@@ -3668,8 +3668,8 @@ Note that I also use LSP mode for Clojure.
   :defer t
   :hook ((cider-mode      . lispy-mode)
          (cider-repl-mode . lispy-mode)
-         (clojure-mode    . lispy-mode)
-         (clojure-mode    . whitespace-mode))
+         (clojure-ts-mode . lispy-mode)
+         (clojure-ts-mode . whitespace-mode))
   :bind (:map cider-repl-mode-map
               ("C-l"   . cider-repl-clear-buffer))
   :bind (:map cider-mode-map
@@ -3708,8 +3708,8 @@ It can auto-insert the namespace of new files, but LSP mode already does that, s
 
 #+begin_src emacs-lisp
 (use-package clj-refactor
-  :after clojure-mode
-  :hook (clojure-mode . clj-refactor-mode)
+  :after clojure-ts-mode
+  :hook (clojure-ts-mode . clj-refactor-mode)
   :config
   (setq cljr-add-ns-to-blank-clj-files nil)
   (cljr-add-keybindings-with-prefix "C-<tab>"))
