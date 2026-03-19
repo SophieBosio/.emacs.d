@@ -3538,7 +3538,9 @@ But luckily, there's a variable called =clojure-ts-refactor-map-prefix= to set t
               ("<C-lsb>" . clojure-ts-convert-collection-to-vector)
               ("C-{"     . clojure-ts-convert-collection-to-map)
               ("C-#"     . clojure-ts-convert-collection-to-set)
-              (";"       . lispy-comment)))
+              (";"       . lispy-comment))
+  :config
+  (setq clojure-ts-toplevel-inside-comment-form t))
 #+end_src
 
 Next, we need [[https://github.com/clojure-emacs/cider][CIDER]], the Clojure Interactive Development Environment that Rocks!
