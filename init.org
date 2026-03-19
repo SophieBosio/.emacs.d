@@ -423,6 +423,12 @@ Next, I'll set up my package sources. These are very common and well-maintained 
 (package-initialize)
 #+END_SRC
 
+Also, please upgrade even built-in packages.
+
+#+begin_src emacs-lisp
+(setq package-install-upgrade-built-in t)
+#+end_src
+
 * Housekeeping
 ** Built-in Options
 
