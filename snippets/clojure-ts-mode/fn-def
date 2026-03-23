@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: fn-def
+# key: <fn-def
+# --
+(fn [x] (def x x) x)

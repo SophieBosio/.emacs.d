@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: comment form
+# key: <c
+# --
+(comment
+    $0
+    :-)

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Pretty Print
+# key: <pp
+# --
+(clojure.pprint/pprint $0)

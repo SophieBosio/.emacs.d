@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: keys
+# key: <keys
+# --
+{:keys [$0]}

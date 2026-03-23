@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# -*- coding: utf-8 -*-
+# name: map-fn
+# key: <map-fn
+# --
+(map #($1) $2)$>
