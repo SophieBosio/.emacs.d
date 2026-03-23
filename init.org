@@ -3433,6 +3433,7 @@ I disable a few of the default features. If you want to know more about these an
   ;; Disable visual features
   (setq lsp-headerline-breadcrumb-enable nil  ;; No breadcrumbs
         lsp-lens-enable                  nil  ;; No lenses
+        lsp-enable-symbol-highlighting   nil  ;; Don't highlight current symbol
 
         ;; Limit raising of the echo area to show docs
         lsp-signature-doc-lines 3)
