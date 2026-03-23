@@ -3435,10 +3435,11 @@ I disable a few of the default features. If you want to know more about these an
         lsp-lens-enable                  nil  ;; No lenses
         lsp-enable-symbol-highlighting   nil  ;; Don't highlight current symbol
 
+        lsp-file-watch-threshold         2000
+        lsp-format-buffer-on-save        nil
+
         ;; Limit raising of the echo area to show docs
-        lsp-signature-doc-lines 3)
-  (setq lsp-file-watch-threshold  1500)
-  (setq lsp-format-buffer-on-save nil)
+        lsp-signature-doc-lines          3)
 
   (with-eval-after-load 'lsp-modeline
     (set-face-attribute 'lsp-modeline-code-actions-preferred-face nil
@@ -3612,9 +3613,7 @@ And now, finally, to assembly!
 
 CIDER adds support for interactive Clojure programming in Emacs. It provides built-in support for firing up a REPL and looking up documentation and source code, but it also has very Emacs-like shortcuts for expected actions, such as =C-x C-e= to evaluate the s-expression at point.
 
-Of course, we need Lispy/ParEdit, so let's add that, as well as keybindings for the functions we defined above.
-
-Note that I also use LSP mode for Clojure.
+Let's add some keybindings, including for the functions we defined above.
 
 #+begin_src emacs-lisp
 (use-package cider
