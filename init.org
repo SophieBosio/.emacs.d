@@ -3570,10 +3570,7 @@ If you've ever def'ed something, you'll know that to pretty print it, you need t
   "Evaluate the current namespace, then run all tests associated with it."
   (interactive)
   (cider-eval-buffer)
-  ;; Get the current namespace
-  (let ((ns (cider-current-ns)))
-    (when ns
-      (cider-test-run-ns-tests ns))))
+  (cider-test-run-ns-tests nil))
 
 ;; From https://github.com/magnars/emacsd-reboot/blob/28dcd6e8b0d4f94bcb874fe2c8c3a1f6de4b1bb3/packages/setup-cider.el#L113-L124
 (defun soph/cider-eval-to-clipboard ()
