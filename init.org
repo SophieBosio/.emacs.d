@@ -3434,10 +3434,6 @@ I disable a few of the default features. If you want to know more about these an
   (setq lsp-headerline-breadcrumb-enable nil  ;; No breadcrumbs
         lsp-lens-enable                  nil  ;; No lenses
 
-        ;; Enable code actions in the mode line
-        lsp-modeline-code-actions-enable t
-        lsp-modeline-code-action-fallback-icon "✦"
-
         ;; Limit raising of the echo area to show docs
         lsp-signature-doc-lines 3)
   (setq lsp-file-watch-threshold  1500)
