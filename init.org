@@ -3462,7 +3462,7 @@ There's also a nice mode for language-aware folding called [[https://github.com/
   :defer t
   :hook (prog-mode . origami-mode)
   :bind (:map origami-mode-map
-              ("M-z" . origami-toggle-node)))
+              ("C-z" . origami-toggle-node)))
 
 (use-package lsp-origami
   :after lsp
