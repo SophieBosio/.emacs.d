@@ -3324,11 +3324,12 @@ The package [[https://github.com/renzmann/treesit-auto][treesit-auto]] will auto
 It's a lot more powerful than =eletric-pair-mode=, because it allows you to manipulate, select, and navigate forms semantically (by symbols or delimiters).
 
 However, I did have just a few functions from lispy that I don't want to live without, among them:
-- =lispy-different= - Switch between the opening and closing delimiters
-- =lispy-clone= - Clone the current sexp on and paste it on the line below (sp has this as well, but I like the behaviour of lispy's version better)
-- =lispy-move-up= - Move sexp up down, while keeping delimiters balanced
-- =lispy-move-down= - Move sexp down a line, while keeping delimiters balanced
-- + some functions to insert special characters, like semicolons for comments and different delimiters
+- =lispy-different= - Switch between the opening and closing delimiters.
+- =lispy-comment= - Insert the appropriate number of semicolons and automatically adjust the whitespace before them.
+- =lispy-clone= - Clone the current sexp on and paste it on the line below (sp has this as well, but I like the behaviour of lispy's version better).
+- =lispy-kill= - Kill the sexp after point. I like it better than the sp version.
+- =lispy-move-up= - Move sexp up down, while keeping delimiters balanced.
+- =lispy-move-down= - Move sexp down a line, while keeping delimiters balanced.
 
 It's a bit insane to pull in lispy just for these functions, but I've really grown attached to these functions and it's my config, so welcome to the wild west!
 
@@ -3343,13 +3344,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   lispy-move-up
   lispy-mode-down
   lispy-clone
-  lispy-kill
-  lispy-parens
-  lispy-right-nostring
-  lispy-brackets
-  lispy-close-square
-  lispy-braces
-  lispy-close-curly)
+  lispy-kill)
 
 (use-package smartparens
   :hook ((prog-mode        . smartparens-mode)
@@ -3395,15 +3390,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
 
               ;; Manipulating
               ("M-c"         . lispy-clone)
-              ("C-k"         . lispy-kill)
-
-              ;; Inserting special characters
-              ("("           . lispy-parens)
-              (")"           . lispy-right-nostring)
-              ("["           . lispy-brackets)
-              ("]"           . lispy-close-square)
-              ("{"           . lispy-braces)
-              ("}"           . lispy-close-curly)))
+              ("C-k"         . lispy-kill)))
 #+end_src
 
 ** LSP
