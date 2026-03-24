@@ -3435,6 +3435,21 @@ I disable a few of the default features. If you want to know more about these an
                         :inherit 'font-lock-comment-face)))
 #+end_src
 
+For Clojure in particular, I want to use CIDER's completions first, and LSP completion only as a fallback. Luckily, the team over at Mattilsynet have already figrued out [[https://github.com/magnars/emacsd-reboot/blob/39c6cbf35cf1618d18d2c103b36db504869a9379/packages/setup-lsp-mode.el#L34-L40][a way to do this]]:
+
+#+begin_src emacs-lisp
+;; From https://github.com/magnars/emacsd-reboot/blob/39c6cbf35cf1618d18d2c103b36db504869a9379/packages/setup-lsp-mode.el#L34-L40
+(defun soph/use-lsp-completion-only-as-fallback ()
+  (when (-contains? completion-at-point-functions #'lsp-completion-at-point)
+    (remove-hook 'completion-at-point-functions #'tags-completion-at-point-function t)
+    (remove-hook 'completion-at-point-functions #'lsp-completion-at-point t)
+    (remove-hook 'completion-at-point-functions t t)
+    (add-to-list 'completion-at-point-functions #'lsp-completion-at-point t)
+    (add-to-list 'completion-at-point-functions t t)))
+
+(add-hook 'lsp-completion-mode-hook 'soph/use-lsp-completion-only-as-fallback)
+#+end_src
+
 [[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] is an extension of the UI capabilities of =lsp-mode=.
 
 #+begin_src emacs-lisp
