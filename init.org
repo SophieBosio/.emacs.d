@@ -2353,7 +2353,7 @@ source code block like it normally would when writing code in that language.
 #+begin_src emacs-lisp
   (setq org-src-fontify-natively t
         org-src-tab-acts-natively t
-        org-edit-src-content-indentation 0)
+        org-src-content-indentation 0)
 #+end_src
 
 Some Org options to deal with headers and TODO's nicely.
