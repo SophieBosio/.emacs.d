@@ -1066,9 +1066,6 @@ even helped me figure out [[https://www.reddit.com/r/emacs/comments/18ktlkg/comm
 It has this shape:
 =[ lambda <filename> <git branch name>               <Flycheck errors> LLLL:CCCC ]=
 
-Here's a screenshot of a small window where the mode line shows well. Flycheck errors are reported per type. If there are no errors, a simple =-= is displayed instead.
-
-[[./images/mode-line-screenshot.png]]
 First, a variable to hold the Flycheck mode line string and a function to calculate it.
 
 #+begin_src emacs-lisp
@@ -1100,13 +1097,13 @@ First, a variable to hold the Flycheck mode line string and a function to calcul
                         (string-prefix-p "lsp-flycheck-info" level))
                     (setq infos (+ infos count))))))
               (when (> infos 0)
-                (push (propertize (format "%d" infos) 'face 'flycheck-fringe-info)
+                (push (propertize (format "%d" infos) 'face 'success)
                       parts))
               (when (> warnings 0)
-                (push (propertize (format "%d" warnings) 'face 'flycheck-fringe-warning)
+                (push (propertize (format "%d" warnings) 'face 'warning)
                       parts))
               (when (> errors 0)
-                (push (propertize (format "‍%d" errors) 'face 'flycheck-fringe-error)
+                (push (propertize (format "‍%d" errors) 'face 'error)
                       parts))
               (if parts
                   (concat (propertize "✱ " 'face 'font-lock-comment-face)
