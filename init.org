@@ -1232,6 +1232,14 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 (save-place-mode         t) ;; Remember last cursor location in file
 #+END_SRC
 
+Recenter the window after restoring with =savehist-mode=. Found in [[https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/][Bozhidar Batsov's blog post 'Stealing from the Best Emacs Config']].
+
+#+begin_src emacs-lisp
+(advice-add 'save-place-find-file-hook :after
+            (lambda (&rest _)
+              (when buffer-file-name (ignore-errors (recenter)))))
+#+end_src
+
 #+BEGIN_SRC emacs-lisp
 (setq auto-revert-interval         1         ;; Refresh buffers fast
       auto-revert-verbose          nil       ;; Don't notify me about reverts
