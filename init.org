@@ -244,8 +244,8 @@ In particular, the code below is a combination of code from:
 ;; Defer garbage collection
 (setq gc-cons-percentage 0.6)
 
-;; Change default max size for reading processes
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+;; Change default max size for reading processes (like LSP mode)
+(setq read-process-output-max (* 4 1024 1024)) ;; 4mb
 
 (set-language-environment "UTF-8")
 
@@ -358,6 +358,22 @@ Famously, the Emacs garbage collector can impede startup times quite dramaticall
 #+END_SRC
 
 ** Optimisations
+
+I found a lot of goodies in [[https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/][this blog post]] by Bozhidar Batsov about common Emacs config settings.
+
+This prevents Emacs from trying to process right-to-left text (e.g., Arabic).
+
+#+begin_src emacs-lisp
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+#+end_src
+
+Skip fontification while I'm typing.
+
+#+begin_src emacs-lisp
+(setq redisplay-skip-fontification-on-input t)
+#+end_src
 
 I also get quite a lot of compilation warnings, especially from native compilation, but they are usually safe to ignore.
 
