@@ -149,7 +149,7 @@ Here are the programming languages and utils I set up. The configuration for oth
 - [[https://agda.readthedocs.io/][Agda]], for which you also need Haskell and the Haskell packages [[https://haskell-alex.readthedocs.io/en/][Alex]] and [[https://haskell-happy.readthedocs.io/en/][Happy]]
 - [[https://clojure.org/guides/install_clojure][Clojure]], for which you also need a JDK and [[https://leiningen.org/][Leiningen]]
 
-I use these fonts. They are used both in [[#visuals][Visuals]] > [[#fonts][Fonts]] and in [[#org][Org]] > [[#visuals-1][Visuals]] > [[#fonts-1][Fonts]].
+I use these fonts:
 
 - [[https://github.com/weiweihuanghuang/fragment-mono][Fragment Mono]]
 - [[https://fonts.google.com/specimen/Open+Sans][Open Sans]]
@@ -595,7 +595,7 @@ throughout the config, and then activate it at the end of the config file, at
 On a Mac, I would want to add some specific settings. As a note to myself, I
 have the following settings in Mac OS:
 
-#+begin_src
+#+begin_src sh :tangle no
 caps-lock -> control (ctrl)
 control   -> control (ctrl)
 option    -> option  (alt)
@@ -3882,7 +3882,7 @@ This is for the MIT/GNU flavour:
  (use-package hide-mode-line
    :defer t
    :hook (inferior-python-mode . hide-mode-line-mode))
- #+end_src<
+ #+end_src
 
 *** JavaScript/TypeScript
 
