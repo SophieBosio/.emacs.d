@@ -3263,7 +3263,9 @@ I'll turn off the error messages in the echo area, because they overlap with use
   (add-hook 'window-buffer-change-functions
             (lambda (_)
               (when (bound-and-true-p flycheck-mode)
-                (flycheck-buffer)))))
+                (flycheck-buffer))))
+  :custom
+  (flycheck-disabled-checkers '(org-lint)))
 #+end_src
 
 ** Eldoc
