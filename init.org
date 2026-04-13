@@ -72,6 +72,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#move-where-i-mean][Move Where I Mean]]
   - [[#text-editing-functions][Text Editing Functions]]
   - [[#crux][CRUX]]
+  - [[#make-scripts-executable][Make Scripts Executable]]
 - [[#buffers--navigation][Buffers & Navigation]]
   - [[#killing-buffers][Killing Buffers]]
   - [[#splitting-windows][Splitting Windows]]
@@ -1582,6 +1583,15 @@ In [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], Ma
   :bind (:map custom-bindings-map
          ("C-S-<return>" . crux-smart-open-line-above)
          ("M-S-<down>"   . crux-duplicate-current-line-or-region)))
+#+end_src
+
+** Make Scripts Executable
+
+When creating a script, automatically do a =chmod +x= so it becomes executable.
+
+#+begin_src emacs-lisp
+(add-hook 'after-save-hook
+          #'executable-make-buffer-file-executable-if-script-p)
 #+end_src
 
 * Buffers & Navigation
