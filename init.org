@@ -1248,6 +1248,11 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 (setq-default tab-width 4)  ;; Smaller tabs
 #+END_SRC
 
+#+begin_src emacs-lisp
+;; Don't try to ping hostnames when looking for files with `find-file-at-point`
+(setq ffap-machine-p-known 'reject)
+#+end_src
+
 ** Scrolling
 
 I want scrolling to be a *lot* slower than it is by default.
