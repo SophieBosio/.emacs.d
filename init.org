@@ -67,8 +67,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#built-in-options-1][Built-In Options]]
   - [[#scrolling][Scrolling]]
   - [[#tabs--indentation][Tabs & Indentation]]
-  - [[#deleting-instead-of-killing][Deleting Instead of Killing]]
-  - [[#browse-kill-ring][Browse Kill Ring]]
+  - [[#kill-ring][Kill Ring]]
   - [[#auto-saving][Auto-Saving]]
   - [[#move-where-i-mean][Move Where I Mean]]
   - [[#text-editing-functions][Text Editing Functions]]
@@ -1240,7 +1239,6 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
       sentence-end-double-space    nil       ;; No double spaces
       recentf-max-saved-items      1000      ;; Show more recent files
       use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
-      save-interprogram-paste-before-kill t  ;; Save copies between programs
       history-length               25        ;; Only save the last 25 minibuffer prompts
       global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
@@ -1306,7 +1304,7 @@ And finally, make backspace remove the whole tab instead of just deleting one sp
 (setq backward-delete-char-untabify-method 'hungry)
 #+end_src
 
-** Deleting Instead of Killing
+** Kill Ring
 
 Another thing that bothered me, was how the =backward-kill-word= command
 (C-delete/backspace) would delete not only trailing backspaces, but everything
@@ -1346,13 +1344,37 @@ Let's bind this in my custom keybindings map.
 (define-key custom-bindings-map [C-backspace] 'soph/backward-delete)
 #+end_src
 
-** Browse Kill Ring
-
 Speaking of killing text, it's nice to be able to browse the kill ring.
 
 #+begin_src emacs-lisp
 (use-package browse-kill-ring
   :defer t)
+#+end_src
+
+And I don't need any duplicates in that kill ring.
+
+#+begin_src emacs-lisp
+(setq kill-do-not-save-duplicates t)
+#+end_src
+
+I also want to save the contents of my clipboard (copied in other programs) before I kill something in Emacs, so it doesn't get overwritten.
+
+#+begin_src emacs-lisp
+(setq save-interprogram-paste-before-kill t)
+#+end_src
+
+And finally, please persist the kill ring between sessions.
+
+#+begin_src emacs-lisp
+(setq savehist-additional-variables
+      '(search-ring regexp-search-ring kill-ring))
+
+;; Drop fontifcation of kill ring entries
+(add-hook 'savehist-save-hook
+          (lambda ()
+            (setq kill-ring
+                  (mapcar #'substring-no-properties
+                          (cl-remove-if-not #'stringp kill-ring)))))
 #+end_src
 
 ** Auto-Saving
