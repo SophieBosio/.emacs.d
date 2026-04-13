@@ -1249,6 +1249,7 @@ Recenter the window after restoring with =savehist-mode=. Found in [[https://ema
       recentf-max-saved-items      1000      ;; Show more recent files
       use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
       history-length               25        ;; Only save the last 25 minibuffer prompts
+      set-mark-command-repeat-pop t          ;; Pop successive marks with C-<space>
       global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
 
