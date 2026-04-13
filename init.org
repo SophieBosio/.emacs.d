@@ -1716,6 +1716,12 @@ Opening, switching and deleting windows becomes super easy with [[https://github
               ("C-x 0" . 'switch-window-then-delete)))
 #+end_src
 
+Automatically resize windows to keep them proportional.
+
+#+begin_src emacs-lisp
+(setq window-combination-resize t)
+#+end_src
+
 And [[https://www.emacswiki.org/emacs/TransposeFrame][Transpose
 Frame]] has some nice functions for shifting windows around. I only really use the
 one to swap the left- and right-hand sides of the frame, but there are
