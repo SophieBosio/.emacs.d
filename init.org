@@ -2307,75 +2307,47 @@ a task and then immediately needing it again.
 
 [[https://orgmode.org/][Org Mode]] is a smart text system that is used for organising notes, literate programming, time management, and a wide variety of other use cases. I've been interested in switching from my previous note-taking app, Obsidian, to using Org and Roam (described in the next section).
 
-Let's first make sure we're using Org. Note that I am leaving the last
-parenthesis open, to include some options from the "Visuals" section inside the
-=use-package= declaration for Org mode.
+** Visuals
+*** Built-In Options & Hooks
+
+Let's use some of the built-in options in org mode to declutter and get a consistent visual look and feel.
+
+We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to insert special characters LaTeX-style by using a leading backslash (e.g., =\alpha= to write the greek letter alpha) and display ellipses in a condensed way.
 
 #+BEGIN_SRC emacs-lisp
 (use-package org
   :defer t
-#+END_SRC
-
-** Visuals
-*** Text Centring
-
-I always want to center the text and enable linebreaks in Org. I've added
-a hook to activate =olivetti-mode=, and =visual-fill-mode=
-is always on.
-
-#+begin_src emacs-lisp
-:hook (org-mode . olivetti-mode)
-#+end_src
-
-*** Fonts
-
-*Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
-
-Set the sizes and fonts for the various headings.
-
-#+begin_src emacs-lisp
+  :hook (org-mode . olivetti-mode)    ; Center text
   :config
-  ;; Resize Org headings
-  (custom-set-faces
-  '(org-document-title ((t (:height 1.6))))
-  '(outline-1          ((t (:height 1.25))))
-  '(outline-2          ((t (:height 1.2))))
-  '(outline-3          ((t (:height 1.2))))
-  '(outline-4          ((t (:height 1.2))))
-  '(outline-5          ((t (:height 1.2))))
-  '(outline-6          ((t (:height 1.2))))
-  '(outline-7          ((t (:height 1.2))))
-  '(outline-8          ((t (:height 1.2))))
-  '(outline-9          ((t (:height 1.2)))))
-#+END_src
-
-*** Indentation
-
-*Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
-
-I prefer the text under a heading to be flush to the left side of the screen, instead of being indented to "correspond" to the level of its parent heading. So let's turn off =org-indent-mode= globally.
-
-#+begin_src emacs-lisp
-(org-indent-mode -1)
-#+end_src
+  (org-indent-mode -1)                ; Don't indent text according to heading level
+  (setq org-startup-folded   'content ; Fold headings by default
+        org-hide-leading-stars      t ; Hide leading stars
+        org-pretty-entities         t ; Use LaTeX-style pretty characters
+        org-ellipsis            "  ·" ; Character shown after folded headings
+        org-src-fontify-natively    t ; Fontify source blocks
+        org-src-tab-acts-natively   t ; Have TAB act normally in source blocks
+        org-src-content-indentation 0 ; 0 spaces of extra indentation
+        org-special-ctrl-a/e        t ; Jump where I mean in Org headings++
+        ;; Deal with TODOs and tags more nicely
+        org-log-done                t
+        org-auto-align-tags         t
+        org-tags-column           -80
+        ;; Try to act nicely when inserting content
+        org-fold-catch-invisible-edits     'show-and-error
+        org-insert-heading-respect-content t))
+#+END_SRC
 
 *** LaTeX Previews
 
-*Note:* We are in the =:config= section of the =use-package= declaration for Org mode.
-
-Preview LaTeX fragments by default.
-
 #+begin_src emacs-lisp
-(setq org-startup-with-latex-preview t)
+(with-eval-after-load 'org
+  ;; Create LaTeX previews on startup
+  (setq org-startup-with-latex-preview t)
+  ;; Increase size of LaTeX previews in Org mode
+  (plist-put org-format-latex-options :scale 1.35))
 #+end_src
 
-Increase the size of LaTeX previews in Org.
-
-#+begin_src emacs-lisp
-(plist-put org-format-latex-options :scale 1.35)
-#+end_src
-
-I've been struggling a little to get LaTeX previews to work on my work Mac. I symlinked my LaTeX =texbin= directory to =/usr/local/bin=, and it still didn't work. Eventually I found [[https://emacs.stackexchange.com/a/80170][this]] Stack Exchange post that correctly diagnosed the issue.
+I had been struggling to get LaTeX previews to work on my work Mac. I symlinked my LaTeX =texbin= directory to =/usr/local/bin=, and it still didn't work. Eventually I found [[https://emacs.stackexchange.com/a/80170][this]] Stack Exchange post that correctly diagnosed the issue.
 
 #+begin_summary Explanation
 The error said =[...] Please Adjust 'dvipng' part of 'org-preview-latex-process-alist'.=
@@ -2384,62 +2356,30 @@ The issue is caused by wrong expansion of the relative file path =%f= in the var
 #+end_summary
 
 #+begin_src emacs-lisp
-(let ((png (cdr (assoc 'dvipng org-preview-latex-process-alist))))
+(with-eval-after-load 'org
+  (let ((png (cdr (assoc 'dvipng org-preview-latex-process-alist))))
     (plist-put png :latex-compiler '("latex -interaction nonstopmode -output-directory %o %F"))
     (plist-put png :image-converter '("dvipng -D %D -T tight -o %O %F"))
-    (plist-put png :transparent-image-converter '("dvipng -D %D -T tight -bg Transparent -o %O %F")))
+    (plist-put png :transparent-image-converter '("dvipng -D %D -T tight -bg Transparent -o %O %F"))))
 #+end_src
 
-*** Folded Startup
+*** Fonts
 
-*Note:* We are still in the =:config= section of the =use-package= declaration for Org
-mode.
-
-In general, show me all the headings.
+Set the sizes and fonts for the various headings.
 
 #+begin_src emacs-lisp
-(setq org-startup-folded 'content)
-#+end_src
-
-*** Decluttering
-
-*Note:* We are still in the =:config= section of the =use-package= declaration for Org mode.
-
-We'll declutter by adapting the indentation and hiding leading starts in headings. We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entities"]], which allow us to
-insert special characters LaTeX-style by using a leading backslash (e.g., =\alpha= to
-write the greek letter alpha) and display ellipses in a condensed way.
-
-#+begin_src emacs-lisp
-  (setq org-hide-leading-stars t
-        org-pretty-entities t
-        org-ellipsis "  ·")
-#+end_src
-
-For source code blocks specifically, I want Org to display the contents using
-the major mode of the relevant language. I also want TAB to behave inside the
-source code block like it normally would when writing code in that language.
-
-#+begin_src emacs-lisp
-  (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-src-content-indentation 0)
-#+end_src
-
-Some Org options to deal with headers and TODO's nicely.
-
-#+begin_src emacs-lisp
-  (setq org-log-done                       t
-        org-auto-align-tags                t
-        org-tags-column                    -80
-        org-fold-catch-invisible-edits     'show-and-error
-        org-special-ctrl-a/e               t
-        org-insert-heading-respect-content t)
-#+end_src
-
-Let's finally close the =use-package= declaration with a parenthesis.
-
-#+begin_src emacs-lisp
-)
+;; Resize Org headings
+(custom-set-faces
+'(org-document-title ((t (:height 1.6))))
+'(outline-1          ((t (:height 1.25))))
+'(outline-2          ((t (:height 1.2))))
+'(outline-3          ((t (:height 1.2))))
+'(outline-4          ((t (:height 1.2))))
+'(outline-5          ((t (:height 1.2))))
+'(outline-6          ((t (:height 1.2))))
+'(outline-7          ((t (:height 1.2))))
+'(outline-8          ((t (:height 1.2))))
+'(outline-9          ((t (:height 1.2)))))
 #+end_src
 
 *** Hide Emphasis Markers
