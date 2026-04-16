@@ -3857,34 +3857,22 @@ This is for the MIT/GNU flavour:
 
 *** Python
 
- Let's first set the language interpreter.
+[[https://github.com/jorgenschaefer/elpy][elpy]] is a Emacs Python Development Environment with batteries included.
 
- #+begin_src emacs-lisp
- (use-package python
-   :interpreter ("python3" . python-mode)
-   :defer t
-   :config
-   (setq python-shell-interpreter "python3.14")
-   (add-hook 'python-mode
-			 (lambda () (setq forward-sexp-function nil))))
- #+end_src
+#+begin_src emacs-lisp
+(use-package elpy
+  :defer t
+  :init
+  (elpy-enable)
+  :config
+  (setq python-shell-interpreter "python"
+        python-shell-interpreter-args "-i"))
+#+end_src
 
- Note that you also need =pyright= for this! Installation will depend on your
- system. It's available from [[https://pypi.org/project/pyright/][PyPI]]. On Ubuntu, I had the most luck installing via
- snap:
-
- #+begin_src shell :tangle no
- sudo snap install pyright --classic
- #+end_src
-
- Then, I want to hide the modeline for inferior Python processes to save screen
- space. There's a [[https://github.com/hlissner/emacs-hide-mode-line][dedicated package]] for this.
-
- #+begin_src emacs-lisp
- (use-package hide-mode-line
-   :defer t
-   :hook (inferior-python-mode . hide-mode-line-mode))
- #+end_src
+#+begin_src emacs-lisp
+(use-package blacken
+  :after elpy)
+#+end_src
 
 *** JavaScript/TypeScript
 
