@@ -3715,6 +3715,81 @@ To use Portal, I have a dev profile called =portal= in my =project.clj= and all 
   (cider-jack-in '()))
 #+end_src
 
+**** Babashka
+
+[[https://babashka.org/][Babashka]] is a scripting runtime for Clojure with super fast startup times.
+
+You can trigger a bunch of useful commands in your project with it, and it plays super nice with [[https://github.com/filipesilva/invoker][Invoker]].
+
+And of course, it's nice to have a way to run Babashka tasks from inside Emacs! This code is from the [[https://github.com/magnars/emacsd-reboot/blob/main/packages/setup-babashka-task-mode.el][Emacs config]] from the team over at Mattilsynet (The Norwegian Food Authority).
+
+#+begin_src emacs-lisp
+(defun shorten-path (path)
+  "Shortens the file PATH by replacing the home directory with ~."
+  (let ((home (expand-file-name "~")))
+    (if (string-prefix-p home path)
+        (concat "~" (substring path (length home)))
+      path)))
+
+(defun babashka-find-tasks ()
+  "Find all babashka tasks by running `bb tasks'."
+  (let* ((default-directory (projectile-project-root))
+         (output (shell-command-to-string "bb tasks 2>/dev/null")))
+    (when (and output (not (string-empty-p output)))
+      (->> (split-string output "\n" t)
+           ;; Skip header line "The following tasks are available:"
+           (--filter (not (string-match-p "^The following tasks" it)))
+           ;; Parse task names (first word of each line)
+           (--map (car (split-string (string-trim it) " " t)))
+           ;; Filter out nil/empty
+           (--filter (and it (not (string-empty-p it))))))))
+
+(defvar babashka--previous-window-configuration nil)
+(defvar babashka--previous-task nil)
+
+(defun babashka-invoke-task (&optional repeat?)
+  "Invoke a babashka task interactively.
+With REPEAT? non-nil, re-run the previous task without prompting."
+  (interactive)
+  (let* ((project-root (projectile-project-root))
+         (short-dir (shorten-path project-root))
+         (default-directory project-root)
+         (bb-buffer-name (concat "*Babashka " (projectile-project-name) "*"))
+         (prev (if (get-buffer bb-buffer-name)
+                   (with-current-buffer bb-buffer-name
+                     babashka--previous-window-configuration)
+                 (list (current-window-configuration) (point-marker))))
+         (tasks (babashka-find-tasks))
+         (task (cond
+                ;; Repeat previous task
+                ((and repeat? (get-buffer bb-buffer-name))
+                 (with-current-buffer bb-buffer-name
+                   babashka--previous-task))
+                ;; No tasks found
+                ((null tasks)
+                 (user-error "No babashka tasks found in %s" short-dir))
+                ;; Prompt user to select
+                (t (completing-read (format "bb task in %s: " short-dir)
+                                    (--map (concat "bb " it) tasks))))))
+    (when task
+      (async-shell-command task bb-buffer-name)
+      (unless (s-equals? (buffer-name) bb-buffer-name)
+        (switch-to-buffer-other-window bb-buffer-name))
+      (setq-local babashka--previous-window-configuration prev)
+      (setq-local babashka--previous-task task)
+      (read-only-mode)
+      (local-set-key (kbd "b") 'babashka-invoke-task)
+      (local-set-key (kbd "g") (lambda () (interactive) (babashka-invoke-task t)))
+      (local-set-key (kbd "q") (lambda ()
+                                 (interactive)
+                                 (let ((conf babashka--previous-window-configuration))
+                                   (kill-buffer)
+                                   (when conf (register-val-jump-to conf nil))))))))
+
+(with-eval-after-load 'clojure-ts-mode
+  (define-key clojure-ts-mode-map (kbd "M-b") 'babashka-invoke-task))
+#+end_src
+
 *** Emacs Lisp
 
 First, we need the holy trinity of Elisp libraries: [[https://github.com/magnars/dash.el][dash]] (lists), [[https://github.com/magnars/s.el][s]] (strings), and [[https://github.com/rejeep/f.el][f]] (files).
