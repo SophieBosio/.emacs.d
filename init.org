@@ -3322,7 +3322,7 @@ The package [[https://github.com/renzmann/treesit-auto][treesit-auto]] will auto
   :custom
   (treesit-auto-install 'prompt)
   (treesit-auto-langs
-   '(bash c clojure css go html make markdown python rust toml yaml))
+   '(bash c clojure css go html javascript make markdown python rust toml typescript tsx yaml))
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
