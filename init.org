@@ -3822,15 +3822,6 @@ Next, let's take a page out of CIDER's book and enhance evaluation of Emacs Lisp
   (eros-mode 1))
 #+end_src
 
-And finally, I need to edit parens safely. Let's hook in =lispy=!
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :hook (emacs-lisp-mode . lispy-mode)
-  :bind (:map emacs-lisp-mode-map
-              (";" . lispy-comment)))
-#+end_src
-
 *** Scheme
 
 Your favourite flavour of Scheme is probably supported by a version of [[https://github.com/emacsmirror/geiser][Geiser]].
