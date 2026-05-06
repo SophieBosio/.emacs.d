@@ -1228,6 +1228,7 @@ In addition, I use [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-
 (recentf-mode            t) ;; Remember recently opened files
 (savehist-mode           t) ;; Remember minibuffer prompt history
 (save-place-mode         t) ;; Remember last cursor location in file
+(repeat-mode             t) ;; Repeat last command without prefix
 #+END_SRC
 
 Recenter the window after restoring with =savehist-mode=. Found in [[https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/][Bozhidar Batsov's blog post 'Stealing from the Best Emacs Config']].
@@ -1247,7 +1248,6 @@ Recenter the window after restoring with =savehist-mode=. Found in [[https://ema
       recentf-max-saved-items      1000      ;; Show more recent files
       use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
       history-length               25        ;; Only save the last 25 minibuffer prompts
-      set-mark-command-repeat-pop t          ;; Pop successive marks with C-<space>
       global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
 #+END_SRC
 
