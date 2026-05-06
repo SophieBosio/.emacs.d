@@ -3367,6 +3367,8 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   (setq sp-highlight-pair-overlay     nil
         sp-highlight-wrap-overlay     nil
         sp-highlight-wrap-tag-overlay nil)
+  ;; Be strict with deleting/creating parens
+  (smartparens-global-strict-mode     t)
   :bind (:map smartparens-mode-map
 
               ;; Navigating
