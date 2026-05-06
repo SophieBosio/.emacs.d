@@ -3411,11 +3411,19 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
 I disable a few of the default features. If you want to know more about these and how to enable/disable other =lsp-mode= features, there's a handy guide on [[https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/][lsp-mode's website]].
 
 #+begin_src emacs-lisp
+(defun soph/maybe-start-lsp ()
+    (when buffer-file-name
+      ;; Don't start LSP mode when I'm looking at downloaded sources, like clojure.core
+      (unless (or (string-prefix-p (expand-file-name "~/.m2/") buffer-file-name)
+                  (string-prefix-p (expand-file-name "~/.gitlibs/") buffer-file-name))
+        (lsp))))
+
 (use-package lsp-mode
   :defer t
-  :init (setq lsp-use-plists t)
-  :hook ((clojure-ts-mode       . lsp)
-         (clojurec-mode         . lsp)
+  :init
+  (setq lsp-use-plists t)
+  :hook ((clojure-ts-mode       . soph/maybe-start-lsp)
+         (clojurec-mode         . soph/maybe-start-lsp)
          (lsp-mode              . lsp-enable-which-key-integration)
          (typescript-mode       . lsp)
          (tsx-ts-mode           . lsp)
