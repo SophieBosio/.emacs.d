@@ -3223,7 +3223,7 @@ Need-to-have for programmers.
 
 [[https://github.com/flycheck/flycheck][Flycheck]] is an on-the-fly syntax checker.
 
-I'll turn off the error messages in the echo area, because they overlap with useful info from LSP mode. I can still see the error, either by hovering over it with the mouse or by pressing =C-c ! e= to explain the error at point. I'll bind it to =C-c ! != as well.
+I'll turn off the error messages in the echo area, because they overlap with useful info from LSP mode. I can still see the error, either by hovering over it with the mouse or by pressing =M--= or hovering over it.
 
 #+begin_src emacs-lisp
 (global-unset-key (kbd "M--"))
@@ -3251,7 +3251,8 @@ I'll turn off the error messages in the echo area, because they overlap with use
               ("M-- v"    . flycheck-verify-setup)
               ("M-- x"    . flycheck-disable-checker))
   :config
-  (setq flycheck-display-errors-function #'ignore)
+  (setq flycheck-display-errors-function #'ignore
+        flycheck-checker-error-threshold 500)
   (add-hook 'flycheck-after-syntax-check-hook #'soph/update-flycheck-modeline)
   (add-hook 'flycheck-mode-hook #'soph/update-flycheck-modeline)
   (add-hook 'after-save-hook
