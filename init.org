@@ -1184,7 +1184,8 @@ And then the mode line definition itself:
 (use-package olivetti
   :defer t
   :config
-  (setq olivetti-style t))
+  (setq olivetti-style      t
+        olivetti-body-width 100))
 #+END_SRC
 
 *** Adaptive Wrap
