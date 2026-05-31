@@ -3094,9 +3094,6 @@ See `org-capture-templates' for more information."
    face-remapping-alist '((default (:height 1.5) variable-pitch)
                           (header-line (:height 3.0) variable-pitch)
                           (org-document-title (:height 1.75) org-document-title)
-                          (org-code (:height 1.55) org-code)
-                          (org-verbatim (:height 1.55) org-verbatim)
-                          (org-block (:height 1.25) org-block)
                           (org-block-begin-line (:height 0.7) org-block)))
   ;; Set a blank header line string to create blank space at the top
   (setq header-line-format " "))
@@ -3107,13 +3104,12 @@ See `org-capture-templates' for more information."
   ;; Clear the header line string so that it isn't displayed
   (setq header-line-format nil))
 
-
 (use-package org-present
   :defer t
   :hook
   ((org-present-after-navigate-functions . soph/org-present-prepare-slide)
-  (org-present-mode                      . soph/org-present-start)
-  (org-present-mode-quit                 . soph/org-present-end)))
+   (org-present-mode                     . soph/org-present-start)
+   (org-present-mode-quit                . soph/org-present-end)))
 #+end_src
 
 ** Org Conveniencies
