@@ -147,7 +147,7 @@ Here are the programming languages and utils I set up. The configuration for oth
 
 - [[https://docs.haskellstack.org/en/stable/][Stack]], [[https://www.haskell.org/cabal/][Cabal]], and [[https://github.com/haskell/haskell-language-server][hsl]] for Haskell - all of which you can install via [[https://www.haskell.org/ghcup/][GHCup]]
 - [[https://agda.readthedocs.io/][Agda]], for which you also need Haskell and the Haskell packages [[https://haskell-alex.readthedocs.io/en/][Alex]] and [[https://haskell-happy.readthedocs.io/en/][Happy]]
-- [[https://clojure.org/guides/install_clojure][Clojure]], for which you also need a JDK and [[https://leiningen.org/][Leiningen]]
+- [[https://clojure.org/guides/install_clojure][Clojure]], for which you also need a JDK and Clojure runtime, for example the [[https://clojure.org/guides/install_clojure][Clojure CLI tools]] or [[https://leiningen.org/][Leiningen]]
 
 I use these fonts:
 
