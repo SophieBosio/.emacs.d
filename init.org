@@ -1241,15 +1241,16 @@ Recenter the window after restoring with =savehist-mode=. Found in [[https://ema
 #+end_src
 
 #+BEGIN_SRC emacs-lisp
-(setq auto-revert-interval         1         ;; Refresh buffers fast
-      auto-revert-verbose          nil       ;; Don't notify me about reverts
-      echo-keystrokes              0.1       ;; Show keystrokes fast
-      frame-inhibit-implied-resize 1         ;; Don't resize frame implicitly
-      sentence-end-double-space    nil       ;; No double spaces
-      recentf-max-saved-items      1000      ;; Show more recent files
-      use-short-answers            t         ;; 'y'/'n' instead of 'yes'/'no' etc.
-      history-length               25        ;; Only save the last 25 minibuffer prompts
-      global-auto-revert-non-file-buffers t) ;; Revert Dired and other buffers
+(setq auto-revert-interval                1    ;; Refresh buffers fast
+      auto-revert-verbose                 nil  ;; Don't notify me about reverts
+      echo-keystrokes                     0.1  ;; Show keystrokes fast
+      frame-inhibit-implied-resize        1    ;; Don't resize frame implicitly
+      sentence-end-double-space           nil  ;; No double spaces
+      recentf-max-saved-items             1000 ;; Show more recent files
+      use-short-answers                   t    ;; 'y'/'n' instead of 'yes'/'no' etc.
+      history-length                      25   ;; Only save the last 25 minibuffer prompts
+      set-mark-command-repeat-pop         t    ;; Pop successive marks with C-<space>
+      global-auto-revert-non-file-buffers t)   ;; Revert Dired and other buffers
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
