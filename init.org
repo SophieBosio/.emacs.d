@@ -2930,12 +2930,12 @@ not evaluated by default on export. I also want to add some languages.
 #+begin_src emacs-lisp
 (setq org-export-use-babel       nil
       org-confirm-babel-evaluate nil)
-;; (org-babel-do-load-languages
-;;  'org-babel-load-languages
-;;  '((emacs-lisp . t)
-;;    (python     . t)
-;;    (haskell    . t)
-;;    (clojure    . t)))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (python     . t)
+   (haskell    . t)
+   (clojure    . t)))
 #+end_src
 
 For Python, use whatever interpreter is set by =python-shell-interpreter=.
