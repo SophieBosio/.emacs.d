@@ -2573,8 +2573,9 @@ B's Emacs setup]].
 				  ("[X]" . ?)
 				  ("[-]" . ?)
                   ; Blocks
-				  ("#+begin_src"   . ?) ; 
-				  ("#+end_src"     . ?)
+				  ("#+begin_src"   . ?❯)
+				  ("#+end_src"     . ?❯)
+                  ("#+results:"   . ?»)
 				  ("#+begin_QUOTE" . ?‟)
 				  ("#+end_QUOTE"   . ?”)
                   ; Drawers
