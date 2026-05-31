@@ -3408,7 +3408,10 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
 
               ;; Manipulating
               ("M-c"         . lispy-clone)
-              ("C-k"         . lispy-kill)))
+              ("C-k"         . lispy-kill))
+  :bind (:map smartparens-strict-mode-map
+              ;; Unbind, to avoid conflict with my custom-bindings-map
+              ("C-S-k"       . nil)))
 #+end_src
 
 ** LSP
