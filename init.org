@@ -3941,12 +3941,6 @@ In addition to this, I have LSP mode for TypeScript, autoformatting via Prettier
 (use-package rjsx-mode
   :defer t
   :mode "components\\/.*\\.js\\'")
-
-(use-package js2-mode
-  :mode "\\.js\\'"
-  :interpreter "node"
-  :config
-  (setq js2-basic-offset 2))
 #+end_src
 
 Of course, we need code formatting. At work, we use [[https://prettier.io/][Prettier]], so let's pull in an Emacs package for that, like [[https://github.com/prettier/prettier-emacs][pretties-js]].
@@ -3961,7 +3955,7 @@ In CIDER (for Clojure), I have keybindings to jump to a reference and to jump ba
 
 #+begin_src emacs-lisp
 (use-package xref-js2
-  :after js2-mode
+  :defer t
   :config
   (define-key js2-mode-map (kbd "M-.") nil)
   (add-hook 'js2-mode-hook
