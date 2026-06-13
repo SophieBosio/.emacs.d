@@ -3982,7 +3982,9 @@ It's also nice to have the same keybindings for running tests in TypeScript as I
 (use-package jest-test-mode
   :defer t
   :commands jest-test-mode
-  :hook (typescript-ts-mode typescript-mode typescript-tsx-mode js-mode))
+  :hook (typescript-ts-mode typescript-mode typescript-tsx-mode js-mode)
+  :config
+  (setq jest-test-command-string "npx %s vitest %s %s"))
 #+end_src
 
 It's also nice to have a small util for typechecking:
