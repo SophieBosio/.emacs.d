@@ -1584,6 +1584,7 @@ In [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]], Ma
 *** Kill Whole Line
 
 #+begin_src emacs-lisp
+(unbind-key "C-S-k")
 (define-key custom-bindings-map (kbd "C-S-k") 'kill-whole-line)
 #+end_src
 
