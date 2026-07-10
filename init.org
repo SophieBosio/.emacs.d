@@ -3385,7 +3385,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ("C-k"         . lispy-kill))
   :bind (:map smartparens-strict-mode-map
               ;; Unbind, to avoid conflict with my custom-bindings-map
-              ("C-S-k"       . nil)))
+              ("C-S-k"           . nil)))
 #+end_src
 
 ** LSP
@@ -3647,14 +3647,6 @@ Let's add some keybindings, including for the functions we defined above.
 #+begin_src emacs-lisp
 (use-package flycheck-clj-kondo
   :ensure t)
-#+end_src
-
-[[https://github.com/didibus/anakondo][anakondo]] uses clj-kondo to provide buffer- and project-local Clojure completions without first needing to jack in with CIDER.
-
-#+begin_src emacs-lisp
-(use-package anakondo
-  :ensure t
-  :commands anakondo-minor-mode)
 #+end_src
 
  [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] is a CIDER extension for refactoring.
