@@ -3672,6 +3672,17 @@ It can auto-insert the namespace of new files, but LSP mode already does that, s
   :after cider)
 #+end_src
 
+[[https://github.com/clojure-emacs/sayid/][Sayid]] is a powerful debugger and profiler for Clojure, with a great CIDER plugin.
+
+#+begin_src emacs-lisp
+(use-package sayid
+  :defer t
+  :after cider
+  :config
+  (with-eval-after-load 'clojure-ts-mode
+    (sayid-setup-package)))
+#+end_src
+
 [[https://github.com/djblue/portal][Portal]] is a tool for debugging Clojure code. In Clojure, you can "tap" variables, which lets you have a look at their concrete values during execution. Portal lets you tap out stuff to a nice UI where you can collapse and inspect the values. It creates a log of nicely printed stuff.
 
 To use Portal, I have a dev profile called =portal= in my =project.clj= and all I need to do is to jack in with this profile, require Portal, and then go. Let's pull in these snippets borrowed from my colleague [[https://github.com/falcowinkler][Falco Winkler]]. The first lets you interactively choose which profile to jack in with. The second is hardcoded to jack in with the =portal= profile.
