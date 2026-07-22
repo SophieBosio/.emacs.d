@@ -3588,7 +3588,7 @@ If you've ever def'ed something, you'll know that to pretty print it, you need t
   "Evaluate the Clojure form at point and put the result on the clipboard."
   (interactive)
   (let ((form (cider-last-sexp)))
-    (cider-nrepl-request:eval
+    (cider-nrepl-send-eval-request
      form
      (lambda (response)
        (when (nrepl-dict-get response "value")
@@ -3601,7 +3601,7 @@ If you've ever def'ed something, you'll know that to pretty print it, you need t
 (defun soph/cider-eval-defun-to-clipboard ()
   "Evaluate the current top-level form and copy the result to the clipboard."
   (interactive)
-  (cider-nrepl-request:eval
+  (cider-nrepl-send-eval-request
    (cider-defun-at-point)
    (lambda (response)
      (when (nrepl-dict-get response "value")
