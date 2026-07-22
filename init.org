@@ -1889,6 +1889,14 @@ I'll use the function from [[http://whattheemacsd.com/setup-ido.el-02.html][this
 
 ** Vertico Posframe
 
+Note: The latest updates to the underlying posframe lib break the visuals of the rounded, themed corners on my Mac, so I pin it directly here to avoid it upgrading to the latest version:
+
+#+begin_src emacs-lisp
+(use-package posframe
+  :vc (:url "https://github.com/tumashu/posframe"
+       :rev "v1.5.1"))
+#+end_src
+
 [[https://github.com/tumashu/vertico-posframe][vertico-posframe]] makes Vertico appear in a small child frame, instead of as a
 traditional minibuffer. I like to have mine in the middle of the frame, with small fringes on either side.
 
