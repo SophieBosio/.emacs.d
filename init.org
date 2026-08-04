@@ -3210,6 +3210,8 @@ Need-to-have for programmers.
 
 I'll turn off the error messages in the echo area, because they overlap with useful info from LSP mode. I can still see the error, either by hovering over it with the mouse or by pressing =M--= or hovering over it.
 
+After version 37.0, Flycheck's error list shows up at the bottom of the screen by default. I'm a strict two-windows max, side-by-side split kind of person, so I'm overriding that too.
+
 #+begin_src emacs-lisp
 (global-unset-key (kbd "M--"))
 
@@ -3248,6 +3250,10 @@ I'll turn off the error messages in the echo area, because they overlap with use
             (lambda (_)
               (when (bound-and-true-p flycheck-mode)
                 (flycheck-buffer))))
+  ;; Display error list in existing side buffer
+  (setq flycheck-error-list-display-buffer-action
+        '((display-buffer-reuse-window) ; reuse window when possible
+          (side . right)))              ; show on the right by default
   :custom
   (flycheck-disabled-checkers '(org-lint)))
 #+end_src
