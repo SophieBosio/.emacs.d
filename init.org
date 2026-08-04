@@ -3380,9 +3380,6 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ("M-S"         . sp-split-sexp)
               ("M-J"         . sp-join-sexp)
 
-              ;; Unbind, to avoid conflict with my custom-bindings-map
-              ("C-S-k"       . nil)
-
               ;; --- Functions from lispy ---
               ;; Navigating
               ("M-d"         . lispy-different)
@@ -3392,9 +3389,9 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
               ;; Manipulating
               ("M-c"         . lispy-clone)
               ("C-k"         . lispy-kill))
-  :bind (:map smartparens-strict-mode-map
-              ;; Unbind, to avoid conflict with my custom-bindings-map
-              ("C-S-k"           . nil)))
+  :config
+  ;; Unbind, to avoid conflict with my custom-bindings-map
+  (define-key smartparens-strict-mode-map [remap kill-whole-line] nil))
 #+end_src
 
 ** LSP
