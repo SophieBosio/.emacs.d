@@ -3654,6 +3654,20 @@ Let's add some keybindings, including for the functions we defined above.
 (add-hook 'cider-repl-mode-hook 'smartparens-mode)
 #+end_src
 
+I also use CIDER's scratch buffer quite frequently, but it has its own special mode, which means all my normal refactoring keybindings don't work. This advice makes it enter =clojure-ts-mode= when creating a new scratch buffer:
+
+#+begin_src emacs-lisp
+(define-advice cider-scratch--create-buffer (:around (orig-fn name repl) clojure-ts)
+  (ignore orig-fn)
+  (with-current-buffer (get-buffer-create name)
+    (clojure-ts-mode)
+    (setq-local sesman-system 'CIDER)
+    (local-set-key (kbd "C-j") #'cider-eval-print-last-sexp)
+    (cider-scratch--attach repl)
+    (cider-scratch--insert-welcome-message)
+    (current-buffer)))
+#+end_src
+
  [[https://github.com/clj-kondo/clj-kondo][clj-kondo]] is a linter for Clojure. It even has its own flycheck-mode, [[https://github.com/borkdude/flycheck-clj-kondo][flycheck-clj-kondo]]. We need to install it first.
 
 #+begin_src emacs-lisp
