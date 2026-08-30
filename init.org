@@ -864,6 +864,7 @@ I have Open Sans configured as my variable-pitch font.
 
 #+begin_src emacs-lisp
 (defvar soph/font-height 115)
+(defvar soph/use-mixed-pitch t)
 
 (when (eq system-type 'darwin)
   (setq soph/font-height 120))
@@ -872,7 +873,8 @@ I have Open Sans configured as my variable-pitch font.
   (set-face-attribute 'default nil :font "Fragment Mono" :height soph/font-height)
   (set-face-attribute 'fixed-pitch nil :family "Fragment Mono"))
 
-(when (member "Open Sans" (font-family-list))
+(when (and soph/use-mixed-pitch
+           (member "Open Sans" (font-family-list)))
   (set-face-attribute 'variable-pitch nil :family "Open Sans"))
 #+end_src
 
@@ -881,10 +883,11 @@ I have Open Sans configured as my variable-pitch font.
 [[https://gitlab.com/jabranham/mixed-pitch][mixed-pitch]] allows you to mix fixed and variable pitched faces in Org and LaTeX mode.
 
 #+begin_src emacs-lisp
-(use-package mixed-pitch
-  :defer t
-  :hook ((org-mode   . mixed-pitch-mode)
-         (LaTeX-mode . mixed-pitch-mode)))
+(when soph/use-mixed-pitch
+  (use-package mixed-pitch
+    :defer t
+    :hook ((org-mode   . mixed-pitch-mode)
+           (LaTeX-mode . mixed-pitch-mode))))
 #+end_src
 
 *** Ligatures
@@ -2404,7 +2407,8 @@ wouldn't need this, since I use the =mixed-pitch= package in the font section, b
 for some reason, it seems the header bullet in Org mode are affected by this.
 
 #+begin_src emacs-lisp
-(add-hook 'org-mode-hook 'variable-pitch-mode)
+(when soph/use-mixed-pitch
+  (add-hook 'org-mode-hook 'variable-pitch-mode))
 #+end_src
 
 *** LaTeX Fragtog
@@ -2429,8 +2433,8 @@ checkboxes for TODOs.
 (use-package org-superstar
   :after org
   :config
-  (setq org-superstar-leading-bullet "")
-  (setq org-superstar-headline-bullets-list '("")) ;; Hide bullets
+  (setq org-superstar-leading-bullet (if soph/use-mixed-pitch "" "*"))
+  (setq org-superstar-headline-bullets-list (if soph/use-mixed-pitch '("") '("*"))) ;; Hide bullets
   (setq org-superstar-special-todo-items t)        ;; Makes TODO header bullets into boxes
   (setq org-superstar-todo-bullet-alist '(("TODO"     . 9744)
                                           ("PROG"     . 9744)
