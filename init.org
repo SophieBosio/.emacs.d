@@ -3560,6 +3560,7 @@ But luckily, there's a variable called =clojure-ts-refactor-map-prefix= to set t
               ("C-#"     . clojure-ts-convert-collection-to-set)
               (";"       . lispy-comment))
   :config
+  (setopt clojure-ts-use-markdown-inline nil)
   (setq clojure-ts-toplevel-inside-comment-form t))
 #+end_src
 
