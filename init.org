@@ -3353,7 +3353,7 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   lispy-kill)
 
 (use-package smartparens
-  :hook ((prog-mode        . smartparens-mode)
+  :hook ((prog-mode        . smartparens-strict-mode)
          (smartparens-mode . (lambda () (electric-pair-local-mode -1))))
   :config
   (require 'smartparens-config)
@@ -3362,8 +3362,6 @@ It's a bit insane to pull in lispy just for these functions, but I've really gro
   (setq sp-highlight-pair-overlay     nil
         sp-highlight-wrap-overlay     nil
         sp-highlight-wrap-tag-overlay nil)
-  ;; Be strict with deleting/creating parens
-  (smartparens-global-strict-mode     t)
   :bind (:map smartparens-mode-map
 
               ;; Navigating
