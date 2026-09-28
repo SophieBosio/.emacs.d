@@ -2384,6 +2384,13 @@ making edits easy while looking pretty.
         org-appear-autosubmarkers t)) ;; Show sub- and superscripts
 #+end_src
 
+But I don't like that subscripts are triggered whenever I insert an undescore. This setting lets me create sub- and superscripts, but only when explicitly wrapped in curly braces, like x^{2} or x_{i}.
+
+#+begin_src emacs-lisp
+(setq org-use-sub-superscripts '{})
+(setq org-export-with-sub-superscripts '{})
+#+end_src
+
 *** Inline Images
 
 Show inline images by default
