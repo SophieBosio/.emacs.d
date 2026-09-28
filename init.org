@@ -123,6 +123,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#tree-sitter][Tree-Sitter]]
   - [[#structural-editing][Structural Editing]]
   - [[#lsp][LSP]]
+  - [[#code-folding][Code folding]]
   - [[#programming-languages][Programming Languages]]
 - [[#activating-custom-keybindings][Activating Custom Keybindings]]
 - [[#todos][TODOs]]
@@ -3478,19 +3479,6 @@ Similarly, there's [[https://github.com/emacs-lsp/lsp-treemacs][lsp-treemacs]] w
               ("C-c :" . lsp-treemacs-call-hierarchy)))
 #+end_src
 
-There's also a nice mode for language-aware folding called [[https://github.com/gregsexton/origami.el][Origami]]. Then there's the LSP-backed [[https://github.com/emacs-lsp/lsp-origami/][lsp-origami]].
-
-#+begin_src emacs-lisp
-(use-package origami
-  :defer t
-  :bind (:map origami-mode-map
-              ("C-z" . origami-toggle-node)))
-
-(use-package lsp-origami
-  :after lsp
-  :hook (lsp-mode . lsp-origami-try-enable))
-#+end_src
-
 [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]] is a wrapper around your LSP server programs. In the README, the authors explain that it helps speed up LSP mode (and Eglot!) by converting JSON directly into elisp bytecode and by separating reading and writing into different threads.
 
 #+begin_src emacs-lisp
@@ -3524,6 +3512,42 @@ There's also a nice mode for language-aware folding called [[https://github.com/
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+#+end_src
+
+** Code folding
+
+[[https://github.com/jamescherti/kirigami.el][Kirigami]] is a flexible package for code folding that has more granular options than most others. I've used [[https://github.com/gregsexton/origami.el][Origami]] in the past, but I had some issues with inconsistent folding, so now I'm trying this new package instead.
+
+#+begin_src emacs-lisp
+(use-package kirigami
+  :custom
+  ;; Add Kirigami to the menu bar and context menu (`context-menu-mode').
+  (kirigami-show-menu-bar t)
+  (kirigami-show-context-menu t)
+  :init
+  (kirigami-global-mode 1)
+  :bind (:map custom-bindings-map
+              ("C-z" . kirigami-toggle-fold)))
+
+(use-package treesit-fold
+  :commands (treesit-fold-close
+             treesit-fold-close-all
+             treesit-fold-open
+             treesit-fold-toggle
+             treesit-fold-open-all
+             treesit-fold-mode
+             global-treesit-fold-mode
+             treesit-fold-open-recursively
+             treesit-fold-line-comment-mode)
+  :hook (clojure-ts-mode . treesit-fold-mode)
+  :custom
+  (treesit-fold-line-count-show t)
+  (treesit-fold-line-count-format " ▼")
+  :config
+  (set-face-attribute 'treesit-fold-replacement-face nil
+                      :foreground "#808080"
+                      :box nil
+                      :weight 'bold))
 #+end_src
 
 ** Programming Languages
