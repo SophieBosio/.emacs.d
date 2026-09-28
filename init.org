@@ -2547,9 +2547,7 @@ B's Emacs setup]].
 				  ("phi"    . ?φ)
 				  ("psi"    . ?ψ)
                   ; Org headers
-				  ("#+title:"  . ? )
-				  ("#+author:" . ? )
-                  ("#+date:"   . ? )                
+                  ("#+created:" . ?🕓)
                   ; Checkboxes
 				  ("[ ]" . ?)
 				  ("[X]" . ?)
@@ -2557,13 +2555,16 @@ B's Emacs setup]].
                   ; Blocks
 				  ("#+begin_src"   . ?❯)
 				  ("#+end_src"     . ?❯)
-                  ("#+results:"   . ?»)
+                  ("#+results:"    . ?»)
 				  ("#+begin_QUOTE" . ?‟)
 				  ("#+end_QUOTE"   . ?”)
-                  ; Drawers
-				  (":properties:" . ?)
+                  ; Properties
+				  (":properties:" . ?ⓘ)
+                  (":end:"        . ?▲)
+                  ("#+startup"    . ?L)
+                  ("latexpreview" . ?✔)
                   ; Agenda scheduling
-				  ("SCHEDULED:"   . ?🕘)
+				  ("SCHEDULED:"   . ?🕓)
 				  ("DEADLINE:"    . ?⏰)
                   ; Agenda tags  
 				  (":@projects:"  . ?☕)
@@ -2589,6 +2590,12 @@ B's Emacs setup]].
 
 (add-hook 'org-mode-hook        #'soph/prettify-symbols-setup)
 (add-hook 'org-agenda-mode-hook #'soph/prettify-symbols-setup)
+#+end_src
+
+There are also some keywords I would like to hide. We can ask org-mode to do so by setting =org-hidden-keywords=.
+
+#+begin_src emacs-lisp
+(setq org-hidden-keywords '(title author))
 #+end_src
 
 *** Right-Align Tags
