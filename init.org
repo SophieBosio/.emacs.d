@@ -2321,12 +2321,22 @@ We'll also use [[https://orgmode.org/manual/Special-Symbols.html]["pretty entiti
 
 *** LaTeX Previews
 
+With my fonts, the LaTeX previews are a little small, so let's bump them up:
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org
-  ;; Create LaTeX previews on startup
-  (setq org-startup-with-latex-preview t)
   ;; Increase size of LaTeX previews in Org mode
-  (plist-put org-format-latex-options :scale 1.35))
+  (plist-put org-format-latex-options :scale 1.15))
+#+end_src
+
+I used to have LaTeX previews on in all org buffers by default (with =(setq org-startup-with-latex-preview t)=) but it turned out to be a bit slow, so now I add =#+startup: latexpreview= to the buffer instead when it has LaTeX fragments.
+
+Instead of remembering that, let's just add a small function that I can call (and fuzzy search for the name of) to insert it at point:
+
+#+begin_src emacs-lisp
+(defun soph/insert-org-latex-preview-in-buffer-setting ()
+  (interactive)
+  (insert "#+startup: latexpreview"))
 #+end_src
 
 I had been struggling to get LaTeX previews to work on my work Mac. I symlinked my LaTeX =texbin= directory to =/usr/local/bin=, and it still didn't work. Eventually I found [[https://emacs.stackexchange.com/a/80170][this]] Stack Exchange post that correctly diagnosed the issue.
