@@ -2073,15 +2073,6 @@ Then configure Magit. I'll add hooks to have =diff-hl= update the gutter wheneve
   (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers))
 #+end_src
 
-*** Magit Forge
-
-And [[https://github.com/magit/forge][Magit Forge]] to be able to work with Git forges (e.g., GitHub, and GitLab) directly from Magit.
-
-#+begin_src emacs-lisp
-(use-package forge
-  :after magit)
-#+end_src
-
 *** Git Link
 
 [[https://github.com/sshaw/git-link/][git-link]] creates URL links to the current position in your buffer in the corresponding forge repo. Super handy for sending to others.
