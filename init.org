@@ -2055,6 +2055,8 @@ Let's first make sure we're highlighting uncommitted changes with [[https://gith
 
 Then configure Magit. I'll add hooks to have =diff-hl= update the gutter whenever Magit refreshes.
 
+I'll also add some quick actions for the current file under =M-g=, like =b= for "blame" and =h= to see a log of historical changes.
+
 #+begin_src emacs-lisp
 (use-package magit
   :defer t
@@ -2062,7 +2064,8 @@ Then configure Magit. I'll add hooks to have =diff-hl= update the gutter wheneve
               ("C-M-f" . magit-section-forward)
               ("C-M-b" . magit-section-backward))
   :bind (:map custom-bindings-map
-              ("M-g b" . magit-blame-addition))
+              ("M-g b" . magit-blame-addition)
+              ("M-g h" . magit-log-buffer-file))
   :hook
   ((magit-pre-refresh  . diff-hl-magit-pre-refresh)
    (magit-post-refresh . diff-hl-magit-post-refresh))
