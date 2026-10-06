@@ -104,6 +104,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#browser-preference][Browser Preference]]
   - [[#elfeed][Elfeed]]
   - [[#config-profiling][Config Profiling]]
+  - [[#insert-unicode-characters][Insert Unicode Characters]]
 - [[#org][Org]]
   - [[#visuals-1][Visuals]]
   - [[#general-interaction][General Interaction]]
@@ -2283,6 +2284,17 @@ a task and then immediately needing it again.
   :defer t
   :config
   (setq esup-depth 0))
+#+end_src
+
+** Insert Unicode Characters
+
+Sometimes, I want to add unicode characters, like when I'm making TUIs, but I hate searching for them in large PDF tables or on "unicode websites".
+
+[[https://gitlab.com/matsievskiysv/insert-char-preview][insert-char-preview]] is a neat little package that gives you a searchable menu of unicode symbols to insert directly in the buffer. It's exactly what I'd want for this job.
+
+#+begin_src emacs-lisp
+(use-package insert-char-preview
+  :defer t)
 #+end_src
 
 * Org
