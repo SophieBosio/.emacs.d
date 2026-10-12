@@ -3711,6 +3711,15 @@ Let's add some keybindings, including for the functions we defined above.
 (add-hook 'cider-repl-mode-hook 'smartparens-mode)
 #+end_src
 
+For jumping to references, I want to use clojure-lsp over CIDER, because the LSP server supports jumping to the definition of keywords, which is really nice:
+
+#+begin_src emacs-lisp
+(add-hook 'clojure-ts-mode-hook
+          (lambda ()
+            (setq-local xref-backend-functions
+                        '(lsp--xref-backend cider--xref-backend t))))
+#+end_src
+
 I also use CIDER's scratch buffer quite frequently, but it has its own special mode, which means all my normal refactoring keybindings don't work. This advice makes it enter =clojure-ts-mode= when creating a new scratch buffer:
 
 #+begin_src emacs-lisp
