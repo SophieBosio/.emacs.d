@@ -3208,8 +3208,22 @@ names.
 
 [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Matching.html][electric-pair-mode]] is a built-in Emacs mode that will try to insert matching delimiters automatically. It's pretty handy.
 
+By default, it'll insert an extra newline if you're between a delimiter pair, like so:
+
+#+begin_src emacs-lisp :tangle no
+;; Example where | is the cursor:
+(foo) | (bar)
+;; Press RET:
+(foo)
+|     ;; <- extra newline
+(bar)
+#+end_src
+
+More often than not, I just want a single newline, so I'll turn this off by setting =electric-pair-open-newline-between-pairs=.
+
 #+begin_src emacs-lisp
 (electric-pair-mode 1)
+(setq electric-pair-open-newline-between-pairs nil)
 #+end_src
 
 *** Highlight TODOs
