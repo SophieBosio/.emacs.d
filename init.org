@@ -3711,7 +3711,7 @@ Let's add some keybindings, including for the functions we defined above.
 (add-hook 'cider-repl-mode-hook 'smartparens-mode)
 #+end_src
 
-For jumping to references, I want to use clojure-lsp over CIDER, because the LSP server supports jumping to the definition of keywords, which is really nice:
+For jumping to references, I want to use clojure-lsp over CIDER, because the LSP server supports jumping to the definition of keywords, which is really nice. It seems to be a tradeoff, though: Only CIDER supports jumping to a definition written as a =`foo`= in a docstring or comment. But I'd rather be able to jump to specs named by keywords, so I'm willing to give that up.
 
 #+begin_src emacs-lisp
 (add-hook 'clojure-ts-mode-hook
