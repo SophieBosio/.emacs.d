@@ -111,7 +111,7 @@ You likely do not want to copy my configuration file, since it's full of idiosyn
   - [[#agenda][Agenda]]
   - [[#tasks][Tasks]]
   - [[#babel][Babel]]
-  - [[#roam][Roam]]
+  - [[#vulpea][Vulpea]]
   - [[#hugo][Hugo]]
   - [[#org-present][Org Present]]
   - [[#org-conveniencies][Org Conveniencies]]
@@ -2969,88 +2969,69 @@ For Python, use whatever interpreter is set by =python-shell-interpreter=.
   (setq org-babel-python-command python-shell-interpreter))
 #+end_src
 
-** Roam   
+** Vulpea
 
-[[https://roamresearch.com/][Roam]] is a smart note-taking system in the style of a personal knowledge
-management system. [[https://www.orgroam.com/][org-roam]] is a port of this system that uses all plain-text Org-files.
+[[https://github.com/d12frosted/vulpea][Vulpea]] is a database layer for org notes. I'm trying it out instead of Org Roam.
 
-I set up a Roam directory and added a simple configuration for navigating Roam nodes.
+It has good docs and quite a few extensions, so I'd recommend going through at least the project README to get a feel for what it can do.
 
 #+begin_src emacs-lisp
-(use-package org-roam
-  :after org
-  :hook (org-roam-mode . org-roam-db-autosync-mode)
+(use-package vulpea
   :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory "~/Dropbox/org/roam")
-  (org-roam-completion-everywhere t)
-  :bind
-  ("C-c n t" . org-roam-buffer-toggle)
-  ("C-c n f" . org-roam-node-find)
-  ("C-c n i" . org-roam-node-insert)
-  ("C-c q"   . org-roam-tag-add)
+  (setq vulpea-db-sync-directories '("~/Dropbox/org/vulpea"))
   :config
-  ;; Sync my Org Roam database automatically
-  (org-roam-db-autosync-mode)
-  ;; Open Org files in same window
-  (add-to-list 'org-link-frame-setup '(file . find-file)))
+  (vulpea-db-autosync-mode t)
+  (setq vulpea-create-default-template
+        '(:file-name "${slug}.org"
+          :head "#+created: %<[%Y-%m-%d]>"
+          :properties (("CREATED" . "%<[%Y-%m-%d]>"))))
+  :bind (:map custom-bindings-map
+              ("M-ø"       . vulpea-find)
+              ("C-c C-f"   . vulpea-find)
+              ("C-c <C-i>" . vulpea-insert)))
 #+end_src
 
-*** Consult Org Roam
+*** Search & Completion
+
+I want to have good search and autocompletion for my notes.
+
+Luckily, there's a good package for each:
+[[https://github.com/fabcontigiani/consult-vulpea][consult-vulpea]] which adds search via consult (which I already use) and [[https://github.com/neonmei/vulpea-capf][vulpea-capf]] for adding completion functions.
 
 #+begin_src emacs-lisp
-(use-package consult-org-roam
-   :ensure t
-   :after org-roam
-   :init
-   (require 'consult-org-roam)
-   ;; Activate the minor mode
-   (consult-org-roam-mode 1)
-   :custom
-   ;; Use `ripgrep' for searching with `consult-org-roam-search'
-   (consult-org-roam-grep-func #'consult-ripgrep)
-   ;; Configure a custom narrow key for `consult-buffer'
-   (consult-org-roam-buffer-narrow-key ?r)
-   ;; Display org-roam buffers right after non-org-roam buffers
-   ;; in consult-buffer (and not down at the bottom)
-   (consult-org-roam-buffer-after-buffers t)
-   :config
-   ;; Eventually suppress previewing for certain functions
-   (consult-customize
-    consult-org-roam-forward-links
-    :preview-key "M-.")
-   :bind
-   ;; Define some convenient Org Roam keybindings
-   ("C-c n e" . consult-org-roam-file-find)
-   ("C-c n b" . consult-org-roam-backlinks)
-   ("C-c n l" . consult-org-roam-forward-links)
-   ("C-c n r" . consult-org-roam-search))
+(use-package consult-vulpea
+  :ensure t
+  :after vulpea
+  :config
+  (consult-vulpea-mode 1)
+  :bind (:map minibuffer-local-map
+          ("C-<right>" . consult-vulpea-go-to-next-backlink-overlay)
+          ("C-<left>" . consult-vulpea-go-to-previous-backlink-overlay)))
 #+end_src
 
-*** Show Tags in Search
-
-When searching for nodes, you can search either by name or by tag. Both are
-shown in the menu.
-
 #+begin_src emacs-lisp
-(setq org-roam-node-display-template
-      (concat "${title:*} "
-        (propertize "${tags:10}" 'face 'org-tag)))
+(use-package vulpea-capf
+  :vc (:url "https://github.com/neonmei/vulpea-capf"
+       :rev :newest
+       :branch "main")
+  :hook (org-mode . vulpea-capf-mode))
 #+end_src
 
-*** Graph UI
+*** Vulpea Graph
 
-[[https://github.com/org-roam/org-roam-ui][Org Roam UI]] gives you a pretty and functional graph of your notes, Obsidian-style.
+[[https://github.com/neonmei/vulpea-graph][vulpea-graph]] adds a clicable SVG graph of your Vulpea notes inside Emacs.
 
 #+begin_src emacs-lisp
-(use-package org-roam-ui
-    :after org-roam
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+(use-package graph-fa2
+  :vc (:url "https://github.com/elij/graph-fa2"
+       :rev :newest
+       :branch "main"))
+
+(use-package vulpea-graph
+  :vc (:url "https://github.com/neonmei/vulpea-graph"
+       :rev :newest
+       :branch "main")
+  :commands (vulpea-graph))
 #+end_src
 
 ** Hugo
