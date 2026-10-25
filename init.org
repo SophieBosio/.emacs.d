@@ -2467,6 +2467,10 @@ checkboxes for TODOs.
                                           ("DROP"     . 9744)
                                           ("QUESTION" . 9744)
                                           ("DONE"     . 9745)))
+  (setq org-superstar-item-bullet-alist
+        '((?* . ?•)
+          (?- . ?•)
+          (?+ . ?➤)))
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
