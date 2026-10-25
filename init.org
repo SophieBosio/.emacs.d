@@ -3749,6 +3749,15 @@ It can auto-insert the namespace of new files, but LSP mode already does that, s
   :after cider)
 #+end_src
 
+When working in Clojure projects that use =deps.edn=, the CLI tool [[https://github.com/babashka/neil][neil]] is super convenient for finding and adding deps through an interactive interface and it has an accompanying Emacs package. With the function =neil-find-clojure-package=, you can search for a package by name and select a version. With =neil-inject-dep-to-project-p= set to true, selecting one will add it as a dependency in your project.
+
+#+begin_src emacs-lisp
+(use-package neil
+  :after cider
+  :config
+  (setq neil-inject-dep-to-project-p t))
+#+end_src
+
 [[https://github.com/clojure-emacs/sayid/][Sayid]] is a powerful debugger and profiler for Clojure, with a great CIDER plugin.
 
 #+begin_src emacs-lisp
